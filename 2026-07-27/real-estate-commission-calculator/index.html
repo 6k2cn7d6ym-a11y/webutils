@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>부동산 중개수수료 계산기 — 매매·전세·월세 복비 상한 계산</title>
+  <meta name="description" content="부동산 중개수수료(복비) 상한이 얼마인지 바로 확인하세요. 매매·전세·월세 거래금액을 입력하면 국토부 기준 중개보수 상한을 계산해 드립니다.">
+  <meta property="og:title" content="부동산 중개수수료 계산기">
+  <meta property="og:description" content="매매·전세·월세 거래금액을 입력하면 중개보수 상한을 계산해 드립니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utils.minon.kr/real-estate-commission-calculator/">
+  <meta property="og:locale" content="ko_KR">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "부동산 중개수수료 계산기",
+    "description": "매매·전세·월세 거래금액을 입력하면 국토부 기준 중개보수 상한을 계산해 드립니다.",
+    "url": "https://utils.minon.kr/real-estate-commission-calculator/",
+    "applicationCategory": "UtilitiesApplication",
+    "inLanguage": "ko",
+    "operatingSystem": "Any"
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif;
+      background: #fff;
+      color: #222;
+      line-height: 1.6;
+      padding: 1rem;
+    }
+    main { max-width: 580px; margin: 0 auto; padding: 1.5rem 0 3rem; }
+    h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .subtitle { font-size: 0.95rem; color: #555; margin-bottom: 2rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+    }
+    .label-note { font-weight: 400; color: #666; font-size: 0.85rem; }
+    select {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      color: #222;
+      background: #fff;
+    }
+    select:focus { outline: 2px solid #333; outline-offset: 1px; }
+    .input-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .input-group input[type="number"] {
+      flex: 1;
+      padding: 0.6rem 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      color: #222;
+      background: #fff;
+    }
+    .input-group input[type="number"]:focus { outline: 2px solid #333; outline-offset: 1px; }
+    .input-group .unit { font-size: 0.95rem; color: #555; white-space: nowrap; }
+    .hidden { display: none; }
+    .btn {
+      width: 100%;
+      padding: 0.85rem;
+      font-size: 1rem;
+      font-weight: 700;
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    .btn:hover { background: #444; }
+    .btn:focus-visible { outline: 3px solid #666; outline-offset: 2px; }
+    .error { color: #c00; font-size: 0.9rem; margin-top: 0.5rem; min-height: 1.2em; }
+    #result {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      background: #f7f7f7;
+      border-radius: 8px;
+    }
+    #result.show { display: block; }
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 0.95rem;
+    }
+    .result-row:last-of-type { border-bottom: none; }
+    .result-row.total {
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-top: 2px solid #222;
+      border-bottom: none;
+      padding-top: 0.6rem;
+      margin-top: 0.25rem;
+    }
+    .result-note {
+      font-size: 0.85rem;
+      color: #555;
+      margin-top: 0.75rem;
+      border-top: 1px solid #ddd;
+      padding-top: 0.75rem;
+    }
+    .disclaimer {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 0.5rem;
+    }
+    #ad-slot { margin-top: 2.5rem; min-height: 90px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>부동산 중개수수료 계산기</h1>
+  <p class="subtitle">거래금액을 입력하면 중개보수 상한을 계산해 드립니다.</p>
+
+  <form id="form" novalidate>
+    <div class="form-group">
+      <label for="type">거래 유형</label>
+      <select id="type">
+        <option value="sale">매매</option>
+        <option value="jeonse">전세</option>
+        <option value="monthly">월세</option>
+      </select>
+    </div>
+
+    <div class="form-group" id="price-group">
+      <label for="price"><span id="price-label-text">매매 금액</span> <span class="label-note">(억원 · 소수점 가능)</span></label>
+      <div class="input-group">
+        <input type="number" id="price" min="0" step="0.1" placeholder="예: 5.5 (5억5천만원)">
+        <span class="unit">억원</span>
+      </div>
+    </div>
+
+    <div class="form-group hidden" id="deposit-group">
+      <label for="deposit">보증금 <span class="label-note">(만원)</span></label>
+      <div class="input-group">
+        <input type="number" id="deposit" min="0" step="100" placeholder="예: 3000">
+        <span class="unit">만원</span>
+      </div>
+    </div>
+
+    <div class="form-group hidden" id="monthly-group">
+      <label for="monthly-rent">월세 <span class="label-note">(만원/월)</span></label>
+      <div class="input-group">
+        <input type="number" id="monthly-rent" min="0" step="5" placeholder="예: 60">
+        <span class="unit">만원/월</span>
+      </div>
+    </div>
+
+    <button type="submit" class="btn">중개수수료 계산하기</button>
+    <p id="err" class="error" role="alert" aria-live="assertive"></p>
+  </form>
+
+  <section id="result" aria-live="polite">
+    <div id="result-inner"></div>
+  </section>
+
+  <div id="ad-slot" aria-hidden="true"></div>
+</main>
+
+<script>
+(function () {
+  /* 국토부 공인중개사법 시행규칙 (2021.10 개정) — 억원 단위 limit */
+  var SALE_RATES = [
+    { limit: 0.5, rate: 0.006, cap: 250000 },   /* 5천만원 미만 */
+    { limit: 2,   rate: 0.005, cap: 800000 },   /* 5천만~2억 */
+    { limit: 9,   rate: 0.004, cap: null },      /* 2억~9억 */
+    { limit: 12,  rate: 0.005, cap: null },      /* 9억~12억 */
+    { limit: Infinity, rate: 0.007, cap: null }  /* 12억 이상 */
+  ];
+
+  var RENT_RATES = [
+    { limit: 0.5, rate: 0.005, cap: 200000 },   /* 5천만원 미만 */
+    { limit: 1,   rate: 0.004, cap: 300000 },   /* 5천만~1억 */
+    { limit: 6,   rate: 0.003, cap: null },      /* 1억~6억 */
+    { limit: 12,  rate: 0.004, cap: null },      /* 6억~12억 */
+    { limit: Infinity, rate: 0.008, cap: null }  /* 12억 이상 */
+  ];
+
+  function calcFee(priceEok, isSale) {
+    var rates = isSale ? SALE_RATES : RENT_RATES;
+    var priceWon = priceEok * 100000000;
+    for (var i = 0; i < rates.length; i++) {
+      if (priceEok < rates[i].limit) {
+        var fee = priceWon * rates[i].rate;
+        if (rates[i].cap) fee = Math.min(fee, rates[i].cap);
+        return { fee: Math.round(fee), rate: rates[i].rate, cap: rates[i].cap };
+      }
+    }
+  }
+
+  var typeEl = document.getElementById('type');
+
+  typeEl.addEventListener('change', function () {
+    var v = typeEl.value;
+    document.getElementById('price-group').classList.toggle('hidden', v === 'monthly');
+    document.getElementById('deposit-group').classList.toggle('hidden', v !== 'monthly');
+    document.getElementById('monthly-group').classList.toggle('hidden', v !== 'monthly');
+    document.getElementById('price-label-text').textContent = v === 'jeonse' ? '전세 보증금' : '매매 금액';
+  });
+
+  function fmtW(n) { return Math.round(n).toLocaleString('ko-KR') + '원'; }
+  function fmtM(n) { return (n / 10000).toLocaleString('ko-KR') + '만원'; }
+
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var errEl = document.getElementById('err');
+    errEl.textContent = '';
+
+    var type = typeEl.value;
+    var isSale = type === 'sale';
+    var priceEok;
+    var convertNote = '';
+
+    if (type === 'monthly') {
+      var dep = parseFloat(document.getElementById('deposit').value) || 0;
+      var mon = parseFloat(document.getElementById('monthly-rent').value);
+      if (isNaN(mon) || mon <= 0) { errEl.textContent = '월세를 입력해 주세요.'; return; }
+      var priceMahn = dep + mon * 100;
+      priceEok = priceMahn / 10000;
+      convertNote = '보증금 ' + dep.toLocaleString('ko-KR') + '만원 + 월세 ' + mon + '만원 × 100 = 환산 ' + priceMahn.toLocaleString('ko-KR') + '만원';
+    } else {
+      priceEok = parseFloat(document.getElementById('price').value);
+      if (isNaN(priceEok) || priceEok <= 0) {
+        errEl.textContent = isSale ? '매매 금액을 입력해 주세요.' : '전세 보증금을 입력해 주세요.';
+        return;
+      }
+    }
+
+    var r = calcFee(priceEok, isSale);
+    var vat = Math.round(r.fee * 0.1);
+    var total = r.fee + vat;
+
+    var typeLabel = { sale: '매매', jeonse: '전세', monthly: '월세' }[type];
+    var rateStr = (r.rate * 100).toFixed(1) + '%' + (r.cap ? ' (한도 ' + fmtW(r.cap) + ')' : '');
+
+    var html =
+      '<div class="result-row"><span>거래 유형</span><span>' + typeLabel + '</span></div>'
+      + (convertNote ? '<div class="result-row"><span>환산 거래금액</span><span>' + fmtM(priceEok * 10000) + '</span></div>' : '')
+      + '<div class="result-row"><span>적용 요율</span><span>' + rateStr + '</span></div>'
+      + '<div class="result-row"><span>중개보수 상한</span><span>' + fmtW(r.fee) + '</span></div>'
+      + '<div class="result-row"><span>부가가치세 (10%)</span><span>' + fmtW(vat) + '</span></div>'
+      + '<div class="result-row total"><span>합계 (VAT 포함)</span><span>' + fmtW(total) + '</span></div>'
+      + '<div class="result-note">'
+      + '위 금액은 법정 <strong>상한액</strong>입니다. 실제 수수료는 공인중개사와 협의해 상한 이하로 결정할 수 있습니다.'
+      + (convertNote ? '<br><small style="color:#888;font-size:0.8rem;margin-top:0.25rem;display:block">' + convertNote + '</small>' : '')
+      + '</div>'
+      + '<p class="disclaimer">2021년 10월 개정 국토부 기준. 지자체별 조례로 달라질 수 있으므로 계약 전 확인하세요.</p>';
+
+    document.getElementById('result-inner').innerHTML = html;
+    var el = document.getElementById('result');
+    el.classList.add('show');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}());
+</script>
+</body>
+</html>
