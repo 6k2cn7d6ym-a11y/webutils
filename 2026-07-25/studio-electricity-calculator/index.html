@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>자취방 원룸 전기요금 계산기 — 월 전기세 예측기</title>
+  <meta name="description" content="자취방 원룸 전기요금 얼마나 나올까요? 에어컨·냉장고·조명·PC 사용 시간을 입력하면 월 전기요금을 예측해 드립니다.">
+  <meta property="og:title" content="자취방 원룸 전기요금 계산기">
+  <meta property="og:description" content="에어컨·냉장고·조명 등 가전 사용 시간을 입력하면 자취방 월 전기요금을 예측해 드립니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="자취방 원룸 전기요금 계산기">
+  <meta name="twitter:description" content="에어컨·냉장고·조명 등 가전 사용 시간을 입력하면 자취방 월 전기요금을 예측해 드립니다.">
+  <!-- 클레버 수정: Pretendard 로드 · 어제(07-24) 사이클 브랜드 승계 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "자취방 원룸 전기요금 계산기",
+    "description": "에어컨·냉장고·조명 등 가전 사용량을 입력하면 자취방 월 전기요금을 예측해 드립니다.",
+    "applicationCategory": "UtilitiesApplication",
+    "inLanguage": "ko",
+    "operatingSystem": "Any"
+  }
+  </script>
+  <style>
+    /* 클레버 수정: 어제(07-24) 사이클 브랜드 팔레트 승계 (ac 계산기와 동일) */
+    :root {
+      --bg: #FFFDF8;
+      --primary: #B8722A;
+      --primary-hover: #9A5E20;
+      --card-bg: #F7EDD8;
+      --card-border: #E8D5B0;
+      --text: #1A1410;
+      --text-sub: #7A6350;
+      --border: #D9C9B0;
+      --focus: #B8722A;
+      --error: #B83A28;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 1rem;
+    }
+    main { max-width: 580px; margin: 0 auto; padding: 1.5rem 0 3rem; }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+    .hero-line {
+      width: 2.5rem;
+      height: 2px;
+      background: var(--primary);
+      margin: 0.5rem 0 1.5rem;
+    }
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      margin-bottom: 2rem;
+    }
+    .section-title { font-weight: 700; font-size: 0.95rem; margin: 1.5rem 0 0.75rem; color: var(--text); }
+    .appliance {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 0.65rem;
+      background: #fff;
+    }
+    .ap-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .ap-header input[type="checkbox"] {
+      accent-color: var(--primary);
+      width: 1.1em;
+      height: 1.1em;
+      flex-shrink: 0;
+    }
+    .ap-name { font-weight: 600; font-size: 0.95rem; cursor: pointer; color: var(--text); }
+    .ap-watt { font-size: 0.8rem; color: var(--text-sub); margin-left: auto; white-space: nowrap; }
+    .ap-inputs { display: none; margin-top: 0.75rem; }
+    .ap-inputs.open { display: block; }
+    .ap-note {
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      margin-top: 0.4rem;
+      line-height: 1.45;
+    }
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.45rem;
+      font-size: 0.9rem;
+    }
+    .input-row label {
+      font-weight: 400;
+      min-width: 115px;
+      flex-shrink: 0;
+      color: var(--text);
+    }
+    .input-row input[type="number"] {
+      width: 80px;
+      padding: 0.4rem 0.5rem;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      background: #fff;
+      flex-shrink: 0;
+    }
+    .input-row input[type="number"]:focus {
+      outline: 2px solid var(--focus);
+      outline-offset: 1px;
+      border-color: var(--focus);
+    }
+    .input-row .unit { color: var(--text-sub); font-size: 0.85rem; }
+    .summer-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1.25rem 0 1.5rem;
+      font-size: 0.95rem;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .summer-row input[type="checkbox"] {
+      accent-color: var(--primary);
+      width: 1.1em;
+      height: 1.1em;
+    }
+    .btn {
+      width: 100%;
+      padding: 0.85rem;
+      font-size: 1rem;
+      font-weight: 700;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--primary-hover); }
+    .btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+    .error { color: var(--error); font-size: 0.9rem; margin-top: 0.5rem; min-height: 1.2em; }
+    #result {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+    }
+    #result.show { display: block; }
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid var(--card-border);
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+    .result-row.total {
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-top: 2px solid var(--primary);
+      border-bottom: none;
+      padding-top: 0.6rem;
+      margin-top: 0.25rem;
+    }
+    .kwh-badge { color: var(--text-sub); font-size: 0.8rem; margin-left: 0.4rem; }
+    .disclaimer {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      margin-top: 1rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 0.75rem;
+    }
+    #ad-slot { margin-top: 2.5rem; min-height: 90px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>자취방 원룸 전기요금 계산기</h1>
+  <div class="hero-line" aria-hidden="true"></div>
+  <p class="subtitle">사용하는 가전을 선택하고 시간을 입력하면 월 전기요금을 예측해 드립니다.</p>
+
+  <form id="form" novalidate>
+    <p class="section-title">가전 선택 및 사용 시간</p>
+
+    <div class="appliance">
+      <div class="ap-header">
+        <input type="checkbox" id="use-ac" aria-controls="inp-ac">
+        <label class="ap-name" for="use-ac">에어컨</label>
+        <span class="ap-watt">기본 1,500W</span>
+      </div>
+      <div class="ap-inputs" id="inp-ac">
+        <div class="input-row">
+          <label for="ac-w">소비전력</label>
+          <input type="number" id="ac-w" value="1500" min="100" max="5000" step="100">
+          <span class="unit">W</span>
+        </div>
+        <div class="input-row">
+          <label for="ac-h">하루 평균</label>
+          <input type="number" id="ac-h" value="8" min="0.5" max="24" step="0.5">
+          <span class="unit">시간</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="appliance">
+      <div class="ap-header">
+        <input type="checkbox" id="use-fridge" aria-controls="inp-fridge" checked>
+        <label class="ap-name" for="use-fridge">냉장고 <span style="font-weight:400;font-size:0.85rem;color:var(--text-sub)">(24시간 연결)</span></label>
+        <span class="ap-watt">기본 150W</span>
+      </div>
+      <div class="ap-inputs open" id="inp-fridge">
+        <div class="input-row">
+          <label for="fridge-w">정격 소비전력</label>
+          <input type="number" id="fridge-w" value="150" min="30" max="500" step="10">
+          <span class="unit">W</span>
+        </div>
+        <!-- 클레버 수정: 냉장고 정격 W × 24H 로 계산하면 실제의 3배로 과대추정.
+             컴프레서 duty cycle 특성상 실제 평균 소비는 정격의 약 1/3 (계산 로직에서 factor 반영).
+             사용자에게 왜 표시 W 그대로 곱하지 않는지 안내 -->
+        <p class="ap-note">라벨에 표시된 정격전력. 냉장고는 컴프레서가 켜졌다 꺼졌다 반복해서, 실제 평균 소비는 정격의 약 1/3 수준으로 계산합니다.</p>
+      </div>
+    </div>
+
+    <div class="appliance">
+      <div class="ap-header">
+        <input type="checkbox" id="use-light" aria-controls="inp-light" checked>
+        <label class="ap-name" for="use-light">조명 (LED)</label>
+        <span class="ap-watt">기본 30W</span>
+      </div>
+      <div class="ap-inputs open" id="inp-light">
+        <div class="input-row">
+          <label for="light-w">소비전력</label>
+          <input type="number" id="light-w" value="30" min="5" max="300" step="5">
+          <span class="unit">W</span>
+        </div>
+        <div class="input-row">
+          <label for="light-h">하루 평균</label>
+          <input type="number" id="light-h" value="6" min="0.5" max="24" step="0.5">
+          <span class="unit">시간</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="appliance">
+      <div class="ap-header">
+        <input type="checkbox" id="use-pc" aria-controls="inp-pc">
+        <label class="ap-name" for="use-pc">PC / 노트북</label>
+        <span class="ap-watt">기본 200W</span>
+      </div>
+      <div class="ap-inputs" id="inp-pc">
+        <div class="input-row">
+          <label for="pc-w">소비전력</label>
+          <input type="number" id="pc-w" value="200" min="20" max="1000" step="10">
+          <span class="unit">W</span>
+        </div>
+        <div class="input-row">
+          <label for="pc-h">하루 평균</label>
+          <input type="number" id="pc-h" value="6" min="0.5" max="24" step="0.5">
+          <span class="unit">시간</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="appliance">
+      <div class="ap-header">
+        <input type="checkbox" id="use-tv" aria-controls="inp-tv">
+        <label class="ap-name" for="use-tv">TV</label>
+        <span class="ap-watt">기본 80W</span>
+      </div>
+      <div class="ap-inputs" id="inp-tv">
+        <div class="input-row">
+          <label for="tv-w">소비전력</label>
+          <input type="number" id="tv-w" value="80" min="20" max="500" step="10">
+          <span class="unit">W</span>
+        </div>
+        <div class="input-row">
+          <label for="tv-h">하루 평균</label>
+          <input type="number" id="tv-h" value="4" min="0.5" max="24" step="0.5">
+          <span class="unit">시간</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="appliance">
+      <div class="ap-header">
+        <input type="checkbox" id="use-washer" aria-controls="inp-washer">
+        <label class="ap-name" for="use-washer">세탁기 <span style="font-weight:400;font-size:0.85rem;color:var(--text-sub)">(1회 약 1시간)</span></label>
+        <span class="ap-watt">기본 500W</span>
+      </div>
+      <div class="ap-inputs" id="inp-washer">
+        <!-- 클레버 수정: 다른 가전은 W 편집 가능한데 세탁기만 하드코딩이었음. 일관성 위해 W 필드 추가 -->
+        <div class="input-row">
+          <label for="washer-w">소비전력</label>
+          <input type="number" id="washer-w" value="500" min="100" max="2500" step="50">
+          <span class="unit">W</span>
+        </div>
+        <div class="input-row">
+          <label for="washer-cnt">월 사용 횟수</label>
+          <input type="number" id="washer-cnt" value="8" min="1" max="60" step="1">
+          <span class="unit">회</span>
+        </div>
+      </div>
+    </div>
+
+    <label class="summer-row" for="summer">
+      <input type="checkbox" id="summer" checked>
+      하계 특례 적용 (7~8월)
+    </label>
+
+    <button type="submit" class="btn">전기요금 계산하기</button>
+    <p id="err" class="error" role="alert" aria-live="assertive"></p>
+  </form>
+
+  <section id="result" aria-live="polite">
+    <div id="result-inner"></div>
+    <p class="disclaimer">한전 주택용 저압 요금 기준 (기본요금·전력량요금·기후환경요금·부가세·전력기반기금 포함). 연료비조정요금은 분기별 변동으로 미반영. 실제 청구액은 계절·지역·계약 종류 등에 따라 다를 수 있습니다. 참고용으로만 활용하세요.</p>
+  </section>
+
+  <div id="ad-slot" aria-hidden="true"></div>
+</main>
+
+<script>
+(function () {
+  /* 체크박스 → 입력 영역 열기/닫기 */
+  var checkboxes = document.querySelectorAll('.ap-header input[type="checkbox"]');
+  checkboxes.forEach(function (cb) {
+    cb.addEventListener('change', function () {
+      var panel = document.getElementById(cb.getAttribute('aria-controls'));
+      if (panel) panel.classList.toggle('open', cb.checked);
+    });
+  });
+
+  /* 한전 주택용 저압 요금 (2024년 5월 개정 기준) */
+  var RATES = {
+    normal: { tiers: [200, 400], basic: [910, 1600, 7300], kwh: [120.0, 214.6, 307.3] },
+    summer: { tiers: [300, 450], basic: [910, 1600, 7300], kwh: [120.0, 214.6, 307.3] }
+  };
+  var CLIMATE_FEE_PER_KWH = 9; /* 기후환경요금 9원/kWh (2024년 고정값) */
+
+  var FRIDGE_DUTY = 1 / 3;
+
+  function calcBill(kwh, isSummer) {
+    if (kwh <= 0) return 0;
+    var r = isSummer ? RATES.summer : RATES.normal;
+    var t = r.tiers;
+    var basicFee = kwh <= t[0] ? r.basic[0] : kwh <= t[1] ? r.basic[1] : r.basic[2];
+    var energy;
+    if (kwh <= t[0]) {
+      energy = kwh * r.kwh[0];
+    } else if (kwh <= t[1]) {
+      energy = t[0] * r.kwh[0] + (kwh - t[0]) * r.kwh[1];
+    } else {
+      energy = t[0] * r.kwh[0] + (t[1] - t[0]) * r.kwh[1] + (kwh - t[1]) * r.kwh[2];
+    }
+    var climateFee = kwh * CLIMATE_FEE_PER_KWH;
+    var sub = basicFee + energy + climateFee;
+    return Math.round(sub + Math.floor(sub * 0.1) + Math.floor(sub * 0.037));
+  }
+
+  function num(id, def) {
+    var v = parseFloat(document.getElementById(id).value);
+    return isNaN(v) ? def : v;
+  }
+
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('err').textContent = '';
+
+    var isSummer = document.getElementById('summer').checked;
+    var items = [];
+    var total = 0;
+
+    function add(name, kwh) {
+      kwh = Math.round(kwh * 10) / 10;
+      items.push({ name: name, kwh: kwh });
+      total += kwh;
+    }
+
+    if (document.getElementById('use-ac').checked)
+      add('에어컨', num('ac-w', 1500) / 1000 * num('ac-h', 8) * 30);
+    if (document.getElementById('use-fridge').checked)
+      /* 클레버 수정: 정격 × 24H × duty(1/3). 실제 청구 편차 최소화 */
+      add('냉장고', num('fridge-w', 150) / 1000 * 24 * 30 * FRIDGE_DUTY);
+    if (document.getElementById('use-light').checked)
+      add('조명', num('light-w', 30) / 1000 * num('light-h', 6) * 30);
+    if (document.getElementById('use-pc').checked)
+      add('PC/노트북', num('pc-w', 200) / 1000 * num('pc-h', 6) * 30);
+    if (document.getElementById('use-tv').checked)
+      add('TV', num('tv-w', 80) / 1000 * num('tv-h', 4) * 30);
+    if (document.getElementById('use-washer').checked)
+      /* 클레버 수정: 하드코딩 500 → 사용자 입력 W 반영 */
+      add('세탁기', num('washer-w', 500) / 1000 * num('washer-cnt', 8));
+
+    if (items.length === 0) {
+      document.getElementById('err').textContent = '가전을 하나 이상 선택해 주세요.';
+      return;
+    }
+
+    total = Math.round(total * 10) / 10;
+    var bill = calcBill(total, isSummer);
+
+    var html = items.map(function (it) {
+      var pct = total > 0 ? Math.round(it.kwh / total * 100) : 0;
+      return '<div class="result-row">'
+        + '<span>' + it.name + '</span>'
+        + '<span>' + pct + '%<span class="kwh-badge">' + it.kwh + ' kWh</span></span>'
+        + '</div>';
+    }).join('');
+
+    html += '<div class="result-row" style="font-size:0.9rem;padding-top:0.55rem">'
+      + '<span>월 총 예상 사용량</span><span>' + total + ' kWh</span></div>';
+    html += '<div class="result-row total">'
+      + '<span>월 예상 전기요금</span><span>' + bill.toLocaleString('ko-KR') + '원</span></div>';
+
+    document.getElementById('result-inner').innerHTML = html;
+    var r = document.getElementById('result');
+    r.classList.add('show');
+    r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}());
+</script>
+</body>
+</html>

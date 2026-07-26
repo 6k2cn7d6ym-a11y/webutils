@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>에어컨 전기요금 계산기 — 누진세 반영 여름 전기세 계산</title>
+  <meta name="description" content="에어컨 켜면 전기요금 얼마나 나올까요? 소비전력·하루 가동 시간을 입력하면 한전 누진세 적용 여름 전기요금을 바로 계산해 드립니다.">
+  <meta property="og:title" content="에어컨 전기요금 계산기">
+  <meta property="og:description" content="에어컨 가동 시간·소비전력을 입력하면 누진세 반영 여름 전기요금을 계산해 드립니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="에어컨 전기요금 계산기">
+  <meta name="twitter:description" content="에어컨 가동 시간·소비전력을 입력하면 누진세 반영 여름 전기요금을 계산해 드립니다.">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "에어컨 전기요금 계산기",
+    "description": "에어컨 소비전력·가동 시간을 입력하면 한전 누진세 적용 전기요금을 계산해 드립니다.",
+    "applicationCategory": "UtilitiesApplication",
+    "inLanguage": "ko",
+    "operatingSystem": "Any"
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #FFFDF8;
+      --primary: #B8722A;
+      --primary-hover: #9A5E20;
+      --card-bg: #F7EDD8;
+      --card-border: #E8D5B0;
+      --text: #1A1410;
+      --text-sub: #7A6350;
+      --border: #D9C9B0;
+      --focus: #B8722A;
+      --error: #B83A28;
+      --extra: #B83A28;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 1rem;
+    }
+    main { max-width: 580px; margin: 0 auto; padding: 1.5rem 0 3rem; }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+    .hero-line {
+      width: 2.5rem;
+      height: 2px;
+      background: var(--primary);
+      margin: 0.5rem 0 1.5rem;
+    }
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      margin-bottom: 2rem;
+    }
+    .form-group { margin-bottom: 1.25rem; }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.45rem;
+      color: var(--text);
+    }
+    .label-note { font-weight: 400; color: var(--text-sub); font-size: 0.85rem; }
+    input[type="number"] {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      font-size: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      background: #fff;
+    }
+    input[type="number"]:focus {
+      outline: 2px solid var(--focus);
+      outline-offset: 1px;
+      border-color: var(--focus);
+    }
+    .check-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--text);
+    }
+    .check-label input[type="checkbox"] {
+      accent-color: var(--primary);
+      width: 1.1em;
+      height: 1.1em;
+      flex-shrink: 0;
+    }
+    .field-help {
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      margin-top: 0.5rem;
+      line-height: 1.55;
+      padding: 0.6rem 0.75rem;
+      background: #F0E8D8;
+      border-left: 3px solid var(--primary);
+      border-radius: 0 4px 4px 0;
+    }
+    .btn {
+      width: 100%;
+      padding: 0.85rem;
+      font-size: 1rem;
+      font-weight: 700;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    .btn:hover { background: var(--primary-hover); }
+    .btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+    .error { color: var(--error); font-size: 0.9rem; margin-top: 0.5rem; min-height: 1.2em; }
+    #result {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+    }
+    #result.show { display: block; }
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--card-border);
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .result-row:last-of-type { border-bottom: none; }
+    .result-row.total {
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-top: 2px solid var(--primary);
+      border-bottom: none;
+      padding-top: 0.6rem;
+      margin-top: 0.25rem;
+      color: var(--text);
+    }
+    .result-row.extra { color: var(--extra); }
+    .result-stage { font-size: 0.85rem; color: var(--text-sub); margin: 0.6rem 0; }
+    .disclaimer {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      margin-top: 1rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 0.75rem;
+    }
+    #ad-slot { margin-top: 2.5rem; min-height: 90px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>에어컨 전기요금 계산기</h1>
+  <div class="hero-line" aria-hidden="true"></div>
+  <p class="subtitle">소비전력·가동 시간을 입력하면 누진세 반영 전기요금을 계산해 드립니다.</p>
+
+  <form id="form" novalidate>
+    <div class="form-group">
+      <label for="watt">에어컨 소비전력 <span class="label-note">(W · 제품 라벨 기준. 모르면 1500)</span></label>
+      <input type="number" id="watt" value="1500" min="100" max="10000" step="100">
+    </div>
+
+    <div class="form-group">
+      <label for="hours">하루 평균 가동 시간 <span class="label-note">(시간)</span></label>
+      <input type="number" id="hours" value="8" min="0.5" max="24" step="0.5">
+    </div>
+
+    <div class="form-group">
+      <label for="days">한 달 사용 일수 <span class="label-note">(일)</span></label>
+      <input type="number" id="days" value="30" min="1" max="31" step="1">
+    </div>
+
+    <div class="form-group">
+      <label for="base-kwh">에어컨 외 월 사용량 <span class="label-note">(kWh · 평소 청구서 참고. 모르면 150)</span></label>
+      <input type="number" id="base-kwh" value="150" min="0" max="2000" step="10">
+    </div>
+
+    <div class="form-group">
+      <label class="check-label" for="summer">
+        <input type="checkbox" id="summer" checked>
+        하계 특례 적용 (7~8월)
+      </label>
+      <p class="field-help">
+        <strong>하계 특례란?</strong> 한전이 여름철(7·8월) 냉방 부담을 줄이기 위해 누진 구간을 한시적으로 확대하는 제도입니다.
+        평소에는 200 kWh 초과 시 2단계 요금이 적용되지만, 하계 특례 기간에는 300 kWh까지 1단계가 유지됩니다.
+        2단계 상한도 400 → 450 kWh로 늘어나 같은 사용량이라도 요금이 낮아집니다.
+      </p>
+    </div>
+
+    <button type="submit" class="btn">전기요금 계산하기</button>
+    <p id="err" class="error" role="alert" aria-live="assertive"></p>
+  </form>
+
+  <section id="result" aria-live="polite">
+    <div id="result-inner"></div>
+    <p class="disclaimer">한전 주택용 저압 요금 기준 (기본요금·전력량요금·기후환경요금·부가세·전력기반기금 포함). 연료비조정요금은 분기별 변동으로 미반영. 실제 청구액은 계절·지역·계약 종류 등에 따라 다를 수 있습니다. 참고용으로만 활용하세요.</p>
+  </section>
+
+  <div id="ad-slot" aria-hidden="true"></div>
+</main>
+
+<script>
+(function () {
+  /* 한전 주택용 저압 요금 (2024년 기준) */
+  var RATES = {
+    normal: { tiers: [200, 400], basic: [910, 1600, 7300], kwh: [120.0, 214.6, 307.3] },
+    summer: { tiers: [300, 450], basic: [910, 1600, 7300], kwh: [120.0, 214.6, 307.3] }
+  };
+  var CLIMATE_FEE_PER_KWH = 9; /* 기후환경요금 9원/kWh (2024년 고정값) */
+
+  function calcBill(kwh, isSummer) {
+    if (kwh <= 0) return 0;
+    var r = isSummer ? RATES.summer : RATES.normal;
+    var t = r.tiers;
+    var basicFee = kwh <= t[0] ? r.basic[0] : kwh <= t[1] ? r.basic[1] : r.basic[2];
+    var energy;
+    if (kwh <= t[0]) {
+      energy = kwh * r.kwh[0];
+    } else if (kwh <= t[1]) {
+      energy = t[0] * r.kwh[0] + (kwh - t[0]) * r.kwh[1];
+    } else {
+      energy = t[0] * r.kwh[0] + (t[1] - t[0]) * r.kwh[1] + (kwh - t[1]) * r.kwh[2];
+    }
+    var climateFee = kwh * CLIMATE_FEE_PER_KWH;
+    var sub = basicFee + energy + climateFee;
+    return Math.round(sub + Math.floor(sub * 0.1) + Math.floor(sub * 0.037));
+  }
+
+  function stageName(kwh, isSummer) {
+    var t = isSummer ? RATES.summer.tiers : RATES.normal.tiers;
+    if (kwh <= t[0]) return '1단계 (' + t[0] + 'kWh 이하)';
+    if (kwh <= t[1]) return '2단계 (' + (t[0] + 1) + '~' + t[1] + 'kWh)';
+    return '3단계 (' + t[1] + 'kWh 초과)';
+  }
+
+  function fmt(n) { return n.toLocaleString('ko-KR') + '원'; }
+
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var errEl = document.getElementById('err');
+    errEl.textContent = '';
+
+    var watt = parseFloat(document.getElementById('watt').value);
+    var hours = parseFloat(document.getElementById('hours').value);
+    var days = parseFloat(document.getElementById('days').value);
+    var baseKwh = parseFloat(document.getElementById('base-kwh').value);
+    var isSummer = document.getElementById('summer').checked;
+
+    if (isNaN(watt) || watt <= 0) { errEl.textContent = '에어컨 소비전력을 입력해 주세요.'; return; }
+    if (isNaN(hours) || hours <= 0 || hours > 24) { errEl.textContent = '하루 가동 시간을 확인해 주세요.'; return; }
+    if (isNaN(days) || days < 1 || days > 31) { errEl.textContent = '사용 일수를 확인해 주세요.'; return; }
+    if (isNaN(baseKwh) || baseKwh < 0) { errEl.textContent = '기존 사용량을 확인해 주세요.'; return; }
+
+    var acKwh = Math.round(watt / 1000 * hours * days * 10) / 10;
+    var totalKwh = Math.round((baseKwh + acKwh) * 10) / 10;
+
+    var before = calcBill(baseKwh, isSummer);
+    var after = calcBill(totalKwh, isSummer);
+    var extra = after - before;
+    var saving = isSummer ? calcBill(totalKwh, false) - after : 0;
+
+    var stageBase = stageName(baseKwh, isSummer);
+    var stageTotal = stageName(totalKwh, isSummer);
+    var stageNote = stageBase !== stageTotal
+      ? ' → ' + stageTotal + ' <strong style="color:var(--extra)">(단계 상승!)</strong>'
+      : ' → ' + stageTotal;
+
+    var savingRow = (saving > 0)
+      ? '<div class="result-row" style="color:var(--primary)"><span>하계 특례 절감액 (일반 대비)</span><span>−' + fmt(saving) + '</span></div>'
+      : '';
+
+    var html =
+      '<div class="result-row"><span>에어컨 월 사용량</span><span><strong>' + acKwh + ' kWh</strong></span></div>'
+      + '<div class="result-row"><span>총 예상 사용량</span><span>' + totalKwh + ' kWh</span></div>'
+      + '<div class="result-stage">누진 단계: ' + stageBase + stageNote + '</div>'
+      + '<div class="result-row" style="margin-top:0.25rem"><span>에어컨 없을 때 요금</span><span>' + fmt(before) + '</span></div>'
+      + '<div class="result-row extra"><span>에어컨 추가 요금</span><span>+' + fmt(extra) + '</span></div>'
+      + savingRow
+      + '<div class="result-row total"><span>총 예상 청구액</span><span>' + fmt(after) + '</span></div>';
+
+    document.getElementById('result-inner').innerHTML = html;
+    var r = document.getElementById('result');
+    r.classList.add('show');
+    r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}());
+</script>
+</body>
+</html>

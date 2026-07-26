@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>webutils 사이클 보고 · 2026-07-24</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+      background: #F7F8FA;
+      color: #111827;
+      line-height: 1.6;
+      padding: 1rem;
+    }
+    main { max-width: 820px; margin: 0 auto; padding: 2rem 0 4rem; }
+    h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .date { color: #6B7280; margin-bottom: 2rem; font-size: 0.95rem; }
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 2.25rem 0 0.85rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid #E5E7EB;
+    }
+    h3 { font-size: 1.05rem; font-weight: 700; margin: 1rem 0 0.5rem; }
+    p { margin-bottom: 0.65rem; }
+    ul { padding-left: 1.4rem; margin: 0.5rem 0 0.85rem; }
+    li { margin-bottom: 0.35rem; }
+    li ul { margin-top: 0.35rem; }
+    code {
+      background: #EEF0F3;
+      padding: 0.12rem 0.35rem;
+      border-radius: 3px;
+      font-size: 0.88em;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .util-card {
+      border: 1px solid #E5E7EB;
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      background: #fff;
+    }
+    .util-card h3 { margin-top: 0; }
+    .util-meta { color: #6B7280; font-size: 0.9rem; margin: 0.4rem 0 0.85rem; }
+    .util-meta a { color: #B8722A; text-decoration: none; }
+    .util-meta a:hover { text-decoration: underline; }
+    .preview-frame {
+      width: 100%;
+      height: 720px;
+      border: 1px solid #D1D5DB;
+      border-radius: 6px;
+      background: #fff;
+    }
+    .status-ok { color: #1F7A3D; font-weight: 700; }
+    .status-warn { color: #B8722A; font-weight: 700; }
+    .status-err { color: #B83A28; font-weight: 700; }
+    .decision-box {
+      background: #FFFDF8;
+      border: 2px solid #B8722A;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .decision-box h3 { margin-top: 0; color: #B8722A; }
+    .note {
+      color: #6B7280;
+      font-size: 0.88rem;
+      margin: 0.5rem 0 1rem;
+    }
+    strong { font-weight: 700; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>webutils 사이클 보고 · 2026-07-24</h1>
+  <p class="date">첫 사이클 · 관혼상제 페어 · 브랜드 초안 확립 · 배포 준비 완료</p>
+
+  <h2>산출 요약</h2>
+  <p><strong>2건 · 배포 준비 완료 (OK)</strong></p>
+  <ul>
+    <li><strong>결혼식 축의금 계산기</strong> — 슬러그 <code>wedding-gift-calculator</code></li>
+    <li><strong>장례식 조의금 계산기</strong> — 슬러그 <code>funeral-condolence-calculator</code></li>
+  </ul>
+  <p><strong>페어 채택 이유</strong>: 관혼상제 시리즈 축 · 상호 유입·체류 시간 상승 · AdSense 심사 시 카테고리 정체성 유리.</p>
+
+  <h2>클레버 검수 결과 (4축)</h2>
+  <ul>
+    <li><strong>정확성</strong>: <span class="status-ok">OK</span> — 관계·친밀도 매트릭스·상황 보정·NOTES 로직 견고. 조의금은 관례 STEPS 배열로 금기수(4·9·18) 원천 차단.</li>
+    <li><strong>완성도</strong>: <span class="status-ok">OK</span> — 팔레트 분기(웜/쿨)·시각 위계·마이크로 인터랙션 모두 다빈치 문서 사양 정합.</li>
+    <li><strong>원칙</strong>: <span class="status-ok">OK</span> — Core Web Vitals(인라인 CSS · Pretendard jsDelivr dynamic-subset · 이미지 최소) · SEO(title, description, OG, JSON-LD) · 접근성 대비 4.5:1 이상 · <code>#ad-slot</code> 자리 확보.</li>
+    <li><strong>배포 준비</strong>: <span class="status-ok">OK</span> — 파일 구조·경로·인라인 CSS·JS 준비 완료.</li>
+  </ul>
+  <p class="note">디자인 왕복 1회차 조기 종결 · 달리 검토 결함 2건(Pretendard CDN 경로 · #result 유령 공간) 자체 수정 · 다빈치 최종 판정 통과.</p>
+
+  <h2>브랜드 방향 (첫 사이클 확립)</h2>
+  <p>다빈치 브랜드 기조: <strong>"조용한 신뢰"</strong> — 화려함보다 즉각적 신뢰감. 한국적 감성 · 모바일 우선.</p>
+  <ul>
+    <li>표준 폰트: Pretendard (jsDelivr dynamic-subset · CLS/LCP 부담 최소)</li>
+    <li>팔레트 분기 원칙: 유틸 감정 톤에 따라 웜/쿨 계열 선택
+      <ul>
+        <li>결혼식(축의금): 웜 · 크림 <code>#FFFDF8</code> · 오크 <code>#B8722A</code></li>
+        <li>장례식(조의금): 쿨 · 오프화이트 <code>#F7F8FA</code> · 네이비 <code>#2D4A6B</code></li>
+      </ul>
+    </li>
+    <li><code>#result</code> 등장: <code>@keyframes</code> + <code>display:none</code> 패턴 (CSS transition은 display 변경과 함께 안 됨)</li>
+    <li>다음 사이클 미세 조정 후보: wedding <code>--primary</code> 반 스텝 어둡게 (<code>#A9631D</code>) — 대비 4.5:1 안정 확보</li>
+  </ul>
+
+  <h2>사이클 이슈</h2>
+  <p>없음. 첫 사이클 · 왕복 1회차 조기 종결 · 모든 팀 통과.</p>
+
+  <div class="decision-box">
+    <h3>대표 결정 요청</h3>
+    <ul>
+      <li><strong>배포 건수</strong>: 2건 모두 준비 완료. 대표 판단 (2건 다 배포 / 1건만 / 보류)</li>
+      <li><strong>배포 실행</strong>: 승인 시 클레버에게 직접 지시로 파일 이동(<code>2026-07-24/{slug}/</code> → <code>{slug}/</code>) 및 <code>git push</code></li>
+      <li><strong>다음 사이클 우선 후보 보존</strong>: 15번 <strong>택배 상하차 알바 시급</strong> (24일 컷 통과 · 페어에 밀림)</li>
+    </ul>
+  </div>
+
+  <h2>유틸 실물 프리뷰</h2>
+  <p class="note">iframe은 로컬 상대 경로 참조. 유틸 폴더가 함께 서빙되는 환경에서만 로드됩니다. (본 보고서 push 원칙과 배포 원칙 정합 관련 짚음은 사마의 세션 메시지 참고)</p>
+
+  <div class="util-card">
+    <h3>결혼식 축의금 계산기</h3>
+    <p class="util-meta">폴더 <a href="./wedding-gift-calculator/">./wedding-gift-calculator/</a></p>
+    <iframe src="./wedding-gift-calculator/" class="preview-frame" title="결혼식 축의금 계산기 프리뷰" loading="lazy"></iframe>
+  </div>
+
+  <div class="util-card">
+    <h3>장례식 조의금 계산기</h3>
+    <p class="util-meta">폴더 <a href="./funeral-condolence-calculator/">./funeral-condolence-calculator/</a></p>
+    <iframe src="./funeral-condolence-calculator/" class="preview-frame" title="장례식 조의금 계산기 프리뷰" loading="lazy"></iframe>
+  </div>
+
+</main>
+</body>
+</html>
