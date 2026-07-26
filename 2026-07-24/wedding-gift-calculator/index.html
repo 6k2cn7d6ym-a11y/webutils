@@ -289,12 +289,12 @@
   };
 
   var NOTES = {
-    'coworker':       '직장 동료는 3~7만원이 일반적입니다. 팀 단위 공동 봉투라면 인원 수로 나눠 계산하세요.',
+    'coworker':       '직장 동료는 3~7만원이 일반적입니다. 팀 단위 공동 봉투라면 인원 수로 나눠 계산해 보세요.',
     'friend-school':  '중·고 친구는 3~7만원대가 많습니다. 단체로 걷는 경우도 흔합니다.',
     'friend-college': '대학 친구는 5~10만원대가 무난합니다. 오랫동안 가깝게 지낸 친구라면 10만원 이상도 자연스럽습니다.',
     'friend-other':   '직장 이후에 만난 친구는 친밀도에 따라 3~7만원이 일반적입니다.',
     'relative-far':   '먼 친척은 5~10만원대가 통상적입니다.',
-    'relative-close': '가까운 친척은 7만원 이상이 기본입니다. 본인 결혼식 때 받은 금액을 참고하면 좋습니다.',
+    'relative-close': '가까운 친척은 7만원 이상이 일반적입니다. 본인 결혼식 때 받은 금액을 참고하면 좋습니다.',
     'acquaintance':   '지인·모임·동호회는 3~5만원이 무난합니다.'
   };
 
@@ -321,14 +321,19 @@
     if (meal) base += 2;
     base = Math.max(3, Math.round(base));
 
-    var lo = Math.max(3, base - 1);
-    var hi = base + 1;
+    var naturals = [3, 5, 7, 10, 15, 20];
+    function snap(v) {
+      return naturals.reduce(function(p, c) { return Math.abs(c - v) < Math.abs(p - v) ? c : p; });
+    }
+    var lo = snap(Math.max(3, base - 2));
+    var hi = snap(base + 2);
+    if (lo >= hi) hi = naturals[naturals.indexOf(lo) + 1] || lo + 5;
 
     var sitLabel = sit === 'student' ? ' · 사회초년생 기준 조정됨' :
                    sit === 'rich'    ? ' · 여유 있음 기준 조정됨' : '';
 
     document.getElementById('res-amount').textContent = base + '만원';
-    document.getElementById('res-range').textContent = '범위: ' + lo + '만원 ~ ' + hi + '만원' + sitLabel;
+    document.getElementById('res-range').textContent = '참고 범위: ' + lo + '~' + hi + '만원' + sitLabel;
     document.getElementById('res-note').textContent = NOTES[rel];
 
     var r = document.getElementById('result');
