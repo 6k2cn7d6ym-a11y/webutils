@@ -305,11 +305,19 @@
       border-top: 1px solid var(--border);
       line-height: 1.55;
     }
+    /* ── 공유·푸터 ── */
+    .h1-row { display: flex; align-items: flex-start; gap: 0.5rem; }
+    .btn-share-page { width: 30px; height: 30px; border: 1px solid var(--border, #D8D8D8); border-radius: 7px; background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-sub, #888); flex-shrink: 0; margin-top: 4px; transition: background 100ms; }
+    .btn-share-page:hover { background: rgba(0,0,0,0.06); }
+    .btn-share-page.copied { color: #2D7A4F; }
+    .site-footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--border, #D8D8D8); font-size: 0.75rem; color: var(--text-sub, #888); display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; align-items: center; }
+    .site-footer a { color: inherit; text-decoration: none; margin-right: 0.75rem; }
+    .site-footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 <main>
-  <h1>장례식 조의금·부의금 최저 기준 금액</h1>
+  <div class="h1-row"><h1>장례식 조의금·부의금 최저 기준 금액</h1><button class="btn-share-page" id="sharePageBtn" aria-label="공유하기" title="공유하기"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button></div>
   <p class="subtitle">관계와 상황을 선택하면 사회 통념 기준의 최저 조의금을 안내합니다.</p>
 
   <form id="form" novalidate>
@@ -451,6 +459,10 @@
 
   <!-- 실제 광고 삽입 시 aria-hidden="true" 제거할 것 (인터랙티브 광고에 aria-hidden은 ARIA 위반) -->
   <div id="ad-slot" aria-hidden="true"></div>
+<footer class="site-footer">
+  <nav><a href="/privacy.html">개인정보처리방침</a><a href="/contact.html">문의</a></nav>
+  <span>© 2025 민온</span>
+</footer>
 </main>
 
 <script>
@@ -661,6 +673,22 @@
         .catch(function () { /* 사용자가 공유 시트를 닫은 경우 등: 무시 */ });
     } else {
       copyShareText(lastShareText + '\n' + SHARE_URL);
+    }
+  });
+}());
+</script>
+<script>
+(function() {
+  var btn = document.getElementById('sharePageBtn');
+  if (!btn) return;
+  btn.addEventListener('click', function() {
+    if (navigator.share) {
+      navigator.share({ title: document.title, url: location.href }).catch(function() {});
+    } else {
+      navigator.clipboard.writeText(location.href).then(function() {
+        btn.classList.add('copied');
+        setTimeout(function() { btn.classList.remove('copied'); }, 1500);
+      }).catch(function() {});
     }
   });
 }());
