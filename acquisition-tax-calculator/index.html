@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>부동산 취득세 계산기 — 매매가·주택 수별 취득세 간이 계산</title>
+  <meta name="description" content="부동산 취득세 얼마나 나올까요? 매매가·주택 수·조정대상지역 여부를 입력하면 취득세·지방교육세·농어촌특별세 합계를 바로 계산해 드립니다.">
+  <link rel="canonical" href="https://utils.minon.kr/acquisition-tax-calculator/">
+  <meta property="og:title" content="부동산 취득세 계산기">
+  <meta property="og:description" content="매매가·주택 수를 입력하면 취득세·지방교육세·농어촌특별세 합계를 계산해 드립니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utils.minon.kr/acquisition-tax-calculator/">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="부동산 취득세 계산기">
+  <meta name="twitter:description" content="매매가·주택 수를 입력하면 취득세 합계를 계산해 드립니다.">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "부동산 취득세 계산기",
+    "description": "매매가·주택 수를 입력하면 취득세·지방교육세·농어촌특별세 합계를 계산해 드립니다.",
+    "url": "https://utils.minon.kr/acquisition-tax-calculator/",
+    "applicationCategory": "UtilitiesApplication",
+    "inLanguage": "ko",
+    "operatingSystem": "Any"
+  }
+  </script>
+  <style>
+    /* [클레버 수정: 디자인팀 design-notes.md 지시 반영 — 포레스트 그린 팔레트·Pretendard·hero-line·resultReveal·rich hover·rounded 12px·SEO 태그. 마이클 초안(무팔레트·기본 시스템 폰트) → 디자인팀 스펙 정합.] */
+    :root {
+      --bg: #F6F8F5;
+      --primary: #2C5F3E;
+      --primary-hover: #1E4B2E;
+      --card-bg: #E8F0E9;
+      --card-border: #BDD4BF;
+      --text: #111C17;
+      --text-sub: #5A7060;
+      --border: #B8CCB9;
+      --focus: #2C5F3E;
+      --error: #B83A28;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 1rem;
+    }
+    main { max-width: 580px; margin: 0 auto; padding: 1.5rem 0 3rem; }
+    h1 {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .hero-line {
+      width: 2.5rem;
+      height: 2px;
+      background: var(--primary);
+      margin: 0.5rem 0 1.5rem;
+    }
+    .subtitle { font-size: 0.95rem; color: var(--text-sub); margin-bottom: 2rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+    }
+    .label-note { font-weight: 400; color: var(--text-sub); font-size: 0.85rem; }
+    .input-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .input-group input[type="number"] {
+      flex: 1;
+      padding: 0.6rem 0.75rem;
+      font-size: 1rem;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      background: #fff;
+    }
+    .input-group input[type="number"]:focus { outline: 2px solid var(--focus); outline-offset: 1px; }
+    .input-group .unit { font-size: 0.95rem; color: var(--text-sub); white-space: nowrap; }
+    .radio-list { display: flex; flex-direction: column; gap: 0.45rem; }
+    .radio-list label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 400;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .radio-list input[type="radio"] { accent-color: var(--primary); width: 1.1em; height: 1.1em; flex-shrink: 0; }
+    .check-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 400;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .check-label input[type="checkbox"] { accent-color: var(--primary); width: 1.1em; height: 1.1em; flex-shrink: 0; }
+    .fieldset-wrap { border: none; padding: 0; }
+    .btn {
+      width: 100%;
+      padding: 0.85rem;
+      font-size: 1rem;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+      font-weight: 700;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+    }
+    .btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+    .btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .error { color: var(--error); font-size: 0.9rem; margin-top: 0.5rem; min-height: 1.2em; }
+    @keyframes resultReveal {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    #result {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+    }
+    #result.show {
+      display: block;
+      animation: resultReveal 200ms ease-out both;
+    }
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--card-border);
+      font-size: 0.95rem;
+    }
+    .result-row:last-of-type { border-bottom: none; }
+    .result-row.total {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--primary);
+      border-top: 2px solid var(--primary);
+      border-bottom: none;
+      padding-top: 0.6rem;
+      margin-top: 0.25rem;
+    }
+    .result-main { color: var(--primary); }
+    .rate-badge { font-size: 0.82rem; color: var(--text-sub); margin-left: 0.4rem; }
+    .disclaimer {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      margin-top: 1rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 0.75rem;
+    }
+    #ad-slot { margin-top: 2.5rem; min-height: 90px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>부동산 취득세 계산기</h1>
+  <div class="hero-line"></div>
+  <p class="subtitle">매매가·주택 수를 입력하면 취득세 합계를 계산해 드립니다.</p>
+
+  <form id="form" novalidate>
+    <div class="form-group">
+      <label for="price">매매 금액 <span class="label-note">(억원 · 소수점 가능)</span></label>
+      <div class="input-group">
+        <input type="number" id="price" min="0" step="0.1" placeholder="예: 5.5 (5억5천만원)">
+        <span class="unit">억원</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <fieldset class="fieldset-wrap">
+        <legend>취득 후 주택 수 <span class="label-note">(매수 완료 기준)</span></legend>
+        <div class="radio-list">
+          <label><input type="radio" name="count" value="1" checked> 1주택 (무주택 또는 기존 처분 예정)</label>
+          <label><input type="radio" name="count" value="2"> 2주택 (1주택 보유 상태에서 추가 취득)</label>
+          <label><input type="radio" name="count" value="3"> 3주택 이상</label>
+          <label><input type="radio" name="count" value="corp"> 법인</label>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="form-group" id="regulated-group">
+      <fieldset class="fieldset-wrap">
+        <legend>취득 주택 소재지</legend>
+        <div class="radio-list">
+          <label><input type="radio" name="regulated" value="yes" checked> 조정대상지역</label>
+          <label><input type="radio" name="regulated" value="no"> 비조정대상지역</label>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="form-group">
+      <label class="check-label" for="large-area">
+        <input type="checkbox" id="large-area">
+        전용면적 85㎡ 초과 (농어촌특별세 부과)
+      </label>
+    </div>
+
+    <button type="submit" class="btn">취득세 계산하기</button>
+    <p id="err" class="error" role="alert" aria-live="assertive"></p>
+  </form>
+
+  <section id="result" aria-live="polite">
+    <div id="result-inner"></div>
+    <p class="disclaimer">2026년 기준 지방세법에 따른 간이 계산입니다. 실거래가 신고, 등기 시점, 일시적 2주택 비과세 요건 등 개별 조건에 따라 실제 납부세액이 달라질 수 있습니다. 참고용으로만 활용하세요.</p>
+  </section>
+
+  <div id="ad-slot" aria-hidden="true"></div>
+</main>
+
+<script>
+(function () {
+  /* 지방세법 기준 취득세율 */
+  function getAcqRate(priceEok, count, isRegulated) {
+    if (count === 'corp') return 0.12;
+
+    function generalRate(p) {
+      if (p <= 6) return 0.01;
+      if (p <= 9) return (p * 2 / 3 - 3) / 100;
+      return 0.03;
+    }
+
+    var n = parseInt(count, 10);
+    if (n === 1) return generalRate(priceEok);
+    if (n === 2) return isRegulated ? 0.08 : generalRate(priceEok);
+    /* 3주택 이상 */
+    return isRegulated ? 0.12 : 0.08;
+  }
+
+  function fmtW(n) { return Math.round(n).toLocaleString('ko-KR') + '원'; }
+  function fmtPct(r) {
+    var s = (r * 100).toFixed(4);
+    s = s.replace(/\.?0+$/, '');
+    return s + '%';
+  }
+
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var errEl = document.getElementById('err');
+    errEl.textContent = '';
+
+    var priceEok = parseFloat(document.getElementById('price').value);
+    if (isNaN(priceEok) || priceEok <= 0) { errEl.textContent = '매매 금액을 입력해 주세요.'; return; }
+
+    var count = document.querySelector('input[name="count"]:checked').value;
+    var isRegulated = document.querySelector('input[name="regulated"]:checked').value === 'yes';
+    var isLarge = document.getElementById('large-area').checked;
+
+    var priceWon = priceEok * 1e8;
+    var acqRate = getAcqRate(priceEok, count, isRegulated);
+    var acqTax = priceWon * acqRate;
+    var eduTax = acqTax * 0.1;
+    var ruralTax = isLarge ? acqTax * 0.2 : 0;
+    var total = acqTax + eduTax + ruralTax;
+
+    var areaNote = isLarge ? '(85㎡ 초과 · 농특세 ' + fmtPct(acqRate * 0.2) + ')' : '(85㎡ 이하 · 면제)';
+
+    var html =
+      '<div class="result-row"><span>매매금액</span><span>' + priceEok + '억원</span></div>'
+      + '<div class="result-row"><span>적용 취득세율</span><span>' + fmtPct(acqRate) + '</span></div>'
+      + '<div class="result-row"><span>취득세</span><span>' + fmtW(acqTax) + '<span class="rate-badge">' + fmtPct(acqRate) + '</span></span></div>'
+      + '<div class="result-row"><span>지방교육세</span><span>' + fmtW(eduTax) + '<span class="rate-badge">' + fmtPct(acqRate * 0.1) + '</span></span></div>'
+      + '<div class="result-row"><span>농어촌특별세</span><span>' + (isLarge ? fmtW(ruralTax) : '0원') + '<span class="rate-badge">' + areaNote + '</span></span></div>'
+      + '<div class="result-row total"><span>합계 세금</span><span>' + fmtW(total) + '<span class="rate-badge">' + fmtPct((acqRate + acqRate * 0.1 + (isLarge ? acqRate * 0.2 : 0))) + '</span></span></div>';
+
+    document.getElementById('result-inner').innerHTML = html;
+    var el = document.getElementById('result');
+    el.classList.add('show');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}());
+</script>
+</body>
+</html>
