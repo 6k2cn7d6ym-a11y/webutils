@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>민온 웹유틸 — 생활 계산기 모음</title>
-  <meta name="description" content="장례식 조의금·부동산 취득세·중개수수료·에어컨·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다. 관계·상황·조건별로 바로 확인할 수 있습니다.">
+  <meta name="description" content="결혼식 축의금·장례식 조의금·부동산 취득세·중개수수료·에어컨·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.">
   <link rel="canonical" href="https://utils.minon.kr/">
   <meta property="og:title" content="민온 웹유틸 — 생활 계산기 모음">
-  <meta property="og:description" content="장례식 조의금·부동산 취득세·중개수수료·에어컨·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.">
+  <meta property="og:description" content="결혼식 축의금·장례식 조의금·부동산 취득세·중개수수료·에어컨·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://utils.minon.kr/">
   <meta property="og:locale" content="ko_KR">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="민온 웹유틸 — 생활 계산기 모음">
-  <meta name="twitter:description" content="장례식 조의금·부동산 취득세·중개수수료·에어컨·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.">
+  <meta name="twitter:description" content="결혼식 축의금·장례식 조의금·부동산 취득세·중개수수료·에어컨·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232D4A6B'/%3E%3Ctext x='32' y='42' font-family='system-ui,sans-serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23F7F8FA'%3EU%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
@@ -23,7 +23,7 @@
     "@type": "WebSite",
     "name": "민온 웹유틸",
     "url": "https://utils.minon.kr/",
-    "description": "장례식 조의금·부동산 취득세·중개수수료·에어컨·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.",
+    "description": "결혼식 축의금·장례식 조의금·부동산 취득세·중개수수료·에어컨·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.",
     "inLanguage": "ko"
   }
   </script>
@@ -37,24 +37,13 @@
       --accent: #2D4A6B;
       --shadow: 0 1px 2px rgba(26,35,50,.04), 0 4px 12px rgba(26,35,50,.06);
     }
-    /* 유틸별 카드 색 토큰 (각 유틸 자체 브랜드 팔레트 승계) */
-    article.util[data-slug="funeral-condolence-calculator"] {
-      --card-accent: #2D4A6B;
-      --card-accent-soft: #EDF1F7;
-    }
-    article.util[data-slug="acquisition-tax-calculator"] {
-      --card-accent: #2C5F3E;
-      --card-accent-soft: #E8F0E9;
-    }
-    article.util[data-slug="real-estate-commission-calculator"] {
-      --card-accent: #1C6070;
-      --card-accent-soft: #E6F2F5;
-    }
-    article.util[data-slug="ac-electricity-calculator"],
-    article.util[data-slug="studio-electricity-calculator"] {
-      --card-accent: #4A5380;
-      --card-accent-soft: #ECEEF7;
-    }
+    article.util[data-slug="wedding-gift-calculator"]          { --card-accent: #B8722A; --card-accent-soft: #FEF3E7; }
+    article.util[data-slug="funeral-condolence-calculator"]    { --card-accent: #2D4A6B; --card-accent-soft: #EDF1F7; }
+    article.util[data-slug="acquisition-tax-calculator"]       { --card-accent: #2C5F3E; --card-accent-soft: #E8F0E9; }
+    article.util[data-slug="real-estate-commission-calculator"]{ --card-accent: #1C6070; --card-accent-soft: #E6F2F5; }
+    article.util[data-slug="ac-electricity-calculator"]        { --card-accent: #4A5380; --card-accent-soft: #ECEEF7; }
+    article.util[data-slug="studio-electricity-calculator"]    { --card-accent: #4A5380; --card-accent-soft: #ECEEF7; }
+
     * { box-sizing: border-box; }
     html, body {
       margin: 0; padding: 0;
@@ -65,7 +54,8 @@
     }
     a { color: inherit; text-decoration: none; }
     main { max-width: 1120px; margin: 0 auto; padding: 40px 24px 80px; }
-    header.hero { padding: 24px 0 40px; text-align: left; }
+
+    header.hero { padding: 24px 0 40px; }
     header.hero .brand {
       display: inline-flex; align-items: center; gap: 10px;
       font-weight: 700; font-size: 15px; color: var(--accent);
@@ -78,86 +68,106 @@
       font-weight: 800; font-size: 15px;
     }
     header.hero h1 {
-      margin: 22px 0 12px;
-      font-size: 30px; line-height: 1.3;
-      font-weight: 700; letter-spacing: -0.02em;
+      margin: 22px 0 0;
+      font-size: 38px; line-height: 1.2;
+      font-weight: 700; letter-spacing: -0.03em;
+    }
+    header.hero h1 .accent { color: var(--accent); }
+    .hero-line {
+      width: 3rem; height: 3px;
+      background: var(--accent);
+      margin: 14px 0 16px;
+      border-radius: 2px;
     }
     header.hero p.lede {
       margin: 0;
-      font-size: 16px; line-height: 1.6;
+      font-size: 16px; line-height: 1.7;
       color: var(--ink-mute);
-      max-width: 620px;
+      max-width: 580px;
     }
+
     section.utilities {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 16px;
-      margin-top: 32px;
+      margin-top: 36px;
     }
     article.util {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px 26px 20px;
-      min-height: 158px;
+      border-radius: 14px;
+      padding: 22px 24px 20px;
       box-shadow: var(--shadow);
-      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
       display: flex; flex-direction: column; gap: 10px;
       position: relative;
     }
     article.util:hover, article.util:focus-within {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
       border-color: var(--card-accent, var(--accent));
-      box-shadow: 0 2px 4px rgba(26,35,50,.05), 0 10px 24px rgba(26,35,50,.10);
+      box-shadow: 0 4px 8px rgba(26,35,50,.06), 0 12px 28px rgba(26,35,50,.11);
+    }
+    article.util .card-icon {
+      width: 42px; height: 42px;
+      border-radius: 11px;
+      background: var(--card-accent-soft, #EEF2F7);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    article.util .card-icon svg {
+      width: 22px; height: 22px;
+      stroke: var(--card-accent, var(--accent));
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
     }
     article.util .tag {
       display: inline-block; align-self: flex-start;
-      font-size: 12px; font-weight: 600;
+      font-size: 11.5px; font-weight: 600;
       color: var(--card-accent, var(--accent));
       background: var(--card-accent-soft, #EEF2F7);
-      padding: 4px 10px; border-radius: 999px;
+      padding: 3px 9px; border-radius: 999px;
       letter-spacing: 0;
     }
     article.util h2 {
-      margin: 4px 0 0;
-      font-size: 18px; line-height: 1.5;
+      margin: 2px 0 0;
+      font-size: 17px; line-height: 1.45;
       font-weight: 700; letter-spacing: -0.01em;
       word-break: keep-all;
-      overflow-wrap: break-word;
     }
     article.util p {
       margin: 0;
-      font-size: 14px; line-height: 1.6;
+      font-size: 13.5px; line-height: 1.6;
       color: var(--ink-mute);
       word-break: keep-all;
-      overflow-wrap: break-word;
     }
     article.util a.card-link {
       margin-top: auto;
-      padding-top: 6px;
+      padding-top: 8px;
       align-self: flex-start;
-      font-size: 14px; font-weight: 600;
+      font-size: 13.5px; font-weight: 600;
       color: var(--card-accent, var(--accent));
     }
     article.util a.card-link::after { content: " →"; }
     article.util h2 a { color: inherit; }
     article.util h2 a:hover { color: var(--card-accent, var(--accent)); }
+    article.util a.stretched { position: absolute; inset: 0; }
+
     footer.site {
-      margin-top: 56px; padding-top: 24px;
+      margin-top: 60px; padding-top: 24px;
       border-top: 1px solid var(--border);
       display: flex; flex-wrap: wrap; gap: 16px;
       justify-content: space-between; align-items: center;
       font-size: 13px; color: var(--ink-mute);
     }
-    footer.site nav a {
-      color: var(--ink-mute);
-      margin-right: 14px;
-    }
+    footer.site nav a { color: var(--ink-mute); margin-right: 14px; }
     footer.site nav a:hover { color: var(--accent); text-decoration: underline; }
+
     @media (max-width: 480px) {
-      header.hero h1 { font-size: 24px; }
+      header.hero h1 { font-size: 28px; }
+      .hero-line { margin: 10px 0 14px; }
       main { padding: 24px 16px 60px; }
-      article.util { min-height: 0; padding: 24px 24px 22px; }
     }
   </style>
 </head>
@@ -168,47 +178,73 @@
         <span class="brand-mark" aria-hidden="true">U</span>
         <span>민온 웹유틸</span>
       </div>
-      <h1>실생활에서 자주 찾는 계산기 모음</h1>
-      <p class="lede">
-        장례식 조의금, 부동산 취득세·중개수수료, 에어컨·원룸 전기요금 등 검색해도 답이 애매한 계산을 관계·상황·조건별로 바로 확인할 수 있게 정리했습니다.
-      </p>
+      <h1>실생활에서 <span class="accent">자주 찾는</span><br>계산기 모음</h1>
+      <div class="hero-line" aria-hidden="true"></div>
+      <p class="lede">결혼식 축의금·장례식 조의금, 부동산 취득세·중개수수료, 에어컨·원룸 전기요금 등 검색해도 답이 애매한 계산을 관계·상황·조건별로 바로 확인할 수 있게 정리했습니다.</p>
     </header>
 
     <section class="utilities" aria-label="유틸리티 목록">
-      <article class="util" data-cat="경조사" data-slug="funeral-condolence-calculator">
+
+      <article class="util" data-slug="wedding-gift-calculator">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
         <span class="tag">경조사</span>
-        <h2><a href="/funeral-condolence-calculator/">장례식 조의금·부의금 계산기</a></h2>
+        <h2><a href="/wedding-gift-calculator/" class="stretched">결혼식 축의금 계산기</a></h2>
+        <p>관계·친밀도·식사 참석 여부에 따른 적정 축의금을 바로 확인할 수 있습니다.</p>
+        <a href="/wedding-gift-calculator/" class="card-link">계산해보기</a>
+      </article>
+
+      <article class="util" data-slug="funeral-condolence-calculator">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
+        </div>
+        <span class="tag">경조사</span>
+        <h2><a href="/funeral-condolence-calculator/" class="stretched">장례식 조의금·부의금 계산기</a></h2>
         <p>고인·상주와의 관계, 친밀도, 상황별로 적정 조의금 기준을 안내합니다.</p>
         <a href="/funeral-condolence-calculator/" class="card-link">계산해보기</a>
       </article>
 
-      <article class="util" data-cat="부동산" data-slug="acquisition-tax-calculator">
+      <article class="util" data-slug="acquisition-tax-calculator">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
         <span class="tag">부동산</span>
-        <h2><a href="/acquisition-tax-calculator/">부동산 취득세 계산기</a></h2>
+        <h2><a href="/acquisition-tax-calculator/" class="stretched">부동산 취득세 계산기</a></h2>
         <p>매매가·주택 수·조정대상지역 여부에 따른 취득세를 간이 계산합니다. 2026년 기준.</p>
         <a href="/acquisition-tax-calculator/" class="card-link">계산해보기</a>
       </article>
 
-      <article class="util" data-cat="부동산" data-slug="real-estate-commission-calculator">
+      <article class="util" data-slug="real-estate-commission-calculator">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><line x1="10.85" y1="12.15" x2="19" y2="4"/><line x1="18" y1="5" x2="20" y2="7"/><line x1="15" y1="8" x2="17" y2="10"/></svg>
+        </div>
         <span class="tag">부동산</span>
-        <h2><a href="/real-estate-commission-calculator/">부동산 중개수수료 계산기</a></h2>
+        <h2><a href="/real-estate-commission-calculator/" class="stretched">부동산 중개수수료 계산기</a></h2>
         <p>매매·전세·월세 거래금액에 따른 중개보수(복비) 법정 상한을 계산합니다.</p>
         <a href="/real-estate-commission-calculator/" class="card-link">계산해보기</a>
       </article>
 
-      <article class="util" data-cat="생활비" data-slug="ac-electricity-calculator">
+      <article class="util" data-slug="ac-electricity-calculator">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+        </div>
         <span class="tag">생활비</span>
-        <h2><a href="/ac-electricity-calculator/">에어컨 전기요금 계산기</a></h2>
+        <h2><a href="/ac-electricity-calculator/" class="stretched">에어컨 전기요금 계산기</a></h2>
         <p>에어컨 사용 시간·소비전력·기존 사용량을 넣으면 누진세를 반영한 여름 전기요금을 계산합니다.</p>
         <a href="/ac-electricity-calculator/" class="card-link">계산해보기</a>
       </article>
 
-      <article class="util" data-cat="생활비" data-slug="studio-electricity-calculator">
+      <article class="util" data-slug="studio-electricity-calculator">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
         <span class="tag">생활비</span>
-        <h2><a href="/studio-electricity-calculator/">자취방 원룸 전기요금 계산기</a></h2>
+        <h2><a href="/studio-electricity-calculator/" class="stretched">자취방 원룸 전기요금 계산기</a></h2>
         <p>가전 종류·사용 시간별 소비전력을 반영해 자취방·원룸의 월 전기요금을 예측합니다.</p>
         <a href="/studio-electricity-calculator/" class="card-link">계산해보기</a>
       </article>
+
     </section>
 
     <footer class="site">
