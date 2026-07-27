@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>민온 웹유틸 — 생활 계산기 모음</title>
-  <meta name="description" content="장례식 조의금·부동산 취득세·중개수수료·에어컨 전기요금·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다. 관계·상황·조건별로 바로 확인할 수 있습니다.">
+  <meta name="description" content="결혼식 축의금·장례식 조의금·부동산 취득세·중개수수료·에어컨·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다. 관계·상황·조건별로 바로 확인할 수 있습니다.">
   <link rel="canonical" href="https://utils.minon.kr/">
   <meta property="og:title" content="민온 웹유틸 — 생활 계산기 모음">
-  <meta property="og:description" content="장례식 조의금·부동산 취득세·중개수수료·에어컨 전기요금·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.">
+  <meta property="og:description" content="결혼식 축의금·장례식 조의금·부동산 취득세·중개수수료·에어컨·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://utils.minon.kr/">
   <meta property="og:locale" content="ko_KR">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="민온 웹유틸 — 생활 계산기 모음">
-  <meta name="twitter:description" content="장례식 조의금·부동산 취득세·중개수수료·에어컨 전기요금·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.">
+  <meta name="twitter:description" content="결혼식 축의금·장례식 조의금·부동산 취득세·중개수수료·에어컨·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232D4A6B'/%3E%3Ctext x='32' y='42' font-family='system-ui,sans-serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23F7F8FA'%3EU%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
@@ -23,7 +23,7 @@
     "@type": "WebSite",
     "name": "민온 웹유틸",
     "url": "https://utils.minon.kr/",
-    "description": "장례식 조의금·부동산 취득세·중개수수료·에어컨 전기요금·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.",
+    "description": "결혼식 축의금·장례식 조의금·부동산 취득세·중개수수료·에어컨·원룸 전기요금 등 실생활에서 자주 찾는 계산기를 모아둔 사이트입니다.",
     "inLanguage": "ko"
   }
   </script>
@@ -35,8 +35,20 @@
       --ink: #1A2332;
       --ink-mute: #5A6472;
       --accent: #2D4A6B;
-      --accent-soft: #EEF2F7;
       --shadow: 0 1px 2px rgba(26,35,50,.04), 0 4px 12px rgba(26,35,50,.06);
+    }
+    /* 카테고리별 카드 색 토큰 */
+    article.util[data-cat="경조사"] {
+      --card-accent: #B8722A;
+      --card-accent-soft: #FEF3E7;
+    }
+    article.util[data-cat="부동산"] {
+      --card-accent: #2C5F3E;
+      --card-accent-soft: #E8F0E9;
+    }
+    article.util[data-cat="생활비"] {
+      --card-accent: #4A5380;
+      --card-accent-soft: #ECEEF7;
     }
     * { box-sizing: border-box; }
     html, body {
@@ -73,7 +85,7 @@
     }
     section.utilities {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       margin-top: 32px;
     }
@@ -85,17 +97,18 @@
       box-shadow: var(--shadow);
       transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
       display: flex; flex-direction: column; gap: 10px;
+      position: relative;
     }
     article.util:hover, article.util:focus-within {
       transform: translateY(-2px);
-      border-color: var(--accent);
-      box-shadow: 0 2px 4px rgba(26,35,50,.05), 0 10px 24px rgba(45,74,107,.10);
+      border-color: var(--card-accent, var(--accent));
+      box-shadow: 0 2px 4px rgba(26,35,50,.05), 0 10px 24px rgba(26,35,50,.10);
     }
     article.util .tag {
       display: inline-block; align-self: flex-start;
       font-size: 12px; font-weight: 600;
-      color: var(--accent);
-      background: var(--accent-soft);
+      color: var(--card-accent, var(--accent));
+      background: var(--card-accent-soft, #EEF2F7);
       padding: 4px 10px; border-radius: 999px;
       letter-spacing: 0;
     }
@@ -113,13 +126,12 @@
       margin-top: 6px;
       align-self: flex-start;
       font-size: 14px; font-weight: 600;
-      color: var(--accent);
+      color: var(--card-accent, var(--accent));
     }
     article.util a.card-link::after { content: " →"; }
     article.util a.stretched {
       position: absolute; inset: 0;
     }
-    article.util { position: relative; }
     footer.site {
       margin-top: 56px; padding-top: 24px;
       border-top: 1px solid var(--border);
@@ -132,9 +144,13 @@
       margin-right: 14px;
     }
     footer.site nav a:hover { color: var(--accent); text-decoration: underline; }
+    @media (max-width: 720px) {
+      section.utilities { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (max-width: 480px) {
       header.hero h1 { font-size: 24px; }
       main { padding: 24px 16px 60px; }
+      section.utilities { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -147,40 +163,47 @@
       </div>
       <h1>실생활에서 자주 찾는 계산기 모음</h1>
       <p class="lede">
-        장례식 조의금, 부동산 취득세, 중개수수료 등 검색해도 답이 애매한 계산을 관계·상황·조건별로 바로 확인할 수 있게 정리했습니다.
+        결혼식 축의금·장례식 조의금, 부동산 취득세·중개수수료, 에어컨·원룸 전기요금 등 검색해도 답이 애매한 계산을 관계·상황·조건별로 바로 확인할 수 있게 정리했습니다.
       </p>
     </header>
 
     <section class="utilities" aria-label="유틸리티 목록">
-      <article class="util">
+      <article class="util" data-cat="경조사">
+        <span class="tag">경조사</span>
+        <h2><a href="/wedding-gift-calculator/" class="stretched">결혼식 축의금 계산기</a></h2>
+        <p>관계·친밀도·식사 참석 여부에 따른 적정 축의금을 바로 확인할 수 있습니다.</p>
+        <a href="/wedding-gift-calculator/" class="card-link">계산해보기</a>
+      </article>
+
+      <article class="util" data-cat="경조사">
         <span class="tag">경조사</span>
         <h2><a href="/funeral-condolence-calculator/" class="stretched">장례식 조의금·부의금 계산기</a></h2>
-        <p>고인·상주와의 관계, 친밀도, 상황(참척상·김영란법 한도 등)을 반영한 최저 기준 금액을 안내합니다.</p>
+        <p>고인·상주와의 관계, 친밀도, 상황별로 적정 조의금 기준을 안내합니다.</p>
         <a href="/funeral-condolence-calculator/" class="card-link">계산해보기</a>
       </article>
 
-      <article class="util">
+      <article class="util" data-cat="부동산">
         <span class="tag">부동산</span>
         <h2><a href="/acquisition-tax-calculator/" class="stretched">부동산 취득세 계산기</a></h2>
         <p>매매가·주택 수·조정대상지역 여부에 따른 취득세를 간이 계산합니다. 2026년 기준.</p>
         <a href="/acquisition-tax-calculator/" class="card-link">계산해보기</a>
       </article>
 
-      <article class="util">
+      <article class="util" data-cat="부동산">
         <span class="tag">부동산</span>
         <h2><a href="/real-estate-commission-calculator/" class="stretched">부동산 중개수수료 계산기</a></h2>
         <p>매매·전세·월세 거래금액에 따른 중개보수(복비) 법정 상한을 계산합니다.</p>
         <a href="/real-estate-commission-calculator/" class="card-link">계산해보기</a>
       </article>
 
-      <article class="util">
+      <article class="util" data-cat="생활비">
         <span class="tag">생활비</span>
         <h2><a href="/ac-electricity-calculator/" class="stretched">에어컨 전기요금 계산기</a></h2>
         <p>에어컨 사용 시간·소비전력·기존 사용량을 넣으면 누진세를 반영한 여름 전기요금을 계산합니다.</p>
         <a href="/ac-electricity-calculator/" class="card-link">계산해보기</a>
       </article>
 
-      <article class="util">
+      <article class="util" data-cat="생활비">
         <span class="tag">생활비</span>
         <h2><a href="/studio-electricity-calculator/" class="stretched">자취방 원룸 전기요금 계산기</a></h2>
         <p>가전 종류·사용 시간별 소비전력을 반영해 자취방·원룸의 월 전기요금을 예측합니다.</p>
