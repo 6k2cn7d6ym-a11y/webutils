@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>색상 팔레트 — 색 조합 미리보기</title>
-  <meta name="description" content="색을 2~6가지 골라 조합이 어떻게 보이는지 바로 확인하세요. 각 색의 HEX · RGB · HSL 코드도 복사할 수 있습니다.">
+  <meta name="description" content="색을 2~6가지 골라 조합이 어떻게 보이는지 바로 확인하세요. 이미지에서 색 뽑기, HEX · RGB · HSL 코드 복사 지원.">
   <meta property="og:title" content="색상 팔레트">
-  <meta property="og:description" content="색을 2~6가지 골라 조합이 어떻게 보이는지 바로 확인하세요.">
+  <meta property="og:description" content="색을 2~6가지 골라 조합이 어떻게 보이는지 바로 확인하세요. 이미지에서 색 뽑기, HEX · RGB · HSL 코드 복사 지원.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ko_KR">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="색상 팔레트">
-  <meta name="twitter:description" content="색을 2~6가지 골라 조합이 어떻게 보이는지 바로 확인하세요.">
+  <meta name="twitter:description" content="색을 2~6가지 골라 조합이 어떻게 보이는지 바로 확인하세요. 이미지에서 색 뽑기, HEX · RGB · HSL 코드 복사 지원.">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "색상 팔레트",
-    "description": "색을 2~6가지 골라 조합이 어떻게 보이는지 바로 확인하세요.",
+    "description": "색을 2~6가지 골라 조합이 어떻게 보이는지 바로 확인하세요. 이미지에서 색 뽑기, HEX · RGB · HSL 코드 복사 지원.",
     "applicationCategory": "UtilitiesApplication",
     "inLanguage": "ko",
     "operatingSystem": "Any"
@@ -145,7 +145,7 @@
       display: flex;
       gap: 0.65rem;
       align-items: stretch;
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.6rem;
     }
     .active-swatch {
       position: relative;
@@ -167,7 +167,7 @@
       border: none;
       padding: 0;
     }
-    .picker-actions { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+    .picker-actions { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
     .btn-pick {
       flex: 1;
       padding: 0 1rem;
@@ -180,9 +180,28 @@
       border-radius: 8px;
       cursor: pointer;
       transition: background 100ms;
+      white-space: nowrap;
     }
     .btn-pick:hover { background: #E4E4E2; }
     .btn-pick:disabled { opacity: 0.38; cursor: not-allowed; }
+
+    /* 이미지 픽커 버튼 (별도 row) */
+    .btn-img-pick {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      font-family: inherit;
+      font-weight: 600;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 100ms;
+      margin-bottom: 0.85rem;
+      text-align: left;
+    }
+    .btn-img-pick:hover { background: #E4E4E2; }
 
     /* HEX direct input */
     .hex-row {
@@ -260,6 +279,71 @@
       margin-top: 0.75rem;
       display: none;
     }
+
+    /* ── 이미지 픽커 모달 ── */
+    #imgPickerModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    #imgPickerModal.open { display: flex; }
+    .img-picker-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.25rem;
+      max-width: min(680px, 96vw);
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .img-picker-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .img-picker-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    .img-picker-hint {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+    }
+    .btn-close {
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.3rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .btn-close:hover { background: #E4E4E2; }
+    .canvas-wrap {
+      overflow: auto;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      flex: 1;
+      min-height: 0;
+      text-align: center;
+      background: #888;
+    }
+    #imgCanvas {
+      display: block;
+      cursor: crosshair;
+      max-width: 100%;
+      height: auto;
+    }
   </style>
 </head>
 <body>
@@ -295,6 +379,9 @@
       </div>
     </div>
 
+    <button class="btn-img-pick" id="imgPickBtn">이미지에서 색 뽑기</button>
+    <input type="file" id="imgUpload" accept="image/*" style="display:none">
+
     <div class="hex-row">
       <label for="hexDirect">HEX</label>
       <input type="text" id="hexDirect" maxlength="7" placeholder="#000000" spellcheck="false" autocomplete="off">
@@ -322,6 +409,22 @@
   </div>
 </main>
 
+<!-- 이미지 픽커 모달 -->
+<div id="imgPickerModal" role="dialog" aria-modal="true" aria-label="이미지에서 색 뽑기">
+  <div class="img-picker-card">
+    <div class="img-picker-header">
+      <div>
+        <p class="img-picker-title">이미지에서 색 뽑기</p>
+        <p class="img-picker-hint">원하는 색 부분을 클릭하세요</p>
+      </div>
+      <button class="btn-close" id="imgPickerClose">닫기</button>
+    </div>
+    <div class="canvas-wrap">
+      <canvas id="imgCanvas"></canvas>
+    </div>
+  </div>
+</div>
+
 <script>
 (function () {
   var DEFAULTS = ['#4A90D9', '#E8723A', '#5BB36E', '#9B6BC4', '#E8C53A', '#48B8B8'];
@@ -330,18 +433,24 @@
   var count   = 2;
   var active  = 0;
 
-  var preview     = document.getElementById('preview');
-  var swatchRow   = document.getElementById('swatchRow');
-  var activeLabel = document.getElementById('activeLabel');
+  var preview      = document.getElementById('preview');
+  var swatchRow    = document.getElementById('swatchRow');
+  var activeLabel  = document.getElementById('activeLabel');
   var activeSwatch = document.getElementById('activeSwatch');
-  var colorInput  = document.getElementById('colorInput');
-  var eyedropBtn  = document.getElementById('eyedropBtn');
-  var randomBtn   = document.getElementById('randomBtn');
-  var hexDirect   = document.getElementById('hexDirect');
-  var hexVal      = document.getElementById('hexVal');
-  var rgbVal      = document.getElementById('rgbVal');
-  var hslVal      = document.getElementById('hslVal');
+  var colorInput   = document.getElementById('colorInput');
+  var eyedropBtn   = document.getElementById('eyedropBtn');
+  var randomBtn    = document.getElementById('randomBtn');
+  var hexDirect    = document.getElementById('hexDirect');
+  var hexVal       = document.getElementById('hexVal');
+  var rgbVal       = document.getElementById('rgbVal');
+  var hslVal       = document.getElementById('hslVal');
   var eyedropNotice = document.getElementById('eyedropNotice');
+
+  var imgPickBtn      = document.getElementById('imgPickBtn');
+  var imgUpload       = document.getElementById('imgUpload');
+  var imgPickerModal  = document.getElementById('imgPickerModal');
+  var imgCanvas       = document.getElementById('imgCanvas');
+  var imgPickerClose  = document.getElementById('imgPickerClose');
 
   if (!window.EyeDropper) {
     eyedropBtn.disabled = true;
@@ -450,6 +559,66 @@
     palette[active] = hex.toUpperCase();
     render();
   }
+
+  /* ── 이미지 픽커 ── */
+  function openImgPicker() {
+    imgPickerModal.classList.add('open');
+    imgPickerClose.focus();
+  }
+
+  function closeImgPicker() {
+    imgPickerModal.classList.remove('open');
+    imgUpload.value = '';
+  }
+
+  imgPickBtn.addEventListener('click', function() {
+    imgUpload.click();
+  });
+
+  imgUpload.addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var img = new Image();
+      img.onload = function() {
+        var maxW = 1200;
+        var maxH = 900;
+        var scale = Math.min(maxW / img.width, maxH / img.height, 1);
+        imgCanvas.width  = Math.round(img.width  * scale);
+        imgCanvas.height = Math.round(img.height * scale);
+        imgCanvas.getContext('2d').drawImage(img, 0, 0, imgCanvas.width, imgCanvas.height);
+        openImgPicker();
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+    imgUpload.value = '';
+  });
+
+  imgCanvas.addEventListener('click', function(e) {
+    var rect = imgCanvas.getBoundingClientRect();
+    var scaleX = imgCanvas.width  / rect.width;
+    var scaleY = imgCanvas.height / rect.height;
+    var x = Math.round((e.clientX - rect.left)  * scaleX);
+    var y = Math.round((e.clientY - rect.top)   * scaleY);
+    var px = imgCanvas.getContext('2d').getImageData(x, y, 1, 1).data;
+    var hex = '#' + [px[0], px[1], px[2]].map(function(v) {
+      return v.toString(16).padStart(2, '0');
+    }).join('');
+    applyColor(hex);
+    closeImgPicker();
+  });
+
+  imgPickerClose.addEventListener('click', closeImgPicker);
+
+  imgPickerModal.addEventListener('click', function(e) {
+    if (e.target === imgPickerModal) closeImgPicker();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && imgPickerModal.classList.contains('open')) closeImgPicker();
+  });
 
   /* ── Events ── */
   document.querySelectorAll('.count-btn').forEach(function(btn) {
