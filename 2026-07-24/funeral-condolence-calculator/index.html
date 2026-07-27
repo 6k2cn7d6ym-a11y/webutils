@@ -3,23 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>장례식 조의금 최저 기준 금액 — 관계별 안내</title>
-  <meta name="description" content="관계와 상황을 선택하면 사회 통념에 기반한 조의금 최저 기준 금액을 안내합니다. 상주-고인 관계·참척상·김영란법 예외 반영.">
-  <meta property="og:title" content="장례식 조의금 최저 기준 금액">
-  <meta property="og:description" content="관계와 상황을 선택하면 사회 통념 기준의 조의금 최저 금액을 안내합니다.">
+  <title>장례식 조의금·부의금 최저 기준 금액 — 관계별 안내</title>
+  <meta name="description" content="관계와 상황을 선택하면 사회 통념에 기반한 조의금·부의금 최저 기준 금액을 안내합니다. 상주-고인 관계·참척상·김영란법 한도 반영.">
+  <link rel="canonical" href="https://utils.minon.kr/funeral-condolence-calculator/">
+  <meta property="og:title" content="장례식 조의금·부의금 최저 기준 금액">
+  <meta property="og:description" content="관계와 상황을 선택하면 사회 통념 기준의 조의금·부의금 최저 금액을 안내합니다.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utils.minon.kr/funeral-condolence-calculator/">
   <meta property="og:locale" content="ko_KR">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="장례식 조의금 최저 기준 금액">
-  <meta name="twitter:description" content="관계와 상황을 선택하면 사회 통념 기준의 조의금 최저 금액을 안내합니다.">
+  <meta property="og:image" content="https://utils.minon.kr/funeral-condolence-calculator/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="장례식 조의금·부의금 최저 기준 금액 — 관계별 안내">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="장례식 조의금·부의금 최저 기준 금액">
+  <meta name="twitter:description" content="관계와 상황을 선택하면 사회 통념 기준의 조의금·부의금 최저 금액을 안내합니다.">
+  <meta name="twitter:image" content="https://utils.minon.kr/funeral-condolence-calculator/og-image.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232D4A6B'/%3E%3Cg fill='%23F7F8FA'%3E%3Ccircle cx='32' cy='21' r='7.5'/%3E%3Ccircle cx='21.5' cy='28.6' r='7.5'/%3E%3Ccircle cx='25.5' cy='41' r='7.5'/%3E%3Ccircle cx='38.5' cy='41' r='7.5'/%3E%3Ccircle cx='42.5' cy='28.6' r='7.5'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='5.5' fill='%23C8D5E8'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "장례식 조의금 최저 기준 금액",
-    "description": "관계와 상황을 선택하면 사회 통념 기준의 조의금 최저 금액을 안내합니다.",
+    "name": "장례식 조의금·부의금 최저 기준 금액",
+    "description": "관계와 상황을 선택하면 사회 통념 기준의 조의금·부의금 최저 금액을 안내합니다.",
+    "url": "https://utils.minon.kr/funeral-condolence-calculator/",
     "applicationCategory": "LifestyleApplication",
     "inLanguage": "ko",
     "operatingSystem": "Any"
@@ -149,6 +158,29 @@
       outline: 2px solid var(--focus);
       outline-offset: 2px;
     }
+    .btn--ghost {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.1rem;
+      background: transparent;
+      color: var(--primary);
+      border: 1.5px solid var(--primary);
+      font-weight: 600;
+    }
+    .btn--ghost:hover {
+      background: rgba(45, 74, 107, 0.08);
+      color: var(--primary-hover);
+      border-color: var(--primary-hover);
+      transform: none;
+      box-shadow: none;
+    }
+    .btn--ghost svg {
+      width: 1.1em;
+      height: 1.1em;
+      flex-shrink: 0;
+    }
     .error {
       color: var(--error);
       font-size: 0.9rem;
@@ -277,7 +309,7 @@
 </head>
 <body>
 <main>
-  <h1>장례식 조의금 최저 기준 금액</h1>
+  <h1>장례식 조의금·부의금 최저 기준 금액</h1>
   <p class="subtitle">관계와 상황을 선택하면 사회 통념 기준의 최저 조의금을 안내합니다.</p>
 
   <form id="form" novalidate>
@@ -347,20 +379,16 @@
 
     <div class="form-group">
       <fieldset>
-        <legend>김영란법 대상 여부</legend>
-        <p class="hint">아래 3개 모두 해당되면 현금 5만원 상한이 적용됩니다.</p>
+        <legend>김영란법(청탁금지법) 대상 여부</legend>
+        <p class="hint">아래 2개 모두 해당되면 조의금(현금) 5만원 상한이 적용됩니다.</p>
         <div class="check-list">
           <label>
             <input type="checkbox" name="gyr" value="official">
-            상주가 공무원입니다
+            상주가 공직자등입니다 (공무원·공공기관 임직원·학교 교직원·언론사 임직원)
           </label>
           <label>
             <input type="checkbox" name="gyr" value="job">
-            나와 직무 관련성이 있습니다
-          </label>
-          <label>
-            <input type="checkbox" name="gyr" value="senior">
-            상주가 나의 상급자입니다
+            나와 직무 관련성이 있습니다 (인허가·계약·감독·평가·민원 등)
           </label>
         </div>
       </fieldset>
@@ -375,6 +403,10 @@
     <div class="result-range" id="res-range"></div>
     <div class="result-note" id="res-note"></div>
     <div id="res-callouts"></div>
+    <button type="button" id="btn-share" class="btn btn--ghost">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      <span id="share-label">결과 공유하기</span>
+    </button>
   </section>
 
   <section class="etiquette" aria-label="장례식 조문 예절">
@@ -415,8 +447,9 @@
     </ul>
   </section>
 
-  <p class="disclaimer">이 안내는 2026년 기준, 사회 통념을 최대한 반영해 정리한 최저 기준입니다. 실제 금액과 방식은 관계·지역·상황에 따라 달라질 수 있습니다.</p>
+  <p class="disclaimer">이 안내는 2026년 기준, 사회 통념을 최대한 반영해 정리한 최저 기준입니다. 실제 금액과 방식은 관계·지역·상황에 따라 달라질 수 있습니다. 김영란법(청탁금지법) 관련 내용은 일반적인 안내이며 법률 자문이 아닙니다.</p>
 
+  <!-- 실제 광고 삽입 시 aria-hidden="true" 제거할 것 (인터랙티브 광고에 aria-hidden은 ARIA 위반) -->
   <div id="ad-slot" aria-hidden="true"></div>
 </main>
 
@@ -451,6 +484,11 @@
   };
 
   var IDX = { low: 0, mid: 1, high: 2 };
+
+  var SHARE_TITLE = '장례식 조의금·부의금 계산기';
+  var canonicalEl = document.querySelector('link[rel="canonical"]');
+  var SHARE_URL = (canonicalEl && canonicalEl.href) || location.href;
+  var lastShareText = SHARE_TITLE;
 
   function stepMove(amount, delta) {
     var i = STEPS.indexOf(amount);
@@ -492,6 +530,7 @@
       amountEl.textContent = '안 내도 무방';
       rangeEl.textContent = '관계·친밀도 기준 관례상 결례가 아닙니다.';
       noteEl.textContent = NOTES[rel];
+      lastShareText = '조의금 기준: 관례상 안 내도 무방한 관계입니다 — ' + SHARE_TITLE;
       /* 참척상은 안 낼 조합이 아니지만, 만약 함께 선택되면 안내 */
       if (deceasedInfo.child) {
         coEl.innerHTML = calloutHTML('warn', buildChildLossHTML());
@@ -508,20 +547,34 @@
     if (sit === 'student') base = stepMove(base, -1);
     if (sit === 'rich')    base = stepMove(base, +1);
 
-    /* 김영란법: 3개 조건 모두 체크되면 5만원 상한 강제 */
-    var gyrChecks = document.querySelectorAll('input[name="gyr"]:checked');
-    var gyrActive = gyrChecks.length === 3;
+    /* 김영란법: 공직자등 + 직무관련성 → 조의금(현금) 5만원 상한 (상급자 여부는 법 요건 아님) */
+    var gyrAll = document.querySelectorAll('input[name="gyr"]');
+    var gyrChecked = document.querySelectorAll('input[name="gyr"]:checked');
+    var gyrActive = gyrAll.length > 0 && gyrChecked.length === gyrAll.length;
     if (gyrActive && base > 5) base = 5;
 
-    var lo = stepMove(base, -1);
+    /* 최저 기준이므로 범위 하한 = 기준값. 위로만 통상 범위 표시 */
     var hi = stepMove(base, +1);
 
     var sitLabel = sit === 'student' ? ' · 사회초년생 기준 조정' :
                    sit === 'rich'    ? ' · 여유 있음 기준 조정' : '';
 
+    var rangeText;
+    if (gyrActive) {
+      rangeText = '김영란법 상한 적용 · 조의금(현금) 5만원 이하';
+    } else if (hi === base) {
+      rangeText = base + '만원 이상';
+    } else {
+      rangeText = '통상 ' + base + '~' + hi + '만원';
+    }
+
     amountEl.textContent = base + '만원';
-    rangeEl.textContent = (lo === hi ? '' : '범위 ' + lo + '만원 ~ ' + hi + '만원') + sitLabel;
+    rangeEl.textContent = rangeText + sitLabel;
     noteEl.textContent = NOTES[rel] + ' (' + deceasedInfo.label + ' 기준)';
+
+    lastShareText = '조의금 최저 기준 ' + base + '만원' +
+      (gyrActive ? ' (김영란법 상한)' : (hi > base ? ' · 통상 ' + base + '~' + hi + '만원' : '')) +
+      ' — ' + SHARE_TITLE;
 
     /* 자동 안내 트리거 순서: 참척상 → 김영란법 → 10+ 안내 */
     var html = '';
@@ -549,20 +602,67 @@
         '<li><strong>위로의 말은 삼가십시오.</strong> "호상이시네요" · "좋은 곳 가셨을 겁니다" · "괜찮으세요" 같은 상투적 위로는 오히려 큰 상처가 됩니다.</li>' +
         '<li><strong>오래 머물지 마십시오.</strong> 조용히 절만 하고 물러나는 것이 예의입니다.</li>' +
         '<li>상주와의 대화는 짧고 담담하게. "삼가 조의를 표합니다" 한마디로 충분합니다.</li>' +
-        '<li>조의금은 일반 부모상보다 <strong>넉넉히 얹는 것이 관례</strong>입니다.</li>' +
       '</ul>';
   }
 
   function buildGyrHTML() {
-    return '<p><strong>김영란법 적용 대상</strong></p>' +
-      '<p>상주가 공무원이며 귀하와 직무 관련성이 있는 상급자에 해당하므로, ' +
-      '<strong>부정청탁 및 금품등 수수의 금지에 관한 법률</strong>에 따라 조의금 한도가 적용됩니다.</p>' +
+    return '<p><strong>김영란법(청탁금지법) 한도 적용</strong></p>' +
+      '<p>상주가 공직자등이고 직무 관련성이 있는 경우, <strong>부정청탁 및 금품등 수수의 금지에 관한 법률</strong>에 따라 ' +
+      '부조 목적의 경조사비는 아래 한도 내에서만 허용됩니다.</p>' +
       '<ul>' +
-        '<li>현금: <strong>5만원 이하</strong></li>' +
-        '<li>화환·조화 포함 시: <strong>10만원 이하</strong></li>' +
+        '<li>조의금(현금): <strong>5만원 이하</strong></li>' +
+        '<li>화환·조화만 보내는 경우: <strong>10만원 이하</strong></li>' +
+        '<li>조의금과 화환을 함께: <strong>합산 10만원 이하</strong>, 이때도 현금은 5만원 이하</li>' +
       '</ul>' +
-      '<p>직무 관련성이 없는 경우 김영란법 적용 대상이 아니므로 한도 제한을 받지 않습니다.</p>';
+      '<p>예외: 본인이 상주의 <strong>상급 공직자</strong>로서 위로·격려 목적으로 주는 경우는 한도 적용을 받지 않습니다(법 제8조제3항제1호). ' +
+      '직무 관련성이 없다면 이 한도는 적용되지 않습니다(단, 1회 100만원 초과 금품은 별도로 금지).</p>';
   }
+
+  /* ---- 결과 공유하기: Web Share API → 클립보드 복사 폴백 ---- */
+  var shareBtn = document.getElementById('btn-share');
+  var shareLabel = document.getElementById('share-label');
+  var shareTimer = null;
+
+  function flashShareLabel(msg) {
+    shareLabel.textContent = msg;
+    if (shareTimer) clearTimeout(shareTimer);
+    shareTimer = setTimeout(function () {
+      shareLabel.textContent = '결과 공유하기';
+    }, 2000);
+  }
+
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (err) {}
+    document.body.removeChild(ta);
+  }
+
+  function copyShareText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(
+        function () { flashShareLabel('링크가 복사되었습니다'); },
+        function () { legacyCopy(text); flashShareLabel('링크가 복사되었습니다'); }
+      );
+    } else {
+      legacyCopy(text);
+      flashShareLabel('링크가 복사되었습니다');
+    }
+  }
+
+  shareBtn.addEventListener('click', function () {
+    if (navigator.share) {
+      navigator.share({ title: SHARE_TITLE, text: lastShareText, url: SHARE_URL })
+        .catch(function () { /* 사용자가 공유 시트를 닫은 경우 등: 무시 */ });
+    } else {
+      copyShareText(lastShareText + '\n' + SHARE_URL);
+    }
+  });
 }());
 </script>
 </body>
