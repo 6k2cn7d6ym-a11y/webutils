@@ -29,8 +29,8 @@ export async function onRequestGet(context) {
     });
   }
 
-  /* ── 실 API 호출 (addrCoordApi.do — 주소 + WGS84 좌표 동시 반환) ── */
-  const apiUrl = new URL('https://business.juso.go.kr/addrlink/addrCoordApi.do');
+  /* ── 실 API 호출 ── */
+  const apiUrl = new URL('https://business.juso.go.kr/addrlink/addrLinkApi.do');
   apiUrl.searchParams.set('confmKey', env.JUSO_API_KEY);
   apiUrl.searchParams.set('currentPage', '1');
   apiUrl.searchParams.set('countPerPage', '10');
