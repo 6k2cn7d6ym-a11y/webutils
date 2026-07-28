@@ -25,6 +25,34 @@
     "operatingSystem": "Any"
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "취득세는 언제까지 내야 하나요?",
+        "acceptedAnswer": {"@type": "Answer", "text": "취득일(잔금일 기준)로부터 60일 이내에 신고·납부하는 것이 원칙입니다. 상속은 6개월, 증여는 3개월 이내. 기한 초과 시 신고 불성실·납부 불성실 가산세가 부과됩니다."}
+      },
+      {
+        "@type": "Question",
+        "name": "본인이 직접 신고할 수 있나요?",
+        "acceptedAnswer": {"@type": "Answer", "text": "가능합니다. 온라인은 위택스(wetax.go.kr) 지방세 신고 메뉴, 오프라인은 취득한 부동산 소재지 시·군·구청 세무과 방문. 필요 서류는 신분증·매매계약서·부동산 등기부등본(사본)입니다."}
+      },
+      {
+        "@type": "Question",
+        "name": "대리신고도 가능한가요?",
+        "acceptedAnswer": {"@type": "Answer", "text": "가능합니다. 배우자·직계존비속은 위임장 없이 신분증만으로 대리 신고 가능. 그 외(친인척·지인·직원)는 위임장(인감 포함)과 본인·대리인 신분증이 필요합니다. 위택스 온라인도 공동인증서로 대리 신고 가능합니다."}
+      },
+      {
+        "@type": "Question",
+        "name": "취득세는 법무사에게 맡길 수 있나요?",
+        "acceptedAnswer": {"@type": "Answer", "text": "취득세 신고만 놓고 보면 위택스 셀프 신고는 무료입니다. 법무사는 통상 소유권 이전 등기 대행과 함께 취득세 신고를 패키지로 처리합니다."}
+      }
+    ]
+  }
+  </script>
   <style>
     /* [클레버 수정: 디자인팀 design-notes.md 지시 반영 — 포레스트 그린 팔레트·Pretendard·hero-line·resultReveal·rich hover·rounded 12px·SEO 태그. 마이클 초안(무팔레트·기본 시스템 폰트) → 디자인팀 스펙 정합.] */
     :root {
@@ -175,6 +203,18 @@
       padding-top: 0.75rem;
     }
     #ad-slot { margin-top: 2.5rem; min-height: 90px; }
+    /* ── FAQ ── */
+    .faq-section { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--card-border); }
+    .faq-section h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+    .faq-item { border-bottom: 1px solid var(--card-border); padding: 0.75rem 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item summary { font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 0.25rem 0; color: var(--primary); list-style: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before { content: "▸ "; display: inline-block; margin-right: 0.25rem; transition: transform 200ms; }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-item .answer { padding: 0.5rem 0 0.25rem 1.25rem; font-size: 0.9rem; color: var(--text); line-height: 1.65; }
+    .faq-item .answer ul { padding-left: 1.25rem; margin: 0.5rem 0; }
+    .faq-item .answer li { margin-bottom: 0.35rem; }
     /* ── 공유·푸터 ── */
     .h1-row { display: flex; align-items: flex-start; gap: 0.5rem; }
     .btn-share-page { width: 30px; height: 30px; border: 1px solid var(--border, #D8D8D8); border-radius: 7px; background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-sub, #888); flex-shrink: 0; margin-top: 4px; transition: background 100ms; }
@@ -238,6 +278,49 @@
   <section id="result" aria-live="polite">
     <div id="result-inner"></div>
     <p class="disclaimer">2026년 기준 지방세법에 따른 간이 계산입니다. 실거래가 신고, 등기 시점, 일시적 2주택 비과세 요건 등 개별 조건에 따라 실제 납부세액이 달라질 수 있습니다. 참고용으로만 활용하세요.</p>
+  </section>
+
+  <section class="faq-section" aria-label="자주 묻는 질문">
+    <h2>취득세 신고, 이렇게 하세요</h2>
+
+    <details class="faq-item">
+      <summary>취득세는 언제까지 내야 하나요?</summary>
+      <div class="answer">
+        취득일(잔금일 기준)로부터 <strong>60일 이내</strong>에 신고·납부하는 것이 원칙입니다. 상속은 6개월, 증여는 3개월 이내. 기한 초과 시 신고 불성실·납부 불성실 가산세가 부과됩니다.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>본인이 직접 신고할 수 있나요?</summary>
+      <div class="answer">
+        가능합니다.
+        <ul>
+          <li><strong>온라인</strong>: 위택스(<a href="https://www.wetax.go.kr" target="_blank" rel="noopener">wetax.go.kr</a>) → 지방세 신고 → 취득세</li>
+          <li><strong>오프라인</strong>: 취득한 부동산 소재지 시·군·구청 세무과 방문</li>
+          <li><strong>필요 서류</strong>: 신분증·매매계약서·부동산 등기부등본(사본)</li>
+        </ul>
+        계산기의 결과 금액을 그대로 신고서에 입력하는 흐름이 자연스럽습니다.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>대리신고도 가능한가요?</summary>
+      <div class="answer">
+        가능합니다.
+        <ul>
+          <li><strong>배우자·직계존비속</strong>: 위임장 없이 신분증만으로 대리 신고 가능</li>
+          <li><strong>그 외</strong>(친인척·지인·직원 등): 위임장(인감 포함)·본인 및 대리인 신분증 필요</li>
+          <li><strong>위택스 온라인</strong>도 공동인증서로 대리 신고 가능</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>취득세는 법무사에게 맡길 수 있나요?</summary>
+      <div class="answer">
+        취득세 신고만 놓고 보면 <strong>위택스 셀프 신고는 무료</strong>입니다. 법무사는 통상 <strong>소유권 이전 등기 대행과 함께</strong> 취득세 신고를 패키지로 처리합니다.
+      </div>
+    </details>
   </section>
 
   <div id="ad-slot" aria-hidden="true"></div>
