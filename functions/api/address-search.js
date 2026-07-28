@@ -23,8 +23,8 @@ export async function onRequestGet(context) {
     return json({
       _mock: true,
       results: [
-        { roadAddr: '서울특별시 강남구 테헤란로 152', jibunAddr: '서울특별시 강남구 역삼동 737', bdNm: '강남파이낸스센터', siNm: '서울특별시', sggNm: '강남구', emdNm: '역삼동', legalDongCd: '1168010100', bdMgtSn: '1168010100107370000000001' },
-        { roadAddr: '서울특별시 강남구 삼성로 212', jibunAddr: '서울특별시 강남구 대치동 888-1', bdNm: '아이파크', siNm: '서울특별시', sggNm: '강남구', emdNm: '대치동', legalDongCd: '1168010600', bdMgtSn: '1168010600108880001000001' },
+        { roadAddr: '서울특별시 강남구 테헤란로 152', jibunAddr: '서울특별시 강남구 역삼동 737', bdNm: '강남파이낸스센터', siNm: '서울특별시', sggNm: '강남구', emdNm: '역삼동', legalDongCd: '1168010100', bdMgtSn: '1168010100107370000000001', lon: '127.028423', lat: '37.498095' },
+        { roadAddr: '서울특별시 강남구 삼성로 212', jibunAddr: '서울특별시 강남구 대치동 888-1', bdNm: '아이파크', siNm: '서울특별시', sggNm: '강남구', emdNm: '대치동', legalDongCd: '1168010600', bdMgtSn: '1168010600108880001000001', lon: '127.061700', lat: '37.494200' },
       ]
     });
   }
@@ -51,6 +51,8 @@ export async function onRequestGet(context) {
       emdNm: j.emdNm,
       legalDongCd: j.admCd,
       bdMgtSn: j.bdMgtSn,
+      lon: j.entX || '',   // 경도 WGS84 (VWorld 좌표 조회 직접 사용)
+      lat: j.entY || '',   // 위도 WGS84
     }));
 
     const response = json({ results });

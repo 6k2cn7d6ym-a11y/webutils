@@ -126,9 +126,9 @@
   <hr class="hero-line">
   <p class="subtitle">부동산 등기 시 의무 매입해야 하는 국민주택채권 금액과, 즉시 매도 시 실제 부담하는 할인차손을 계산합니다.</p>
 
-  <!-- 시가표준액 자동조회 위젯 -->
+  <!-- 시가표준액 자동조회 위젯 (공동주택 전용) -->
   <div class="auto-lookup" id="autoLookup">
-    <div class="auto-lookup-title">시가표준액 자동조회 <span>BETA</span></div>
+    <div class="auto-lookup-title">아파트·연립·다세대 공시가격 자동조회 <span>BETA</span></div>
     <div class="addr-search-wrap">
       <input class="addr-input" id="addrInput" type="text" placeholder="도로명 또는 지번 주소 입력 (예: 서울 강남구 테헤란로 152)" autocomplete="off" spellcheck="false">
       <div class="addr-dropdown" id="addrDropdown"></div>
@@ -402,6 +402,21 @@
   var stdValueInput = document.getElementById('stdValue');
 
   var debounceTimer = null;
+  var autoLookupEl = document.getElementById('autoLookup');
+
+  /* ── 부동산 종류 라디오 변경 시 위젯 표시/숨김 ── */
+  function syncWidgetVisibility() {
+    var typeEl = document.querySelector('input[name="type"]:checked');
+    if (typeEl && typeEl.value === 'land') {
+      autoLookupEl.style.display = 'none';
+    } else {
+      autoLookupEl.style.display = 'block';
+    }
+  }
+  document.querySelectorAll('input[name="type"]').forEach(function (r) {
+    r.addEventListener('change', syncWidgetVisibility);
+  });
+  syncWidgetVisibility(); /* 초기 상태 적용 */
   var selectedAddr = null;
   var currentStdWon = 0;
 
@@ -464,10 +479,13 @@
     var params = new URLSearchParams({
       type: apiType,
       year: String(new Date().getFullYear()),
-      legalDongCd: addr.legalDongCd || '',
-      bdMgtSn: addr.bdMgtSn || '',
+      address: addr.roadAddr || '',
     });
-    if (addr.jibunAddr) params.set('jibun', extractJibun(addr.jibunAddr));
+    /* juso.go.kr가 좌표 반환하면 바로 사용 (VWorld 지오코더 호출 생략 → 빠름) */
+    if (addr.lon && addr.lat) {
+      params.set('lon', addr.lon);
+      params.set('lat', addr.lat);
+    }
 
     fetch('/api/std-value?' + params.toString())
       .then(function (r) { return r.json(); })
