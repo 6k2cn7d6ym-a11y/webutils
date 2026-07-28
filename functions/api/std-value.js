@@ -125,9 +125,9 @@ async function fetchVWorldPrice(key, { lon, lat }, year, type) {
   }
 
   const props = features[0].properties;
-  /* ⚠ 속성명은 VWorld 승인 후 rawProps로 실 응답 확인 후 수정 */
+  /* 속성명 pblntfPc 확인됨 (공시가격 원) · 2026-07-28 대표 VWorld 문서에서 확인 */
   const stdValue = Number(
-    String(props.PRC || props.pblntfPc || props.PRICE || props.price || 0).replace(/,/g, '')
+    String(props.pblntfPc || props.PRC || props.PRICE || props.price || 0).replace(/,/g, '')
   );
 
   return {
@@ -136,7 +136,7 @@ async function fetchVWorldPrice(key, { lon, lat }, year, type) {
     stdValue,
     unit: '원',
     label: '공동주택 공시가격',
-    detail: props.APT_NM || props.aptNm || '',
+    detail: props.APT_NM || props.aptNm || props.BLDNM || '',
     rawProps: props,   // 개발 확인용 — 속성명 확정 후 제거
   };
 }
