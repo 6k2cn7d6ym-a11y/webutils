@@ -21,8 +21,8 @@ export async function onRequestGet(context) {
   const lat     = url.searchParams.get('lat') || '';      // 위도 (juso.go.kr entY)
   const address = url.searchParams.get('address') || '';  // 주소 (지오코더 폴백용)
 
-  /* ── MOCK (VWorld 키 미등록 시) ── */
-  if (!env.VWORLD_KEY) {
+  /* ── MOCK (필수 키 미등록 시) ── */
+  if (!env.VWORLD_KEY || !env.KAKAO_REST_KEY) {
     return json({
       _mock: true,
       type,
@@ -41,15 +41,15 @@ export async function onRequestGet(context) {
 
   try {
     /* [1단계] 좌표 확보
-     * juso addrLinkApi.do는 좌표 반환 안 함 → VWorld 지오코더 폴백 필수
-     * juso가 좌표 줄 때(addrCoordApi.do 전환 후): geocoder 스킵 */
+     * juso addrLinkApi.do는 좌표 반환 안 함 → Kakao 지오코더 폴백
+     * juso가 좌표 줄 때: geocoder 스킵 */
     let coords = { lon, lat };
     if (!lon || !lat) {
       if (!address) throw new Error('[1단계 실패] 주소 또는 좌표가 필요합니다.');
       try {
-        coords = await geocode(env.VWORLD_KEY, address);
+        coords = await geocode(env.KAKAO_REST_KEY, address);
       } catch (geoErr) {
-        throw new Error(`[1단계 지오코더 실패] ${geoErr.message}`);
+        throw new Error(`[1단계 Kakao 지오코더 실패] ${geoErr.message}`);
       }
     }
 
@@ -71,29 +71,43 @@ export async function onRequestGet(context) {
   }
 }
 
-/* ── VWorld 지오코더: 주소 → 좌표 (juso에 entX/Y 없을 때 폴백) ── */
-async function geocode(key, address) {
-  const u = new URL('https://api.vworld.kr/req/address');
-  u.searchParams.set('service', 'address');
-  u.searchParams.set('request', 'getcoord');
-  u.searchParams.set('address', address);
-  u.searchParams.set('type', 'road');  /* 도로명 우선, 지번이면 parcel로 재시도 예정 */
-  u.searchParams.set('key', key);
-  u.searchParams.set('format', 'json');
-  u.searchParams.set('crs', 'EPSG:4326');
-  /* domain·refine 제거 — VWorld 지오코더 502 원인 후보 */
+/* ── Kakao 지오코더: 주소 → 좌표 ── */
+async function geocode(kakaoKey, address) {
+  const u = new URL('https://dapi.kakao.com/v2/local/search/address.json');
+  u.searchParams.set('query', address);
 
-  const resp = await fetch(u.toString());
+  const resp = await fetch(u.toString(), {
+    headers: { Authorization: `KakaoAK ${kakaoKey}` },
+  });
   const raw = await resp.text();
 
   let data;
   try { data = JSON.parse(raw); }
-  catch (_) { throw new Error(`VWorld 지오코더 파싱 실패 (HTTP ${resp.status}): ${raw.slice(0, 500)}`); }
+  catch (_) { throw new Error(`Kakao 지오코더 파싱 실패 (HTTP ${resp.status}): ${raw.slice(0, 500)}`); }
 
+  const doc = data?.documents?.[0];
+  if (!doc) throw new Error(`Kakao 지오코더 좌표 없음 (HTTP ${resp.status}). 응답: ${JSON.stringify(data).slice(0, 500)}`);
+  return { lon: doc.x, lat: doc.y };   /* x=경도, y=위도 (WGS84) */
+}
+
+/* ── VWorld 지오코더 (주석 보존 — 권한 확인 후 되살릴 여지) ──
+async function geocodeVWorld(key, address) {
+  const u = new URL('https://api.vworld.kr/req/address');
+  u.searchParams.set('service', 'address');
+  u.searchParams.set('request', 'getcoord');
+  u.searchParams.set('address', address);
+  u.searchParams.set('type', 'road');
+  u.searchParams.set('key', key);
+  u.searchParams.set('format', 'json');
+  u.searchParams.set('crs', 'EPSG:4326');
+  const resp = await fetch(u.toString());
+  const raw = await resp.text();
+  let data; try { data = JSON.parse(raw); } catch(_) { throw new Error(`VWorld 지오코더 파싱 실패 (HTTP ${resp.status}): ${raw.slice(0,500)}`); }
   const point = data?.response?.result?.point;
-  if (!point) throw new Error(`VWorld 지오코더 좌표 없음 (HTTP ${resp.status}). 응답: ${JSON.stringify(data).slice(0, 500)}`);
+  if (!point) throw new Error(`VWorld 지오코더 좌표 없음. 응답: ${JSON.stringify(data).slice(0,500)}`);
   return { lon: point.x, lat: point.y };
 }
+── */
 
 /* ── VWorld 공동주택공시가격 속성 조회 ── */
 async function fetchVWorldPrice(key, { lon, lat }, year, type) {
