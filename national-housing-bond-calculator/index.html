@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>국민주택채권 매입비용 계산기 — 즉시 매도 실부담 비용</title>
+  <meta name="description" content="부동산 소유권 이전·보존 등기 시 의무 매입해야 하는 국민주택채권 금액과 즉시 매도 시 실부담 비용(할인차손)을 주택·토지·지역별로 계산합니다.">
+  <meta property="og:title" content="국민주택채권 매입비용 계산기">
+  <meta property="og:description" content="부동산 등기 시 국민주택채권 의무 매입액과 즉시 매도 실부담비용을 주택·토지·지역별로 계산합니다.">
+  <meta property="og:type" content="website">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #F7F7F5;
+      --surface: #FFFFFF;
+      --border: #E0E0DC;
+      --text: #1A1A1A;
+      --text-sub: #888;
+      --accent: #2D7A4F;
+      --accent-light: #EAF4EE;
+      --radius: 12px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; }
+    main { max-width: 680px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    .h1-row { display: flex; align-items: flex-start; gap: 0.5rem; }
+    h1 { font-size: clamp(1.3rem, 4vw, 1.65rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
+    .btn-share-page { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 7px; background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-sub); flex-shrink: 0; margin-top: 4px; transition: background 100ms; }
+    .btn-share-page:hover { background: rgba(0,0,0,0.06); }
+    #copyToast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.75); color: #fff; padding: 8px 16px; border-radius: 8px; font-size: 13px; pointer-events: none; opacity: 0; transition: opacity 200ms; white-space: nowrap; z-index: 9999; }
+    #copyToast.show { opacity: 1; }
+    .hero-line { margin: 0.75rem 0; border: none; border-top: 2px solid var(--text); }
+    .subtitle { color: var(--text-sub); font-size: 0.875rem; margin-bottom: 1.75rem; }
+    /* 폼 */
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+    .label-note { font-weight: 400; text-transform: none; letter-spacing: 0; }
+    .radio-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .radio-group input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .radio-group label { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem 0.9rem; cursor: pointer; background: var(--surface); color: var(--text); font-size: 0.875rem; font-weight: 500; transition: border-color 100ms, background 100ms; }
+    .radio-group input[type="radio"]:checked + label { border-color: var(--accent); background: var(--accent-light); color: var(--accent); font-weight: 600; }
+    .input-group { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); overflow: hidden; }
+    .input-group input { flex: 1; border: none; outline: none; padding: 0.7rem 0.85rem; font-size: 1rem; background: transparent; color: var(--text); min-width: 0; }
+    .input-group .unit { padding: 0.7rem 0.85rem 0.7rem 0; font-size: 0.8rem; color: var(--text-sub); white-space: nowrap; }
+    button[type="submit"] { width: 100%; padding: 0.85rem; background: var(--text); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 0.25rem; transition: opacity 100ms; }
+    button[type="submit"]:hover { opacity: 0.85; }
+    /* 결과 */
+    .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-top: 1.5rem; display: none; }
+    .result-card.show { display: block; }
+    .result-block { margin-bottom: 1.25rem; }
+    .result-block:last-child { margin-bottom: 0; }
+    .result-label { font-size: 0.75rem; font-weight: 600; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+    .result-value { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; }
+    .result-value.accent { color: var(--accent); }
+    .result-note { font-size: 0.8rem; color: var(--text-sub); margin-top: 0.2rem; }
+    .result-divider { border: none; border-top: 1px solid var(--border); margin: 1.1rem 0; }
+    .result-rows { display: flex; flex-direction: column; gap: 0.55rem; }
+    .result-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.875rem; }
+    .result-row .rl { color: var(--text-sub); }
+    .result-row .rv { font-weight: 600; }
+    /* 안내 */
+    .info-section { margin-top: 2.5rem; }
+    .info-section h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .info-section p { color: var(--text-sub); font-size: 0.875rem; line-height: 1.75; margin-bottom: 0.75rem; }
+    .info-section p:last-child { margin-bottom: 0; }
+    .info-section ul { list-style: none; padding: 0; margin-bottom: 0.75rem; }
+    .info-section ul li { color: var(--text-sub); font-size: 0.875rem; line-height: 1.7; padding-left: 1rem; position: relative; margin-bottom: 0.35rem; }
+    .info-section ul li::before { content: '·'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+    .rate-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 0.75rem; }
+    .rate-table th, .rate-table td { border: 1px solid var(--border); padding: 0.45rem 0.6rem; }
+    .rate-table th { background: var(--bg); font-weight: 600; text-align: center; }
+    .rate-table td { text-align: right; }
+    .rate-table td:first-child { text-align: left; }
+    .rate-table .exempt { color: var(--text-sub); text-align: center; }
+    /* 푸터 */
+    .disclaimer { margin-top: 2rem; padding: 1rem; background: var(--bg); border-radius: 8px; font-size: 0.75rem; color: var(--text-sub); line-height: 1.7; }
+    .site-footer { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--text-sub); display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; align-items: center; }
+    .site-footer a { color: inherit; text-decoration: none; margin-right: 0.75rem; }
+    .site-footer a:hover { text-decoration: underline; }
+    @media (max-width: 480px) {
+      .radio-group label { font-size: 0.8rem; padding: 0.4rem 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <div class="h1-row">
+    <h1>국민주택채권 매입비용 계산기</h1>
+    <button class="btn-share-page" id="sharePageBtn" aria-label="공유하기" title="공유하기">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    </button>
+  </div>
+  <hr class="hero-line">
+  <p class="subtitle">부동산 등기 시 의무 매입해야 하는 국민주택채권 금액과, 즉시 매도 시 실제 부담하는 할인차손을 계산합니다.</p>
+
+  <form id="form" novalidate>
+    <div class="form-group">
+      <span class="form-label">부동산 종류</span>
+      <div class="radio-group">
+        <input type="radio" name="type" id="type-house" value="house" checked>
+        <label for="type-house">주택 (아파트·단독·다세대)</label>
+        <input type="radio" name="type" id="type-land" value="land">
+        <label for="type-land">토지</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <span class="form-label">지역</span>
+      <div class="radio-group">
+        <input type="radio" name="region" id="region-metro" value="metro" checked>
+        <label for="region-metro">특별·광역시 (서울·부산·인천·대구·광주·대전·울산)</label>
+        <input type="radio" name="region" id="region-other" value="other">
+        <label for="region-other">기타 지역</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="stdValue">시가표준액 <span class="label-note">(억원 · 소수점 가능)</span></label>
+      <div class="input-group">
+        <input type="number" id="stdValue" min="0" step="0.01" placeholder="예: 3.5" inputmode="decimal">
+        <span class="unit">억원</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="discountRate">즉시매도 할인율 <span class="label-note">(은행 당일 고시 확인 권장)</span></label>
+      <div class="input-group">
+        <input type="number" id="discountRate" min="0" max="20" step="0.1" value="2.0" inputmode="decimal">
+        <span class="unit">%</span>
+      </div>
+    </div>
+
+    <button type="submit">계산하기</button>
+  </form>
+
+  <div class="result-card" id="result">
+    <div class="result-block">
+      <div class="result-label">채권 매입 의무액</div>
+      <div class="result-value" id="r-bond">—</div>
+      <div class="result-note" id="r-bond-note"></div>
+    </div>
+    <hr class="result-divider">
+    <div class="result-block">
+      <div class="result-label">즉시 매도 실부담 비용 (할인차손)</div>
+      <div class="result-value accent" id="r-cost">—</div>
+      <div class="result-note">채권을 등기 당일 즉시 매도할 때 실제로 손실하는 금액</div>
+    </div>
+    <hr class="result-divider">
+    <div class="result-rows">
+      <div class="result-row"><span class="rl">채권 매입액</span><span class="rv" id="r-bond2">—</span></div>
+      <div class="result-row"><span class="rl">즉시매도 수령액</span><span class="rv" id="r-proceeds">—</span></div>
+      <div class="result-row"><span class="rl">적용 매입비율</span><span class="rv" id="r-rate">—</span></div>
+      <div class="result-row"><span class="rl">적용 할인율</span><span class="rv" id="r-disc">—</span></div>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h3>국민주택채권이란?</h3>
+    <p>국민주택채권은 정부가 주택도시기금 재원 마련을 위해 발행하는 채권입니다. 부동산 소유권 이전·보존 등기, 저당권 설정, 건축 허가 등 각종 부동산 행정 처리 시 일정 금액 이상 의무 매입해야 합니다.</p>
+    <p>채권 만기는 5년이며, 이론상 만기까지 보유하면 원금과 이자를 받을 수 있습니다. 하지만 이자율이 시장금리보다 낮고, 5년간 묶어두기 부담스러워 대부분의 매입자는 등기 당일 은행 창구나 인터넷뱅킹에서 즉시 매도합니다. 이때 채권 시장 가격과의 차이(할인차손)가 실질적인 부담 비용이 됩니다.</p>
+  </div>
+
+  <div class="info-section">
+    <h3>시가표준액 확인 방법</h3>
+    <p>국민주택채권 매입액은 실거래가가 아닌 <strong>시가표준액</strong> 기준입니다. 실거래가보다 낮은 경우가 많으므로, 실거래가를 입력하면 과대 계산됩니다.</p>
+    <ul>
+      <li><strong>아파트·공동주택:</strong> 국토교통부 부동산 공시가격 알리미(realtyprice.kr)에서 공동주택 공시가격 조회</li>
+      <li><strong>단독·다세대 주택:</strong> 부동산 공시가격 알리미에서 개별주택 가격 조회</li>
+      <li><strong>토지:</strong> 개별공시지가(원/㎡) × 면적(㎡). 토지이음(eum.go.kr) 또는 부동산 공시가격 알리미에서 확인</li>
+      <li>등기 신청 시 은행 창구에서도 확인 가능하며, 등기관이 직접 적용 금액을 안내합니다</li>
+    </ul>
+  </div>
+
+  <div class="info-section">
+    <h3>매입비율 기준표 (주택, 2026년 기준)</h3>
+    <p>주택도시기금법 시행령 별표 기준입니다. 법령은 변경될 수 있으므로 반드시 등기소·은행에서 확인하세요.</p>
+    <table class="rate-table">
+      <thead>
+        <tr><th>시가표준액</th><th>특별·광역시</th><th>기타 지역</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2,000만원 미만</td><td class="exempt">면제</td><td class="exempt">면제</td></tr>
+        <tr><td>2,000만 ~ 5,000만원</td><td>13‰</td><td>11‰</td></tr>
+        <tr><td>5,000만 ~ 1억원</td><td>19‰</td><td>14‰</td></tr>
+        <tr><td>1억 ~ 1.6억원</td><td>21‰</td><td>17‰</td></tr>
+        <tr><td>1.6억 ~ 2.6억원</td><td>25‰</td><td>19‰</td></tr>
+        <tr><td>2.6억 ~ 6억원</td><td>27‰</td><td>21‰</td></tr>
+        <tr><td>6억원 이상</td><td>35‰</td><td>27‰</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-section">
+    <h3>매입비율 기준표 (토지, 2026년 기준)</h3>
+    <table class="rate-table">
+      <thead>
+        <tr><th>시가표준액</th><th>특별·광역시</th><th>기타 지역</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>100만원 미만</td><td class="exempt">면제</td><td class="exempt">면제</td></tr>
+        <tr><td>100만 ~ 500만원</td><td>25‰</td><td>21‰</td></tr>
+        <tr><td>500만 ~ 3,000만원</td><td>40‰</td><td>31‰</td></tr>
+        <tr><td>3,000만 ~ 5,000만원</td><td>50‰</td><td>40‰</td></tr>
+        <tr><td>5,000만 ~ 1억원</td><td>70‰</td><td>50‰</td></tr>
+        <tr><td>1억 ~ 2억원</td><td>100‰</td><td>70‰</td></tr>
+        <tr><td>2억원 이상</td><td>130‰</td><td>100‰</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-section">
+    <h3>즉시 매도 방법과 할인율</h3>
+    <ul>
+      <li><strong>은행 창구:</strong> 채권 매입 즉시 창구에서 매도 신청 가능. 당일 은행 고시 할인율 적용.</li>
+      <li><strong>인터넷뱅킹:</strong> 국민은행·우리은행 등 주요 시중은행 앱·웹에서 즉시 매도 가능. 창구보다 할인율이 유리한 경우 많음.</li>
+      <li>할인율은 채권 시장 금리에 따라 매일 달라집니다. 통상 1.5~3% 수준이며, 등기 당일 은행에서 반드시 실제 할인율을 확인해 계산하세요.</li>
+      <li>같은 날이라도 은행마다 고시 할인율이 다를 수 있으니 비교 후 매도하면 비용을 절약할 수 있습니다.</li>
+    </ul>
+  </div>
+
+  <div class="info-section">
+    <h3>자주 묻는 질문</h3>
+    <p><strong>Q. 실거래가 5억짜리 아파트인데, 시가표준액을 어디서 확인하나요?</strong><br>
+    국토교통부 부동산 공시가격 알리미(realtyprice.kr)에서 해당 아파트 동·호수로 공동주택 공시가격을 조회하면 됩니다. 공시가격이 곧 채권 산정에 쓰이는 시가표준액입니다.</p>
+
+    <p><strong>Q. 상가나 오피스텔도 국민주택채권을 사야 하나요?</strong><br>
+    상가·오피스텔·사무용 건물의 건물분에 대해서는 매입 의무가 없는 경우가 많으나, 토지분은 위 토지 기준이 적용될 수 있습니다. 정확한 내용은 관할 등기소 또는 법무사에 문의하세요.</p>
+
+    <p><strong>Q. 채권을 5년 보유하면 얼마나 받나요?</strong><br>
+    현재 국민주택채권 이자율은 연 1%대 수준입니다. 5년 만기 시 원금과 누적 이자를 수령하지만, 즉시매도 손실을 감수하는 것이 대부분의 경우 더 합리적입니다.</p>
+
+    <p><strong>Q. 채권 매입 후 즉시 매도하지 않으면 어떻게 되나요?</strong><br>
+    채권을 보유한 채로 있으면 만기(5년) 때까지 이자를 받고 원금을 돌려받습니다. 중간에 매도를 원하면 은행을 통해 시장 가격으로 매도 가능합니다.</p>
+  </div>
+
+  <p class="disclaimer">이 계산기는 주택도시기금법 시행령 별표를 기준으로 작성한 안내용 계산기입니다. 실제 매입 의무액은 등기 시점 법령·행정 고시에 따라 달라질 수 있으며, 법령은 수시로 개정됩니다. 즉시매도 할인율은 매일 변동하므로 등기 당일 은행에서 반드시 확인하세요. 정확한 금액은 관할 등기소·법무사·은행에 문의하시기 바랍니다.</p>
+
+  <div id="ad-slot" aria-hidden="true"></div>
+  <footer class="site-footer">
+    <nav><a href="/privacy.html">개인정보처리방침</a><a href="/contact.html">문의</a></nav>
+    <span>© 2026 민온</span>
+  </footer>
+</main>
+
+<div id="copyToast">링크가 복사되었습니다</div>
+<script>
+(function () {
+  /* 매입비율 (‰) 테이블 — 시가표준액 만원 단위 */
+  var RATES = {
+    house: {
+      metro: [{max:2000,r:0},{max:5000,r:13},{max:10000,r:19},{max:16000,r:21},{max:26000,r:25},{max:60000,r:27},{max:Infinity,r:35}],
+      other: [{max:2000,r:0},{max:5000,r:11},{max:10000,r:14},{max:16000,r:17},{max:26000,r:19},{max:60000,r:21},{max:Infinity,r:27}]
+    },
+    land: {
+      metro: [{max:100,r:0},{max:500,r:25},{max:3000,r:40},{max:5000,r:50},{max:10000,r:70},{max:20000,r:100},{max:Infinity,r:130}],
+      other: [{max:100,r:0},{max:500,r:21},{max:3000,r:31},{max:5000,r:40},{max:10000,r:50},{max:20000,r:70},{max:Infinity,r:100}]
+    }
+  };
+
+  function getRate(type, region, stdMan) {
+    var tbl = RATES[type][region];
+    for (var i = 0; i < tbl.length; i++) {
+      if (stdMan < tbl[i].max) return tbl[i].r;
+    }
+    return tbl[tbl.length - 1].r;
+  }
+
+  function fmt(n) {
+    if (n === 0) return '0원';
+    var parts = [];
+    if (n >= 100000000) { parts.push(Math.floor(n / 100000000) + '억'); n = n % 100000000; }
+    if (n >= 10000) { parts.push(Math.floor(n / 10000).toLocaleString() + '만'); n = n % 10000; }
+    if (n > 0 || parts.length === 0) parts.push(n.toLocaleString());
+    return parts.join(' ') + '원';
+  }
+
+  var form = document.getElementById('form');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var type = form.querySelector('input[name="type"]:checked').value;
+    var region = form.querySelector('input[name="region"]:checked').value;
+    var stdEok = parseFloat(document.getElementById('stdValue').value);
+    var discPct = parseFloat(document.getElementById('discountRate').value);
+
+    if (isNaN(stdEok) || stdEok <= 0) { alert('시가표준액을 입력해 주세요.'); return; }
+    if (isNaN(discPct) || discPct < 0) { alert('즉시매도 할인율을 입력해 주세요.'); return; }
+
+    var stdMan = stdEok * 10000;
+    var stdWon = stdEok * 1e8;
+    var rate = getRate(type, region, stdMan);
+    /* 채권 매입액 — 1,000원 단위 절사 */
+    var bondWon = Math.floor(stdWon * rate / 1000 / 1000) * 1000;
+    var costWon = Math.round(bondWon * discPct / 100);
+    var proceedsWon = bondWon - costWon;
+
+    var rc = document.getElementById('result');
+    rc.classList.add('show');
+
+    if (rate === 0) {
+      document.getElementById('r-bond').textContent = '면제';
+      document.getElementById('r-bond-note').textContent = '시가표준액 기준 매입 의무 없음';
+      document.getElementById('r-cost').textContent = '0원';
+      document.getElementById('r-bond2').textContent = '면제';
+      document.getElementById('r-proceeds').textContent = '—';
+      document.getElementById('r-rate').textContent = '면제';
+      document.getElementById('r-disc').textContent = discPct + '%';
+    } else {
+      document.getElementById('r-bond').textContent = fmt(bondWon);
+      document.getElementById('r-bond-note').textContent = '시가표준액 ' + stdEok + '억원 × ' + rate + '‰';
+      document.getElementById('r-cost').textContent = fmt(costWon);
+      document.getElementById('r-bond2').textContent = fmt(bondWon);
+      document.getElementById('r-proceeds').textContent = fmt(proceedsWon);
+      document.getElementById('r-rate').textContent = rate + '‰';
+      document.getElementById('r-disc').textContent = discPct + '%';
+    }
+    rc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}());
+</script>
+<script>
+(function () {
+  var btn = document.getElementById('sharePageBtn');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var isMobile = navigator.maxTouchPoints > 1 && window.matchMedia('(pointer: coarse)').matches;
+    if (isMobile && navigator.share) {
+      navigator.share({ title: document.title, url: location.href }).catch(function () {});
+    } else {
+      navigator.clipboard.writeText(location.href).then(function () {
+        var t = document.getElementById('copyToast');
+        if (t) { t.classList.add('show'); setTimeout(function () { t.classList.remove('show'); }, 1800); }
+      }).catch(function () {});
+    }
+  });
+}());
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8f333dc2c9e844b39f36daec8c0c0570"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
