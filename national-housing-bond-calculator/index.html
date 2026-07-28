@@ -74,6 +74,39 @@
     .rate-table .exempt { color: var(--text-sub); text-align: center; }
     /* 푸터 */
     .disclaimer { margin-top: 2rem; padding: 1rem; background: var(--bg); border-radius: 8px; font-size: 0.75rem; color: var(--text-sub); line-height: 1.7; }
+    .notice-box { background: #FFFBE6; border-left: 3px solid #C9A020; border-radius: 0 8px 8px 0; padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.85rem; line-height: 1.65; color: var(--text); }
+    .notice-box strong { color: #7A5800; }
+    .lookup-links { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem; align-items: center; }
+    .lookup-links .ll-label { font-size: 0.75rem; color: var(--text-sub); }
+    .lookup-link { font-size: 0.75rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 0.2rem 0.55rem; text-decoration: none; white-space: nowrap; transition: background 100ms; }
+    .lookup-link:hover { background: var(--accent-light); }
+    /* 자동조회 위젯 */
+    .auto-lookup { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; }
+    .auto-lookup-title { font-size: 0.8rem; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .auto-lookup-title span { color: var(--accent); }
+    .addr-search-wrap { position: relative; }
+    .addr-input { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 0.85rem; font-size: 0.95rem; outline: none; background: var(--bg); color: var(--text); }
+    .addr-input:focus { border-color: var(--accent); background: var(--surface); }
+    .addr-dropdown { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 100; overflow: hidden; display: none; }
+    .addr-dropdown.open { display: block; }
+    .addr-item { padding: 0.65rem 0.85rem; cursor: pointer; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+    .addr-item:last-child { border-bottom: none; }
+    .addr-item:hover, .addr-item.focused { background: var(--accent-light); }
+    .addr-item .addr-road { font-weight: 500; }
+    .addr-item .addr-jibun { font-size: 0.78rem; color: var(--text-sub); margin-top: 0.1rem; }
+    .auto-result { margin-top: 0.85rem; padding: 0.85rem 1rem; background: var(--accent-light); border-radius: 8px; display: none; }
+    .auto-result.show { display: block; }
+    .auto-result-label { font-size: 0.75rem; color: var(--accent); font-weight: 600; margin-bottom: 0.3rem; }
+    .auto-result-value { font-size: 1.2rem; font-weight: 700; color: var(--accent); letter-spacing: -0.01em; }
+    .auto-result-note { font-size: 0.75rem; color: var(--text-sub); margin-top: 0.2rem; }
+    .auto-result-fill { margin-top: 0.6rem; }
+    .btn-fill { font-size: 0.8rem; background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 0.35rem 0.8rem; cursor: pointer; font-weight: 600; transition: opacity 100ms; }
+    .btn-fill:hover { opacity: 0.85; }
+    .land-area-row { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; }
+    .land-area-row input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.7rem; font-size: 0.9rem; outline: none; }
+    .land-area-row input:focus { border-color: var(--accent); }
+    .land-area-row .unit { font-size: 0.8rem; color: var(--text-sub); white-space: nowrap; }
+    .addr-status { font-size: 0.78rem; color: var(--text-sub); margin-top: 0.4rem; min-height: 1.2em; }
     .site-footer { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--text-sub); display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; align-items: center; }
     .site-footer a { color: inherit; text-decoration: none; margin-right: 0.75rem; }
     .site-footer a:hover { text-decoration: underline; }
@@ -92,6 +125,34 @@
   </div>
   <hr class="hero-line">
   <p class="subtitle">부동산 등기 시 의무 매입해야 하는 국민주택채권 금액과, 즉시 매도 시 실제 부담하는 할인차손을 계산합니다.</p>
+
+  <!-- 시가표준액 자동조회 위젯 -->
+  <div class="auto-lookup" id="autoLookup">
+    <div class="auto-lookup-title">시가표준액 자동조회 <span>BETA</span></div>
+    <div class="addr-search-wrap">
+      <input class="addr-input" id="addrInput" type="text" placeholder="도로명 또는 지번 주소 입력 (예: 서울 강남구 테헤란로 152)" autocomplete="off" spellcheck="false">
+      <div class="addr-dropdown" id="addrDropdown"></div>
+    </div>
+    <div class="addr-status" id="addrStatus"></div>
+    <div class="auto-result" id="autoResult">
+      <div class="auto-result-label" id="autoResultLabel">공시가격</div>
+      <div class="auto-result-value" id="autoResultValue">—</div>
+      <div class="auto-result-note" id="autoResultNote"></div>
+      <div class="land-area-row" id="landAreaRow" style="display:none;">
+        <input type="number" id="landArea" min="0" step="0.01" placeholder="토지 면적">
+        <span class="unit">㎡</span>
+        <button type="button" class="btn-fill" id="btnCalcLand">면적 적용</button>
+      </div>
+      <div class="auto-result-fill" id="autoResultFill" style="display:none;">
+        <button type="button" class="btn-fill" id="btnFill">↓ 시가표준액 자동 입력</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="notice-box">
+    <strong>⚠ 실거래가가 아닌 시가표준액(공시가격)을 입력하세요.</strong><br>
+    시가표준액은 실거래가보다 낮습니다. 실거래가를 그대로 넣으면 채권 매입 의무액이 실제보다 1.3~1.7배 과대 계산됩니다.
+  </div>
 
   <form id="form" novalidate>
     <div class="form-group">
@@ -115,10 +176,16 @@
     </div>
 
     <div class="form-group">
-      <label class="form-label" for="stdValue">시가표준액 <span class="label-note">(억원 · 소수점 가능)</span></label>
+      <label class="form-label" for="stdValue">시가표준액 <span class="label-note">(억원 · 소수점 가능 · 실거래가 아님)</span></label>
       <div class="input-group">
         <input type="number" id="stdValue" min="0" step="0.01" placeholder="예: 3.5" inputmode="decimal">
         <span class="unit">억원</span>
+      </div>
+      <div class="lookup-links">
+        <span class="ll-label">공시가격 조회:</span>
+        <a class="lookup-link" href="https://www.realtyprice.kr" target="_blank" rel="noopener noreferrer">아파트 ↗</a>
+        <a class="lookup-link" href="https://www.realtyprice.kr" target="_blank" rel="noopener noreferrer">단독주택 ↗</a>
+        <a class="lookup-link" href="https://www.eum.go.kr" target="_blank" rel="noopener noreferrer">토지(토지이음) ↗</a>
       </div>
     </div>
 
@@ -316,6 +383,152 @@
     }
     rc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
+}());
+</script>
+<script>
+/* ── 시가표준액 자동조회 위젯 ── */
+(function () {
+  var addrInput = document.getElementById('addrInput');
+  var addrDropdown = document.getElementById('addrDropdown');
+  var addrStatus = document.getElementById('addrStatus');
+  var autoResult = document.getElementById('autoResult');
+  var autoResultLabel = document.getElementById('autoResultLabel');
+  var autoResultValue = document.getElementById('autoResultValue');
+  var autoResultNote = document.getElementById('autoResultNote');
+  var autoResultFill = document.getElementById('autoResultFill');
+  var landAreaRow = document.getElementById('landAreaRow');
+  var btnFill = document.getElementById('btnFill');
+  var btnCalcLand = document.getElementById('btnCalcLand');
+  var stdValueInput = document.getElementById('stdValue');
+
+  var debounceTimer = null;
+  var selectedAddr = null;
+  var currentStdWon = 0;
+
+  /* 주소 검색 (debounce 400ms) */
+  addrInput.addEventListener('input', function () {
+    clearTimeout(debounceTimer);
+    var q = addrInput.value.trim();
+    if (q.length < 3) { addrDropdown.classList.remove('open'); return; }
+    debounceTimer = setTimeout(function () { searchAddress(q); }, 400);
+  });
+
+  addrInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') addrDropdown.classList.remove('open');
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#autoLookup')) addrDropdown.classList.remove('open');
+  });
+
+  function searchAddress(q) {
+    addrStatus.textContent = '주소 검색 중…';
+    fetch('/api/address-search?keyword=' + encodeURIComponent(q))
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        addrStatus.textContent = data._mock ? '⚠ 미리보기 (API 키 미연동)' : '';
+        renderDropdown(data.results || []);
+      })
+      .catch(function () { addrStatus.textContent = '검색 중 오류가 발생했습니다.'; });
+  }
+
+  function renderDropdown(results) {
+    addrDropdown.innerHTML = '';
+    if (!results.length) {
+      addrDropdown.innerHTML = '<div class="addr-item" style="color:var(--text-sub);">검색 결과가 없습니다.</div>';
+      addrDropdown.classList.add('open');
+      return;
+    }
+    results.forEach(function (r) {
+      var el = document.createElement('div');
+      el.className = 'addr-item';
+      el.innerHTML = '<div class="addr-road">' + (r.bdNm ? '[' + r.bdNm + '] ' : '') + r.roadAddr + '</div>' +
+        '<div class="addr-jibun">' + r.jibunAddr + '</div>';
+      el.addEventListener('click', function () { selectAddress(r); });
+      addrDropdown.appendChild(el);
+    });
+    addrDropdown.classList.add('open');
+  }
+
+  function selectAddress(addr) {
+    addrDropdown.classList.remove('open');
+    addrInput.value = addr.roadAddr;
+    selectedAddr = addr;
+
+    /* 부동산 종류 라디오에서 현재 type 읽기 */
+    var typeEl = document.querySelector('input[name="type"]:checked');
+    var propType = typeEl ? typeEl.value : 'house';
+    var apiType = propType === 'house' ? 'apt' : 'land'; /* house 라디오 = 주택(apt+house 모두 포함) */
+
+    addrStatus.textContent = '공시가격 조회 중…';
+    var params = new URLSearchParams({
+      type: apiType,
+      year: String(new Date().getFullYear()),
+      legalDongCd: addr.legalDongCd || '',
+      bdMgtSn: addr.bdMgtSn || '',
+    });
+    if (addr.jibunAddr) params.set('jibun', extractJibun(addr.jibunAddr));
+
+    fetch('/api/std-value?' + params.toString())
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        addrStatus.textContent = data._mock ? '⚠ 미리보기 (API 키 미연동)' : '';
+        showResult(data);
+      })
+      .catch(function () { addrStatus.textContent = '공시가격 조회 중 오류가 발생했습니다.'; });
+  }
+
+  function showResult(data) {
+    if (data.error) { addrStatus.textContent = data.error; return; }
+    autoResultLabel.textContent = data.label || '공시가격';
+    currentStdWon = data.stdValue || 0;
+
+    if (data.needArea) {
+      /* 토지: 지가 × 면적 필요 */
+      autoResultValue.textContent = fmtWon(currentStdWon) + ' /㎡';
+      autoResultNote.textContent = '토지 면적(㎡)을 입력하면 시가표준액이 계산됩니다.';
+      landAreaRow.style.display = 'flex';
+      autoResultFill.style.display = 'none';
+    } else {
+      autoResultValue.textContent = fmtWon(currentStdWon);
+      autoResultNote.textContent = data.year + '년 공시 기준 · ' + (data.detail || '');
+      landAreaRow.style.display = 'none';
+      autoResultFill.style.display = 'block';
+    }
+    autoResult.classList.add('show');
+  }
+
+  btnCalcLand.addEventListener('click', function () {
+    var area = parseFloat(document.getElementById('landArea').value);
+    if (isNaN(area) || area <= 0) { alert('면적을 입력해 주세요.'); return; }
+    var total = Math.round(currentStdWon * area);
+    autoResultValue.textContent = fmtWon(currentStdWon) + ' × ' + area + '㎡ = ' + fmtWon(total);
+    autoResultNote.textContent = '시가표준액 (지가 × 면적)';
+    currentStdWon = total;
+    autoResultFill.style.display = 'block';
+  });
+
+  btnFill.addEventListener('click', function () {
+    var eok = (currentStdWon / 1e8).toFixed(4).replace(/\.?0+$/, '');
+    stdValueInput.value = eok;
+    stdValueInput.dispatchEvent(new Event('input'));
+    btnFill.textContent = '✓ 입력됨';
+    setTimeout(function () { btnFill.textContent = '↓ 시가표준액 자동 입력'; }, 1500);
+  });
+
+  function extractJibun(jibunAddr) {
+    var m = jibunAddr.match(/(\d+(?:-\d+)?)(?:\s|$)/);
+    return m ? m[1] : '';
+  }
+
+  function fmtWon(n) {
+    if (!n) return '0원';
+    var parts = [];
+    if (n >= 100000000) { parts.push(Math.floor(n / 100000000) + '억'); n = n % 100000000; }
+    if (n >= 10000) { parts.push(Math.floor(n / 10000).toLocaleString() + '만'); n = n % 10000; }
+    if (n > 0 || !parts.length) parts.push(n.toLocaleString());
+    return parts.join(' ') + '원';
+  }
 }());
 </script>
 <script>
