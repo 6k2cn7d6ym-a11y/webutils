@@ -77,12 +77,11 @@ async function geocode(key, address) {
   u.searchParams.set('service', 'address');
   u.searchParams.set('request', 'getcoord');
   u.searchParams.set('address', address);
-  /* type 파라미터 제거 — road/parcel 자동 판단되도록 */
-  u.searchParams.set('refine', 'true');          // 유사 매칭 활성
-  u.searchParams.set('domain', 'utils.minon.kr'); // 신청 도메인 검증
+  u.searchParams.set('type', 'road');  /* 도로명 우선, 지번이면 parcel로 재시도 예정 */
   u.searchParams.set('key', key);
   u.searchParams.set('format', 'json');
   u.searchParams.set('crs', 'EPSG:4326');
+  /* domain·refine 제거 — VWorld 지오코더 502 원인 후보 */
 
   const resp = await fetch(u.toString());
   const raw = await resp.text();
