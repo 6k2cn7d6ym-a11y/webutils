@@ -111,8 +111,8 @@ async function geocodeVWorld(key, address) {
 
 /* ── VWorld 공동주택공시가격 속성 조회 ── */
 async function fetchVWorldPrice(key, { lon, lat }, year, type) {
-  /* ⚠ 레이어명은 VWorld 승인 후 실제 문서에서 확인 필요 */
-  const layer = 'LT_C_UARPPI';
+  /* 레이어명 확정 — 2026-07-28 대표 VWorld 문서 확인 */
+  const layer = 'pblntfPc';
 
   const u = new URL('https://api.vworld.kr/req/data');
   u.searchParams.set('service', 'data');
