@@ -64,7 +64,9 @@ async function geocode(key, address) {
   u.searchParams.set('service', 'address');
   u.searchParams.set('request', 'getcoord');
   u.searchParams.set('address', address);
-  u.searchParams.set('type', 'road');
+  /* type 파라미터 제거 — road/parcel 자동 판단되도록 */
+  u.searchParams.set('refine', 'true');          // 유사 매칭 활성
+  u.searchParams.set('domain', 'utils.minon.kr'); // 신청 도메인 검증
   u.searchParams.set('key', key);
   u.searchParams.set('format', 'json');
   u.searchParams.set('crs', 'EPSG:4326');
@@ -74,10 +76,10 @@ async function geocode(key, address) {
 
   let data;
   try { data = JSON.parse(raw); }
-  catch (_) { throw new Error(`VWorld 지오코더 응답 파싱 실패 (HTTP ${resp.status}): ${raw.slice(0, 200)}`); }
+  catch (_) { throw new Error(`VWorld 지오코더 파싱 실패 (HTTP ${resp.status}): ${raw.slice(0, 500)}`); }
 
   const point = data?.response?.result?.point;
-  if (!point) throw new Error(`VWorld 지오코더 좌표 없음. 응답: ${JSON.stringify(data).slice(0, 300)}`);
+  if (!point) throw new Error(`VWorld 지오코더 좌표 없음 (HTTP ${resp.status}). 응답: ${JSON.stringify(data).slice(0, 500)}`);
   return { lon: point.x, lat: point.y };
 }
 
