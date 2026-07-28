@@ -72,9 +72,14 @@ async function geocode(key, address) {
   u.searchParams.set('crs', 'EPSG:4326');
 
   const resp = await fetch(u.toString());
-  const data = await resp.json();
+  const raw = await resp.text();
+
+  let data;
+  try { data = JSON.parse(raw); }
+  catch (_) { throw new Error(`VWorld 지오코더 응답 파싱 실패 (HTTP ${resp.status}): ${raw.slice(0, 200)}`); }
+
   const point = data?.response?.result?.point;
-  if (!point) throw new Error('주소로 좌표를 찾을 수 없습니다. 주소를 확인하세요.');
+  if (!point) throw new Error(`VWorld 지오코더 좌표 없음. 응답: ${JSON.stringify(data).slice(0, 300)}`);
   return { lon: point.x, lat: point.y };
 }
 
@@ -95,7 +100,11 @@ async function fetchVWorldPrice(key, { lon, lat }, year, type) {
   if (year) u.searchParams.set('year', year);
 
   const resp = await fetch(u.toString());
-  const data = await resp.json();
+  const raw = await resp.text();
+
+  let data;
+  try { data = JSON.parse(raw); }
+  catch (_) { throw new Error(`VWorld 데이터 API 응답 파싱 실패 (HTTP ${resp.status}): ${raw.slice(0, 200)}`); }
 
   const features = data?.response?.result?.featureCollection?.features;
   if (!features?.length) {
