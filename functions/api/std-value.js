@@ -40,13 +40,26 @@ export async function onRequestGet(context) {
   if (cached) return cached;
 
   try {
-    /* 좌표 확인 — juso addrCoordApi.do가 entX/Y 반환하므로 지오코더 불필요 */
+    /* [1단계] 좌표 확보
+     * juso addrLinkApi.do는 좌표 반환 안 함 → VWorld 지오코더 폴백 필수
+     * juso가 좌표 줄 때(addrCoordApi.do 전환 후): geocoder 스킵 */
+    let coords = { lon, lat };
     if (!lon || !lat) {
-      throw new Error('좌표를 찾을 수 없습니다. 주소 검색 결과에서 선택해 주세요.');
+      if (!address) throw new Error('[1단계 실패] 주소 또는 좌표가 필요합니다.');
+      try {
+        coords = await geocode(env.VWORLD_KEY, address);
+      } catch (geoErr) {
+        throw new Error(`[1단계 지오코더 실패] ${geoErr.message}`);
+      }
     }
 
-    /* VWorld 공동주택공시가격 속성 조회 */
-    const result = await fetchVWorldPrice(env.VWORLD_KEY, { lon, lat }, year, type);
+    /* [2단계] VWorld 공동주택공시가격 속성 조회 */
+    let result;
+    try {
+      result = await fetchVWorldPrice(env.VWORLD_KEY, coords, year, type);
+    } catch (dataErr) {
+      throw new Error(`[2단계 데이터 API 실패] ${dataErr.message}`);
+    }
 
     const response = json(result);
     const toCache = response.clone();
