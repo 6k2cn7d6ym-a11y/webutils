@@ -1,7 +1,7 @@
 # 2026-07-29 디자인 세션 · 웹유틸 2건 · 라이프스타일·안전
 
 ## 현재 상태
-- 단계: 피카소 시안
+- 단계: 피카소 실행 (다빈치 승인 · 달리 이관 + 다빈치 보완 1건)
 - 다음: 피카소
 - 반려 지목: —
 - 왕복 회차: 1/5
@@ -128,6 +128,12 @@
 23. `.disclaimer` color → `var(--text-sub)` · `border-left-color: var(--border)`
 24. **변경 금지**: `.lb-zero/lb-low/lb-mid/lb-high` 색 (연차 분류 신호색)
 25. `@keyframes resultReveal` 불필요 — 이벤트 카드는 초기 로드부터 표시
+
+### 다빈치 보완 (도메인 신호 강도 · 왕복 1회차)
+26. **WBGT `.disclaimer border-left-color`** — 지시 15번의 `var(--border)`(`#D0C8C0`) 대신 **`var(--primary)`(`#C84A00`) 사용**. 폭염·산업안전 도메인에서 disclaimer는 tone-mute가 아니라 경각심 신호 앵커 · 크림 배경에 옅은 회색 border는 신호로 안 읽힘. 황금연차 지시 23번은 여행 도메인 톤 유지 → 원안 `var(--border)` 그대로.
+
+### 다음 사이클 학습 자산
+- 지난 사이클 다빈치 보완 ③ (`.result-main color: var(--primary)`)은 **안전·위험 신호 색 시스템(`.lvl-*`)이 결과 시각화를 담당하는 도메인에서는 적용 안 함**. 브랜드 primary는 프레임(버튼·hero-line·disclaimer border)에만, 결과 시각화는 도메인 색 시스템에 위임.
 
 ### 유지 대상
 - 마이클 SEO `<meta>` 전체 · JSON-LD · `#ad-slot` 위치·크기 · JS `<script>` 전체
