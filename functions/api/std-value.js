@@ -40,15 +40,13 @@ export async function onRequestGet(context) {
   if (cached) return cached;
 
   try {
-    /* 1. 좌표 확보 — juso 반환값 우선, 없으면 VWorld 지오코더 */
-    let coords = { lon, lat };
+    /* 좌표 확인 — juso addrCoordApi.do가 entX/Y 반환하므로 지오코더 불필요 */
     if (!lon || !lat) {
-      if (!address) throw new Error('주소 또는 좌표가 필요합니다.');
-      coords = await geocode(env.VWORLD_KEY, address);
+      throw new Error('좌표를 찾을 수 없습니다. 주소 검색 결과에서 선택해 주세요.');
     }
 
-    /* 2. VWorld 공동주택공시가격 속성 조회 */
-    const result = await fetchVWorldPrice(env.VWORLD_KEY, coords, year, type);
+    /* VWorld 공동주택공시가격 속성 조회 */
+    const result = await fetchVWorldPrice(env.VWORLD_KEY, { lon, lat }, year, type);
 
     const response = json(result);
     const toCache = response.clone();
