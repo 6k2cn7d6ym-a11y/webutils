@@ -25,6 +25,20 @@
     "operatingSystem": "Any"
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"누진세는 어떻게 계산되나요?","acceptedAnswer":{"@type":"Answer","text":"주택용 전기요금은 3단계 누진 구조입니다. 1단계 200kWh 이하 기본 단가, 2단계 201~400kWh 중간 단가, 3단계 400kWh 초과 최고 단가(1단계 대비 약 3배). 에어컨을 여름에 오래 켜면 3단계로 진입해 요금이 급증합니다."}},
+      {"@type":"Question","name":"하계 특례가 뭔가요?","acceptedAnswer":{"@type":"Answer","text":"7~8월 두 달간 누진 구간을 일부 완화해주는 제도입니다. 여름철 냉방 부담을 낮추기 위한 한시 조치로, 실제 청구서에 자동 적용됩니다."}},
+      {"@type":"Question","name":"에어컨 하루 몇 시간 켜면 요금이 확 오르나요?","acceptedAnswer":{"@type":"Answer","text":"가정별로 다르지만 하루 4~6시간은 2단계 진입 요금 소폭 상승, 8~10시간은 3단계 진입 위험, 24시간 연속은 확실히 3단계. 정확한 예측은 계산기에 실제 소비전력·가동 시간을 넣어 확인하세요."}},
+      {"@type":"Question","name":"인버터 에어컨과 정속형 차이는?","acceptedAnswer":{"@type":"Answer","text":"인버터는 설정 온도 도달 후 저출력으로 유지, 실제 소비전력이 정격의 30~60% 수준. 정속형은 on/off 반복으로 켜져 있을 땐 항상 정격 출력. 같은 시간 사용해도 인버터가 20~40% 전기세 절약이 일반적입니다."}},
+      {"@type":"Question","name":"원룸·자취방 기준으로 계산하고 싶다면?","acceptedAnswer":{"@type":"Answer","text":"에어컨 외 다른 가전까지 합산한 월 전기요금은 별도 자취방 원룸 전기요금 계산기에서 확인할 수 있습니다."}},
+      {"@type":"Question","name":"에어컨 전기세를 아끼는 방법이 있나요?","acceptedAnswer":{"@type":"Answer","text":"적정 온도 26~28도 유지, 선풍기·서큘레이터 병행, 필터 청소 2주~1개월 주기, 실외기 그늘·통풍 확보, 커튼·차광, 취침 모드 활용. 인버터는 잠깐 외출 시 켜두는 편이 유리(장시간은 끄기), 정속형은 잠깐이라도 끄는 편이 유리 — 기종에 따라 반대 원리입니다."}}
+    ]
+  }
+  </script>
   <style>
     :root {
       --bg: #FFFDF8;
@@ -166,6 +180,20 @@
       padding-top: 0.75rem;
     }
     #ad-slot { margin-top: 2.5rem; min-height: 90px; }
+    /* ── FAQ ── */
+    .faq-section { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--card-border); }
+    .faq-section h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+    .faq-item { border-bottom: 1px solid var(--card-border); padding: 0.75rem 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item summary { font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 0.25rem 0; color: var(--primary); list-style: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before { content: "▸ "; display: inline-block; margin-right: 0.25rem; transition: transform 200ms; }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-item .answer { padding: 0.5rem 0 0.25rem 1.25rem; font-size: 0.9rem; color: var(--text); line-height: 1.65; }
+    .faq-item .answer ul { padding-left: 1.25rem; margin: 0.5rem 0; }
+    .faq-item .answer li { margin-bottom: 0.35rem; }
+    .faq-item.warn summary { color: #d97706; }
+    .faq-item.warn { background: #FFFBEB; border-radius: 6px; padding-left: 0.5rem; padding-right: 0.5rem; }
     /* ── 공유·푸터 ── */
     .h1-row { display: flex; align-items: flex-start; gap: 0.5rem; }
     .btn-share-page { width: 30px; height: 30px; border: 1px solid var(--border, #D8D8D8); border-radius: 7px; background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-sub, #888); flex-shrink: 0; margin-top: 4px; transition: background 100ms; }
@@ -224,6 +252,86 @@
   <section id="result" aria-live="polite">
     <div id="result-inner"></div>
     <p class="disclaimer">한전 주택용 저압 요금 기준 (기본요금·전력량요금·기후환경요금·부가세·전력기반기금 포함). 연료비조정요금은 분기별 변동으로 미반영. 실제 청구액은 계절·지역·계약 종류 등에 따라 다를 수 있습니다. 참고용으로만 활용하세요.</p>
+  </section>
+
+  <section class="faq-section" aria-label="자주 묻는 질문">
+    <h2>에어컨 전기요금, 왜 이렇게 나올까요?</h2>
+
+    <details class="faq-item">
+      <summary>누진세는 어떻게 계산되나요?</summary>
+      <div class="answer">
+        주택용 전기요금은 <strong>3단계 누진 구조</strong>입니다.
+        <ul>
+          <li><strong>1단계</strong>: 200kWh 이하 (기본 단가)</li>
+          <li><strong>2단계</strong>: 201~400kWh (중간 단가)</li>
+          <li><strong>3단계</strong>: 400kWh 초과 (최고 단가 · 1단계 대비 약 3배)</li>
+        </ul>
+        에어컨을 여름에 오래 켜면 3단계로 진입해 전기요금이 급증합니다.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>하계 특례가 뭔가요?</summary>
+      <div class="answer">
+        <strong>7~8월 두 달간</strong> 누진 구간을 일부 완화해주는 제도입니다. 여름철 냉방 부담을 낮추기 위한 한시 조치로, 이 계산기는 하계 특례 적용/미적용 비교를 함께 보여줍니다.
+        <ul>
+          <li>특례 시 2단계 진입 사용량이 상향</li>
+          <li>실제 청구서에는 자동 적용됨 (별도 신청 불필요)</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>에어컨 하루 몇 시간 켜면 요금이 확 오르나요?</summary>
+      <div class="answer">
+        가정별로 다르지만 일반적인 가이드:
+        <ul>
+          <li><strong>하루 4~6시간</strong>: 대체로 2단계 진입 · 요금 소폭 상승</li>
+          <li><strong>하루 8~10시간</strong>: 3단계 진입 위험 · 요금 급증 가능</li>
+          <li><strong>24시간 연속</strong>: 확실히 3단계 진입</li>
+        </ul>
+        정확한 예측은 이 계산기에 실제 소비전력·가동 시간을 넣어 확인하세요.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>인버터 에어컨과 정속형 차이는?</summary>
+      <div class="answer">
+        <ul>
+          <li><strong>인버터</strong>: 설정 온도에 도달한 후 저출력으로 유지 · 실제 소비전력이 정격의 30~60% 수준</li>
+          <li><strong>정속형</strong>: on/off 반복 · 켜져 있을 땐 항상 정격 출력</li>
+        </ul>
+        같은 시간 사용해도 인버터가 <strong>20~40% 정도 전기세 절약</strong>되는 것이 일반적입니다. 라벨의 정격전력이 같더라도 실사용량이 다릅니다.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>원룸·자취방 기준으로 계산하고 싶다면?</summary>
+      <div class="answer">
+        에어컨 외 다른 가전(냉장고·조명 등)까지 합산한 월 전기요금은 별도 <a href="/studio-electricity-calculator/">자취방 원룸 전기요금 계산기</a>에서 확인할 수 있습니다.
+      </div>
+    </details>
+
+    <details class="faq-item warn" open>
+      <summary>⚠️ 에어컨 전기세를 아끼는 방법 (인버터 vs 정속형 주의)</summary>
+      <div class="answer">
+        몇 가지 통용되는 팁입니다. <strong>인버터·정속형 구분에 따라 반대 원리가 되는 항목이 있으니 주의하세요.</strong>
+        <ul>
+          <li><strong>적정 온도 26~28도 유지</strong> — 1도 낮출 때마다 소비전력이 눈에 띄게 증가합니다.</li>
+          <li><strong>선풍기·서큘레이터 병행</strong> — 냉기를 순환시키면 같은 온도라도 체감이 시원해집니다.</li>
+          <li><strong>필터 청소</strong> — 2주~1개월 주기. 필터가 막히면 냉방 효율이 떨어집니다.</li>
+          <li><strong>실외기 그늘·통풍 확보</strong> — 직사광·통풍 막힘 시 냉방 효율 크게 하락.</li>
+          <li><strong>커튼·차광</strong> — 낮 시간 직사광 차단만으로도 실내 온도 상승 억제.</li>
+          <li><strong>취침 모드 활용</strong> — 밤에 자동으로 온도를 조금씩 올려 소비전력을 낮춥니다.</li>
+          <li><strong>인버터 vs 정속형 반대</strong>:
+            <ul>
+              <li><strong>인버터</strong>: 잠깐(1~2시간) 외출 시 <strong>끄지 말고 켜두는 편</strong>이 유리할 수 있습니다. 재기동 시 최대 출력으로 실내 온도를 다시 낮추는 데 더 많은 전력이 들 수 있기 때문. <em>(단, 장시간 외출은 끄는 것이 맞습니다)</em></li>
+              <li><strong>정속형</strong>: 반대로 <strong>잠깐 자리를 비울 때도 끄는 편이 유리</strong>. 항상 정격 출력이라 켜져 있는 시간에 비례해 전력이 듭니다.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </details>
   </section>
 
   <div id="ad-slot" aria-hidden="true"></div>

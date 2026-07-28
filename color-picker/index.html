@@ -25,6 +25,18 @@
     "operatingSystem": "Any"
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"색을 몇 가지 조합하는 게 좋을까요?","acceptedAnswer":{"@type":"Answer","text":"용도에 따라 다릅니다. 웹·프레젠테이션 배경과 강조는 2~3색 조합이 안정적, 브랜딩·로고는 2색 조합(메인+서브), 디자인 시안·무드보드는 4~6색까지 확장. 색을 너무 많이 쓰면 시선이 분산되고 너무 적으면 단조로워집니다."}},
+      {"@type":"Question","name":"어울리는 색을 고르는 원리가 있나요?","acceptedAnswer":{"@type":"Answer","text":"전통적으로 색상환(Color Wheel) 기준 조합 원리가 있습니다. 유사색(인접한 색·차분함), 보색(마주보는 색·강한 대비), 삼각형(3등분·활기), 단색(한 색의 명도·채도 변화·통일감)."}},
+      {"@type":"Question","name":"HEX·RGB 코드는 어디에 붙여넣나요?","acceptedAnswer":{"@type":"Answer","text":"HEX는 #3B82F6 형태 6자리 코드로 CSS·HTML·Figma·포토샵 모두 지원. RGB는 rgb(59, 130, 246) 형태 웹 표준. 이 페이지의 코드는 클릭·복사로 어디든 붙여넣기 가능합니다."}},
+      {"@type":"Question","name":"이미지에서 색상 추출은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"업로드한 이미지의 픽셀을 분석해 대표 색상을 자동으로 뽑아냅니다. 지원 형식은 JPG·PNG. 이미지는 브라우저 안에서만 처리되며 서버에 업로드되지 않아 개인 사진도 안전합니다."}}
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
   <style>
@@ -409,6 +421,21 @@
       }
       .swatch-chip:hover { transform: none; }
     }
+    /* ── FAQ ── */
+    .faq-section { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .faq-section h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+    .faq-item { border-bottom: 1px solid var(--border); padding: 0.75rem 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item summary { font-weight: 600; font-size: 0.9rem; cursor: pointer; padding: 0.25rem 0; color: var(--accent); list-style: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before { content: "▸ "; display: inline-block; margin-right: 0.25rem; transition: transform 200ms; }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-item .answer { padding: 0.5rem 0 0.25rem 1.25rem; font-size: 0.88rem; color: var(--text); line-height: 1.65; }
+    .faq-item .answer ul { padding-left: 1.25rem; margin: 0.5rem 0; }
+    .faq-item .answer li { margin-bottom: 0.35rem; }
+    .site-footer { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--text-sub); display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; align-items: center; }
+    .site-footer a { color: inherit; text-decoration: none; margin-right: 0.75rem; }
+    .site-footer a:hover { text-decoration: underline; }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
 </head>
@@ -482,6 +509,63 @@
 
     <p id="eyedropNotice">※ 화면에서 색 뽑기는 PC Chrome · Edge에서 지원됩니다.</p>
   </div>
+
+  <section class="faq-section" aria-label="자주 묻는 질문">
+    <h2>색상 조합, 이렇게 써보세요</h2>
+
+    <details class="faq-item">
+      <summary>색을 몇 가지 조합하는 게 좋을까요?</summary>
+      <div class="answer">
+        용도에 따라 다릅니다.
+        <ul>
+          <li><strong>웹·프레젠테이션 배경 + 강조</strong>: 2~3색 조합이 안정적</li>
+          <li><strong>브랜딩·로고</strong>: 2색 조합 (메인 + 서브)</li>
+          <li><strong>디자인 시안·무드보드</strong>: 4~6색까지 확장</li>
+        </ul>
+        색을 너무 많이 쓰면 시선이 분산되고, 너무 적으면 단조로워집니다.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>어울리는 색을 고르는 원리가 있나요?</summary>
+      <div class="answer">
+        전통적으로 색상환(Color Wheel)을 기준으로 몇 가지 조합 원리가 알려져 있습니다.
+        <ul>
+          <li><strong>유사색 조합</strong> (Analogous): 색상환에서 인접한 색. 자연스럽고 차분함</li>
+          <li><strong>보색 조합</strong> (Complementary): 색상환에서 마주보는 색. 강한 대비 · 강조 효과</li>
+          <li><strong>삼각형 조합</strong> (Triadic): 색상환 3등분 위치의 색. 활기찬 조합</li>
+          <li><strong>단색 조합</strong> (Monochromatic): 한 색상의 명도·채도 변화만 사용. 통일감</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>HEX·RGB 코드는 어디에 붙여넣나요?</summary>
+      <div class="answer">
+        <ul>
+          <li><strong>HEX</strong>: <code>#3B82F6</code> 형태 6자리 코드. CSS·HTML·디자인 툴(Figma·포토샵) 모두 지원</li>
+          <li><strong>RGB</strong>: <code>rgb(59, 130, 246)</code> 형태. 웹 표준</li>
+          <li>이 페이지의 코드는 클릭·복사로 어디든 붙여넣기 가능합니다</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>이미지에서 색상 추출은 어떻게 되나요?</summary>
+      <div class="answer">
+        업로드한 이미지의 픽셀을 분석해 대표 색상을 자동으로 뽑아냅니다. 사진의 분위기를 유지한 팔레트를 만들 때 유용합니다.
+        <ul>
+          <li>지원 형식: JPG·PNG</li>
+          <li><strong>이미지는 브라우저 안에서만 처리됩니다</strong> — 서버에 업로드되지 않으므로 개인 사진도 안전</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <footer class="site-footer">
+    <nav><a href="/privacy.html">개인정보처리방침</a><a href="/contact.html">문의</a></nav>
+    <span>© 2026 민온</span>
+  </footer>
 </main>
 
 <!-- 이미지 픽커 모달 -->

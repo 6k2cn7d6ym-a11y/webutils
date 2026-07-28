@@ -26,6 +26,19 @@
     "operatingSystem": "Any"
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"원룸·자취방 월 평균 전기세는 얼마인가요?","acceptedAnswer":{"@type":"Answer","text":"가전 조합과 사용 패턴에 따라 다릅니다. 최소 사용(냉장고+조명+노트북)은 월 1~2만원대, 일반 사용(TV·세탁기·에어컨 여름 몇 시간)은 월 2~4만원대, 에어컨 상시 사용(여름철)은 월 5~10만원 이상 가능. 정확한 예측은 계산기에 실제 사용 가전과 시간을 입력해 확인하세요."}},
+      {"@type":"Question","name":"자취방 전기세를 줄이는 팁이 있나요?","acceptedAnswer":{"@type":"Answer","text":"대기전력 차단, 인버터 가전 선택, 조명 LED 교체, 누진 3단계 진입 방지(월 400kWh 초과 시 요금 급증), 하계 특례 자동 적용."}},
+      {"@type":"Question","name":"냉장고 소비전력은 왜 정격의 1/3로 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"냉장고는 컴프레서가 켜졌다 꺼졌다를 반복합니다. 라벨의 정격전력은 컴프레서가 최대로 돌 때 값이고, 실제 하루 평균 소비는 정격의 약 30% 수준. 이 계산기는 이 특성을 반영해 산정합니다."}},
+      {"@type":"Question","name":"원룸 계약이 개별 계량인지 어떻게 아나요?","acceptedAnswer":{"@type":"Answer","text":"개별 계량은 세대별 계량기로 한전에서 직접 청구되어 이 계산기 결과와 유사. 공용 계량(관리비 포함)은 건물 전체 사용량을 세대 수로 배분해 개인 사용과 무관하게 청구. 오피스텔은 대개 개별 계량. 계약서·관리사무소에 확인하세요."}},
+      {"@type":"Question","name":"에어컨만 따로 계산하고 싶다면?","acceptedAnswer":{"@type":"Answer","text":"에어컨 소비전력·누진세 반영 상세 계산은 에어컨 전기요금 계산기에서 확인할 수 있습니다."}}
+    ]
+  }
+  </script>
   <style>
     /* 클레버 수정: 어제(07-24) 사이클 브랜드 팔레트 승계 (ac 계산기와 동일) */
     :root {
@@ -188,6 +201,18 @@
       padding-top: 0.75rem;
     }
     #ad-slot { margin-top: 2.5rem; min-height: 90px; }
+    /* ── FAQ ── */
+    .faq-section { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--card-border); }
+    .faq-section h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+    .faq-item { border-bottom: 1px solid var(--card-border); padding: 0.75rem 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item summary { font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 0.25rem 0; color: var(--primary); list-style: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before { content: "▸ "; display: inline-block; margin-right: 0.25rem; transition: transform 200ms; }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-item .answer { padding: 0.5rem 0 0.25rem 1.25rem; font-size: 0.9rem; color: var(--text); line-height: 1.65; }
+    .faq-item .answer ul { padding-left: 1.25rem; margin: 0.5rem 0; }
+    .faq-item .answer li { margin-bottom: 0.35rem; }
     /* ── 공유·푸터 ── */
     .h1-row { display: flex; align-items: flex-start; gap: 0.5rem; }
     .btn-share-page { width: 30px; height: 30px; border: 1px solid var(--border, #D8D8D8); border-radius: 7px; background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-sub, #888); flex-shrink: 0; margin-top: 4px; transition: background 100ms; }
@@ -341,6 +366,62 @@
   <section id="result" aria-live="polite">
     <div id="result-inner"></div>
     <p class="disclaimer">한전 주택용 저압 요금 기준 (기본요금·전력량요금·기후환경요금·부가세·전력기반기금 포함). 연료비조정요금은 분기별 변동으로 미반영. 실제 청구액은 계절·지역·계약 종류 등에 따라 다를 수 있습니다. 참고용으로만 활용하세요.</p>
+  </section>
+
+  <section class="faq-section" aria-label="자주 묻는 질문">
+    <h2>원룸 전기세, 어떻게 나오나요?</h2>
+
+    <details class="faq-item">
+      <summary>원룸·자취방 월 평균 전기세는 얼마인가요?</summary>
+      <div class="answer">
+        가전 조합과 사용 패턴에 따라 다르지만 일반적 감각:
+        <ul>
+          <li><strong>최소 사용</strong>(냉장고 + 조명 + 노트북): 월 1~2만 원대</li>
+          <li><strong>일반 사용</strong>(+ TV + 세탁기 + 에어컨 여름 몇 시간): 월 2~4만 원대</li>
+          <li><strong>에어컨 상시 사용</strong>(여름철): 월 5~10만 원 이상 가능</li>
+        </ul>
+        정확한 예측은 이 계산기에 실제 사용 가전과 시간을 입력해 확인하세요.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>자취방 전기세를 줄이는 팁이 있나요?</summary>
+      <div class="answer">
+        <ul>
+          <li><strong>대기전력 차단</strong> — 안 쓰는 가전 코드 뽑기·멀티탭 스위치 활용</li>
+          <li><strong>인버터 가전 선택</strong> — 에어컨·냉장고·세탁기 인버터형이 장기적으로 유리</li>
+          <li><strong>조명 LED 교체</strong> — 백열등·형광등 대비 절감 효과 큼</li>
+          <li><strong>누진 3단계 진입 방지</strong> — 월 400kWh 초과 시 요금 급증 · 사용량 인식이 중요</li>
+          <li><strong>하계 특례</strong>(7~8월) — 자동 적용 · 별도 신청 불필요</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>냉장고 소비전력은 왜 정격의 1/3로 계산하나요?</summary>
+      <div class="answer">
+        냉장고는 <strong>컴프레서가 켜졌다 꺼졌다를 반복</strong>합니다. 라벨의 정격전력은 컴프레서가 최대로 돌 때의 값이고, 실제 하루 평균 소비는 정격의 약 30% 수준입니다. 이 계산기는 이 특성을 반영해 산정합니다. 에어컨·냉장고·세탁기처럼 컴프레서·모터가 있는 가전은 이 원리가 공통입니다.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>원룸 계약이 개별 계량인지 어떻게 아나요?</summary>
+      <div class="answer">
+        <ul>
+          <li><strong>개별 계량</strong>: 세대별 계량기 · 한전에서 직접 청구 · 이 계산기 결과와 유사</li>
+          <li><strong>공용 계량 (관리비 포함)</strong>: 건물 전체 사용량을 세대 수로 배분 · 개인 사용과 무관하게 청구</li>
+          <li><strong>오피스텔</strong>: 대개 개별 계량 · 주택용 or 일반용 요금제 다름</li>
+        </ul>
+        계약서·관리사무소 문의로 확인하시고, 개별 계량이면 이 계산기가 도움됩니다.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>에어컨만 따로 계산하고 싶다면?</summary>
+      <div class="answer">
+        에어컨 소비전력·누진세 반영 상세 계산은 <a href="/ac-electricity-calculator/">에어컨 전기요금 계산기</a>에서 확인할 수 있습니다.
+      </div>
+    </details>
   </section>
 
   <div id="ad-slot" aria-hidden="true"></div>

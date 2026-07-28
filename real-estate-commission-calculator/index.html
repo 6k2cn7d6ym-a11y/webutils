@@ -25,6 +25,18 @@
     "operatingSystem": "Any"
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"중개수수료는 언제 지불하나요?","acceptedAnswer":{"@type":"Answer","text":"원칙적으로 잔금일에 지불합니다. 계약 성사 시점이 아니라 거래가 최종 완료되는 시점 — 매매는 잔금·소유권 이전 등기 시점, 전세·월세는 잔금 지급 및 입주 시점. 계약 중도 해지 시 지불 의무는 계약 조건과 사유에 따라 달라집니다."}},
+      {"@type":"Question","name":"이 계산기의 요율은 어디 근거인가요?","acceptedAnswer":{"@type":"Answer","text":"공인중개사법 및 관련 시행규칙에 정해진 법정 상한 요율입니다. 지역(시·도 조례)에 따라 세부 요율이 다를 수 있습니다. 계산 결과는 법이 정한 상한액이며, 실제 수수료는 공인중개사와 협의해 상한 이하로 결정할 수 있습니다."}},
+      {"@type":"Question","name":"매매·전세·월세 요율이 다른가요?","acceptedAnswer":{"@type":"Answer","text":"다릅니다. 매매는 거래금액 구간별 요율(0.4~0.7%대), 전세는 보증금 기준으로 매매보다 대체로 낮음, 월세는 (보증금 + 월세×100) 환산 후 요율 적용(5천만원 미만 시 보증금+월세×70). 정확한 구간별 요율은 계산기 결과에 자동 표시됩니다."}},
+      {"@type":"Question","name":"부가세는 별도인가요?","acceptedAnswer":{"@type":"Answer","text":"공인중개사가 일반과세자인 경우 부가세 10%가 별도 청구될 수 있습니다. 간이과세자는 부가세 없음. 사업자 유형은 사무소에 미리 확인하시는 것이 좋습니다."}}
+    ]
+  }
+  </script>
   <style>
     /* [클레버 수정: 디자인팀 design-notes.md 지시 반영 — 딥 티얼 팔레트·Pretendard·hero-line·resultReveal·rich hover·select chevron SVG(티얼)·rounded 12px·SEO 태그. 마이클 초안(무팔레트·기본 시스템 폰트) → 디자인팀 스펙 정합.] */
     :root {
@@ -183,6 +195,18 @@
       display: block;
     }
     #ad-slot { margin-top: 2.5rem; min-height: 90px; }
+    /* ── FAQ ── */
+    .faq-section { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--card-border); }
+    .faq-section h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+    .faq-item { border-bottom: 1px solid var(--card-border); padding: 0.75rem 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item summary { font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 0.25rem 0; color: var(--primary); list-style: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before { content: "▸ "; display: inline-block; margin-right: 0.25rem; transition: transform 200ms; }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-item .answer { padding: 0.5rem 0 0.25rem 1.25rem; font-size: 0.9rem; color: var(--text); line-height: 1.65; }
+    .faq-item .answer ul { padding-left: 1.25rem; margin: 0.5rem 0; }
+    .faq-item .answer li { margin-bottom: 0.35rem; }
     /* ── 공유·푸터 ── */
     .h1-row { display: flex; align-items: flex-start; gap: 0.5rem; }
     .btn-share-page { width: 30px; height: 30px; border: 1px solid var(--border, #D8D8D8); border-radius: 7px; background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-sub, #888); flex-shrink: 0; margin-top: 4px; transition: background 100ms; }
@@ -241,6 +265,53 @@
 
   <section id="result" aria-live="polite">
     <div id="result-inner"></div>
+  </section>
+
+  <section class="faq-section" aria-label="자주 묻는 질문">
+    <h2>중개수수료, 이렇게 확인하세요</h2>
+
+    <details class="faq-item">
+      <summary>중개수수료는 언제 지불하나요?</summary>
+      <div class="answer">
+        원칙적으로 <strong>잔금일</strong>에 지불합니다. 계약 성사 시점이 아니라 거래가 최종 완료되는 시점입니다.
+        <ul>
+          <li><strong>매매</strong>: 잔금·소유권 이전 등기 시점</li>
+          <li><strong>전세·월세</strong>: 잔금 지급 및 입주 시점</li>
+          <li>계약이 중도 해지되면 지불 의무는 계약 조건과 사유에 따라 달라집니다.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>이 계산기의 요율은 어디 근거인가요?</summary>
+      <div class="answer">
+        <strong>공인중개사법</strong> 및 관련 시행규칙에 정해진 <strong>법정 상한 요율</strong>입니다. 지역(시·도 조례)에 따라 세부 요율이 다를 수 있으니 지역별 협회 공지도 참고하세요.
+        <ul>
+          <li>계산 결과는 법이 정한 <strong>상한액</strong>입니다</li>
+          <li>실제 수수료는 <strong>공인중개사와 협의</strong>해 상한 이하로 결정할 수 있습니다</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>매매·전세·월세 요율이 다른가요?</summary>
+      <div class="answer">
+        네, 다릅니다.
+        <ul>
+          <li><strong>매매</strong>: 거래금액 구간별 요율 (0.4~0.7%대)</li>
+          <li><strong>전세</strong>: 보증금 기준 · 매매보다 대체로 낮음</li>
+          <li><strong>월세</strong>: (보증금 + 월세×100) 환산 후 요율 적용 · 5천만 원 미만 시 (보증금 + 월세×70)</li>
+        </ul>
+        정확한 구간별 요율은 계산기 결과 화면 하단에 자동 표시됩니다.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>부가세는 별도인가요?</summary>
+      <div class="answer">
+        <strong>공인중개사가 일반과세자인 경우 부가세 10%가 별도</strong> 청구될 수 있습니다. 간이과세자는 부가세 없음. 사업자 유형은 사무소에 미리 확인하시는 것이 좋습니다.
+      </div>
+    </details>
   </section>
 
   <div id="ad-slot" aria-hidden="true"></div>
