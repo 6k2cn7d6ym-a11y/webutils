@@ -51,6 +51,11 @@ export async function onRequestGet(context) {
       emdNm: j.emdNm,
       legalDongCd: j.admCd,
       bdMgtSn: j.bdMgtSn,
+      admCd:    j.admCd    || '',  // addrCoordApi용
+      rnMgtSn:  j.rnMgtSn  || '',  // addrCoordApi용
+      udrtYn:   j.udrtYn   || '0', // addrCoordApi용
+      buldMnnm: j.buldMnnm || '0', // addrCoordApi용
+      buldSlno: j.buldSlno || '0', // addrCoordApi용
       lon: j.entX || '',   // 경도 WGS84
       lat: j.entY || '',   // 위도 WGS84
     }));
