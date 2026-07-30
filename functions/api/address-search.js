@@ -43,21 +43,20 @@ export async function onRequestGet(context) {
     const jusoList = data?.results?.juso || [];
 
     const results = jusoList.map(j => ({
-      roadAddr: j.roadAddr,
+      roadAddr:  j.roadAddr,
       jibunAddr: j.jibunAddr,
-      bdNm: j.bdNm,
-      siNm: j.siNm,
-      sggNm: j.sggNm,
-      emdNm: j.emdNm,
+      bdNm:      j.bdNm,
+      siNm:      j.siNm,
+      sggNm:     j.sggNm,
+      emdNm:     j.emdNm,
       legalDongCd: j.admCd,
-      bdMgtSn: j.bdMgtSn,
-      admCd:    j.admCd    || '',  // addrCoordApi용
-      rnMgtSn:  j.rnMgtSn  || '',  // addrCoordApi용
-      udrtYn:   j.udrtYn   || '0', // addrCoordApi용
-      buldMnnm: j.buldMnnm || '0', // addrCoordApi용
-      buldSlno: j.buldSlno || '0', // addrCoordApi용
-      lon: j.entX || '',   // 경도 WGS84
-      lat: j.entY || '',   // 위도 WGS84
+      bdMgtSn:   j.bdMgtSn,
+      admCd:     j.admCd    || '',
+      rnMgtSn:   j.rnMgtSn  || '',
+      udrtYn:    j.udrtYn   || '0',
+      buldMnnm:  j.buldMnnm || '0',
+      buldSlno:  j.buldSlno || '0',
+      /* lon/lat 없음 — 프론트에서 /api/address-coord 로 lazy 조회 */
     }));
 
     const response = json({ results });
