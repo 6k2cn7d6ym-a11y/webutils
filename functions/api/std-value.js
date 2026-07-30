@@ -76,20 +76,21 @@ export async function onRequestGet(context) {
       return json({ error: `응답 파싱 실패 (HTTP ${resp.status}): ${raw.slice(0, 200)}` }, 502);
     }
 
-    /* VWorld NED API 응답 구조 — featureCollection 또는 직접 features 배열 */
-    const features =
-      data?.response?.result?.featureCollection?.features ||
-      data?.response?.features ||
-      data?.features ||
-      [];
-
-    if (!features.length) {
-      const errCode = data?.response?.error?.code || data?.response?.status;
-      return json({ error: `공시가격 정보를 찾을 수 없습니다. (pnu: ${pnu}, vworld: ${errCode || '결과없음'})` }, 404);
+    /* VWorld NED API 응답 구조: apartHousingPrices.items.item (배열 or 단일 객체) */
+    const resultCode = data?.apartHousingPrices?.resultCode;
+    if (resultCode && resultCode !== 'OK') {
+      return json({ error: `VWorld 오류: ${data.apartHousingPrices.resultMsg || resultCode}` }, 502);
     }
 
-    /* 최신 연도 기준 첫 번째 결과 */
-    const props = features[0]?.properties || features[0];
+    const rawItem = data?.apartHousingPrices?.items?.item;
+    const items   = Array.isArray(rawItem) ? rawItem : (rawItem ? [rawItem] : []);
+
+    if (!items.length) {
+      return json({ error: `공시가격 정보를 찾을 수 없습니다. (pnu: ${pnu})` }, 404);
+    }
+
+    /* 첫 번째 결과 사용 */
+    const props = items[0];
     const stdValue = Number(String(props.pblntfPc || 0).replace(/,/g, ''));
     if (!stdValue) {
       return json({ error: '공시가격 정보를 찾을 수 없습니다. realtyprice.kr에서 직접 확인 후 수동 입력해 주세요.' }, 404);
