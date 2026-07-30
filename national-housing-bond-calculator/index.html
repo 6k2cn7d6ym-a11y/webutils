@@ -478,15 +478,13 @@
 
     addrStatus.textContent = '공시가격 조회 중…';
     var params = new URLSearchParams({
-      type: apiType,
-      year: String(new Date().getFullYear()),
-      address: addr.roadAddr || '',
+      type:         apiType,
+      year:         String(new Date().getFullYear()),
+      legalDongCd:  addr.legalDongCd  || addr.admCd || '',
+      lnbrMnnm:     addr.lnbrMnnm     || '0',
+      lnbrSlno:     addr.lnbrSlno     || '0',
+      jibunAddr:    addr.jibunAddr    || '',
     });
-    /* juso.go.kr가 좌표 반환하면 바로 사용 (VWorld 지오코더 호출 생략 → 빠름) */
-    if (addr.lon && addr.lat) {
-      params.set('lon', addr.lon);
-      params.set('lat', addr.lat);
-    }
 
     fetch('/api/std-value?' + params.toString())
       .then(function (r) { return r.json(); })
@@ -498,7 +496,7 @@
   }
 
   function showResult(data) {
-    if (data.error) { addrStatus.textContent = data.error; return; }
+    if (data.error) { addrStatus.textContent = '공시가격을 자동으로 가져오지 못했습니다. realtyprice.kr에서 직접 확인 후 입력해 주세요.'; return; }
     autoResultLabel.textContent = data.label || '공시가격';
     currentStdWon = data.stdValue || 0;
 

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>재산세 계산기 — 주택·토지 공시가격 기준 2026</title>
+  <meta name="description" content="주택·토지 공시가격을 입력하면 재산세·도시지역분·지방교육세를 자동 계산합니다. 1세대1주택 특례 반영, 2026년 기준.">
+  <meta property="og:title" content="재산세 계산기">
+  <meta property="og:description" content="공시가격으로 재산세·도시지역분·지방교육세를 자동 계산합니다. 1세대1주택 특례 반영, 2026년 기준.">
+  <meta property="og:type" content="website">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #F7F7F5;
+      --surface: #FFFFFF;
+      --border: #E0E0DC;
+      --text: #1A1A1A;
+      --text-sub: #888;
+      --accent: #2D7A4F;
+      --accent-light: #EAF4EE;
+      --radius: 12px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; }
+    main { max-width: 680px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    .h1-row { display: flex; align-items: flex-start; gap: 0.5rem; }
+    h1 { font-size: clamp(1.3rem, 4vw, 1.65rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
+    .btn-share-page { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 7px; background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-sub); flex-shrink: 0; margin-top: 4px; transition: background 100ms; }
+    .btn-share-page:hover { background: rgba(0,0,0,0.06); }
+    #copyToast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.75); color: #fff; padding: 8px 16px; border-radius: 8px; font-size: 13px; pointer-events: none; opacity: 0; transition: opacity 200ms; white-space: nowrap; z-index: 9999; }
+    #copyToast.show { opacity: 1; }
+    .hero-line { margin: 0.75rem 0; border: none; border-top: 2px solid var(--text); }
+    .subtitle { color: var(--text-sub); font-size: 0.875rem; margin-bottom: 1.75rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+    .label-note { font-weight: 400; text-transform: none; letter-spacing: 0; }
+    .radio-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .radio-group input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .radio-group label { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem 0.9rem; cursor: pointer; background: var(--surface); color: var(--text); font-size: 0.875rem; font-weight: 500; transition: border-color 100ms, background 100ms; }
+    .radio-group input[type="radio"]:checked + label { border-color: var(--accent); background: var(--accent-light); color: var(--accent); font-weight: 600; }
+    .input-group { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); overflow: hidden; }
+    .input-group input { flex: 1; border: none; outline: none; padding: 0.7rem 0.85rem; font-size: 1rem; background: transparent; color: var(--text); min-width: 0; }
+    .input-group .unit { padding: 0.7rem 0.85rem 0.7rem 0; font-size: 0.8rem; color: var(--text-sub); white-space: nowrap; }
+    button[type="submit"] { width: 100%; padding: 0.85rem; background: var(--text); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 0.25rem; transition: opacity 100ms; }
+    button[type="submit"]:hover { opacity: 0.85; }
+    .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-top: 1.5rem; display: none; }
+    .result-card.show { display: block; }
+    .result-block { margin-bottom: 1.25rem; }
+    .result-block:last-child { margin-bottom: 0; }
+    .result-label { font-size: 0.75rem; font-weight: 600; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+    .result-value { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; }
+    .result-value.accent { color: var(--accent); }
+    .result-note { font-size: 0.8rem; color: var(--text-sub); margin-top: 0.2rem; }
+    .result-divider { border: none; border-top: 1px solid var(--border); margin: 1.1rem 0; }
+    .result-rows { display: flex; flex-direction: column; gap: 0.55rem; }
+    .result-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.875rem; }
+    .result-row .rl { color: var(--text-sub); }
+    .result-row .rv { font-weight: 600; }
+    .result-row.total .rl { color: var(--text); font-weight: 600; }
+    .result-row.total .rv { color: var(--accent); font-weight: 700; font-size: 1rem; }
+    .pay-box { margin-top: 1.1rem; padding: 0.9rem 1rem; background: var(--accent-light); border-radius: 8px; }
+    .pay-box-title { font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+    .pay-rows { display: flex; flex-direction: column; gap: 0.45rem; }
+    .pay-row { display: flex; justify-content: space-between; font-size: 0.875rem; }
+    .pay-row .pl { color: var(--text-sub); }
+    .pay-row .pv { font-weight: 600; color: var(--accent); }
+    .info-section { margin-top: 2.5rem; }
+    .info-section h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .info-section p { color: var(--text-sub); font-size: 0.875rem; line-height: 1.75; margin-bottom: 0.75rem; }
+    .info-section p:last-child { margin-bottom: 0; }
+    .info-section ul { list-style: none; padding: 0; margin-bottom: 0.75rem; }
+    .info-section ul li { color: var(--text-sub); font-size: 0.875rem; line-height: 1.7; padding-left: 1rem; position: relative; margin-bottom: 0.35rem; }
+    .info-section ul li::before { content: '·'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+    .rate-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 0.75rem; }
+    .rate-table th, .rate-table td { border: 1px solid var(--border); padding: 0.45rem 0.6rem; }
+    .rate-table th { background: var(--bg); font-weight: 600; text-align: center; }
+    .rate-table td { text-align: right; }
+    .rate-table td:first-child { text-align: left; }
+    .disclaimer { margin-top: 2rem; padding: 1rem; background: var(--bg); border-radius: 8px; font-size: 0.75rem; color: var(--text-sub); line-height: 1.7; }
+    /* 자동조회 위젯 */
+    .auto-lookup { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; }
+    .auto-lookup-title { font-size: 0.8rem; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .auto-lookup-title span { color: var(--accent); }
+    .addr-search-wrap { position: relative; }
+    .addr-input { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 0.85rem; font-size: 0.95rem; outline: none; background: var(--bg); color: var(--text); }
+    .addr-input:focus { border-color: var(--accent); background: var(--surface); }
+    .addr-dropdown { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 100; overflow: hidden; display: none; }
+    .addr-dropdown.open { display: block; }
+    .addr-item { padding: 0.65rem 0.85rem; cursor: pointer; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+    .addr-item:last-child { border-bottom: none; }
+    .addr-item:hover { background: var(--accent-light); }
+    .addr-item .addr-road { font-weight: 500; }
+    .addr-item .addr-jibun { font-size: 0.78rem; color: var(--text-sub); margin-top: 0.1rem; }
+    .auto-result { margin-top: 0.85rem; padding: 0.85rem 1rem; background: var(--accent-light); border-radius: 8px; display: none; }
+    .auto-result.show { display: block; }
+    .auto-result-label { font-size: 0.75rem; color: var(--accent); font-weight: 600; margin-bottom: 0.3rem; }
+    .auto-result-value { font-size: 1.2rem; font-weight: 700; color: var(--accent); letter-spacing: -0.01em; }
+    .auto-result-note { font-size: 0.75rem; color: var(--text-sub); margin-top: 0.2rem; }
+    .auto-result-fill { margin-top: 0.6rem; }
+    .btn-fill { font-size: 0.8rem; background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 0.35rem 0.8rem; cursor: pointer; font-weight: 600; transition: opacity 100ms; }
+    .btn-fill:hover { opacity: 0.85; }
+    .addr-status { font-size: 0.78rem; color: var(--text-sub); margin-top: 0.4rem; min-height: 1.2em; }
+    .lookup-links { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem; align-items: center; }
+    .lookup-links .ll-label { font-size: 0.75rem; color: var(--text-sub); }
+    .lookup-link { font-size: 0.75rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 0.2rem 0.55rem; text-decoration: none; white-space: nowrap; transition: background 100ms; }
+    .lookup-link:hover { background: var(--accent-light); }
+    .site-footer { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--text-sub); display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; align-items: center; }
+    .site-footer a { color: inherit; text-decoration: none; margin-right: 0.75rem; }
+    .site-footer a:hover { text-decoration: underline; }
+    @media (max-width: 480px) {
+      .radio-group label { font-size: 0.8rem; padding: 0.4rem 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <div class="h1-row">
+    <h1>재산세 계산기</h1>
+    <button class="btn-share-page" id="sharePageBtn" aria-label="공유하기" title="공유하기">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    </button>
+  </div>
+  <hr class="hero-line">
+  <p class="subtitle">주택·토지 공시가격으로 재산세·도시지역분·지방교육세를 자동 계산합니다. 2026년 기준.</p>
+
+  <!-- 공시가격 자동조회 위젯 (공동주택) -->
+  <div class="auto-lookup" id="autoLookup">
+    <div class="auto-lookup-title">공동주택 공시가격 자동조회 <span>BETA</span></div>
+    <div class="addr-search-wrap">
+      <input class="addr-input" id="addrInput" type="text" placeholder="도로명 또는 지번 주소 입력 (예: 서울 강남구 테헤란로 152)" autocomplete="off" spellcheck="false">
+      <div class="addr-dropdown" id="addrDropdown"></div>
+    </div>
+    <div class="addr-status" id="addrStatus"></div>
+    <div class="auto-result" id="autoResult">
+      <div class="auto-result-label" id="autoResultLabel">공시가격</div>
+      <div class="auto-result-value" id="autoResultValue">—</div>
+      <div class="auto-result-note" id="autoResultNote"></div>
+      <div class="auto-result-fill" id="autoResultFill" style="display:none;">
+        <button type="button" class="btn-fill" id="btnFill">↓ 공시가격 자동 입력</button>
+      </div>
+    </div>
+  </div>
+
+  <form id="form" novalidate>
+    <div class="form-group">
+      <span class="form-label">부동산 종류</span>
+      <div class="radio-group">
+        <input type="radio" name="type" id="type-house" value="house" checked>
+        <label for="type-house">주택 (아파트·단독·다세대)</label>
+        <input type="radio" name="type" id="type-land" value="land">
+        <label for="type-land">토지 (종합합산)</label>
+      </div>
+    </div>
+
+    <div class="form-group" id="ownerRow">
+      <span class="form-label">세대 구분 <span class="label-note">(주택분 세율에 영향)</span></span>
+      <div class="radio-group">
+        <input type="radio" name="owner" id="owner-single" value="single" checked>
+        <label for="owner-single">1세대 1주택</label>
+        <input type="radio" name="owner" id="owner-multi" value="multi">
+        <label for="owner-multi">다주택 / 일반</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="stdValue">공시가격 <span class="label-note">(억원 · 소수점 가능)</span></label>
+      <div class="input-group">
+        <input type="number" id="stdValue" min="0" step="0.01" placeholder="예: 5.0" inputmode="decimal">
+        <span class="unit">억원</span>
+      </div>
+      <div class="lookup-links">
+        <span class="ll-label">공시가격 조회:</span>
+        <a class="lookup-link" href="https://www.realtyprice.kr" target="_blank" rel="noopener noreferrer">공동주택 ↗</a>
+        <a class="lookup-link" href="https://www.realtyprice.kr" target="_blank" rel="noopener noreferrer">단독주택 ↗</a>
+        <a class="lookup-link" href="https://www.eum.go.kr" target="_blank" rel="noopener noreferrer">토지 ↗</a>
+      </div>
+    </div>
+
+    <button type="submit">재산세 계산하기</button>
+  </form>
+
+  <div class="result-card" id="result">
+    <div class="result-rows">
+      <div class="result-row"><span class="rl">공시가격</span><span class="rv" id="r-pub">—</span></div>
+      <div class="result-row"><span class="rl">공정시장가액비율</span><span class="rv" id="r-ratio">—</span></div>
+      <div class="result-row"><span class="rl">과세표준</span><span class="rv" id="r-base">—</span></div>
+    </div>
+    <hr class="result-divider">
+    <div class="result-rows">
+      <div class="result-row"><span class="rl">재산세</span><span class="rv" id="r-tax">—</span></div>
+      <div class="result-row"><span class="rl">도시지역분 (0.14%)</span><span class="rv" id="r-urban">—</span></div>
+      <div class="result-row"><span class="rl">지방교육세 (재산세 × 20%)</span><span class="rv" id="r-edu">—</span></div>
+      <hr class="result-divider" style="margin:0.4rem 0;">
+      <div class="result-row total"><span class="rl">연간 합계</span><span class="rv" id="r-total">—</span></div>
+    </div>
+    <div class="pay-box" id="payBox">
+      <div class="pay-box-title">납부 일정</div>
+      <div class="pay-rows" id="payRows"></div>
+    </div>
+    <p class="result-note" style="margin-top:1rem;">※ 직전년도 재산세 대비 세부담 상한(105~130%) 적용 시 실제 납부액이 다를 수 있습니다.</p>
+  </div>
+
+  <div class="info-section">
+    <h3>재산세란?</h3>
+    <p>재산세는 매년 6월 1일 기준으로 토지·건물·주택을 보유한 납세의무자에게 부과하는 지방세입니다. 실거래가가 아닌 <strong>공시가격</strong>을 기준으로 계산하며, 여기에 공정시장가액비율을 곱해 과세표준을 산정합니다.</p>
+    <p>재산세 외에 도시지역분(구 도시계획세, 0.14%)과 지방교육세(재산세의 20%)가 함께 고지됩니다.</p>
+  </div>
+
+  <div class="info-section">
+    <h3>주택 세율표 (2026년)</h3>
+    <p>공정시장가액비율: 1세대1주택은 공시가에 따라 43~45%, 다주택·일반은 60%.</p>
+    <table class="rate-table">
+      <thead>
+        <tr><th>과세표준</th><th>세율</th><th>누진공제</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>6천만원 이하</td><td>1‰ (0.1%)</td><td>—</td></tr>
+        <tr><td>6천만 ~ 1.5억원</td><td>1.5‰ (0.15%)</td><td>3만원</td></tr>
+        <tr><td>1.5억 ~ 3억원</td><td>2.5‰ (0.25%)</td><td>18만원</td></tr>
+        <tr><td>3억원 초과</td><td>4‰ (0.4%)</td><td>63만원</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-section">
+    <h3>토지 세율표 (종합합산, 2026년)</h3>
+    <p>나대지·잡종지 등 종합합산 토지 기준. 공정시장가액비율 70%. 상가·빌딩 부속토지(별도합산)는 다른 세율이 적용됩니다.</p>
+    <table class="rate-table">
+      <thead>
+        <tr><th>과세표준</th><th>세율</th><th>누진공제</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>5천만원 이하</td><td>2‰ (0.2%)</td><td>—</td></tr>
+        <tr><td>5천만 ~ 1억원</td><td>3‰ (0.3%)</td><td>5만원</td></tr>
+        <tr><td>1억원 초과</td><td>5‰ (0.5%)</td><td>25만원</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-section">
+    <h3>납부 시기</h3>
+    <ul>
+      <li><strong>주택:</strong> 7월 (1기분, 절반) · 9월 (2기분, 절반). 산출 세액 20만원 이하이면 7월에 전액 일시납.</li>
+      <li><strong>토지·건물:</strong> 9월 전액 납부.</li>
+      <li>6월 1일 현재 소유자에게 부과. 매매 시 잔금·등기일 기준으로 귀속이 결정되므로 6월 1일 이후 취득 시 당해연도 재산세 없음.</li>
+    </ul>
+  </div>
+
+  <div class="disclaimer">
+    이 계산기는 참고용입니다. 세부담 상한·감면·분리과세 특례 등 개별 사정에 따라 실제 납부액이 다를 수 있습니다. 정확한 세액은 해당 지방자치단체 또는 위택스(wetax.go.kr)에서 확인하세요.
+  </div>
+
+  <footer class="site-footer">
+    <a href="/">← 민온 웹유틸</a>
+    <nav><a href="/privacy.html">개인정보처리방침</a><a href="/contact.html">문의</a></nav>
+  </footer>
+</main>
+<div id="copyToast">링크가 복사되었습니다</div>
+
+<script>
+/* ── 공유 버튼 ── */
+(function () {
+  var btn = document.getElementById('sharePageBtn');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var isMobile = navigator.maxTouchPoints > 1 && window.matchMedia('(pointer: coarse)').matches;
+    if (isMobile && navigator.share) {
+      navigator.share({ title: document.title, url: location.href }).catch(function () {});
+    } else {
+      navigator.clipboard.writeText(location.href).then(function () {
+        var t = document.getElementById('copyToast');
+        if (t) { t.classList.add('show'); setTimeout(function () { t.classList.remove('show'); }, 1800); }
+      }).catch(function () {});
+    }
+  });
+}());
+
+/* ── 재산세 계산 ── */
+(function () {
+  var form = document.getElementById('form');
+  var result = document.getElementById('result');
+  var ownerRow = document.getElementById('ownerRow');
+
+  function fmtWon(n) {
+    return Math.round(n).toLocaleString('ko-KR') + '원';
+  }
+
+  /* 부동산 종류 변경 시 세대구분·자동조회 위젯 표시 제어 */
+  function syncUI() {
+    var isHouse = document.querySelector('input[name="type"]:checked').value === 'house';
+    ownerRow.style.display = isHouse ? '' : 'none';
+    document.getElementById('autoLookup').style.display = isHouse ? '' : 'none';
+  }
+  document.querySelectorAll('input[name="type"]').forEach(function (r) {
+    r.addEventListener('change', syncUI);
+  });
+  syncUI();
+
+  /* 주택 세율 (누진) */
+  function houseTax(base) {
+    if (base <= 60000000)  return base * 0.001;
+    if (base <= 150000000) return base * 0.0015 - 30000;
+    if (base <= 300000000) return base * 0.0025 - 180000;
+    return base * 0.004 - 630000;
+  }
+
+  /* 토지 종합합산 세율 */
+  function landTax(base) {
+    if (base <= 50000000)  return base * 0.002;
+    if (base <= 100000000) return base * 0.003 - 50000;
+    return base * 0.005 - 250000;
+  }
+
+  /* 1세대1주택 공정시장가액비율 */
+  function singleHomeRatio(pubWon) {
+    if (pubWon <= 300000000) return 0.43;
+    if (pubWon <= 600000000) return 0.44;
+    return 0.45;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var stdVal = parseFloat(document.getElementById('stdValue').value);
+    if (isNaN(stdVal) || stdVal <= 0) { alert('공시가격을 입력해 주세요.'); return; }
+    var pubWon = Math.round(stdVal * 1e8);
+
+    var type  = document.querySelector('input[name="type"]:checked').value;
+    var owner = document.querySelector('input[name="owner"]:checked').value;
+
+    var ratio, taxFn, ratioLabel;
+    if (type === 'house') {
+      if (owner === 'single') {
+        ratio = singleHomeRatio(pubWon);
+        ratioLabel = (ratio * 100).toFixed(0) + '% (1세대1주택 특례)';
+      } else {
+        ratio = 0.60;
+        ratioLabel = '60% (일반)';
+      }
+      taxFn = houseTax;
+    } else {
+      ratio = 0.70;
+      ratioLabel = '70% (종합합산)';
+      taxFn = landTax;
+    }
+
+    var base  = Math.round(pubWon * ratio);
+    var tax   = Math.round(taxFn(base));
+    var urban = Math.round(base * 0.0014);
+    var edu   = Math.round(tax * 0.2);
+    var total = tax + urban + edu;
+
+    document.getElementById('r-pub').textContent   = fmtWon(pubWon);
+    document.getElementById('r-ratio').textContent = ratioLabel;
+    document.getElementById('r-base').textContent  = fmtWon(base);
+    document.getElementById('r-tax').textContent   = fmtWon(tax);
+    document.getElementById('r-urban').textContent = fmtWon(urban);
+    document.getElementById('r-edu').textContent   = fmtWon(edu);
+    document.getElementById('r-total').textContent = fmtWon(total);
+
+    /* 납부 일정 */
+    var payRows = document.getElementById('payRows');
+    payRows.innerHTML = '';
+    if (type === 'house') {
+      if (tax <= 200000) {
+        /* 20만원 이하 일시납 — 재산세만 기준. 도시지역분·교육세는 별도 고지 */
+        addPayRow(payRows, '7월 일시납 (재산세 20만원 이하)', fmtWon(total));
+      } else {
+        var half = Math.round(total / 2);
+        addPayRow(payRows, '7월 (1기분)', fmtWon(half));
+        addPayRow(payRows, '9월 (2기분)', fmtWon(total - half));
+      }
+    } else {
+      addPayRow(payRows, '9월 전액납부', fmtWon(total));
+    }
+
+    result.classList.add('show');
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  function addPayRow(container, label, value) {
+    var row = document.createElement('div');
+    row.className = 'pay-row';
+    row.innerHTML = '<span class="pl">' + label + '</span><span class="pv">' + value + '</span>';
+    container.appendChild(row);
+  }
+}());
+
+/* ── 공시가격 자동조회 위젯 ── */
+(function () {
+  var addrInput    = document.getElementById('addrInput');
+  var addrDropdown = document.getElementById('addrDropdown');
+  var addrStatus   = document.getElementById('addrStatus');
+  var autoResult   = document.getElementById('autoResult');
+  var autoResultLabel = document.getElementById('autoResultLabel');
+  var autoResultValue = document.getElementById('autoResultValue');
+  var autoResultNote  = document.getElementById('autoResultNote');
+  var autoResultFill  = document.getElementById('autoResultFill');
+  var btnFill         = document.getElementById('btnFill');
+  var stdValueInput   = document.getElementById('stdValue');
+  var debounceTimer   = null;
+  var currentStdWon   = 0;
+
+  addrInput.addEventListener('input', function () {
+    clearTimeout(debounceTimer);
+    var q = addrInput.value.trim();
+    if (q.length < 3) { addrDropdown.classList.remove('open'); return; }
+    debounceTimer = setTimeout(function () { searchAddress(q); }, 400);
+  });
+
+  addrInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') addrDropdown.classList.remove('open');
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#autoLookup')) addrDropdown.classList.remove('open');
+  });
+
+  function searchAddress(q) {
+    addrStatus.textContent = '주소 검색 중…';
+    fetch('/api/address-search?keyword=' + encodeURIComponent(q))
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        addrStatus.textContent = data._mock ? '⚠ 미리보기 (API 키 미연동)' : '';
+        renderDropdown(data.results || []);
+      })
+      .catch(function () { addrStatus.textContent = '검색 중 오류가 발생했습니다.'; });
+  }
+
+  function renderDropdown(results) {
+    addrDropdown.innerHTML = '';
+    if (!results.length) {
+      addrDropdown.innerHTML = '<div class="addr-item" style="color:var(--text-sub);">검색 결과가 없습니다.</div>';
+      addrDropdown.classList.add('open');
+      return;
+    }
+    results.forEach(function (r) {
+      var el = document.createElement('div');
+      el.className = 'addr-item';
+      el.innerHTML = '<div class="addr-road">' + (r.bdNm ? '[' + r.bdNm + '] ' : '') + r.roadAddr + '</div>' +
+        '<div class="addr-jibun">' + r.jibunAddr + '</div>';
+      el.addEventListener('click', function () { selectAddress(r); });
+      addrDropdown.appendChild(el);
+    });
+    addrDropdown.classList.add('open');
+  }
+
+  function selectAddress(addr) {
+    addrDropdown.classList.remove('open');
+    addrInput.value = addr.roadAddr;
+
+    addrStatus.textContent = '공시가격 조회 중…';
+    var params = new URLSearchParams({
+      type:        'apt',
+      year:        String(new Date().getFullYear()),
+      legalDongCd: addr.legalDongCd  || addr.admCd || '',
+      lnbrMnnm:    addr.lnbrMnnm     || '0',
+      lnbrSlno:    addr.lnbrSlno     || '0',
+      jibunAddr:   addr.jibunAddr    || '',
+    });
+
+    fetch('/api/std-value?' + params.toString())
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        addrStatus.textContent = data._mock ? '⚠ 미리보기 (API 키 미연동)' : '';
+        if (data.error) { addrStatus.textContent = '공시가격을 자동으로 가져오지 못했습니다. realtyprice.kr에서 직접 확인 후 입력해 주세요.'; return; }
+        currentStdWon = data.stdValue || 0;
+        autoResultLabel.textContent = data.label || '공시가격';
+        autoResultValue.textContent = currentStdWon.toLocaleString('ko-KR') + '원';
+        autoResultNote.textContent  = (data.year || '') + '년 공시 기준' + (data.detail ? ' · ' + data.detail : '');
+        autoResultFill.style.display = 'block';
+        autoResult.classList.add('show');
+      })
+      .catch(function () { addrStatus.textContent = '공시가격 조회 중 오류가 발생했습니다.'; });
+  }
+
+  btnFill.addEventListener('click', function () {
+    if (!currentStdWon) return;
+    var eok = (currentStdWon / 1e8).toFixed(4).replace(/\.?0+$/, '');
+    stdValueInput.value = eok;
+    stdValueInput.dispatchEvent(new Event('input'));
+    btnFill.textContent = '✓ 입력됨';
+    setTimeout(function () { btnFill.textContent = '↓ 공시가격 자동 입력'; }, 2000);
+  });
+}());
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8f333dc2c9e844b39f36daec8c0c0570"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
