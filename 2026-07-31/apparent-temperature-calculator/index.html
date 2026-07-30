@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>체감온도 계산기 — 오늘 실제로 몇 도 느껴지나요?</title>
+  <meta name="description" content="기온·습도·풍속을 입력해 체감온도를 즉시 계산합니다. 여름 열지수(Rothfusz)·겨울 풍속냉각지수(NWS) 공식 적용. 옷차림·야외활동 결정에 활용하세요.">
+  <meta property="og:title" content="체감온도 계산기 — 오늘 실제로 몇 도 느껴지나요?">
+  <meta property="og:description" content="기온·습도·풍속 입력 → 체감온도 즉시 계산 → 옷차림 가이드">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utils.minon.kr/apparent-temperature-calculator/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="체감온도 계산기">
+  <meta name="twitter:description" content="기온·습도·풍속 → 체감온도 즉시 계산">
+  <link rel="canonical" href="https://utils.minon.kr/apparent-temperature-calculator/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "체감온도 계산기",
+    "description": "기온·습도·풍속을 입력해 여름 열지수, 겨울 풍속냉각지수 기반 체감온도를 계산하는 계산기",
+    "url": "https://utils.minon.kr/apparent-temperature-calculator/",
+    "applicationCategory": "UtilitiesApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #f4f4f4;
+      padding: 1rem;
+    }
+    main { max-width: 480px; margin: 0 auto; }
+    header { margin-bottom: 1.25rem; }
+    h1 { font-size: 1.4rem; font-weight: 700; }
+    .subtitle { font-size: 0.875rem; color: #666; margin-top: 0.2rem; }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: #333;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .field { display: flex; flex-direction: column; }
+    input[type="number"] {
+      padding: 0.65rem 0.75rem;
+      border: 1.5px solid #d4d4d4;
+      border-radius: 7px;
+      font-size: 1rem;
+      color: #1a1a1a;
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      background: #fff;
+    }
+    input[type="number"]:focus { outline: none; border-color: #0ea5e9; }
+    .form-section { margin-top: 0.85rem; }
+    .field-note { font-size: 0.75rem; color: #aaa; margin-top: 0.2rem; }
+    .error { color: #dc2626; font-size: 0.8rem; margin-top: 0.2rem; display: none; }
+    .error.show { display: block; }
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background: #0ea5e9;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 0.9rem;
+    }
+    button:hover { background: #0284c7; }
+    button:focus-visible { outline: 3px solid #0ea5e9; outline-offset: 2px; }
+    .result { display: none; }
+    .result.visible { display: block; }
+    .result-header { text-align: center; margin-bottom: 0.75rem; }
+    .apparent-temp { font-size: 3.5rem; font-weight: 800; line-height: 1.1; }
+    .apparent-label { font-size: 0.85rem; color: #777; margin-top: 0.15rem; }
+    .diff-text { font-size: 0.95rem; margin-top: 0.5rem; color: #444; }
+    .formula-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      background: #f0f9ff;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+      margin-top: 0.4rem;
+    }
+    .level-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1rem;
+      border-radius: 7px;
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0.75rem 0;
+      text-align: center;
+    }
+    .lvl-fine         { background: #ecfdf5; color: #065f46; }
+    .lvl-caution      { background: #fef9c3; color: #7c4a00; }
+    .lvl-warning      { background: #ffedd5; color: #9a3412; }
+    .lvl-danger       { background: #fee2e2; color: #7f1d1d; }
+    .lvl-cold-fine    { background: #f0f9ff; color: #0c4a6e; }
+    .lvl-cold-caution { background: #e0f2fe; color: #0c4a6e; }
+    .lvl-cold-warning { background: #dbeafe; color: #1e3a5f; }
+    .lvl-cold-danger  { background: #bfdbfe; color: #1e3a5f; }
+    .lvl-cold-extreme { background: #1e3a5f; color: #e0f2fe; }
+    .lvl-neutral      { background: #f5f5f5; color: #444; }
+    .clothes-box { background: #f9f9f9; border-radius: 6px; padding: 0.75rem 0.875rem; }
+    .clothes-box h3 { font-size: 0.85rem; font-weight: 700; color: #444; margin-bottom: 0.35rem; }
+    .clothes-box p { font-size: 0.9rem; }
+    .formula-info-card h2 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .formula-info { font-size: 0.8rem; color: #777; line-height: 1.7; }
+    .formula-info strong { color: #555; font-weight: 600; }
+    #ad-slot { min-height: 50px; margin-bottom: 1rem; }
+    .disclaimer {
+      font-size: 0.8rem;
+      color: #777;
+      background: #f9f9f9;
+      border-radius: 7px;
+      padding: 0.85rem 1rem;
+      border-left: 3px solid #e0e0e0;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>체감온도 계산기</h1>
+    <p class="subtitle">여름 열지수 · 겨울 풍속냉각지수 통합 — 실제로 몇 도 느껴지나요?</p>
+  </header>
+
+  <div class="card">
+    <form id="form" novalidate>
+      <div class="form-row">
+        <div class="field">
+          <label for="temp">기온 (℃)</label>
+          <input type="number" id="temp" min="-50" max="60" step="0.1" placeholder="예: 33" required aria-describedby="tempErr">
+          <span class="error" id="tempErr" role="alert">기온을 입력하세요 (-50~60℃)</span>
+        </div>
+        <div class="field">
+          <label for="hum">상대습도 (%)</label>
+          <input type="number" id="hum" min="0" max="100" step="1" placeholder="예: 65">
+          <span class="field-note">여름(27℃ 이상) 사용</span>
+          <span class="error" id="humErr" role="alert">습도를 입력하세요 (0~100%)</span>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="field">
+          <label for="wind">풍속 (km/h)</label>
+          <input type="number" id="wind" min="0" max="200" step="0.5" placeholder="예: 10">
+          <span class="field-note">겨울(10℃ 이하) 사용 · 미입력 시 무풍 처리</span>
+          <span class="error" id="windErr" role="alert">풍속을 입력하세요 (0~200 km/h)</span>
+        </div>
+      </div>
+      <button type="submit">체감온도 계산하기</button>
+    </form>
+  </div>
+
+  <div class="card result" id="result" aria-live="polite">
+    <div class="result-header">
+      <div class="apparent-temp" id="apparentTemp"></div>
+      <div class="apparent-label">체감온도 (℃)</div>
+      <div class="diff-text" id="diffText"></div>
+      <span class="formula-badge" id="formulaBadge"></span>
+    </div>
+    <div class="level-bar" id="levelBar"></div>
+    <div class="clothes-box" id="clothesBox"></div>
+  </div>
+
+  <div id="ad-slot"></div>
+
+  <div class="card formula-info-card">
+    <h2>계산 공식 안내</h2>
+    <p class="formula-info">
+      <strong>여름 (기온 27℃ 이상)</strong> — NWS Rothfusz 열지수 공식. 기온과 습도가 결합해 실제 느끼는 열 스트레스를 계산합니다.<br>
+      <strong>겨울 (기온 10℃ 이하, 풍속 5km/h 이상)</strong> — NWS·캐나다 기상청 풍속냉각지수 공식. 바람이 피부를 냉각시키는 효과를 계산합니다.<br>
+      <strong>그 외 (11~26℃)</strong> — 해당 기온대에서는 열지수·풍속냉각 효과가 미미해 체감온도 ≈ 실제 기온입니다.
+    </p>
+  </div>
+
+  <p class="disclaimer">
+    ⚠️ 이 계산기는 <strong>참고용</strong>입니다. 실제 체감온도는 일사량·복사열·개인 체질에 따라 달라집니다. 야외 작업 안전 판단은 기상청 공식 정보를 우선하세요.
+  </p>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  // NWS Rothfusz 열지수 — 입력·출력 °F
+  function heatIndexF(tf, rh) {
+    var hi = -42.379
+      + 2.04901523  * tf
+      + 10.14333127 * rh
+      - 0.22475541  * tf * rh
+      - 6.83783e-3  * tf * tf
+      - 5.481717e-2 * rh * rh
+      + 1.22874e-3  * tf * tf * rh
+      + 8.5282e-4   * tf * rh * rh
+      - 1.99e-6     * tf * tf * rh * rh;
+    // 저습도 보정 (RH < 13, 80 ≤ T ≤ 112°F)
+    if (rh < 13 && tf >= 80 && tf <= 112) {
+      hi -= (13 - rh) / 4 * Math.sqrt((17 - Math.abs(tf - 95)) / 17);
+    }
+    // 고습도 보정 (RH > 85, 80 ≤ T ≤ 87°F)
+    if (rh > 85 && tf >= 80 && tf <= 87) {
+      hi += (rh - 85) / 10 * (87 - tf) / 5;
+    }
+    return hi;
+  }
+
+  // NWS·캐나다 풍속냉각지수 — °C, km/h → °C
+  function windChillC(tc, vkmh) {
+    return 13.12
+      + 0.6215  * tc
+      - 11.37   * Math.pow(vkmh, 0.16)
+      + 0.3965  * tc * Math.pow(vkmh, 0.16);
+  }
+
+  function calcApparent(tc, rh, vkmh) {
+    // 여름 (≥ 27℃): 열지수
+    if (tc >= 27) {
+      var tf = tc * 9 / 5 + 32;
+      // NWS 간이 공식으로 80°F 미만 판정
+      var simple = 0.5 * (tf + 61 + (tf - 57) * 1.2 + rh * 0.094);
+      var hiF = (simple + tf) / 2 < 80 ? simple : heatIndexF(tf, rh);
+      return { temp: (hiF - 32) * 5 / 9, formula: 'summer' };
+    }
+    // 겨울 (≤ 10℃, 풍속 ≥ 5km/h): 풍속냉각지수
+    if (tc <= 10 && vkmh >= 5) {
+      return { temp: windChillC(tc, vkmh), formula: 'winter' };
+    }
+    // 그 외: 체감 ≈ 실제 기온
+    return { temp: tc, formula: 'neutral' };
+  }
+
+  // 여름 열지수 단계 (°C 기준)
+  var SUMMER = [
+    { max: 32, label: '🌤️ 더움 — 주의',      cls: 'lvl-caution',
+      clothes: '통풍 잘 되는 얇은 옷을 권장합니다. 30분마다 수분을 보충하세요.' },
+    { max: 41, label: '🥵 매우 더움 — 경고',  cls: 'lvl-warning',
+      clothes: '흡습·속건 소재 옷 착용, 야외 활동 최소화하세요. 일사병·열탈진 주의.' },
+    { max: 54, label: '🚨 위험 — 열사병 주의', cls: 'lvl-danger',
+      clothes: '야외 활동을 자제하세요. 반드시 그늘·냉방 장소에서 쉬세요.' },
+    { max: Infinity, label: '🔴 극도 위험', cls: 'lvl-danger',
+      clothes: '즉시 냉방 장소로 이동하세요. 생명을 위협하는 수준의 열 스트레스입니다.' }
+  ];
+
+  // 겨울 풍속냉각 단계 (°C, min 내림차순)
+  var WINTER = [
+    { min:  -9,        label: '❄️ 서늘함',                    cls: 'lvl-cold-fine',
+      clothes: '가벼운 겉옷 또는 두꺼운 긴소매를 갖추세요.' },
+    { min: -27,        label: '🥶 추움 — 주의',               cls: 'lvl-cold-caution',
+      clothes: '두꺼운 코트·장갑·목도리 착용을 권장합니다. 장시간 노출 시 저체온증 위험.' },
+    { min: -39,        label: '🧊 위험 — 동상 주의 (10~30분)', cls: 'lvl-cold-warning',
+      clothes: '방한복 완전 착용·야외 활동 최소화. 30분 내 노출 피부에 동상 위험.' },
+    { min: -46,        label: '🚨 매우 위험 — 동상 (5~10분)', cls: 'lvl-cold-danger',
+      clothes: '5~10분 내 동상 가능. 즉각 보온 조치·야외 활동 금지.' },
+    { min: -Infinity,  label: '🔴 극도 위험',                  cls: 'lvl-cold-extreme',
+      clothes: '2분 내 동상 위험. 실외 노출 즉시 금지. 응급 시 119 신고.' }
+  ];
+
+  function getSummerLevel(t) {
+    for (var i = 0; i < SUMMER.length; i++) {
+      if (t < SUMMER[i].max) return SUMMER[i];
+    }
+    return SUMMER[SUMMER.length - 1];
+  }
+
+  function getWinterLevel(t) {
+    for (var i = 0; i < WINTER.length; i++) {
+      if (t >= WINTER[i].min) return WINTER[i];
+    }
+    return WINTER[WINTER.length - 1];
+  }
+
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var tc   = parseFloat(document.getElementById('temp').value);
+    var rh   = parseFloat(document.getElementById('hum').value);
+    var vkmh = parseFloat(document.getElementById('wind').value);
+
+    document.getElementById('tempErr').classList.remove('show');
+    document.getElementById('humErr').classList.remove('show');
+    document.getElementById('windErr').classList.remove('show');
+
+    var valid = true;
+    if (isNaN(tc) || tc < -50 || tc > 60) {
+      document.getElementById('tempErr').classList.add('show'); valid = false;
+    }
+    if (tc >= 27 && (isNaN(rh) || rh < 0 || rh > 100)) {
+      document.getElementById('humErr').classList.add('show'); valid = false;
+    }
+    if (!isNaN(vkmh) && (vkmh < 0 || vkmh > 200)) {
+      document.getElementById('windErr').classList.add('show'); valid = false;
+    }
+    if (!valid) return;
+
+    if (isNaN(rh))   rh   = 50;
+    if (isNaN(vkmh)) vkmh = 0;
+
+    var res = calcApparent(tc, rh, vkmh);
+    var at  = res.temp;
+
+    document.getElementById('apparentTemp').textContent = at.toFixed(1) + '℃';
+
+    var diff = at - tc;
+    var diffHtml;
+    if (Math.abs(diff) < 0.5) {
+      diffHtml = '실제 기온 <strong>' + tc.toFixed(1) + '℃</strong>와 비슷하게 느껴집니다.';
+    } else if (diff > 0) {
+      diffHtml = '실제 기온 <strong>' + tc.toFixed(1) + '℃</strong>보다 <strong>' + diff.toFixed(1) + '℃ 더 덥게</strong> 느껴집니다.';
+    } else {
+      diffHtml = '실제 기온 <strong>' + tc.toFixed(1) + '℃</strong>보다 <strong>' + Math.abs(diff).toFixed(1) + '℃ 더 춥게</strong> 느껴집니다.';
+    }
+    document.getElementById('diffText').innerHTML = diffHtml;
+
+    var FORMULA_LABELS = {
+      summer:  '여름 열지수 (Rothfusz / NWS)',
+      winter:  '겨울 풍속냉각지수 (NWS)',
+      neutral: '해당 기온대: 체감 ≈ 실제 기온'
+    };
+    document.getElementById('formulaBadge').textContent = FORMULA_LABELS[res.formula];
+
+    var level;
+    if (res.formula === 'summer') {
+      level = getSummerLevel(at);
+    } else if (res.formula === 'winter') {
+      level = getWinterLevel(at);
+    } else {
+      level = { label: '😊 쾌적 — 외출하기 좋은 날씨', cls: 'lvl-neutral',
+        clothes: '쾌적한 날씨입니다. 목적지·시간대에 맞게 입으세요.' };
+    }
+
+    var bar = document.getElementById('levelBar');
+    bar.textContent = level.label;
+    bar.className   = 'level-bar ' + level.cls;
+
+    document.getElementById('clothesBox').innerHTML =
+      '<h3>옷차림 가이드</h3><p>' + level.clothes + '</p>';
+
+    var resultEl = document.getElementById('result');
+    resultEl.classList.add('visible');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}());
+</script>
+</body>
+</html>
