@@ -62,9 +62,12 @@ export async function onRequestGet(context) {
     u.searchParams.set('format',   'json');
     u.searchParams.set('numOfRows', '10');
     u.searchParams.set('pageNo',   '1');
-    if (env.VWORLD_DOMAIN) u.searchParams.set('domain', env.VWORLD_DOMAIN);
+    u.searchParams.set('domain', env.VWORLD_DOMAIN || 'utils.minon.kr');
 
-    const resp = await fetch(u.toString());
+    const domain = env.VWORLD_DOMAIN || 'utils.minon.kr';
+    const resp = await fetch(u.toString(), {
+      headers: { 'Referer': `https://${domain}` },
+    });
     const raw  = await resp.text();
 
     let data;
