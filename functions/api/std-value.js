@@ -13,9 +13,15 @@ export async function onRequestGet(context) {
   const type        = url.searchParams.get('type')        || 'apt';
   const year        = url.searchParams.get('year')        || String(new Date().getFullYear());
   const legalDongCd = url.searchParams.get('legalDongCd') || '';
-  const lnbrMnnm    = url.searchParams.get('lnbrMnnm')    || '0';
-  const lnbrSlno    = url.searchParams.get('lnbrSlno')    || '0';
+  let   lnbrMnnm    = url.searchParams.get('lnbrMnnm')    || '0';
+  let   lnbrSlno    = url.searchParams.get('lnbrSlno')    || '0';
   const jibunAddr   = url.searchParams.get('jibunAddr')   || '';
+
+  /* jibunAddr 폴백: Juso API가 lnbrMnnm을 안 주는 케이스 */
+  if (lnbrMnnm === '0' && jibunAddr) {
+    const lot = extractLotFromJibun(jibunAddr);
+    if (lot) { lnbrMnnm = lot.mnnm; lnbrSlno = lot.slno; }
+  }
 
   /* ── MOCK (키 미등록 시) ── */
   if (!env.VWORLD_KEY) {
@@ -35,8 +41,8 @@ export async function onRequestGet(context) {
     return json({ error: '현재 공동주택(아파트·연립·다세대)만 자동조회를 지원합니다. 단독주택·토지는 realtyprice.kr 또는 eum.go.kr에서 직접 확인 후 수동 입력해 주세요.' }, 400);
   }
 
-  if (!legalDongCd || !lnbrMnnm) {
-    return json({ error: '필수 파라미터(legalDongCd, lnbrMnnm) 누락' }, 400);
+  if (!legalDongCd || lnbrMnnm === '0') {
+    return json({ error: '지번 정보를 찾을 수 없습니다. 직접 검색하여 수동 입력해 주세요.' }, 400);
   }
 
   /* ── PNU 조립 ── */
@@ -117,6 +123,16 @@ function buildPnu(legalDongCd, lnbrMnnm, lnbrSlno, jibunAddr) {
   const ji     = String(lnbrSlno || '0').replace(/[^0-9]/g, '').padStart(4, '0');
   const san    = (jibunAddr || '').includes('산') ? '2' : '1';
   return `${code10}${san}${bun}${ji}`;
+}
+
+/** jibunAddr 토큰에서 지번 본번·부번 추출 (예: "상일동 515" → {mnnm:'515', slno:'0'}) */
+function extractLotFromJibun(jibunAddr) {
+  const tokens = (jibunAddr || '').split(/\s+/);
+  for (const t of tokens) {
+    const m = t.match(/^(\d+)(?:-(\d+))?$/);
+    if (m) return { mnnm: m[1], slno: m[2] || '0' };
+  }
+  return null;
 }
 
 function json(data, status = 200) {

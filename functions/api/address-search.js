@@ -13,7 +13,7 @@ export async function onRequestGet(context) {
   }
 
   /* ── 캐시 (Cloudflare Cache API, 24h) ── */
-  const cacheKey = new Request(request.url);
+  const cacheKey = new Request(request.url + '&v=2');
   const cache = caches.default;
   const cached = await cache.match(cacheKey);
   if (cached) return cached;
@@ -49,7 +49,7 @@ export async function onRequestGet(context) {
       siNm:      j.siNm,
       sggNm:     j.sggNm,
       emdNm:     j.emdNm,
-      legalDongCd: j.admCd,
+      legalDongCd: j.bdMgtSn ? j.bdMgtSn.substring(0, 10) : j.admCd,
       bdMgtSn:   j.bdMgtSn,
       admCd:     j.admCd    || '',
       rnMgtSn:   j.rnMgtSn  || '',

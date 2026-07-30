@@ -496,7 +496,7 @@
   }
 
   function showResult(data) {
-    if (data.error) { addrStatus.textContent = '공시가격을 자동으로 가져오지 못했습니다. realtyprice.kr에서 직접 확인 후 입력해 주세요.'; return; }
+    if (data.error) { addrStatus.textContent = data.error; return; }
     autoResultLabel.textContent = data.label || '공시가격';
     currentStdWon = data.stdValue || 0;
 
