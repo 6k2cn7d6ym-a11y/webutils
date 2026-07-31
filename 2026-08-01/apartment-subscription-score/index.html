@@ -25,20 +25,35 @@
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
   }
   </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
   <style>
+    :root {
+      --bg: #F4F6FB;
+      --primary: #1D4ED8;
+      --primary-hover: #1E40AF;
+      --primary-soft: #EFF6FF;
+      --primary-soft-border: #BFDBFE;
+      --primary-soft-text: #1E3A8A;
+      --text: #0F1624;
+      --text-sub: #5A6680;
+      --border: #D0D8E8;
+      --error: #B83A28;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
       font-size: 16px;
       line-height: 1.6;
-      color: #1a1a1a;
-      background: #f4f4f4;
+      color: var(--text);
+      background: var(--bg);
       padding: 1rem;
     }
     main { max-width: 480px; margin: 0 auto; }
     header { margin-bottom: 1.25rem; }
-    h1 { font-size: 1.4rem; font-weight: 700; }
-    .subtitle { font-size: 0.875rem; color: #666; margin-top: 0.2rem; }
+    h1 { font-size: 1.5rem; font-weight: 700; }
+    .subtitle { font-size: 0.875rem; color: var(--text-sub); margin-top: 0.2rem; }
+    .hero-line { width: 2.5rem; height: 2px; background: var(--primary); margin: 0.35rem 0 0.45rem; border-radius: 2px; }
     .card {
       background: #fff;
       border-radius: 10px;
@@ -77,14 +92,14 @@
       -webkit-appearance: none;
       appearance: none;
     }
-    input[type="number"]:focus, select:focus { outline: none; border-color: #2563eb; }
-    .field-note { font-size: 0.75rem; color: #aaa; margin-top: 0.25rem; }
+    input[type="number"]:focus, select:focus { outline: none; border-color: var(--primary); }
+    .field-note { font-size: 0.75rem; color: var(--text-sub); margin-top: 0.25rem; }
     .error { color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem; display: none; }
     .error.show { display: block; }
     button {
       width: 100%;
       padding: 0.85rem;
-      background: #2563eb;
+      background: var(--primary);
       color: #fff;
       border: none;
       border-radius: 8px;
@@ -92,24 +107,35 @@
       font-weight: 700;
       cursor: pointer;
       margin-top: 0.25rem;
+      transition: transform 150ms ease, box-shadow 150ms ease;
     }
-    button:hover { background: #1d4ed8; }
+    button:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    button:active { transform: translateY(0); }
+    @keyframes resultReveal {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
     .result { display: none; }
-    .result.show { display: block; }
+    .result.show { display: block; animation: resultReveal 200ms ease-out both; }
     .score-box {
       text-align: center;
       padding: 1.5rem 1rem;
-      background: #eff6ff;
+      background: var(--primary-soft);
+      border: 2px solid var(--primary-soft-border);
       border-radius: 10px;
       margin-bottom: 1rem;
     }
     .score-total {
       font-size: 3rem;
       font-weight: 800;
-      color: #2563eb;
+      color: var(--primary);
       line-height: 1;
     }
-    .score-max { font-size: 1rem; color: #93c5fd; margin-top: 0.2rem; }
+    .score-max { font-size: 1rem; color: var(--primary-soft-border); margin-top: 0.2rem; }
     .score-label { font-size: 0.9rem; color: #555; margin-top: 0.5rem; }
     .breakdown { margin-top: 0.5rem; }
     .breakdown-row {
@@ -121,10 +147,10 @@
       font-size: 0.9rem;
     }
     .breakdown-row:last-child { border-bottom: none; }
-    .breakdown-name { color: #555; }
+    .breakdown-name { color: var(--text-sub); }
     .breakdown-score {
       font-weight: 700;
-      color: #2563eb;
+      color: var(--primary);
     }
     .breakdown-max { color: #bbb; font-size: 0.8rem; margin-left: 0.25rem; }
     .bar-wrap { margin-top: 0.5rem; }
@@ -138,15 +164,15 @@
     .bar-fill {
       height: 100%;
       border-radius: 999px;
-      background: #2563eb;
+      background: var(--primary);
       transition: width 0.4s ease;
     }
     .percentile-box {
-      background: #f0fdf4;
+      background: var(--primary-soft);
       border-radius: 8px;
       padding: 0.75rem 1rem;
       font-size: 0.85rem;
-      color: #166534;
+      color: var(--primary);
       margin-top: 0.75rem;
     }
     .notice {
@@ -176,11 +202,11 @@
       border-bottom: 1px solid #f0f0f0;
       color: #333;
     }
-    .score-table tr.highlight td { background: #eff6ff; font-weight: 700; color: #2563eb; }
+    .score-table tr.highlight td { background: var(--primary-soft); font-weight: 700; color: var(--primary); }
     details { margin-top: 0.75rem; }
     summary {
       font-size: 0.82rem;
-      color: #2563eb;
+      color: var(--primary);
       cursor: pointer;
       user-select: none;
       list-style: none;
@@ -195,6 +221,7 @@
 <main>
   <header>
     <h1>청약 가점 계산기</h1>
+    <div class="hero-line"></div>
     <p class="subtitle">무주택 기간·부양가족·저축 가입기간 → 84점 만점 즉시 계산</p>
   </header>
 

@@ -25,20 +25,35 @@
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
   }
   </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
   <style>
+    :root {
+      --bg: #F4F6FB;
+      --primary: #1D4ED8;
+      --primary-hover: #1E40AF;
+      --primary-soft: #EFF6FF;
+      --primary-soft-border: #BFDBFE;
+      --primary-soft-text: #1E3A8A;
+      --text: #0F1624;
+      --text-sub: #5A6680;
+      --border: #D0D8E8;
+      --error: #B83A28;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
       font-size: 16px;
       line-height: 1.6;
-      color: #1a1a1a;
-      background: #f4f4f4;
+      color: var(--text);
+      background: var(--bg);
       padding: 1rem;
     }
     main { max-width: 480px; margin: 0 auto; }
     header { margin-bottom: 1.25rem; }
-    h1 { font-size: 1.4rem; font-weight: 700; }
-    .subtitle { font-size: 0.875rem; color: #666; margin-top: 0.2rem; }
+    h1 { font-size: 1.5rem; font-weight: 700; }
+    .subtitle { font-size: 0.875rem; color: var(--text-sub); margin-top: 0.2rem; }
+    .hero-line { width: 2.5rem; height: 2px; background: var(--primary); margin: 0.35rem 0 0.45rem; border-radius: 2px; }
     .card {
       background: #fff;
       border-radius: 10px;
@@ -54,18 +69,18 @@
     }
     .tab-btn {
       padding: 0.6rem 0.5rem;
-      border: 2px solid #e5e7eb;
+      border: 2px solid var(--border);
       border-radius: 8px;
       background: #fff;
       font-size: 0.875rem;
       font-weight: 600;
-      color: #555;
+      color: var(--text-sub);
       cursor: pointer;
       text-align: center;
       transition: all 0.15s;
     }
-    .tab-btn:hover { border-color: #93c5fd; color: #2563eb; }
-    .tab-btn.active { border-color: #2563eb; background: #eff6ff; color: #2563eb; }
+    .tab-btn:hover { border-color: var(--primary-soft-border); color: var(--primary); }
+    .tab-btn.active { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
     .type-panel { display: none; }
     .type-panel.show { display: block; }
     .type-label {
@@ -88,7 +103,7 @@
       margin-top: 0.2rem;
       width: 18px;
       height: 18px;
-      accent-color: #2563eb;
+      accent-color: var(--primary);
       flex-shrink: 0;
       cursor: pointer;
     }
@@ -135,28 +150,38 @@
       -webkit-appearance: none;
       appearance: none;
     }
-    input[type="number"]:focus, select:focus { outline: none; border-color: #2563eb; }
+    input[type="number"]:focus, select:focus { outline: none; border-color: var(--primary); }
     button {
       width: 100%;
       padding: 0.85rem;
-      background: #2563eb;
+      background: var(--primary);
       color: #fff;
       border: none;
       border-radius: 8px;
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
+      transition: transform 150ms ease, box-shadow 150ms ease;
     }
-    button:hover { background: #1d4ed8; }
+    button:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    button:active { transform: translateY(0); }
+    @keyframes resultReveal {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
     .result { display: none; }
-    .result.show { display: block; }
+    .result.show { display: block; animation: resultReveal 200ms ease-out both; }
     .verdict-box {
       border-radius: 10px;
       padding: 1.25rem;
       text-align: center;
       margin-bottom: 1rem;
     }
-    .verdict-box.pass { background: #f0fdf4; }
+    .verdict-box.pass { background: var(--primary-soft); }
     .verdict-box.fail { background: #fef2f2; }
     .verdict-box.partial { background: #fffbeb; }
     .verdict-icon { font-size: 2.5rem; }
@@ -165,7 +190,7 @@
       font-weight: 800;
       margin-top: 0.4rem;
     }
-    .verdict-box.pass .verdict-title { color: #15803d; }
+    .verdict-box.pass .verdict-title { color: var(--primary); }
     .verdict-box.fail .verdict-title { color: #b91c1c; }
     .verdict-box.partial .verdict-title { color: #92400e; }
     .verdict-desc { font-size: 0.875rem; color: #555; margin-top: 0.35rem; }
@@ -180,7 +205,7 @@
     .missing-item::before { content: "✗"; flex-shrink: 0; }
     .pass-item {
       font-size: 0.82rem;
-      color: #15803d;
+      color: var(--primary);
       padding: 0.25rem 0;
       display: flex;
       gap: 0.4rem;
@@ -214,11 +239,11 @@
     }
     #ad-slot { min-height: 60px; margin-bottom: 1rem; }
     .income-note {
-      background: #f0f9ff;
+      background: var(--primary-soft);
       border-radius: 6px;
       padding: 0.6rem 0.75rem;
       font-size: 0.8rem;
-      color: #0369a1;
+      color: var(--primary);
       margin-top: 0.5rem;
     }
   </style>
@@ -227,6 +252,7 @@
 <main>
   <header>
     <h1>청약 특별공급 자격 판단기</h1>
+    <div class="hero-line"></div>
     <p class="subtitle">신혼부부·생애최초·다자녀·노부모 — 유형 선택 후 즉시 확인</p>
   </header>
 
