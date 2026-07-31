@@ -1,8 +1,8 @@
 # 2026-08-01 디자인 세션 · 웹유틸 2건 · 청약 가점·특별공급
 
 ## 현재 상태
-- 단계: 피카소 시안 완료 · 34개 항목 반영 완료
-- 다음: 달리 검토
+- 단계: 달리 검토 완료 · 수정 1건 직접 반영 · 다빈치 최종 판정 대기
+- 다음: 다빈치
 - 반려 지목: —
 - 왕복 회차: 1/5
 
@@ -168,7 +168,32 @@
 ---
 
 ## 달리 검토
-(대기)
+
+**전체 평가: 통과 — 수정 1건 직접 반영 후 다빈치 상신**
+
+### 검토 범위
+- `apartment-subscription-score/index.html` 전체
+- `apartment-subscription-special/index.html` 전체
+- 피카소 34개 항목 체크리스트 교차 검증
+
+### 통과 확인 항목
+- Pretendard CDN, `:root` 10 토큰, body font-family, h1/subtitle/hero-line — 두 파일 모두 정확
+- `var(--primary)/#1D4ED8` 치환 — CSS 전역 완료
+- 버튼 hover `translateY(-1px) + box-shadow` — 두 파일 동일
+- 가점 계산기 `resultReveal` 애니메이션, `.show` 클래스 트리거 — 정상
+- 특별공급 탭 active/hover 상태 (`var(--primary-soft)` 배경·border) — 정상
+- `accent-color: var(--primary)` 체크박스 — 정상
+- SEO 태그·JSON-LD·`#ad-slot`·JS 계산·판정 함수 — 손상 없음
+
+### 발견·수정 (달리 직접 반영)
+- **특별공급 607행 `el.style.color = '#15803d'` 인라인 오버라이드 제거**
+  - CSS `.pass-item { color: var(--primary); }` 맞게 썼으나 JS에서 선택 항목(가점 항목)에 `#15803d` 그린 인라인 주입 → CSS 변수 무효화
+  - `style.color` 라인 제거. `.pass-item` CSS가 자연히 적용됨
+  - [달리 수정: JS inline override 누락 · CSS만 체크한 것으로 추정]
+
+### 잔여 하드코딩 (범위 外 · 허용)
+- `.section-title color: #888`, `label color: #333`, `input border #d4d4d4` — 34항목 스코프 외. 기능에 영향 없고 배경 대비 충분. 다음 사이클 토큰 확장 시 정리 대상.
+- `.next-steps background: #f8faff` — 지시서 31번이 "`var(--primary-soft)` 또는 기존 `#f8faff`"로 허용. 유지.
 
 ---
 
