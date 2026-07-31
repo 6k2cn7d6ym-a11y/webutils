@@ -86,11 +86,12 @@
     .type-label {
       font-size: 0.8rem;
       font-weight: 700;
-      color: #888;
+      color: var(--text-sub);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 1rem;
     }
+    .opt-tag { font-size: 0.75rem; color: var(--text-sub); margin-left: 0.15rem; }
     .check-item {
       display: flex;
       align-items: flex-start;
@@ -115,7 +116,7 @@
     }
     .check-note {
       font-size: 0.75rem;
-      color: #aaa;
+      color: var(--text-sub);
       margin-top: 0.15rem;
     }
     .check-required {
@@ -222,7 +223,7 @@
     .next-steps li { font-size: 0.82rem; color: #555; margin-bottom: 0.2rem; }
     .notice {
       font-size: 0.78rem;
-      color: #888;
+      color: var(--text-sub);
       line-height: 1.5;
       padding-top: 0.5rem;
       border-top: 1px solid #eee;
@@ -314,7 +315,7 @@
     <div class="check-item">
       <input type="checkbox" id="nw-child" onchange="judge('newlywed')">
       <div>
-        <label for="nw-child" class="check-label">미성년 자녀가 있다 <span style="font-size:0.75rem;color:#888;">(선택)</span></label>
+        <label for="nw-child" class="check-label">미성년 자녀가 있다 <span class="opt-tag">(선택)</span></label>
         <p class="check-note">자녀 있으면 우선공급 대상. 없어도 일반공급 신청 가능 (공공).</p>
       </div>
     </div>
@@ -367,7 +368,7 @@
     <div class="check-item">
       <input type="checkbox" id="fh-married" onchange="judge('firsthome')">
       <div>
-        <label for="fh-married" class="check-label">혼인 중이거나 미성년 자녀가 있다 <span style="font-size:0.75rem;color:#888;">(조건부)</span></label>
+        <label for="fh-married" class="check-label">혼인 중이거나 미성년 자녀가 있다 <span class="opt-tag">(조건부)</span></label>
         <p class="check-note">공공주택 생애최초는 혼인 또는 자녀 요건이 있을 수 있습니다. 단지 공고문 확인 필요.</p>
       </div>
     </div>
@@ -402,7 +403,7 @@
     <div class="check-item">
       <input type="checkbox" id="mc-score" onchange="judge('multichild')">
       <div>
-        <label for="mc-score" class="check-label">다자녀 점수 항목을 확인했다 <span style="font-size:0.75rem;color:#888;">(참고)</span></label>
+        <label for="mc-score" class="check-label">다자녀 점수 항목을 확인했다 <span class="opt-tag">(참고)</span></label>
         <p class="check-note">다자녀는 경쟁 시 점수제(미성년 자녀 수·영유아 자녀·세대 구성·무주택 기간·청약통장 가입기간) 순위 배정.</p>
       </div>
     </div>
@@ -456,7 +457,7 @@
     <div class="check-item">
       <input type="checkbox" id="ep-seouldeps" onchange="judge('elderparent')">
       <div>
-        <label for="ep-seouldeps" class="check-label">세대주이며 세대원으로 신청자와 직계존속이 함께 등재되어 있다 <span style="font-size:0.75rem;color:#888;">(조건부)</span></label>
+        <label for="ep-seouldeps" class="check-label">세대주이며 세대원으로 신청자와 직계존속이 함께 등재되어 있다 <span class="opt-tag">(조건부)</span></label>
         <p class="check-note">일반적으로 세대주 조건 및 주민등록 동일 세대 요건이 적용됩니다.</p>
       </div>
     </div>

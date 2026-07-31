@@ -1,10 +1,10 @@
 # 2026-08-01 디자인 세션 · 웹유틸 2건 · 청약 가점·특별공급
 
 ## 현재 상태
-- 단계: 달리 검토 완료 · 수정 1건 직접 반영 · 다빈치 최종 판정 대기
-- 다음: 다빈치
+- 단계: 다빈치 최종 판정 완료 · 접근성 정리 9건 반영 · 클레버 검수 대기
+- 다음: 클레버 (다음 슬롯 · 검수·배포 파이프라인)
 - 반려 지목: —
-- 왕복 회차: 1/5
+- 왕복 회차: 2/5 (다빈치 자체 반영으로 종결)
 
 ## 브랜드 승계
 - 이전 사이클 참조: `2026-07-31/public-holiday-substitute-2026` (공휴일대체 계산기)
@@ -198,7 +198,48 @@
 ---
 
 ## 다빈치 최종 판정
-(대기)
+
+**판정: 통과 — 접근성·인라인 스타일 정리 9건 다빈치 직접 반영 후 종결**
+
+### 재검증 관점 (달리 1차 검토와 다른 각도)
+달리 검토는 34항목 체크리스트 중심. 다빈치 재검증은 **브랜드 완결성 + 접근성(WCAG AA)** 축으로 다시 훑음.
+
+### 다빈치 직접 반영 (9건 · 두 파일)
+
+| # | 위치 | Before | After | 사유 |
+|---|---|---|---|---|
+| 1 | score CSS `.section-title` | `color:#888` | `var(--text-sub)` | 흰 카드 대비 3.54:1 · WCAG AA 실패 |
+| 2 | special CSS `.type-label` | `color:#888` | `var(--text-sub)` | 동일 |
+| 3 | special CSS `.check-note` | `color:#aaa` | `var(--text-sub)` | 대비 2.3:1 · 위계 잃지 않고 접근성 확보 |
+| 4 | score CSS `.notice` | `color:#888` | `var(--text-sub)` | 청약홈 링크 있는 안내문 · 읽혀야 함 |
+| 5 | special CSS `.notice` | `color:#888` | `var(--text-sub)` | 동일 |
+| 6 | special HTML `nw-child` 옆 | `<span style="...color:#888">` | `<span class="opt-tag">` | 지시 8번(인라인→토큰) 스코프 內 놓친 항목 |
+| 7 | special HTML `fh-married` 옆 | 동일 | 동일 | 동일 |
+| 8 | special HTML `mc-score` 옆 | 동일 | 동일 | 동일 |
+| 9 | special HTML `ep-seouldeps` 옆 | 동일 | 동일 | 동일 |
+
+`.opt-tag { font-size: 0.75rem; color: var(--text-sub); margin-left: 0.15rem; }` CSS 신규 추가 (special 파일).
+
+### 유지 판정
+- `.section-title/label color:#333`, `.check-label color:#333`, `input border #d4d4d4` — 대비 충분 (12.6:1 이상) · 토큰 확장은 다음 사이클
+- `.next-steps background:#f8faff` — 지시 31번 명시 허용 · `.income-note`(primary-soft)와 톤 위계 다르게 유지가 옳음
+- `.tab-btn:hover border-color: var(--primary-soft-border)` — hover는 subtle이 UX 원칙 · active(primary)와 대비돼 구분 명확
+- `.check-note color:#aaa` (3번)만 정리 · 나머지 옅은 톤은 위계 필요
+
+### 다음 사이클 이월 (스코프 外)
+- `label color:#333` → `var(--text)` 통일 검토 (지금은 대비 충분해 미착수)
+- 다자녀 참고 표 `color:#555` → 토큰화 검토
+- 이 두 항목은 브랜드 토큰 v2 확장 시 일괄 처리
+
+### 지난 사이클 승계 상태
+공휴일대체(2026-07-31)에서 확립한 코발트 블루 팔레트·hero-line·Pretendard·resultReveal 애니메이션 100% 승계 확인. 부동산·공적·제도 도메인 통합 톤 완성.
+
+---
+
+## 클레버 검수 (예정)
+- 대상 폴더: `webutils/2026-08-01/`
+- 검수 파일: `apartment-subscription-score/index.html` · `apartment-subscription-special/index.html`
+- 검수 항목: JS 계산·판정 함수 무결성 · SEO 태그·JSON-LD 정합 · Core Web Vitals · 광고 슬롯 위치
 
 ---
 
