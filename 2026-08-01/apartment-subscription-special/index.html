@@ -79,7 +79,8 @@
       text-align: center;
       transition: all 0.15s;
     }
-    .tab-btn:hover { border-color: var(--primary-soft-border); color: var(--primary); }
+    /* [클레버 수정: button:hover background(#1E40AF)가 .tab-btn:hover에 상속돼 파란 배경+파란 텍스트 invisible text 발생. background 명시 추가] */
+    .tab-btn:hover { border-color: var(--primary-soft-border); color: var(--primary); background: var(--primary-soft); }
     .tab-btn.active { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
     .type-panel { display: none; }
     .type-panel.show { display: block; }

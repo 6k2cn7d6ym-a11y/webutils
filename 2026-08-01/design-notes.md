@@ -236,12 +236,45 @@
 
 ---
 
-## 클레버 검수 (예정)
-- 대상 폴더: `webutils/2026-08-01/`
-- 검수 파일: `apartment-subscription-score/index.html` · `apartment-subscription-special/index.html`
-- 검수 항목: JS 계산·판정 함수 무결성 · SEO 태그·JSON-LD 정합 · Core Web Vitals · 광고 슬롯 위치
+## 클레버 검수
 
----
+- 4축 검수 결과:
+  - 정확성: **수정 1건** (특별공급 탭 버그)
+  - 완성도: OK (브랜드 승계·토큰 적용 확인)
+  - 원칙: OK (SEO·JSON-LD·접근성·광고 슬롯·Core Web Vitals)
+  - 배포준비: OK (수정 반영 후)
 
-## 클레버 검수 (예정)
-(대기)
+- 수정 항목:
+  - **`apartment-subscription-special/index.html` — `.tab-btn:hover` background 버그**
+    - `button:hover { background: var(--primary-hover) }` (명시도 0,1,1)가 `.tab-btn:hover` (background 미선언, 명시도 0,2,0)에 상속됨
+    - 비활성 탭 hover 시 배경 #1E40AF(진한 파란) + 텍스트 var(--primary) #1D4ED8 → invisible text
+    - **수정**: `.tab-btn:hover`에 `background: var(--primary-soft)` 명시 추가
+    - [클레버 수정: button:hover background 상속으로 인한 invisible text 버그]
+
+- 검수 세부:
+
+  **1. 기능 정확성**
+  - 가점 계산기: HOMELESS_TABLE(16단계 2점 간격, 최대 32점), DEPENDENT_TABLE(7단계 5점 간격, 최대 35점), SAVINGS_TABLE(17단계 1점 간격, 최대 17점) → 합계 84점 만점 정확 ✓
+  - 경계값: 0개월 → "1년 미만" 2점, 180개월(15년) → 32점, 유효한 fallback ✓
+  - 에러 처리: 음수·12개월 이상 개월 값 차단 ✓
+  - 특별공급: 4유형 탭 전환·결과 숨김, judge() 3분기(pass/fail/partial) 로직 정확 ✓
+  - 달리 수정(JS inline `#15803d` 제거) 반영 확인 ✓
+
+  **2. 시각 완성도**
+  - `:root` 10 토큰 두 파일 동일 ✓, hero-line 위치(h1↓subtitle) ✓
+  - 다빈치 9건 직접 반영 확인: `.section-title`, `.type-label`, `.check-note`, `.notice` → `var(--text-sub)`, `.opt-tag` 클래스 교체 4건 ✓
+  - 잔여 하드코딩(`#555`, `#333`, `#d4d4d4`, `#f8faff`) 모두 다빈치 허용 목록 內 ✓
+
+  **3. 개발 원칙 준수**
+  - SEO: title/description/OG 4종/twitter/canonical ✓, JSON-LD WebApplication schema ✓
+  - 접근성: `<label for>` 전체 연결 ✓, `<button>` 키보드 접근 ✓
+  - WCAG AA 대비: `--text-sub(#5A6680)` on bg(#F4F6FB) ≈ 5.3:1 ✓, `--primary` on white ≈ 6.7:1 ✓, `--primary` on primary-soft ≈ 6.1:1 ✓
+  - 광고 슬롯: `<div id="ad-slot">` header 직후, `min-height:60px` 두 파일 ✓
+  - 외부 의존: Pretendard CDN 1개. JS/CSS 완전 인라인 ✓
+
+  **4. 배포 준비 상태**
+  - 파일 경로: `apartment-subscription-score/index.html`, `apartment-subscription-special/index.html` ✓
+  - canonical/og:url/JSON-LD url 모두 최종 배포 경로(`utils.minon.kr/...`) ✓
+  - 모바일: viewport meta, max-width 480px, input width:100% ✓
+
+- **배포 준비 상태: 준비 완료** (수정 1건 반영 완료)
