@@ -161,8 +161,9 @@
     .compare-cell.winner { box-shadow: 0 0 0 2.5px #6366f1; }
     .compare-cell.rent.winner { box-shadow: 0 0 0 2.5px #f59e0b; }
     .cell-type { font-size: 0.75rem; font-weight: 700; color: #888; }
-    .cell-dorm .cell-type { color: #6366f1; }
-    .cell-rent .cell-type { color: #b45309; }
+    /* [클레버 수정: .cell-dorm/.cell-rent는 존재하지 않는 클래스 — HTML에는 class="compare-cell dorm/rent". .dorm/.rent로 교정] */
+    .dorm .cell-type { color: #6366f1; }
+    .rent .cell-type { color: #b45309; }
     .cell-amount {
       font-size: 1.5rem;
       font-weight: 800;

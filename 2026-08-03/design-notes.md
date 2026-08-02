@@ -111,3 +111,37 @@ A안 (`#0D9488`)은 명도 대비 3.51:1로 **WCAG AA 미충족**. B안이 4.86:
 1. 이사 짐: 달리 정리 결과 **B안 단일 확정** → 다빈치 판정 승인 대기
 2. 기숙사 vs 자취: 코발트+앰버 팔레트 **확정** (대비 충족)
 3. 다빈치 최종 판정 → index.html 반영
+
+---
+
+## 클레버 검수
+
+- 4축 검수 결과:
+  - 정확성: **수정 1건** (dorm-vs-rent CSS selector 불일치)
+  - 완성도: **판단 불가** — 디자인팀 파이프라인 미완료 (Pretendard·CSS 토큰·h1 1.5rem·hero-line·팔레트 미반영)
+  - 원칙: **지적 1건** — moving-truck label 없음 (접근성 미달, 디자인 적용 시 함께 처리 권고)
+  - 배포준비: **배포 불가**
+
+- 수정 항목:
+  - **`dorm-vs-rent-calculator/index.html` — CSS selector 불일치**
+    - `.cell-dorm .cell-type` / `.cell-rent .cell-type` → HTML 실제 class는 `"compare-cell dorm"` / `"compare-cell rent"` — `.cell-dorm`/`.cell-rent` class 존재하지 않음 → cell-type 색상 미적용
+    - **수정**: `.dorm .cell-type` / `.rent .cell-type` 으로 교정
+    - [클레버 수정: CSS selector와 HTML class 불일치 → cell-type 색상 죽어있음. dorm/rent로 교정]
+
+- 지적 항목 (수정 보류 · 디자인 적용 시 처리 권고):
+  - **`moving-truck-size-calculator/index.html` — 수량 input과 select에 `<label for>` 없음**
+    - `.qty-val` input, 가구 select 모두 시각적 `.item-name` 만 있고 label 연결 없음 → 스크린리더 접근성 미달 (WCAG 1.3.1)
+    - 디자인 팀 HTML 재작업 시 함께 처리 권장 (aria-label 또는 `<label for>` 추가)
+  - **`moving-truck-size-calculator/index.html` — `selectValues` 사용 없는 dead code**
+    - `updateSelect()` / `selectValues` 딕셔너리 정의되어 있으나 `getTotalVol()`이 DOM에서 직접 읽음 → 불필요. 추후 정리 권고.
+
+- 기능 정확성 검수 결과 (디자인 무관 항목):
+  - moving-truck: `getTotalVol()` data-vol × qty 합산·select 직접 DOM 읽기·30% 여유 × 트럭 매핑·배지 경계값 처리 — 정확 ✓
+  - dorm-vs-rent: 기숙사/자취 월합산·보증금 기회비용(연 2.5%/12)·period 선택·winner 토글·내역 렌더링 — 정확 ✓
+  - SEO 태그·JSON-LD·`#ad-slot` — 양 파일 정상 ✓
+
+- **배포 준비 상태: 배포 불가**
+  - 사유: 디자인팀 파이프라인 미완료. 두 파일 모두 Pretendard 미도입·CSS 토큰 미선언·h1 1.5rem 미적용·hero-line 없음·확정 팔레트 미반영 (moving-truck: 티일 #0F766E 미적용, dorm-vs-rent: 코발트 #1D4ED8 + 앰버 #D97706 미적용)
+  - 다빈치 최종 판정·HTML 반영 완료 후 재검수 필요
+
+[[결재: 디자인팀 | 클레버 검수 재트리거 — 다빈치 HTML 반영 전 클레버 방이 열림. 2026-08-03 이사 짐·기숙사 vs 자취. 파이프라인 순서 조율 필요 (다빈치 완료 → 클레버 트리거)]]
