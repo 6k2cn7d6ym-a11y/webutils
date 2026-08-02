@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>기숙사 vs 자취 비용 비교 계산기 — 9월 개강 전 총비용 한눈에</title>
+  <meta name="description" content="기숙사비와 자취(월세·관리비·공과금·식비·교통비)를 입력하면 학기별·연간 총비용을 비교합니다. 신입생·복학생 9월 개강 전 주거 결정에 활용하세요.">
+  <meta property="og:title" content="기숙사 vs 자취 비용 비교 계산기 — 9월 개강 전 총비용 한눈에">
+  <meta property="og:description" content="기숙사비 vs 자취 월세·공과금·식비 입력 → 학기별·연간 총비용 즉시 비교">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utils.minon.kr/dorm-vs-rent-calculator/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="기숙사 vs 자취 비용 비교 계산기">
+  <meta name="twitter:description" content="기숙사 vs 자취 총비용 즉시 비교 — 9월 개강 전 주거 결정">
+  <link rel="canonical" href="https://utils.minon.kr/dorm-vs-rent-calculator/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "기숙사 vs 자취 비용 비교 계산기",
+    "description": "대학 기숙사와 자취 월세·공과금·식비·교통비를 입력해 학기별 총비용을 비교하는 계산기",
+    "url": "https://utils.minon.kr/dorm-vs-rent-calculator/",
+    "applicationCategory": "UtilitiesApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #f4f4f4;
+      padding: 1rem;
+    }
+    main { max-width: 480px; margin: 0 auto; }
+    header { margin-bottom: 1.25rem; }
+    h1 { font-size: 1.4rem; font-weight: 700; }
+    .subtitle { font-size: 0.875rem; color: #666; margin-top: 0.2rem; }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .card-dorm { border-top: 3px solid #6366f1; }
+    .card-rent { border-top: 3px solid #f59e0b; }
+    .card-common { border-top: 3px solid #64748b; }
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .dot-dorm { width: 10px; height: 10px; background: #6366f1; border-radius: 50%; flex-shrink: 0; }
+    .dot-rent { width: 10px; height: 10px; background: #f59e0b; border-radius: 50%; flex-shrink: 0; }
+    .dot-common { width: 10px; height: 10px; background: #64748b; border-radius: 50%; flex-shrink: 0; }
+    .field { margin-bottom: 0.85rem; }
+    .field:last-child { margin-bottom: 0; }
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #333;
+    }
+    .input-wrap { display: flex; align-items: center; gap: 0.4rem; }
+    .input-wrap input { flex: 1; }
+    .unit { font-size: 0.875rem; color: #555; white-space: nowrap; }
+    input[type="number"] {
+      padding: 0.65rem 0.75rem;
+      border: 1.5px solid #d4d4d4;
+      border-radius: 7px;
+      font-size: 1rem;
+      color: #1a1a1a;
+      width: 100%;
+      background: #fff;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    input[type="number"]:focus { outline: none; border-color: #6366f1; }
+    .field-note { font-size: 0.75rem; color: #aaa; margin-top: 0.2rem; }
+    select {
+      padding: 0.65rem 0.75rem;
+      border: 1.5px solid #d4d4d4;
+      border-radius: 7px;
+      font-size: 1rem;
+      color: #1a1a1a;
+      width: 100%;
+      background: #fff;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+    }
+    select:focus { outline: none; border-color: #6366f1; }
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+    }
+    .toggle-label { font-size: 0.875rem; font-weight: 600; color: #333; }
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #d4d4d4;
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .slider::before {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      left: 3px; top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .toggle input:checked + .slider { background: #6366f1; }
+    .toggle input:checked + .slider::before { transform: translateX(20px); }
+    button {
+      width: 100%;
+      padding: 0.85rem;
+      background: #6366f1;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover { background: #4f46e5; }
+    .result { display: none; }
+    .result.show { display: block; }
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .compare-cell {
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .compare-cell.dorm { background: #eef2ff; }
+    .compare-cell.rent { background: #fffbeb; }
+    .compare-cell.winner { box-shadow: 0 0 0 2.5px #6366f1; }
+    .compare-cell.rent.winner { box-shadow: 0 0 0 2.5px #f59e0b; }
+    .cell-type { font-size: 0.75rem; font-weight: 700; color: #888; }
+    .cell-dorm .cell-type { color: #6366f1; }
+    .cell-rent .cell-type { color: #b45309; }
+    .cell-amount {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-top: 0.2rem;
+      line-height: 1.1;
+    }
+    .dorm .cell-amount { color: #4f46e5; }
+    .rent .cell-amount { color: #92400e; }
+    .cell-unit { font-size: 0.75rem; color: #888; margin-top: 0.1rem; }
+    .winner-badge {
+      font-size: 0.7rem;
+      background: #6366f1;
+      color: #fff;
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      margin-top: 0.3rem;
+      display: inline-block;
+    }
+    .rent .winner-badge { background: #f59e0b; color: #fff; }
+    .diff-box {
+      background: #f8faff;
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .diff-amount {
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+    .diff-dorm { color: #4f46e5; }
+    .diff-rent { color: #92400e; }
+    .diff-label { font-size: 0.85rem; color: #555; margin-top: 0.2rem; }
+    .breakdown-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #888;
+      margin-bottom: 0.5rem;
+    }
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .breakdown-row:last-child { border-bottom: none; }
+    .breakdown-name { color: #555; }
+    .breakdown-val { font-weight: 600; color: #333; }
+    .breakdown-section { margin-bottom: 0.75rem; }
+    .period-note {
+      font-size: 0.78rem;
+      color: #888;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+    .notice {
+      font-size: 0.78rem;
+      color: #888;
+      line-height: 1.5;
+      padding-top: 0.5rem;
+      border-top: 1px solid #eee;
+      margin-top: 0.5rem;
+    }
+    #ad-slot { min-height: 60px; margin-bottom: 1rem; }
+    .preset-row {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .preset-btn {
+      padding: 0.35rem 0.7rem;
+      border: 1.5px solid #d4d4d4;
+      border-radius: 6px;
+      background: #f8f8f8;
+      font-size: 0.8rem;
+      color: #555;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .preset-btn:hover { border-color: #6366f1; color: #6366f1; background: #eef2ff; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>기숙사 vs 자취 비용 비교</h1>
+    <p class="subtitle">학기별·연간 총비용 한눈에 비교 — 9월 개강 전 주거 결정</p>
+  </header>
+
+  <div id="ad-slot"></div>
+
+  <!-- 비교 기간 -->
+  <div class="card card-common">
+    <p class="section-title"><span class="dot-common"></span> 비교 기간</p>
+    <div class="field">
+      <label for="period">비교 기간 선택</label>
+      <select id="period">
+        <option value="4">1학기 (4개월)</option>
+        <option value="8">2학기 (8개월)</option>
+        <option value="12">1년 (12개월)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- 기숙사 -->
+  <div class="card card-dorm">
+    <p class="section-title"><span class="dot-dorm"></span> 기숙사</p>
+
+    <div class="preset-row">
+      <button class="preset-btn" onclick="setPreset('dorm','경기·인천권')">경기·인천권</button>
+      <button class="preset-btn" onclick="setPreset('dorm','지방국립')">지방국립</button>
+      <button class="preset-btn" onclick="setPreset('dorm','서울사립')">서울사립</button>
+    </div>
+
+    <div class="field">
+      <label for="dorm-cost">기숙사비 (월)</label>
+      <div class="input-wrap">
+        <input type="number" id="dorm-cost" min="0" placeholder="30" value="">
+        <span class="unit">만원</span>
+      </div>
+      <p class="field-note">식사 포함형은 식대 포함 금액 입력</p>
+    </div>
+    <div class="field">
+      <div class="toggle-row">
+        <span class="toggle-label">식사 포함</span>
+        <label class="toggle">
+          <input type="checkbox" id="dorm-meal-included" onchange="toggleDormMeal(this)">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <p class="field-note">포함 시 식비 자동 0원. 미포함 시 아래 식비 별도 입력</p>
+    </div>
+    <div class="field" id="dorm-meal-field">
+      <label for="dorm-meal">식비 (월)</label>
+      <div class="input-wrap">
+        <input type="number" id="dorm-meal" min="0" placeholder="25" value="">
+        <span class="unit">만원</span>
+      </div>
+    </div>
+    <div class="field">
+      <label for="dorm-transport">교통비 (월)</label>
+      <div class="input-wrap">
+        <input type="number" id="dorm-transport" min="0" placeholder="5" value="">
+        <span class="unit">만원</span>
+      </div>
+      <p class="field-note">캠퍼스 내 기숙사면 0원으로 입력</p>
+    </div>
+    <div class="field">
+      <label for="dorm-other">기타 (월)</label>
+      <div class="input-wrap">
+        <input type="number" id="dorm-other" min="0" placeholder="0" value="">
+        <span class="unit">만원</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 자취 -->
+  <div class="card card-rent">
+    <p class="section-title"><span class="dot-rent"></span> 자취</p>
+
+    <div class="preset-row">
+      <button class="preset-btn" onclick="setPreset('rent','서울 원룸')">서울 원룸</button>
+      <button class="preset-btn" onclick="setPreset('rent','수도권 원룸')">수도권 원룸</button>
+      <button class="preset-btn" onclick="setPreset('rent','지방 원룸')">지방 원룸</button>
+    </div>
+
+    <div class="field">
+      <label for="rent-deposit">보증금</label>
+      <div class="input-wrap">
+        <input type="number" id="rent-deposit" min="0" placeholder="500" value="">
+        <span class="unit">만원</span>
+      </div>
+      <p class="field-note">기회비용(연 2.5%) 자동 반영 — 500만원 → 월 약 1만원</p>
+    </div>
+    <div class="field">
+      <label for="rent-monthly">월세</label>
+      <div class="input-wrap">
+        <input type="number" id="rent-monthly" min="0" placeholder="45" value="">
+        <span class="unit">만원</span>
+      </div>
+    </div>
+    <div class="field">
+      <label for="rent-mgmt">관리비 (월)</label>
+      <div class="input-wrap">
+        <input type="number" id="rent-mgmt" min="0" placeholder="5" value="">
+        <span class="unit">만원</span>
+      </div>
+    </div>
+    <div class="field">
+      <label for="rent-util">공과금 전기·가스·수도 (월)</label>
+      <div class="input-wrap">
+        <input type="number" id="rent-util" min="0" placeholder="5" value="">
+        <span class="unit">만원</span>
+      </div>
+    </div>
+    <div class="field">
+      <label for="rent-meal">식비 (월)</label>
+      <div class="input-wrap">
+        <input type="number" id="rent-meal" min="0" placeholder="30" value="">
+        <span class="unit">만원</span>
+      </div>
+    </div>
+    <div class="field">
+      <label for="rent-transport">교통비 (월)</label>
+      <div class="input-wrap">
+        <input type="number" id="rent-transport" min="0" placeholder="8" value="">
+        <span class="unit">만원</span>
+      </div>
+    </div>
+    <div class="field">
+      <label for="rent-other">기타 (월)</label>
+      <div class="input-wrap">
+        <input type="number" id="rent-other" min="0" placeholder="0" value="">
+        <span class="unit">만원</span>
+      </div>
+    </div>
+  </div>
+
+  <button onclick="calculate()">총비용 비교하기</button>
+
+  <!-- 결과 -->
+  <div class="card result" id="result">
+    <p class="period-note" id="period-note"></p>
+    <div class="compare-grid">
+      <div class="compare-cell dorm" id="cell-dorm">
+        <div class="cell-type">기숙사</div>
+        <div class="cell-amount" id="dorm-total-disp">0</div>
+        <div class="cell-unit">만원</div>
+      </div>
+      <div class="compare-cell rent" id="cell-rent">
+        <div class="cell-type">자취</div>
+        <div class="cell-amount" id="rent-total-disp">0</div>
+        <div class="cell-unit">만원</div>
+      </div>
+    </div>
+
+    <div class="diff-box" id="diff-box">
+      <div class="diff-amount" id="diff-amount"></div>
+      <div class="diff-label" id="diff-label"></div>
+    </div>
+
+    <div class="breakdown-section">
+      <p class="breakdown-title">🏠 기숙사 비용 내역</p>
+      <div id="breakdown-dorm"></div>
+    </div>
+
+    <div class="breakdown-section" style="margin-top:0.75rem">
+      <p class="breakdown-title">🏡 자취 비용 내역</p>
+      <div id="breakdown-rent"></div>
+    </div>
+
+    <p class="notice">
+      ※ 보증금 기회비용은 연 2.5% 기준 적용입니다. 기숙사 추첨·대기 현황, 자취 입주 시기·계약 조건에 따라 실제 비용이 달라질 수 있습니다. 학교 기숙사비는 학교 포털에서 실제 금액을 확인하세요.
+    </p>
+  </div>
+</main>
+
+<script>
+  const PRESETS = {
+    dorm: {
+      '경기·인천권': { 'dorm-cost': 30, 'dorm-meal': 20, 'dorm-transport': 3, 'dorm-other': 0 },
+      '지방국립':    { 'dorm-cost': 25, 'dorm-meal': 20, 'dorm-transport': 2, 'dorm-other': 0 },
+      '서울사립':    { 'dorm-cost': 45, 'dorm-meal': 25, 'dorm-transport': 2, 'dorm-other': 0 },
+    },
+    rent: {
+      '서울 원룸':    { 'rent-deposit': 1000, 'rent-monthly': 60, 'rent-mgmt': 7, 'rent-util': 6, 'rent-meal': 35, 'rent-transport': 8, 'rent-other': 0 },
+      '수도권 원룸':  { 'rent-deposit': 500, 'rent-monthly': 45, 'rent-mgmt': 5, 'rent-util': 5, 'rent-meal': 30, 'rent-transport': 8, 'rent-other': 0 },
+      '지방 원룸':    { 'rent-deposit': 500, 'rent-monthly': 30, 'rent-mgmt': 4, 'rent-util': 5, 'rent-meal': 25, 'rent-transport': 5, 'rent-other': 0 },
+    },
+  };
+
+  function setPreset(category, name) {
+    const data = PRESETS[category][name];
+    Object.entries(data).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el) el.value = val;
+    });
+    if (category === 'dorm' && name === '경기·인천권') {
+      document.getElementById('dorm-meal-included').checked = false;
+      document.getElementById('dorm-meal-field').style.display = '';
+    }
+  }
+
+  function toggleDormMeal(cb) {
+    const field = document.getElementById('dorm-meal-field');
+    const input = document.getElementById('dorm-meal');
+    if (cb.checked) {
+      field.style.display = 'none';
+      input.value = 0;
+    } else {
+      field.style.display = '';
+    }
+  }
+
+  function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
+  function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
+
+  function calculate() {
+    const months = parseInt(document.getElementById('period').value);
+
+    const dormMealIncluded = document.getElementById('dorm-meal-included').checked;
+    const dormCost = v('dorm-cost');
+    const dormMeal = dormMealIncluded ? 0 : v('dorm-meal');
+    const dormTransport = v('dorm-transport');
+    const dormOther = v('dorm-other');
+    const dormMonthly = dormCost + dormMeal + dormTransport + dormOther;
+    const dormTotal = dormMonthly * months;
+
+    const deposit = v('rent-deposit');
+    const depositOppCost = deposit * 0.025 / 12;
+    const rentMonthly = v('rent-monthly');
+    const rentMgmt = v('rent-mgmt');
+    const rentUtil = v('rent-util');
+    const rentMeal = v('rent-meal');
+    const rentTransport = v('rent-transport');
+    const rentOther = v('rent-other');
+    const rentMonthlyTotal = depositOppCost + rentMonthly + rentMgmt + rentUtil + rentMeal + rentTransport + rentOther;
+    const rentTotal = rentMonthlyTotal * months;
+
+    const dormWins = dormTotal < rentTotal;
+    const diff = Math.abs(dormTotal - rentTotal);
+
+    document.getElementById('period-note').textContent =
+      `비교 기간: ${months}개월 기준 총비용`;
+
+    document.getElementById('dorm-total-disp').textContent = fmt(dormTotal);
+    document.getElementById('rent-total-disp').textContent = fmt(rentTotal);
+
+    const cellDorm = document.getElementById('cell-dorm');
+    const cellRent = document.getElementById('cell-rent');
+    cellDorm.classList.toggle('winner', dormWins);
+    cellRent.classList.toggle('winner', !dormWins);
+
+    let badge = cellDorm.querySelector('.winner-badge');
+    if (badge) badge.remove();
+    badge = cellRent.querySelector('.winner-badge');
+    if (badge) badge.remove();
+    if (dormWins) {
+      const b = document.createElement('div');
+      b.className = 'winner-badge';
+      b.textContent = '더 저렴';
+      cellDorm.appendChild(b);
+    } else {
+      const b = document.createElement('div');
+      b.className = 'winner-badge';
+      b.textContent = '더 저렴';
+      cellRent.appendChild(b);
+    }
+
+    const diffEl = document.getElementById('diff-amount');
+    const labelEl = document.getElementById('diff-label');
+    if (diff < 1) {
+      diffEl.textContent = '비용 동일';
+      diffEl.className = 'diff-amount';
+      labelEl.textContent = '두 옵션의 총비용이 거의 같습니다';
+    } else {
+      diffEl.textContent = `${fmt(diff)}만원 차이`;
+      diffEl.className = 'diff-amount ' + (dormWins ? 'diff-dorm' : 'diff-rent');
+      labelEl.textContent = `${months}개월 기준 ${dormWins ? '기숙사' : '자취'}가 더 저렴합니다`;
+    }
+
+    document.getElementById('breakdown-dorm').innerHTML = [
+      { name: '기숙사비', val: dormCost },
+      { name: dormMealIncluded ? '식비 (포함됨)' : '식비', val: dormMealIncluded ? null : dormMeal },
+      { name: '교통비', val: dormTransport },
+      { name: '기타', val: dormOther },
+    ].filter(r => r.val !== null).map(r => `
+      <div class="breakdown-row">
+        <span class="breakdown-name">${r.name} (월 ${r.val}만원)</span>
+        <span class="breakdown-val">${fmt(r.val * months)}만원</span>
+      </div>`).join('') +
+    `<div class="breakdown-row" style="font-weight:700;border-top:1.5px solid #e5e7eb;margin-top:0.25rem;padding-top:0.4rem">
+      <span class="breakdown-name" style="color:#4f46e5">합계</span>
+      <span class="breakdown-val" style="color:#4f46e5">${fmt(dormTotal)}만원</span>
+    </div>`;
+
+    document.getElementById('breakdown-rent').innerHTML = [
+      { name: `보증금 기회비용 (연 2.5%)`, val: depositOppCost },
+      { name: '월세', val: rentMonthly },
+      { name: '관리비', val: rentMgmt },
+      { name: '공과금', val: rentUtil },
+      { name: '식비', val: rentMeal },
+      { name: '교통비', val: rentTransport },
+      { name: '기타', val: rentOther },
+    ].map(r => `
+      <div class="breakdown-row">
+        <span class="breakdown-name">${r.name} (월 ${r.val.toFixed(1)}만원)</span>
+        <span class="breakdown-val">${fmt(r.val * months)}만원</span>
+      </div>`).join('') +
+    `<div class="breakdown-row" style="font-weight:700;border-top:1.5px solid #e5e7eb;margin-top:0.25rem;padding-top:0.4rem">
+      <span class="breakdown-name" style="color:#92400e">합계</span>
+      <span class="breakdown-val" style="color:#92400e">${fmt(rentTotal)}만원</span>
+    </div>`;
+
+    const resultEl = document.getElementById('result');
+    resultEl.classList.add('show');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>
+</body>
+</html>
