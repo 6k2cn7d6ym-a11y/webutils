@@ -25,20 +25,33 @@
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
   }
   </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
   <style>
+    :root {
+      --primary: #0F766E;
+      --primary-hover: #0D6359;
+      --primary-soft: #E1F5F3;
+      --primary-soft-border: #A8DEDA;
+      --bg: #F4F6FB;
+      --text: #0F1624;
+      --text-sub: #5A6680;
+      --border: #D0D8E8;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
       font-size: 16px;
       line-height: 1.6;
-      color: #1a1a1a;
-      background: #f4f4f4;
+      color: var(--text);
+      background: var(--bg);
       padding: 1rem;
     }
     main { max-width: 480px; margin: 0 auto; }
     header { margin-bottom: 1.25rem; }
-    h1 { font-size: 1.4rem; font-weight: 700; }
-    .subtitle { font-size: 0.875rem; color: #666; margin-top: 0.2rem; }
+    h1 { font-size: 1.5rem; font-weight: 700; }
+    .hero-line { width: 2.5rem; height: 2px; background: var(--primary); margin: 0.35rem 0 0.45rem; border-radius: 2px; }
+    .subtitle { font-size: 0.875rem; color: var(--text-sub); margin-top: 0.2rem; }
     .card {
       background: #fff;
       border-radius: 10px;
@@ -49,7 +62,7 @@
     .section-title {
       font-size: 0.8rem;
       font-weight: 700;
-      color: #888;
+      color: var(--text-sub);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 1rem;
@@ -65,7 +78,7 @@
     .item-row:last-child { border-bottom: none; }
     .item-info { flex: 1; }
     .item-name { font-size: 0.9rem; color: #222; font-weight: 500; }
-    .item-vol { font-size: 0.72rem; color: #aaa; }
+    .item-vol { font-size: 0.72rem; color: var(--text-sub); }
     .qty-ctrl {
       display: flex;
       align-items: center;
@@ -75,7 +88,7 @@
     .qty-btn {
       width: 28px;
       height: 28px;
-      border: 1.5px solid #d4d4d4;
+      border: 1.5px solid var(--border);
       border-radius: 6px;
       background: #f8f8f8;
       font-size: 1rem;
@@ -87,13 +100,13 @@
       padding: 0;
       line-height: 1;
     }
-    .qty-btn:hover { border-color: #0ea5e9; background: #e0f2fe; }
+    .qty-btn:hover { border-color: var(--primary); background: var(--primary-soft); }
     .qty-val {
       width: 32px;
       text-align: center;
       font-size: 0.95rem;
       font-weight: 600;
-      color: #1a1a1a;
+      color: var(--text);
       border: none;
       background: transparent;
       -moz-appearance: textfield;
@@ -110,28 +123,33 @@
     .select-row .item-info { flex: 1; }
     select {
       padding: 0.4rem 0.6rem;
-      border: 1.5px solid #d4d4d4;
+      border: 1.5px solid var(--border);
       border-radius: 7px;
       font-size: 0.85rem;
       background: #fff;
-      color: #1a1a1a;
+      color: var(--text);
       -webkit-appearance: none;
       appearance: none;
       cursor: pointer;
     }
-    select:focus { outline: none; border-color: #0ea5e9; }
+    select:focus { outline: none; border-color: var(--primary); }
     button.calc-btn {
       width: 100%;
       padding: 0.85rem;
-      background: #0ea5e9;
+      background: var(--primary);
       color: #fff;
       border: none;
       border-radius: 8px;
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
     }
-    button.calc-btn:hover { background: #0284c7; }
+    button.calc-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
     button.reset-btn {
       width: 100%;
       padding: 0.6rem;
@@ -145,12 +163,17 @@
       margin-top: 0.5rem;
     }
     button.reset-btn:hover { background: #e2e8f0; }
+    @keyframes resultReveal {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
     .result { display: none; }
-    .result.show { display: block; }
+    .result.show { display: block; animation: resultReveal 200ms ease-out both; }
     .truck-box {
       text-align: center;
       padding: 1.5rem 1rem;
-      background: #f0f9ff;
+      background: var(--primary-soft);
+      border: 1.5px solid var(--primary-soft-border);
       border-radius: 10px;
       margin-bottom: 1rem;
     }
@@ -158,18 +181,18 @@
     .truck-name {
       font-size: 1.6rem;
       font-weight: 800;
-      color: #0369a1;
+      color: var(--primary);
       margin-top: 0.3rem;
     }
     .truck-vol {
       font-size: 0.9rem;
-      color: #666;
+      color: var(--text-sub);
       margin-top: 0.25rem;
     }
     .vol-summary {
       font-size: 1rem;
       font-weight: 700;
-      color: #0ea5e9;
+      color: var(--primary);
       margin-top: 0.5rem;
     }
     .trucks-list { margin-top: 0.5rem; }
@@ -183,10 +206,10 @@
     }
     .truck-row:last-child { border-bottom: none; }
     .truck-row-name { color: #555; display: flex; align-items: center; gap: 0.4rem; }
-    .truck-cap { color: #aaa; font-size: 0.8rem; }
+    .truck-cap { color: var(--text-sub); font-size: 0.8rem; }
     .badge {
       font-size: 0.7rem;
-      background: #0ea5e9;
+      background: var(--primary);
       color: #fff;
       border-radius: 4px;
       padding: 0 0.35rem;
@@ -204,10 +227,10 @@
     .tip-box li { margin-bottom: 0.2rem; }
     .notice {
       font-size: 0.78rem;
-      color: #888;
+      color: var(--text-sub);
       line-height: 1.5;
       padding-top: 0.5rem;
-      border-top: 1px solid #eee;
+      border-top: 1px solid var(--primary-soft-border);
       margin-top: 0.75rem;
     }
     #ad-slot { min-height: 60px; margin-bottom: 1rem; }
@@ -217,6 +240,7 @@
 <main>
   <header>
     <h1>이사 짐 부피 계산기</h1>
+    <div class="hero-line"></div>
     <p class="subtitle">박스·가구 입력 → 총 부피(㎥) → 트럭 톤수 즉시 추천</p>
   </header>
 
@@ -446,11 +470,12 @@
     <p class="section-title">➕ 기타 (직접 입력)</p>
     <div style="display:flex;align-items:center;gap:0.5rem;">
       <input type="number" id="extra-vol" min="0" step="0.1" placeholder="0.0"
-        style="padding:0.65rem 0.75rem;border:1.5px solid #d4d4d4;border-radius:7px;font-size:1rem;width:100%;-webkit-appearance:none;appearance:none;"
+        aria-label="기타 짐 부피 직접 입력 (㎥)"
+        style="padding:0.65rem 0.75rem;border:1.5px solid var(--border);border-radius:7px;font-size:1rem;width:100%;-webkit-appearance:none;appearance:none;"
         oninput="if(this.value<0)this.value=0">
-      <span style="font-size:0.9rem;color:#555;white-space:nowrap;">㎥</span>
+      <span style="font-size:0.9rem;color:var(--text-sub);white-space:nowrap;">㎥</span>
     </div>
-    <p style="font-size:0.75rem;color:#aaa;margin-top:0.3rem;">가구·짐이 더 있으면 예상 부피를 추가하세요</p>
+    <p style="font-size:0.75rem;color:var(--text-sub);margin-top:0.3rem;">가구·짐이 더 있으면 예상 부피를 추가하세요</p>
   </div>
 
   <button class="calc-btn" onclick="calculate()">트럭 톤수 계산하기</button>
