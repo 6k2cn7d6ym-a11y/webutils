@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이사 짐 부피 계산기 — 몇 톤 트럭이 필요한지 바로 확인</title>
+  <meta name="description" content="박스 수와 가구를 입력하면 이사 짐 총 부피(㎥)를 계산해 필요한 트럭 톤수(1t·1.4t·2.5t·5t)를 추천합니다. 셀프 이사·용달 이사 예약 전 확인하세요.">
+  <meta property="og:title" content="이사 짐 부피 계산기 — 몇 톤 트럭이 필요한지 바로 확인">
+  <meta property="og:description" content="박스·가구 입력 → 총 부피(㎥) 계산 → 트럭 톤수 즉시 추천">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utils.minon.kr/moving-truck-size-calculator/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="이사 짐 부피 계산기">
+  <meta name="twitter:description" content="박스·가구 입력 → 트럭 톤수 즉시 추천">
+  <link rel="canonical" href="https://utils.minon.kr/moving-truck-size-calculator/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "이사 짐 부피 계산기",
+    "description": "박스 수와 가구 항목을 입력해 이사 짐 총 부피와 필요한 트럭 톤수를 계산하는 계산기",
+    "url": "https://utils.minon.kr/moving-truck-size-calculator/",
+    "applicationCategory": "UtilitiesApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
+  }
+  </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <style>
+    :root {
+      --primary: #0F766E;
+      --primary-hover: #0D6359;
+      --primary-soft: #E1F5F3;
+      --primary-soft-border: #A8DEDA;
+      --bg: #F4F6FB;
+      --text: #0F1624;
+      --text-sub: #5A6680;
+      --border: #D0D8E8;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      padding: 1rem;
+    }
+    main { max-width: 480px; margin: 0 auto; }
+    header { margin-bottom: 1.25rem; }
+    h1 { font-size: 1.5rem; font-weight: 700; }
+    .hero-line { width: 2.5rem; height: 2px; background: var(--primary); margin: 0.35rem 0 0.45rem; border-radius: 2px; }
+    .subtitle { font-size: 0.875rem; color: var(--text-sub); margin-top: 0.2rem; }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    .item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid #f5f5f5;
+      gap: 0.5rem;
+    }
+    .item-row:last-child { border-bottom: none; }
+    .item-info { flex: 1; }
+    .item-name { font-size: 0.9rem; color: #222; font-weight: 500; }
+    .item-vol { font-size: 0.72rem; color: var(--text-sub); }
+    .qty-ctrl {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      flex-shrink: 0;
+    }
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      background: #f8f8f8;
+      font-size: 1rem;
+      color: #333;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      line-height: 1;
+    }
+    .qty-btn:hover { border-color: var(--primary); background: var(--primary-soft); }
+    .qty-val {
+      width: 32px;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      border: none;
+      background: transparent;
+      -moz-appearance: textfield;
+    }
+    .qty-val::-webkit-inner-spin-button, .qty-val::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .select-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .select-row:last-child { border-bottom: none; }
+    .select-row .item-info { flex: 1; }
+    select {
+      padding: 0.4rem 0.6rem;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-size: 0.85rem;
+      background: #fff;
+      color: var(--text);
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+    }
+    select:focus { outline: none; border-color: var(--primary); }
+    button.calc-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+    }
+    button.calc-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    button.reset-btn {
+      width: 100%;
+      padding: 0.6rem;
+      background: #f1f5f9;
+      color: #555;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    button.reset-btn:hover { background: #e2e8f0; }
+    @keyframes resultReveal {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .result { display: none; }
+    .result.show { display: block; animation: resultReveal 200ms ease-out both; }
+    .truck-box {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: var(--primary-soft);
+      border: 1.5px solid var(--primary-soft-border);
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    .truck-icon { font-size: 2.5rem; line-height: 1; }
+    .truck-name {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-top: 0.3rem;
+    }
+    .truck-vol {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      margin-top: 0.25rem;
+    }
+    .vol-summary {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 0.5rem;
+    }
+    .trucks-list { margin-top: 0.5rem; }
+    .truck-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 0.88rem;
+    }
+    .truck-row:last-child { border-bottom: none; }
+    .truck-row-name { color: #555; display: flex; align-items: center; gap: 0.4rem; }
+    .truck-cap { color: var(--text-sub); font-size: 0.8rem; }
+    .badge {
+      font-size: 0.7rem;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 4px;
+      padding: 0 0.35rem;
+      font-weight: 700;
+    }
+    .tip-box {
+      background: #fffbeb;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.82rem;
+      color: #78350f;
+      margin-top: 0.75rem;
+    }
+    .tip-box ul { padding-left: 1.1rem; }
+    .tip-box li { margin-bottom: 0.2rem; }
+    .notice {
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--primary-soft-border);
+      margin-top: 0.75rem;
+    }
+    #ad-slot { min-height: 60px; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>이사 짐 부피 계산기</h1>
+    <div class="hero-line"></div>
+    <p class="subtitle">박스·가구 입력 → 총 부피(㎥) → 트럭 톤수 즉시 추천</p>
+  </header>
+
+  <div id="ad-slot"></div>
+
+  <!-- 박스 -->
+  <div class="card">
+    <p class="section-title">📦 박스</p>
+    <div class="item-row" data-vol="0.036">
+      <div class="item-info">
+        <div class="item-name">소형 박스</div>
+        <div class="item-vol">약 30×40×30cm · 0.036㎥</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="999" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+    <div class="item-row" data-vol="0.060">
+      <div class="item-info">
+        <div class="item-name">중형 박스</div>
+        <div class="item-vol">약 40×50×30cm · 0.060㎥</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="999" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+    <div class="item-row" data-vol="0.100">
+      <div class="item-info">
+        <div class="item-name">대형 박스</div>
+        <div class="item-vol">약 50×50×40cm · 0.100㎥</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="999" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 침실 -->
+  <div class="card">
+    <p class="section-title">🛏 침실</p>
+    <div class="select-row">
+      <div class="item-info">
+        <div class="item-name">침대</div>
+      </div>
+      <!-- [클레버 수정: select에 aria-label 부여. item-name div는 시각적 라벨일 뿐 label 연결 없음 → 스크린리더 접근성 미달. aria-label로 즉시 보강] -->
+      <select id="bed-type" aria-label="침대 사이즈 선택" onchange="updateSelect(this)">
+        <option value="0">없음</option>
+        <option value="0.50">싱글 (0.50㎥)</option>
+        <option value="0.65">슈퍼싱글 (0.65㎥)</option>
+        <option value="0.90">더블 (0.90㎥)</option>
+        <option value="1.10">퀸 (1.10㎥)</option>
+        <option value="1.40">킹 (1.40㎥)</option>
+      </select>
+    </div>
+    <div class="item-row" data-vol="0.70">
+      <div class="item-info">
+        <div class="item-name">옷장 (소형·1~2칸)</div>
+        <div class="item-vol">0.70㎥</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="20" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+    <div class="item-row" data-vol="1.20">
+      <div class="item-info">
+        <div class="item-name">옷장 (대형·3칸 이상)</div>
+        <div class="item-vol">1.20㎥</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="20" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+    <div class="item-row" data-vol="0.35">
+      <div class="item-info">
+        <div class="item-name">서랍장·협탁</div>
+        <div class="item-vol">0.35㎥</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="20" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 거실·주방 -->
+  <div class="card">
+    <p class="section-title">🛋 거실·주방</p>
+    <div class="select-row">
+      <div class="item-info">
+        <div class="item-name">소파</div>
+      </div>
+      <select id="sofa-type" aria-label="소파 크기 선택" onchange="updateSelect(this)">
+        <option value="0">없음</option>
+        <option value="0.35">1인용 (0.35㎥)</option>
+        <option value="0.70">2인용 (0.70㎥)</option>
+        <option value="1.10">3인용 (1.10㎥)</option>
+      </select>
+    </div>
+    <div class="select-row">
+      <div class="item-info">
+        <div class="item-name">냉장고</div>
+      </div>
+      <select id="fridge-type" aria-label="냉장고 용량 선택" onchange="updateSelect(this)">
+        <option value="0">없음</option>
+        <option value="0.35">소형 200L 미만 (0.35㎥)</option>
+        <option value="0.55">일반 200~400L (0.55㎥)</option>
+        <option value="0.90">대형 400L 이상 (0.90㎥)</option>
+      </select>
+    </div>
+    <div class="select-row">
+      <div class="item-info">
+        <div class="item-name">세탁기</div>
+      </div>
+      <select id="washer-type" aria-label="세탁기 유형 선택" onchange="updateSelect(this)">
+        <option value="0">없음</option>
+        <option value="0.40">드럼형 (0.40㎥)</option>
+        <option value="0.35">통돌이형 (0.35㎥)</option>
+      </select>
+    </div>
+    <div class="select-row">
+      <div class="item-info">
+        <div class="item-name">식탁</div>
+      </div>
+      <select id="table-type" aria-label="식탁 인원 선택" onchange="updateSelect(this)">
+        <option value="0">없음</option>
+        <option value="0.25">2인용 (0.25㎥)</option>
+        <option value="0.50">4인용 (0.50㎥)</option>
+        <option value="0.80">6인용 (0.80㎥)</option>
+      </select>
+    </div>
+    <div class="item-row" data-vol="0.10">
+      <div class="item-info">
+        <div class="item-name">식탁 의자</div>
+        <div class="item-vol">0.10㎥ / 개</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="20" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+    <div class="item-row" data-vol="0.15">
+      <div class="item-info">
+        <div class="item-name">TV + 거치대</div>
+        <div class="item-vol">0.15㎥</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="10" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 서재·기타 -->
+  <div class="card">
+    <p class="section-title">🖥 서재·기타</p>
+    <div class="item-row" data-vol="0.45">
+      <div class="item-info">
+        <div class="item-name">책상</div>
+        <div class="item-vol">0.45㎥</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="20" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+    <div class="item-row" data-vol="0.15">
+      <div class="item-info">
+        <div class="item-name">의자 (사무용·책상의자)</div>
+        <div class="item-vol">0.15㎥</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="20" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+    <div class="item-row" data-vol="0.45">
+      <div class="item-info">
+        <div class="item-name">책장</div>
+        <div class="item-vol">0.45㎥</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="20" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+    <div class="item-row" data-vol="0.20">
+      <div class="item-info">
+        <div class="item-name">선반·수납장 (소)</div>
+        <div class="item-vol">0.20㎥</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="20" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+    <div class="item-row" data-vol="0.30">
+      <div class="item-info">
+        <div class="item-name">자전거</div>
+        <div class="item-vol">0.30㎥</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="change(this,-1)">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="10" oninput="clamp(this)">
+        <button class="qty-btn" onclick="change(this,1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 기타 부피 직접 입력 -->
+  <div class="card">
+    <p class="section-title">➕ 기타 (직접 입력)</p>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <input type="number" id="extra-vol" min="0" step="0.1" placeholder="0.0"
+        aria-label="기타 짐 부피 직접 입력 (㎥)"
+        style="padding:0.65rem 0.75rem;border:1.5px solid var(--border);border-radius:7px;font-size:1rem;width:100%;-webkit-appearance:none;appearance:none;"
+        oninput="if(this.value<0)this.value=0">
+      <span style="font-size:0.9rem;color:var(--text-sub);white-space:nowrap;">㎥</span>
+    </div>
+    <p style="font-size:0.75rem;color:var(--text-sub);margin-top:0.3rem;">가구·짐이 더 있으면 예상 부피를 추가하세요</p>
+  </div>
+
+  <button class="calc-btn" onclick="calculate()">트럭 톤수 계산하기</button>
+  <button class="reset-btn" onclick="resetAll()">초기화</button>
+
+  <!-- 결과 -->
+  <div class="card result" id="result">
+    <div class="truck-box">
+      <div class="truck-icon">🚚</div>
+      <div class="truck-name" id="truck-name"></div>
+      <div class="truck-vol" id="truck-vol"></div>
+      <div class="vol-summary" id="vol-summary"></div>
+    </div>
+
+    <div class="trucks-list">
+      <div class="truck-row">
+        <span class="truck-row-name">다마스·라보 (0.5t급)</span>
+        <span class="truck-cap">적재 1.5~2㎥</span>
+      </div>
+      <div class="truck-row">
+        <span class="truck-row-name">1t 트럭</span>
+        <span class="truck-cap">적재 3~4㎥</span>
+      </div>
+      <div class="truck-row">
+        <span class="truck-row-name">1.4t 트럭</span>
+        <span class="truck-cap">적재 4~5.5㎥</span>
+      </div>
+      <div class="truck-row">
+        <span class="truck-row-name">2.5t 트럭</span>
+        <span class="truck-cap">적재 8~12㎥</span>
+      </div>
+      <div class="truck-row">
+        <span class="truck-row-name">5t 트럭</span>
+        <span class="truck-cap">적재 18~25㎥</span>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>이사 트럭 예약 팁</strong>
+      <ul style="margin-top:0.35rem">
+        <li>계산된 부피보다 1~2단계 여유 있는 트럭을 예약하면 안전합니다.</li>
+        <li>무거운 가구(피아노·금고 등)는 부피보다 무게 기준으로 트럭 선택을 조정하세요.</li>
+        <li>9~10월 이사 성수기에는 2~4주 전 예약이 안전합니다.</li>
+        <li>셀프 이사 용달 플랫폼: 1톤 트럭 앱 등에서 비교 견적 가능합니다.</li>
+      </ul>
+    </div>
+
+    <p class="notice">
+      ※ 본 계산기의 부피 기준은 평균값이며 가구 크기에 따라 실제 부피는 달라질 수 있습니다. 트럭 업체 예약 전 실제 짐 상태를 기준으로 최종 확인하세요.
+    </p>
+  </div>
+</main>
+
+<script>
+  const TRUCKS = [
+    { name: '다마스·라보 (0.5t급)', maxVol: 2.0, label: '다마스 / 라보급' },
+    { name: '1t 트럭', maxVol: 4.0, label: '1톤 트럭' },
+    { name: '1.4t 트럭', maxVol: 5.5, label: '1.4톤 트럭' },
+    { name: '2.5t 트럭', maxVol: 12.0, label: '2.5톤 트럭' },
+    { name: '5t 트럭', maxVol: 25.0, label: '5톤 트럭' },
+    { name: '5t 이상 대형', maxVol: Infinity, label: '5톤 초과 대형' },
+  ];
+
+  const selectValues = {};
+
+  function change(btn, delta) {
+    const input = btn.parentElement.querySelector('.qty-val');
+    let v = parseInt(input.value) || 0;
+    v = Math.max(0, v + delta);
+    input.value = v;
+  }
+
+  function clamp(input) {
+    let v = parseInt(input.value);
+    if (isNaN(v) || v < 0) input.value = 0;
+    if (v > parseInt(input.max)) input.value = input.max;
+  }
+
+  function updateSelect(sel) {
+    selectValues[sel.id] = parseFloat(sel.value) || 0;
+  }
+
+  function getTotalVol() {
+    let vol = 0;
+
+    document.querySelectorAll('.item-row[data-vol]').forEach(row => {
+      const v = parseFloat(row.dataset.vol) || 0;
+      const qty = parseInt(row.querySelector('.qty-val').value) || 0;
+      vol += v * qty;
+    });
+
+    ['bed-type', 'sofa-type', 'fridge-type', 'washer-type', 'table-type'].forEach(id => {
+      const sel = document.getElementById(id);
+      if (sel) vol += parseFloat(sel.value) || 0;
+    });
+
+    const extra = parseFloat(document.getElementById('extra-vol').value) || 0;
+    vol += extra;
+
+    return vol;
+  }
+
+  function calculate() {
+    const vol = getTotalVol();
+
+    /* [클레버 수정: 짐 0인 상태에서 계산 시 "다마스" 자동 추천되는 UX 문제 방지. 부피 0이면 안내만 표시] */
+    if (vol <= 0) {
+      alert('짐 항목을 하나 이상 입력해 주세요.');
+      return;
+    }
+
+    const volWithMargin = vol * 1.3;
+
+    let truck = TRUCKS[TRUCKS.length - 1];
+    for (const t of TRUCKS) {
+      if (volWithMargin <= t.maxVol) { truck = t; break; }
+    }
+
+    document.getElementById('truck-name').textContent = truck.label;
+    document.getElementById('truck-vol').textContent =
+      `적재 가능: ${truck.maxVol === Infinity ? '25㎥ 초과' : '최대 ' + truck.maxVol + '㎥'}`;
+    document.getElementById('vol-summary').textContent =
+      `계산된 총 부피 ${vol.toFixed(2)}㎥ (여유 포함 ${volWithMargin.toFixed(2)}㎥)`;
+
+    const rows = document.querySelectorAll('.truck-row');
+    const truckIdx = TRUCKS.indexOf(truck);
+    rows.forEach((r, i) => {
+      r.querySelectorAll('.badge').forEach(b => b.remove());
+      if (i === Math.min(truckIdx, rows.length - 1)) {
+        const badge = document.createElement('span');
+        badge.className = 'badge';
+        badge.textContent = '추천';
+        r.querySelector('.truck-row-name').appendChild(badge);
+      }
+    });
+
+    const resultEl = document.getElementById('result');
+    resultEl.classList.add('show');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.qty-val').forEach(i => i.value = 0);
+    document.querySelectorAll('select').forEach(s => s.value = 0);
+    document.getElementById('extra-vol').value = '';
+    document.getElementById('result').classList.remove('show');
+  }
+</script>
+</body>
+</html>

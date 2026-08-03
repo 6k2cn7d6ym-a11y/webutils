@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>청약 특별공급 자격 판단기 — 신혼·다자녀·생애최초·노부모</title>
+  <meta name="description" content="청약 특별공급(신혼부부·생애최초·다자녀·노부모 부양) 자격 요건을 빠르게 확인합니다. 유형별 핵심 조건 체크 후 즉시 결과 확인. 참고용.">
+  <meta property="og:title" content="청약 특별공급 자격 판단기 — 신혼·다자녀·생애최초·노부모">
+  <meta property="og:description" content="신혼부부·생애최초·다자녀·노부모 부양 특공 유형 선택 → 핵심 요건 체크 → 즉시 자격 판단">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utils.minon.kr/apartment-subscription-special/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="청약 특별공급 자격 판단기">
+  <meta name="twitter:description" content="신혼·다자녀·생애최초·노부모 특공 자격 즉시 확인">
+  <link rel="canonical" href="https://utils.minon.kr/apartment-subscription-special/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "청약 특별공급 자격 판단기",
+    "description": "신혼부부·생애최초·다자녀·노부모 부양 청약 특별공급 자격 요건을 체크하는 판단기",
+    "url": "https://utils.minon.kr/apartment-subscription-special/",
+    "applicationCategory": "UtilitiesApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
+  }
+  </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <style>
+    :root {
+      --bg: #F4F6FB;
+      --primary: #1D4ED8;
+      --primary-hover: #1E40AF;
+      --primary-soft: #EFF6FF;
+      --primary-soft-border: #BFDBFE;
+      --primary-soft-text: #1E3A8A;
+      --text: #0F1624;
+      --text-sub: #5A6680;
+      --border: #D0D8E8;
+      --error: #B83A28;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      padding: 1rem;
+    }
+    main { max-width: 480px; margin: 0 auto; }
+    header { margin-bottom: 1.25rem; }
+    h1 { font-size: 1.5rem; font-weight: 700; }
+    .subtitle { font-size: 0.875rem; color: var(--text-sub); margin-top: 0.2rem; }
+    .hero-line { width: 2.5rem; height: 2px; background: var(--primary); margin: 0.35rem 0 0.45rem; border-radius: 2px; }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .tab-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .tab-btn {
+      padding: 0.6rem 0.5rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+    /* [클레버 수정: button:hover background(#1E40AF)가 .tab-btn:hover에 상속돼 파란 배경+파란 텍스트 invisible text 발생. background 명시 추가] */
+    .tab-btn:hover { border-color: var(--primary-soft-border); color: var(--primary); background: var(--primary-soft); }
+    .tab-btn.active { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
+    .type-panel { display: none; }
+    .type-panel.show { display: block; }
+    .type-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    .opt-tag { font-size: 0.75rem; color: var(--text-sub); margin-left: 0.15rem; }
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .check-item:last-child { border-bottom: none; }
+    .check-item input[type="checkbox"] {
+      margin-top: 0.2rem;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .check-label {
+      font-size: 0.9rem;
+      color: #333;
+      cursor: pointer;
+      line-height: 1.45;
+    }
+    .check-note {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      margin-top: 0.15rem;
+    }
+    .check-required {
+      font-size: 0.7rem;
+      background: #fef3c7;
+      color: #92400e;
+      border-radius: 4px;
+      padding: 0 0.3rem;
+      margin-left: 0.25rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .field { margin-top: 1rem; }
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: #333;
+    }
+    .input-row { display: flex; gap: 0.5rem; align-items: center; }
+    .input-row input { flex: 1; }
+    .input-unit { font-size: 0.875rem; color: #555; white-space: nowrap; }
+    input[type="number"], select {
+      padding: 0.65rem 0.75rem;
+      border: 1.5px solid #d4d4d4;
+      border-radius: 7px;
+      font-size: 1rem;
+      color: #1a1a1a;
+      width: 100%;
+      background: #fff;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    input[type="number"]:focus, select:focus { outline: none; border-color: var(--primary); }
+    button {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    button:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    button:active { transform: translateY(0); }
+    @keyframes resultReveal {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .result { display: none; }
+    .result.show { display: block; animation: resultReveal 200ms ease-out both; }
+    .verdict-box {
+      border-radius: 10px;
+      padding: 1.25rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .verdict-box.pass { background: var(--primary-soft); }
+    .verdict-box.fail { background: #fef2f2; }
+    .verdict-box.partial { background: #fffbeb; }
+    .verdict-icon { font-size: 2.5rem; }
+    .verdict-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-top: 0.4rem;
+    }
+    .verdict-box.pass .verdict-title { color: var(--primary); }
+    .verdict-box.fail .verdict-title { color: #b91c1c; }
+    .verdict-box.partial .verdict-title { color: #92400e; }
+    .verdict-desc { font-size: 0.875rem; color: #555; margin-top: 0.35rem; }
+    .missing-list { margin-top: 0.75rem; text-align: left; }
+    .missing-item {
+      font-size: 0.82rem;
+      color: #b91c1c;
+      padding: 0.25rem 0;
+      display: flex;
+      gap: 0.4rem;
+    }
+    .missing-item::before { content: "✗"; flex-shrink: 0; }
+    .pass-item {
+      font-size: 0.82rem;
+      color: var(--primary);
+      padding: 0.25rem 0;
+      display: flex;
+      gap: 0.4rem;
+    }
+    .pass-item::before { content: "✓"; flex-shrink: 0; }
+    .next-steps {
+      background: #f8faff;
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      margin-top: 0.5rem;
+    }
+    .next-steps-title { font-size: 0.82rem; font-weight: 700; color: #333; margin-bottom: 0.4rem; }
+    .next-steps ul { padding-left: 1.1rem; }
+    .next-steps li { font-size: 0.82rem; color: #555; margin-bottom: 0.2rem; }
+    .notice {
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+      padding-top: 0.5rem;
+      border-top: 1px solid #eee;
+      margin-top: 0.75rem;
+    }
+    .disclaimer-box {
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: #78350f;
+      margin-bottom: 1rem;
+    }
+    #ad-slot { min-height: 60px; margin-bottom: 1rem; }
+    .income-note {
+      background: var(--primary-soft);
+      border-radius: 6px;
+      padding: 0.6rem 0.75rem;
+      font-size: 0.8rem;
+      color: var(--primary);
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>청약 특별공급 자격 판단기</h1>
+    <div class="hero-line"></div>
+    <p class="subtitle">신혼부부·생애최초·다자녀·노부모 — 유형 선택 후 즉시 확인</p>
+  </header>
+
+  <div id="ad-slot"></div>
+
+  <div class="disclaimer-box">
+    ⚠️ 본 판단기는 <strong>참고용</strong>입니다. 실제 자격 판단은 반드시 <strong>청약홈(applyhome.co.kr)</strong>에서 공식 확인하세요. 공급 유형·지역·단지에 따라 세부 요건이 다를 수 있습니다.
+  </div>
+
+  <div class="tab-group">
+    <button class="tab-btn active" onclick="selectTab('newlywed', this)">💑 신혼부부</button>
+    <button class="tab-btn" onclick="selectTab('firsthome', this)">🏠 생애최초</button>
+    <button class="tab-btn" onclick="selectTab('multichild', this)">👨‍👩‍👧‍👦 다자녀</button>
+    <button class="tab-btn" onclick="selectTab('elderparent', this)">👴 노부모 부양</button>
+  </div>
+
+  <!-- 신혼부부 -->
+  <div class="card type-panel show" id="panel-newlywed">
+    <p class="type-label">신혼부부 특별공급</p>
+
+    <div class="check-item">
+      <input type="checkbox" id="nw-married" onchange="judge('newlywed')">
+      <div>
+        <label for="nw-married" class="check-label">현재 혼인 중이거나 입주자모집공고일 이전에 혼인신고를 마쳤다<span class="check-required">필수</span></label>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="nw-period" onchange="judge('newlywed')">
+      <div>
+        <label for="nw-period" class="check-label">혼인 기간이 7년 이내다<span class="check-required">필수</span></label>
+        <p class="check-note">입주자모집공고일 기준. 재혼도 혼인기간 합산 7년 이내면 가능.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="nw-homeless" onchange="judge('newlywed')">
+      <div>
+        <label for="nw-homeless" class="check-label">신청자와 배우자 모두 무주택 세대구성원이다<span class="check-required">필수</span></label>
+        <p class="check-note">입주자모집공고일 현재 주택을 소유하고 있지 않아야 합니다.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="nw-saving" onchange="judge('newlywed')">
+      <div>
+        <label for="nw-saving" class="check-label">청약종합저축(또는 청약저축) 가입자다<span class="check-required">필수</span></label>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="nw-income" onchange="judge('newlywed')">
+      <div>
+        <label for="nw-income" class="check-label">소득 기준을 충족한다<span class="check-required">필수</span></label>
+        <p class="check-note">공공: 도시근로자 월평균 소득 100% 이하 (맞벌이·자녀 있으면 완화 적용)</p>
+        <div class="income-note">
+          기준 소득 (2024년 기준)<br>
+          3인 이하: 약 608만 원 / 4인: 약 702만 원<br>
+          ※ 민간은 140% 이하 등 다르게 적용됩니다
+        </div>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="nw-child" onchange="judge('newlywed')">
+      <div>
+        <label for="nw-child" class="check-label">미성년 자녀가 있다 <span class="opt-tag">(선택)</span></label>
+        <p class="check-note">자녀 있으면 우선공급 대상. 없어도 일반공급 신청 가능 (공공).</p>
+      </div>
+    </div>
+
+    <button onclick="judge('newlywed')" style="margin-top:1rem">자격 판단하기</button>
+  </div>
+
+  <!-- 생애최초 -->
+  <div class="card type-panel" id="panel-firsthome">
+    <p class="type-label">생애최초 특별공급</p>
+
+    <div class="check-item">
+      <input type="checkbox" id="fh-never" onchange="judge('firsthome')">
+      <div>
+        <label for="fh-never" class="check-label">본인과 배우자가 <strong>과거에 주택을 소유한 사실이 없다</strong><span class="check-required">필수</span></label>
+        <p class="check-note">상속·증여 포함. 이전 주택 소유 이력이 있으면 생애최초 불가.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="fh-homeless" onchange="judge('firsthome')">
+      <div>
+        <label for="fh-homeless" class="check-label">현재 무주택 세대구성원이다<span class="check-required">필수</span></label>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="fh-worker" onchange="judge('firsthome')">
+      <div>
+        <label for="fh-worker" class="check-label">근로자 또는 자영업자다 (소득세 납부 이력 있음)<span class="check-required">필수</span></label>
+        <p class="check-note">과거 1년 이내 소득세(근로소득세 또는 종합소득세)를 납부한 실적이 있어야 합니다.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="fh-saving" onchange="judge('firsthome')">
+      <div>
+        <label for="fh-saving" class="check-label">청약종합저축 가입 후 1회 이상 납입했다<span class="check-required">필수</span></label>
+        <p class="check-note">공공 생애최초는 납입 횟수 요건이 추가될 수 있습니다.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="fh-income" onchange="judge('firsthome')">
+      <div>
+        <label for="fh-income" class="check-label">소득 기준을 충족한다<span class="check-required">필수</span></label>
+        <div class="income-note">
+          공공: 도시근로자 월평균 소득 130% 이하<br>
+          민간: 160% 이하 (단지별 상이)<br>
+          3인 이하 기준 약 790만 원 (130%) 내외
+        </div>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="fh-married" onchange="judge('firsthome')">
+      <div>
+        <label for="fh-married" class="check-label">혼인 중이거나 미성년 자녀가 있다 <span class="opt-tag">(조건부)</span></label>
+        <p class="check-note">공공주택 생애최초는 혼인 또는 자녀 요건이 있을 수 있습니다. 단지 공고문 확인 필요.</p>
+      </div>
+    </div>
+
+    <button onclick="judge('firsthome')" style="margin-top:1rem">자격 판단하기</button>
+  </div>
+
+  <!-- 다자녀 -->
+  <div class="card type-panel" id="panel-multichild">
+    <p class="type-label">다자녀 특별공급</p>
+
+    <div class="check-item">
+      <input type="checkbox" id="mc-children" onchange="judge('multichild')">
+      <div>
+        <label for="mc-children" class="check-label">미성년 자녀(만 19세 미만)가 3명 이상이다<span class="check-required">필수</span></label>
+        <p class="check-note">태아(임신 중) 포함. 입양 자녀도 포함. 입주자모집공고일 기준.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="mc-homeless" onchange="judge('multichild')">
+      <div>
+        <label for="mc-homeless" class="check-label">무주택 세대구성원이다<span class="check-required">필수</span></label>
+        <p class="check-note">과거 주택 소유는 무방. 공고일 현재 무주택이면 됩니다.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="mc-saving" onchange="judge('multichild')">
+      <div>
+        <label for="mc-saving" class="check-label">청약종합저축(또는 청약저축) 가입자다<span class="check-required">필수</span></label>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="mc-score" onchange="judge('multichild')">
+      <div>
+        <label for="mc-score" class="check-label">다자녀 점수 항목을 확인했다 <span class="opt-tag">(참고)</span></label>
+        <p class="check-note">다자녀는 경쟁 시 점수제(미성년 자녀 수·영유아 자녀·세대 구성·무주택 기간·청약통장 가입기간) 순위 배정.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:0.75rem; background:#f8f9fa; border-radius:8px; padding:0.75rem 1rem; font-size:0.82rem;">
+      <strong>다자녀 점수 주요 항목 (참고)</strong>
+      <table style="width:100%;margin-top:0.4rem;border-collapse:collapse;font-size:0.8rem;">
+        <tr><td style="padding:0.2rem 0;color:#555;">미성년 자녀 수 (3명/4명/5명 이상)</td><td style="text-align:right;font-weight:700;">25~40점</td></tr>
+        <tr><td style="padding:0.2rem 0;color:#555;">영유아 자녀 수 (2세 이하)</td><td style="text-align:right;font-weight:700;">5~15점</td></tr>
+        <tr><td style="padding:0.2rem 0;color:#555;">세대 구성 (단독세대주)</td><td style="text-align:right;font-weight:700;">5점</td></tr>
+        <tr><td style="padding:0.2rem 0;color:#555;">무주택 기간 (1년/2년/3년 이상)</td><td style="text-align:right;font-weight:700;">5~10점</td></tr>
+        <tr><td style="padding:0.2rem 0;color:#555;">청약통장 가입기간</td><td style="text-align:right;font-weight:700;">3~15점</td></tr>
+      </table>
+    </div>
+
+    <button onclick="judge('multichild')" style="margin-top:1rem">자격 판단하기</button>
+  </div>
+
+  <!-- 노부모 부양 -->
+  <div class="card type-panel" id="panel-elderparent">
+    <p class="type-label">노부모 부양 특별공급</p>
+
+    <div class="check-item">
+      <input type="checkbox" id="ep-age" onchange="judge('elderparent')">
+      <div>
+        <label for="ep-age" class="check-label">만 65세 이상 직계존속(또는 배우자의 직계존속)이 있다<span class="check-required">필수</span></label>
+        <p class="check-note">부모·조부모·외조부모 포함. 배우자의 부모도 포함됩니다.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="ep-period" onchange="judge('elderparent')">
+      <div>
+        <label for="ep-period" class="check-label">해당 직계존속을 3년 이상 계속 부양하고 있다<span class="check-required">필수</span></label>
+        <p class="check-note">입주자모집공고일 기준 3년 이상 동일 주민등록표에 등재되어 있어야 합니다.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="ep-homeless" onchange="judge('elderparent')">
+      <div>
+        <label for="ep-homeless" class="check-label">신청자 본인이 무주택 세대구성원이다<span class="check-required">필수</span></label>
+        <p class="check-note">부양하는 직계존속은 주택 보유 가능 (단, 단지·공급 유형에 따라 다를 수 있음).</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="ep-saving" onchange="judge('elderparent')">
+      <div>
+        <label for="ep-saving" class="check-label">청약종합저축 가입 후 3년 이상, 납입 횟수 24회 이상이다<span class="check-required">필수</span></label>
+        <p class="check-note">공공 노부모 기준. 민간은 단지 공고 확인 필요.</p>
+      </div>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="ep-seouldeps" onchange="judge('elderparent')">
+      <div>
+        <label for="ep-seouldeps" class="check-label">세대주이며 세대원으로 신청자와 직계존속이 함께 등재되어 있다 <span class="opt-tag">(조건부)</span></label>
+        <p class="check-note">일반적으로 세대주 조건 및 주민등록 동일 세대 요건이 적용됩니다.</p>
+      </div>
+    </div>
+
+    <button onclick="judge('elderparent')" style="margin-top:1rem">자격 판단하기</button>
+  </div>
+
+  <!-- 결과 -->
+  <div class="card result" id="result">
+    <div class="verdict-box" id="verdict-box">
+      <div class="verdict-icon" id="verdict-icon"></div>
+      <div class="verdict-title" id="verdict-title"></div>
+      <div class="verdict-desc" id="verdict-desc"></div>
+      <div class="missing-list" id="missing-list"></div>
+    </div>
+    <div class="next-steps" id="next-steps"></div>
+    <p class="notice">
+      ※ 본 판단기는 주요 핵심 요건 기준 참고용입니다. 실제 자격 여부는 청약 유형(공공·민간)·공급 면적·모집공고 세부 조건에 따라 달라질 수 있습니다.<br>
+      공식 자격 확인: <strong>청약홈(applyhome.co.kr)</strong> · 한국부동산원 고객센터 1644-2828
+    </p>
+  </div>
+</main>
+
+<script>
+  const CONFIGS = {
+    newlywed: {
+      name: '신혼부부 특별공급',
+      required: [
+        { id: 'nw-married', label: '혼인 중 또는 혼인신고 완료' },
+        { id: 'nw-period', label: '혼인기간 7년 이내' },
+        { id: 'nw-homeless', label: '무주택 세대구성원' },
+        { id: 'nw-saving', label: '청약종합저축 가입' },
+        { id: 'nw-income', label: '소득 기준 충족' },
+      ],
+      optional: [
+        { id: 'nw-child', label: '미성년 자녀 있음 (우선공급 우위)' },
+      ],
+      nextSteps: [
+        '청약홈 → 마이홈 → 청약 자격 확인 메뉴에서 공식 확인',
+        '소득 기준은 건강보험료 납부 내역으로 확인 가능',
+        '자녀 있으면 우선공급(전체 물량의 70%) 대상으로 경쟁 유리',
+      ],
+    },
+    firsthome: {
+      name: '생애최초 특별공급',
+      required: [
+        { id: 'fh-never', label: '본인·배우자 주택 소유 이력 없음' },
+        { id: 'fh-homeless', label: '현재 무주택 세대구성원' },
+        { id: 'fh-worker', label: '근로자·자영업자 (소득세 납부 이력)' },
+        { id: 'fh-saving', label: '청약종합저축 1회 이상 납입' },
+        { id: 'fh-income', label: '소득 기준 충족' },
+      ],
+      optional: [
+        { id: 'fh-married', label: '혼인 중 또는 미성년 자녀 있음' },
+      ],
+      nextSteps: [
+        '과거 주택 소유 이력은 부동산거래관리시스템에서 확인 가능',
+        '소득세 납부 이력은 홈택스(hometax.go.kr)에서 확인',
+        '공공주택 생애최초는 혼인·자녀 요건 추가 확인 필요',
+      ],
+    },
+    multichild: {
+      name: '다자녀 특별공급',
+      required: [
+        { id: 'mc-children', label: '미성년 자녀 3명 이상' },
+        { id: 'mc-homeless', label: '무주택 세대구성원' },
+        { id: 'mc-saving', label: '청약종합저축 가입' },
+      ],
+      optional: [
+        { id: 'mc-score', label: '다자녀 점수 항목 확인 완료' },
+      ],
+      nextSteps: [
+        '다자녀 특공은 소득 기준 없음 (별도 소득 제한 없음)',
+        '경쟁 시 점수 순위 배정 — 자녀 수가 많을수록 절대 유리',
+        '영유아(2세 이하) 자녀는 추가 점수 부여',
+      ],
+    },
+    elderparent: {
+      name: '노부모 부양 특별공급',
+      required: [
+        { id: 'ep-age', label: '만 65세 이상 직계존속 있음' },
+        { id: 'ep-period', label: '3년 이상 계속 부양 (동일 세대 등재)' },
+        { id: 'ep-homeless', label: '신청자 무주택 세대구성원' },
+        { id: 'ep-saving', label: '청약종합저축 3년·24회 이상 납입' },
+      ],
+      optional: [
+        { id: 'ep-seouldeps', label: '세대주 요건 및 동일 세대 등재' },
+      ],
+      nextSteps: [
+        '직계존속 주민등록 등재 기간을 주민등록초본으로 확인',
+        '청약통장 납입 횟수는 은행 앱 또는 통장에서 확인 가능',
+        '노부모 특공 물량은 공급 세대의 3~5% 내외로 경쟁 치열',
+      ],
+    },
+  };
+
+  let currentType = 'newlywed';
+
+  function selectTab(type, el) {
+    currentType = type;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.type-panel').forEach(p => p.classList.remove('show'));
+    document.getElementById('panel-' + type).classList.add('show');
+    document.getElementById('result').classList.remove('show');
+  }
+
+  function judge(type) {
+    const cfg = CONFIGS[type];
+    const requiredChecks = cfg.required.map(r => ({
+      ...r,
+      checked: document.getElementById(r.id).checked,
+    }));
+    const optionalChecks = cfg.optional.map(r => ({
+      ...r,
+      checked: document.getElementById(r.id).checked,
+    }));
+
+    const passed = requiredChecks.filter(r => r.checked);
+    const failed = requiredChecks.filter(r => !r.checked);
+    const allRequired = failed.length === 0;
+
+    const box = document.getElementById('verdict-box');
+    const icon = document.getElementById('verdict-icon');
+    const title = document.getElementById('verdict-title');
+    const desc = document.getElementById('verdict-desc');
+    const list = document.getElementById('missing-list');
+    const steps = document.getElementById('next-steps');
+
+    box.className = 'verdict-box';
+    list.innerHTML = '';
+
+    if (allRequired) {
+      box.classList.add('pass');
+      icon.textContent = '✅';
+      title.textContent = '필수 요건 충족';
+      desc.textContent = `${cfg.name} 핵심 요건을 모두 충족합니다. 청약홈에서 공식 자격 확인 후 신청하세요.`;
+      passed.forEach(r => {
+        const el = document.createElement('div');
+        el.className = 'pass-item';
+        el.textContent = r.label;
+        list.appendChild(el);
+      });
+      optionalChecks.filter(o => o.checked).forEach(o => {
+        const el = document.createElement('div');
+        el.className = 'pass-item';
+        el.textContent = o.label + ' (가점 항목)';
+        list.appendChild(el);
+      });
+    } else if (passed.length === 0) {
+      box.classList.add('fail');
+      icon.textContent = '❌';
+      title.textContent = '자격 요건 미충족';
+      desc.textContent = `${cfg.name} 필수 요건을 충족하지 않습니다.`;
+      failed.forEach(r => {
+        const el = document.createElement('div');
+        el.className = 'missing-item';
+        el.textContent = r.label;
+        list.appendChild(el);
+      });
+    } else {
+      box.classList.add('partial');
+      icon.textContent = '⚠️';
+      title.textContent = '일부 요건 미충족';
+      desc.textContent = `미충족 항목을 해결하면 ${cfg.name}을 신청할 수 있습니다.`;
+      passed.forEach(r => {
+        const el = document.createElement('div');
+        el.className = 'pass-item';
+        el.textContent = r.label;
+        list.appendChild(el);
+      });
+      failed.forEach(r => {
+        const el = document.createElement('div');
+        el.className = 'missing-item';
+        el.textContent = r.label;
+        list.appendChild(el);
+      });
+    }
+
+    steps.innerHTML = `<div class="next-steps-title">다음 단계</div><ul>${cfg.nextSteps.map(s => `<li>${s}</li>`).join('')}</ul>`;
+
+    const resultEl = document.getElementById('result');
+    resultEl.classList.add('show');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>
+</body>
+</html>

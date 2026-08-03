@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>청약 가점 계산기 — 내 가점 몇 점인지 바로 확인</title>
+  <meta name="description" content="무주택 기간·부양가족 수·청약저축 가입기간을 입력하면 청약 가점(84점 만점)을 즉시 계산합니다. 당첨 가능성 예측에 활용하세요.">
+  <meta property="og:title" content="청약 가점 계산기 — 내 가점 몇 점인지 바로 확인">
+  <meta property="og:description" content="무주택 기간·부양가족·저축 가입기간 입력 → 청약 가점 84점 만점 즉시 계산">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utils.minon.kr/apartment-subscription-score/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="청약 가점 계산기">
+  <meta name="twitter:description" content="무주택 기간·부양가족·저축 → 청약 가점 즉시 계산">
+  <link rel="canonical" href="https://utils.minon.kr/apartment-subscription-score/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "청약 가점 계산기",
+    "description": "무주택 기간·부양가족 수·청약저축 가입기간을 입력해 청약 가점(84점 만점)을 계산하는 계산기",
+    "url": "https://utils.minon.kr/apartment-subscription-score/",
+    "applicationCategory": "UtilitiesApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
+  }
+  </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <style>
+    :root {
+      --bg: #F4F6FB;
+      --primary: #1D4ED8;
+      --primary-hover: #1E40AF;
+      --primary-soft: #EFF6FF;
+      --primary-soft-border: #BFDBFE;
+      --primary-soft-text: #1E3A8A;
+      --text: #0F1624;
+      --text-sub: #5A6680;
+      --border: #D0D8E8;
+      --error: #B83A28;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      padding: 1rem;
+    }
+    main { max-width: 480px; margin: 0 auto; }
+    header { margin-bottom: 1.25rem; }
+    h1 { font-size: 1.5rem; font-weight: 700; }
+    .subtitle { font-size: 0.875rem; color: var(--text-sub); margin-top: 0.2rem; }
+    .hero-line { width: 2.5rem; height: 2px; background: var(--primary); margin: 0.35rem 0 0.45rem; border-radius: 2px; }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.85rem;
+    }
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: #333;
+    }
+    .field { margin-bottom: 1rem; }
+    .field:last-child { margin-bottom: 0; }
+    .input-row { display: flex; gap: 0.5rem; align-items: center; }
+    .input-row input { flex: 1; }
+    .input-unit { font-size: 0.875rem; color: #555; white-space: nowrap; }
+    input[type="number"], select {
+      padding: 0.65rem 0.75rem;
+      border: 1.5px solid #d4d4d4;
+      border-radius: 7px;
+      font-size: 1rem;
+      color: #1a1a1a;
+      width: 100%;
+      background: #fff;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    input[type="number"]:focus, select:focus { outline: none; border-color: var(--primary); }
+    .field-note { font-size: 0.75rem; color: var(--text-sub); margin-top: 0.25rem; }
+    .error { color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem; display: none; }
+    .error.show { display: block; }
+    button {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 0.25rem;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    button:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    button:active { transform: translateY(0); }
+    @keyframes resultReveal {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .result { display: none; }
+    .result.show { display: block; animation: resultReveal 200ms ease-out both; }
+    .score-box {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: var(--primary-soft);
+      border: 2px solid var(--primary-soft-border);
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    .score-total {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .score-max { font-size: 1rem; color: var(--primary-soft-border); margin-top: 0.2rem; }
+    .score-label { font-size: 0.9rem; color: #555; margin-top: 0.5rem; }
+    .breakdown { margin-top: 0.5rem; }
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 0.9rem;
+    }
+    .breakdown-row:last-child { border-bottom: none; }
+    .breakdown-name { color: var(--text-sub); }
+    .breakdown-score {
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .breakdown-max { color: #bbb; font-size: 0.8rem; margin-left: 0.25rem; }
+    .bar-wrap { margin-top: 0.5rem; }
+    .bar-bg {
+      background: #e5e7eb;
+      border-radius: 999px;
+      height: 8px;
+      margin-top: 0.4rem;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--primary);
+      transition: width 0.4s ease;
+    }
+    .percentile-box {
+      background: var(--primary-soft);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      color: var(--primary);
+      margin-top: 0.75rem;
+    }
+    .notice {
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+      padding-top: 0.5rem;
+      border-top: 1px solid #eee;
+      margin-top: 0.5rem;
+    }
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 0.5rem;
+    }
+    .score-table th {
+      background: #f8f9fa;
+      font-weight: 600;
+      padding: 0.4rem 0.5rem;
+      text-align: left;
+      color: #555;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    .score-table td {
+      padding: 0.4rem 0.5rem;
+      border-bottom: 1px solid #f0f0f0;
+      color: #333;
+    }
+    .score-table tr.highlight td { background: var(--primary-soft); font-weight: 700; color: var(--primary); }
+    details { margin-top: 0.75rem; }
+    summary {
+      font-size: 0.82rem;
+      color: var(--primary);
+      cursor: pointer;
+      user-select: none;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: "▶ "; font-size: 0.7rem; }
+    details[open] summary::before { content: "▼ "; }
+    #ad-slot { min-height: 60px; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>청약 가점 계산기</h1>
+    <div class="hero-line"></div>
+    <p class="subtitle">무주택 기간·부양가족·저축 가입기간 → 84점 만점 즉시 계산</p>
+  </header>
+
+  <div id="ad-slot"></div>
+
+  <div class="card">
+    <p class="section-title">① 무주택 기간</p>
+    <div class="field">
+      <label for="homeless-year">무주택 기간</label>
+      <div class="input-row">
+        <input type="number" id="homeless-year" min="0" max="99" placeholder="0" inputmode="decimal">
+        <span class="input-unit">년</span>
+        <input type="number" id="homeless-month" min="0" max="11" placeholder="0" inputmode="decimal">
+        <span class="input-unit">개월</span>
+      </div>
+      <p class="field-note">만 30세 미만 미혼 세대주는 0년 입력 (성년 시점부터 산정)</p>
+      <p class="error" id="err-homeless">0 이상 값을 입력하세요</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="section-title">② 부양가족 수</p>
+    <div class="field">
+      <label for="dependent">부양가족 수</label>
+      <select id="dependent">
+        <option value="0">0명 (본인만)</option>
+        <option value="1">1명</option>
+        <option value="2">2명</option>
+        <option value="3">3명</option>
+        <option value="4">4명</option>
+        <option value="5">5명</option>
+        <option value="6">6명 이상</option>
+      </select>
+      <p class="field-note">배우자·직계존속(부모·조부모 등)·직계비속(자녀 등) 포함. 주민등록상 동일 세대원 기준</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="section-title">③ 청약저축 가입기간</p>
+    <div class="field">
+      <label for="savings-year">가입기간</label>
+      <div class="input-row">
+        <input type="number" id="savings-year" min="0" max="99" placeholder="0" inputmode="decimal">
+        <span class="input-unit">년</span>
+        <input type="number" id="savings-month" min="0" max="11" placeholder="0" inputmode="decimal">
+        <span class="input-unit">개월</span>
+      </div>
+      <p class="field-note">청약종합저축·청약저축·주택청약종합저축 가입일 기준</p>
+      <p class="error" id="err-savings">0 이상 값을 입력하세요</p>
+    </div>
+  </div>
+
+  <button onclick="calculate()">가점 계산하기</button>
+
+  <div class="card result" id="result">
+    <div class="score-box">
+      <div class="score-total" id="total-score">0</div>
+      <div class="score-max">/ 84점</div>
+      <div class="score-label" id="score-label">점수 계산 결과</div>
+    </div>
+
+    <div class="breakdown">
+      <div class="breakdown-row">
+        <span class="breakdown-name">무주택 기간</span>
+        <span>
+          <span class="breakdown-score" id="score-homeless">0</span>
+          <span class="breakdown-max">/ 32점</span>
+        </span>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-bg"><div class="bar-fill" id="bar-homeless" style="width:0%"></div></div>
+      </div>
+      <div class="breakdown-row" style="margin-top:0.5rem">
+        <span class="breakdown-name">부양가족 수</span>
+        <span>
+          <span class="breakdown-score" id="score-dependent">0</span>
+          <span class="breakdown-max">/ 35점</span>
+        </span>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-bg"><div class="bar-fill" id="bar-dependent" style="width:0%"></div></div>
+      </div>
+      <div class="breakdown-row" style="margin-top:0.5rem">
+        <span class="breakdown-name">청약저축 가입기간</span>
+        <span>
+          <span class="breakdown-score" id="score-savings">0</span>
+          <span class="breakdown-max">/ 17점</span>
+        </span>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-bg"><div class="bar-fill" id="bar-savings" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="percentile-box" id="percentile-box"></div>
+
+    <details>
+      <summary>점수 기준표 보기</summary>
+      <table class="score-table" style="margin-top:0.75rem">
+        <thead>
+          <tr><th>무주택 기간</th><th>점수</th></tr>
+        </thead>
+        <tbody id="table-homeless"></tbody>
+      </table>
+      <table class="score-table" style="margin-top:0.75rem">
+        <thead>
+          <tr><th>부양가족 수</th><th>점수</th></tr>
+        </thead>
+        <tbody id="table-dependent"></tbody>
+      </table>
+      <table class="score-table" style="margin-top:0.75rem">
+        <thead>
+          <tr><th>청약저축 가입기간</th><th>점수</th></tr>
+        </thead>
+        <tbody id="table-savings"></tbody>
+      </table>
+    </details>
+
+    <p class="notice">
+      ※ 본 계산기는 일반 참고용입니다. 실제 청약 가점은 청약 유형(공공·민간)·공급 면적·지역에 따라 산정 기준이 다를 수 있습니다.<br>
+      공식 가점 확인은 <strong>청약홈(applyhome.co.kr)</strong>에서 하시기 바랍니다.
+    </p>
+  </div>
+</main>
+
+<script>
+  const HOMELESS_TABLE = [
+    { label: '1년 미만', min: 0, max: 1, score: 2 },
+    { label: '1년 이상 ~ 2년 미만', min: 1, max: 2, score: 4 },
+    { label: '2년 이상 ~ 3년 미만', min: 2, max: 3, score: 6 },
+    { label: '3년 이상 ~ 4년 미만', min: 3, max: 4, score: 8 },
+    { label: '4년 이상 ~ 5년 미만', min: 4, max: 5, score: 10 },
+    { label: '5년 이상 ~ 6년 미만', min: 5, max: 6, score: 12 },
+    { label: '6년 이상 ~ 7년 미만', min: 6, max: 7, score: 14 },
+    { label: '7년 이상 ~ 8년 미만', min: 7, max: 8, score: 16 },
+    { label: '8년 이상 ~ 9년 미만', min: 8, max: 9, score: 18 },
+    { label: '9년 이상 ~ 10년 미만', min: 9, max: 10, score: 20 },
+    { label: '10년 이상 ~ 11년 미만', min: 10, max: 11, score: 22 },
+    { label: '11년 이상 ~ 12년 미만', min: 11, max: 12, score: 24 },
+    { label: '12년 이상 ~ 13년 미만', min: 12, max: 13, score: 26 },
+    { label: '13년 이상 ~ 14년 미만', min: 13, max: 14, score: 28 },
+    { label: '14년 이상 ~ 15년 미만', min: 14, max: 15, score: 30 },
+    { label: '15년 이상', min: 15, max: Infinity, score: 32 },
+  ];
+
+  const DEPENDENT_TABLE = [
+    { label: '0명', count: 0, score: 5 },
+    { label: '1명', count: 1, score: 10 },
+    { label: '2명', count: 2, score: 15 },
+    { label: '3명', count: 3, score: 20 },
+    { label: '4명', count: 4, score: 25 },
+    { label: '5명', count: 5, score: 30 },
+    { label: '6명 이상', count: 6, score: 35 },
+  ];
+
+  const SAVINGS_TABLE = [
+    { label: '6개월 미만', minM: 0, maxM: 6, score: 1 },
+    { label: '6개월 이상 ~ 1년 미만', minM: 6, maxM: 12, score: 2 },
+    { label: '1년 이상 ~ 2년 미만', minM: 12, maxM: 24, score: 3 },
+    { label: '2년 이상 ~ 3년 미만', minM: 24, maxM: 36, score: 4 },
+    { label: '3년 이상 ~ 4년 미만', minM: 36, maxM: 48, score: 5 },
+    { label: '4년 이상 ~ 5년 미만', minM: 48, maxM: 60, score: 6 },
+    { label: '5년 이상 ~ 6년 미만', minM: 60, maxM: 72, score: 7 },
+    { label: '6년 이상 ~ 7년 미만', minM: 72, maxM: 84, score: 8 },
+    { label: '7년 이상 ~ 8년 미만', minM: 84, maxM: 96, score: 9 },
+    { label: '8년 이상 ~ 9년 미만', minM: 96, maxM: 108, score: 10 },
+    { label: '9년 이상 ~ 10년 미만', minM: 108, maxM: 120, score: 11 },
+    { label: '10년 이상 ~ 11년 미만', minM: 120, maxM: 132, score: 12 },
+    { label: '11년 이상 ~ 12년 미만', minM: 132, maxM: 144, score: 13 },
+    { label: '12년 이상 ~ 13년 미만', minM: 144, maxM: 156, score: 14 },
+    { label: '13년 이상 ~ 14년 미만', minM: 156, maxM: 168, score: 15 },
+    { label: '14년 이상 ~ 15년 미만', minM: 168, maxM: 180, score: 16 },
+    { label: '15년 이상', minM: 180, maxM: Infinity, score: 17 },
+  ];
+
+  function getHomelessScore(totalMonths) {
+    const years = totalMonths / 12;
+    for (const row of HOMELESS_TABLE) {
+      if (years >= row.min && years < row.max) return row.score;
+    }
+    return 32;
+  }
+
+  function getDependentScore(count) {
+    const clamp = Math.min(count, 6);
+    return DEPENDENT_TABLE[clamp].score;
+  }
+
+  function getSavingsScore(totalMonths) {
+    for (const row of SAVINGS_TABLE) {
+      if (totalMonths >= row.minM && totalMonths < row.maxM) return row.score;
+    }
+    return 17;
+  }
+
+  function calculate() {
+    let valid = true;
+
+    const hy = parseInt(document.getElementById('homeless-year').value) || 0;
+    const hm = parseInt(document.getElementById('homeless-month').value) || 0;
+    const sy = parseInt(document.getElementById('savings-year').value) || 0;
+    const sm = parseInt(document.getElementById('savings-month').value) || 0;
+    const dep = parseInt(document.getElementById('dependent').value);
+
+    const errH = document.getElementById('err-homeless');
+    const errS = document.getElementById('err-savings');
+
+    if (hy < 0 || hm < 0 || hm > 11) { errH.classList.add('show'); valid = false; }
+    else errH.classList.remove('show');
+    if (sy < 0 || sm < 0 || sm > 11) { errS.classList.add('show'); valid = false; }
+    else errS.classList.remove('show');
+    if (!valid) return;
+
+    const homelessMonths = hy * 12 + hm;
+    const savingsMonths = sy * 12 + sm;
+
+    const sH = getHomelessScore(homelessMonths);
+    const sD = getDependentScore(dep);
+    const sS = getSavingsScore(savingsMonths);
+    const total = sH + sD + sS;
+
+    document.getElementById('total-score').textContent = total;
+    document.getElementById('score-homeless').textContent = sH;
+    document.getElementById('score-dependent').textContent = sD;
+    document.getElementById('score-savings').textContent = sS;
+
+    document.getElementById('bar-homeless').style.width = (sH / 32 * 100) + '%';
+    document.getElementById('bar-dependent').style.width = (sD / 35 * 100) + '%';
+    document.getElementById('bar-savings').style.width = (sS / 17 * 100) + '%';
+
+    let levelText = '';
+    if (total >= 70) levelText = '상위권 — 일반 공급 당첨 경쟁력 높음';
+    else if (total >= 55) levelText = '중상위권 — 지역·단지에 따라 경쟁력 있음';
+    else if (total >= 40) levelText = '중위권 — 비인기 지역 또는 신규 단지 중심 공략 권장';
+    else levelText = '하위권 — 가점 축적 또는 특별공급 자격 확인 권장';
+    document.getElementById('score-label').textContent = levelText;
+
+    const pct = (total / 84 * 100).toFixed(0);
+    document.getElementById('percentile-box').textContent =
+      `내 가점 ${total}점은 만점(84점) 대비 ${pct}% 수준입니다.`;
+
+    buildTables(homelessMonths, dep, savingsMonths);
+
+    document.getElementById('result').classList.add('show');
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function buildTables(homelessMonths, dep, savingsMonths) {
+    const homelessYears = homelessMonths / 12;
+    const tbH = document.getElementById('table-homeless');
+    tbH.innerHTML = HOMELESS_TABLE.map(row => {
+      const active = homelessYears >= row.min && homelessYears < row.max;
+      return `<tr class="${active ? 'highlight' : ''}"><td>${row.label}</td><td>${row.score}점</td></tr>`;
+    }).join('');
+
+    const tbD = document.getElementById('table-dependent');
+    tbD.innerHTML = DEPENDENT_TABLE.map(row => {
+      const active = Math.min(dep, 6) === row.count;
+      return `<tr class="${active ? 'highlight' : ''}"><td>${row.label}</td><td>${row.score}점</td></tr>`;
+    }).join('');
+
+    const tbS = document.getElementById('table-savings');
+    tbS.innerHTML = SAVINGS_TABLE.map(row => {
+      const active = savingsMonths >= row.minM && savingsMonths < row.maxM;
+      return `<tr class="${active ? 'highlight' : ''}"><td>${row.label}</td><td>${row.score}점</td></tr>`;
+    }).join('');
+  }
+</script>
+</body>
+</html>
