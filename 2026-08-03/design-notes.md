@@ -181,3 +181,31 @@ A안 (`#0D9488`)은 명도 대비 3.51:1로 **WCAG AA 미충족**. B안이 4.86:
 - JS 내 인라인 `#4f46e5` → `var(--dorm-hover)` · `#92400e` → `var(--rent-hover)`
 - `@keyframes resultReveal` + `.result.show` 애니메이션 추가
 - JS 로직·SEO·JSON-LD·`#ad-slot` 전체 유지
+
+---
+
+## 클레버 재검수 (다빈치 HTML 반영 후 · 2026-08-03 09:43 KST · 대표 직접 지시)
+
+- 4축 검수 결과:
+  - 정확성: **수정 1건** (dorm-vs-rent 프리셋 버그)
+  - 완성도: OK (Pretendard·CSS 토큰·hero-line·티일/코발트+앰버 팔레트 모두 반영)
+  - 원칙: **수정 2건** (moving-truck 짐 0 UX · select aria-label 5개)
+  - 배포준비: **준비 완료**
+
+- 클레버 수정 3건 (실 유저 관점):
+  1. **`dorm-vs-rent` `setPreset('dorm', ...)` 프리셋 불일치** — 기존은 '경기·인천권'만 `meal-included=false` 리셋. '지방국립'/'서울사립' 프리셋 선택 시 사용자가 앞서 식사 포함 상태였으면 프리셋의 `dorm-meal: 20/25`가 화면 숨겨진 채 계산에도 반영 안 됨 → 프리셋 값과 결과 불일치. 모든 dorm 프리셋에서 리셋되도록 조건 확장.
+  2. **`moving-truck` 짐 0 상태에서 "다마스" 자동 추천** — `vol === 0` 상태에서도 첫 트럭 매칭돼 어색한 결과 노출. `vol <= 0` 가드 추가 후 안내 얼럿.
+  3. **`moving-truck` select aria-label 5개 부여** — bed/sofa/fridge/washer/table-type. 시각적 `.item-name` div만 있고 label 연결 없어 스크린리더 사용자 접근성 미달 (WCAG 1.3.1). `<label for>` 재구조화 대신 aria-label로 즉시 보강.
+
+- 유지 판정:
+  - `moving-truck` `selectValues` 데드코드: 계산 미영향 · 배포 blocker 아님 · 다음 사이클 정리.
+  - `moving-truck` qty-btn/qty-val 접근성: −/+ 텍스트로 최소 접근 가능 · 컨텍스트 부여는 다음 사이클 이월.
+  - dorm-vs-rent 접근성: 모든 label `for` 연결 확인 · 색 대비 두 primary 모두 5.82:1 · toggle 스위치 label 감쌈.
+  - 계산 로직 (dorm 월합산·rent 보증금 기회비용 연 2.5%/12·모든 항목 합·period toggle) 재검산 정확.
+  - moving-truck TRUCKS 배열 오름차순·30% 여유 후 매칭·badge 렌더링 정확.
+  - SEO 태그·JSON-LD·`#ad-slot`·canonical 두 파일 정상.
+
+- **배포 준비 상태: 준비 완료**
+  - moving-truck: 티일 `#0F766E` 반영 · WCAG AA 4.86:1 확보
+  - dorm-vs-rent: 코발트 `#1D4ED8` + 앰버 `#D97706` 반영 · 양쪽 5.82:1
+  - 유저 관점 수정 3건 반영 완료 · 계산 정합 재확인

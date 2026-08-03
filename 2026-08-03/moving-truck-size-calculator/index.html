@@ -291,7 +291,8 @@
       <div class="item-info">
         <div class="item-name">침대</div>
       </div>
-      <select id="bed-type" onchange="updateSelect(this)">
+      <!-- [클레버 수정: select에 aria-label 부여. item-name div는 시각적 라벨일 뿐 label 연결 없음 → 스크린리더 접근성 미달. aria-label로 즉시 보강] -->
+      <select id="bed-type" aria-label="침대 사이즈 선택" onchange="updateSelect(this)">
         <option value="0">없음</option>
         <option value="0.50">싱글 (0.50㎥)</option>
         <option value="0.65">슈퍼싱글 (0.65㎥)</option>
@@ -342,7 +343,7 @@
       <div class="item-info">
         <div class="item-name">소파</div>
       </div>
-      <select id="sofa-type" onchange="updateSelect(this)">
+      <select id="sofa-type" aria-label="소파 크기 선택" onchange="updateSelect(this)">
         <option value="0">없음</option>
         <option value="0.35">1인용 (0.35㎥)</option>
         <option value="0.70">2인용 (0.70㎥)</option>
@@ -353,7 +354,7 @@
       <div class="item-info">
         <div class="item-name">냉장고</div>
       </div>
-      <select id="fridge-type" onchange="updateSelect(this)">
+      <select id="fridge-type" aria-label="냉장고 용량 선택" onchange="updateSelect(this)">
         <option value="0">없음</option>
         <option value="0.35">소형 200L 미만 (0.35㎥)</option>
         <option value="0.55">일반 200~400L (0.55㎥)</option>
@@ -364,7 +365,7 @@
       <div class="item-info">
         <div class="item-name">세탁기</div>
       </div>
-      <select id="washer-type" onchange="updateSelect(this)">
+      <select id="washer-type" aria-label="세탁기 유형 선택" onchange="updateSelect(this)">
         <option value="0">없음</option>
         <option value="0.40">드럼형 (0.40㎥)</option>
         <option value="0.35">통돌이형 (0.35㎥)</option>
@@ -374,7 +375,7 @@
       <div class="item-info">
         <div class="item-name">식탁</div>
       </div>
-      <select id="table-type" onchange="updateSelect(this)">
+      <select id="table-type" aria-label="식탁 인원 선택" onchange="updateSelect(this)">
         <option value="0">없음</option>
         <option value="0.25">2인용 (0.25㎥)</option>
         <option value="0.50">4인용 (0.50㎥)</option>
@@ -580,6 +581,13 @@
 
   function calculate() {
     const vol = getTotalVol();
+
+    /* [클레버 수정: 짐 0인 상태에서 계산 시 "다마스" 자동 추천되는 UX 문제 방지. 부피 0이면 안내만 표시] */
+    if (vol <= 0) {
+      alert('짐 항목을 하나 이상 입력해 주세요.');
+      return;
+    }
+
     const volWithMargin = vol * 1.3;
 
     let truck = TRUCKS[TRUCKS.length - 1];
