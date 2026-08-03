@@ -25,20 +25,37 @@
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
   }
   </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
   <style>
+    :root {
+      --dorm-primary: #1D4ED8;
+      --dorm-hover: #1E40AF;
+      --dorm-soft: #E8F0FE;
+      --dorm-soft-border: #BFDBFE;
+      --rent-primary: #D97706;
+      --rent-hover: #B45309;
+      --rent-soft: #FEF3E2;
+      --rent-soft-border: #FDE68A;
+      --bg: #F4F6FB;
+      --text: #0F1624;
+      --text-sub: #5A6680;
+      --border: #D0D8E8;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
       font-size: 16px;
       line-height: 1.6;
-      color: #1a1a1a;
-      background: #f4f4f4;
+      color: var(--text);
+      background: var(--bg);
       padding: 1rem;
     }
     main { max-width: 480px; margin: 0 auto; }
     header { margin-bottom: 1.25rem; }
-    h1 { font-size: 1.4rem; font-weight: 700; }
-    .subtitle { font-size: 0.875rem; color: #666; margin-top: 0.2rem; }
+    h1 { font-size: 1.5rem; font-weight: 700; }
+    .hero-line { width: 2.5rem; height: 2px; background: var(--dorm-primary); margin: 0.35rem 0 0.45rem; border-radius: 2px; }
+    .subtitle { font-size: 0.875rem; color: var(--text-sub); margin-top: 0.2rem; }
     .card {
       background: #fff;
       border-radius: 10px;
@@ -46,8 +63,8 @@
       margin-bottom: 1rem;
       box-shadow: 0 1px 4px rgba(0,0,0,0.07);
     }
-    .card-dorm { border-top: 3px solid #6366f1; }
-    .card-rent { border-top: 3px solid #f59e0b; }
+    .card-dorm { border-top: 3px solid var(--dorm-primary); }
+    .card-rent { border-top: 3px solid var(--rent-primary); }
     .card-common { border-top: 3px solid #64748b; }
     .section-title {
       font-size: 0.9rem;
@@ -58,8 +75,8 @@
       align-items: center;
       gap: 0.4rem;
     }
-    .dot-dorm { width: 10px; height: 10px; background: #6366f1; border-radius: 50%; flex-shrink: 0; }
-    .dot-rent { width: 10px; height: 10px; background: #f59e0b; border-radius: 50%; flex-shrink: 0; }
+    .dot-dorm { width: 10px; height: 10px; background: var(--dorm-primary); border-radius: 50%; flex-shrink: 0; }
+    .dot-rent { width: 10px; height: 10px; background: var(--rent-primary); border-radius: 50%; flex-shrink: 0; }
     .dot-common { width: 10px; height: 10px; background: #64748b; border-radius: 50%; flex-shrink: 0; }
     .field { margin-bottom: 0.85rem; }
     .field:last-child { margin-bottom: 0; }
@@ -72,33 +89,33 @@
     }
     .input-wrap { display: flex; align-items: center; gap: 0.4rem; }
     .input-wrap input { flex: 1; }
-    .unit { font-size: 0.875rem; color: #555; white-space: nowrap; }
+    .unit { font-size: 0.875rem; color: var(--text-sub); white-space: nowrap; }
     input[type="number"] {
       padding: 0.65rem 0.75rem;
-      border: 1.5px solid #d4d4d4;
+      border: 1.5px solid var(--border);
       border-radius: 7px;
       font-size: 1rem;
-      color: #1a1a1a;
+      color: var(--text);
       width: 100%;
       background: #fff;
       -webkit-appearance: none;
       appearance: none;
     }
-    input[type="number"]:focus { outline: none; border-color: #6366f1; }
-    .field-note { font-size: 0.75rem; color: #aaa; margin-top: 0.2rem; }
+    input[type="number"]:focus { outline: none; border-color: var(--dorm-primary); }
+    .field-note { font-size: 0.75rem; color: var(--text-sub); margin-top: 0.2rem; }
     select {
       padding: 0.65rem 0.75rem;
-      border: 1.5px solid #d4d4d4;
+      border: 1.5px solid var(--border);
       border-radius: 7px;
       font-size: 1rem;
-      color: #1a1a1a;
+      color: var(--text);
       width: 100%;
       background: #fff;
       -webkit-appearance: none;
       appearance: none;
       cursor: pointer;
     }
-    select:focus { outline: none; border-color: #6366f1; }
+    select:focus { outline: none; border-color: var(--dorm-primary); }
     .toggle-row {
       display: flex;
       justify-content: space-between;
@@ -129,22 +146,53 @@
       border-radius: 50%;
       transition: transform 0.2s;
     }
-    .toggle input:checked + .slider { background: #6366f1; }
+    .toggle input:checked + .slider { background: var(--dorm-primary); }
     .toggle input:checked + .slider::before { transform: translateX(20px); }
     button {
       width: 100%;
       padding: 0.85rem;
-      background: #6366f1;
+      background: var(--dorm-primary);
       color: #fff;
       border: none;
       border-radius: 8px;
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
     }
-    button:hover { background: #4f46e5; }
+    button:hover {
+      background: var(--dorm-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .preset-row {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .preset-btn {
+      padding: 0.35rem 0.7rem;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      background: #f8f8f8;
+      font-size: 0.8rem;
+      color: #555;
+      cursor: pointer;
+      font-weight: 500;
+      width: auto;
+      transform: none;
+      box-shadow: none;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .card-dorm .preset-btn:hover { border-color: var(--dorm-primary); color: var(--dorm-primary); background: var(--dorm-soft); transform: none; box-shadow: none; }
+    .card-rent .preset-btn:hover { border-color: var(--rent-primary); color: var(--rent-primary); background: var(--rent-soft); transform: none; box-shadow: none; }
+    @keyframes resultReveal {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
     .result { display: none; }
-    .result.show { display: block; }
+    .result.show { display: block; animation: resultReveal 200ms ease-out both; }
     .compare-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -156,51 +204,48 @@
       padding: 1rem;
       text-align: center;
     }
-    .compare-cell.dorm { background: #eef2ff; }
-    .compare-cell.rent { background: #fffbeb; }
-    .compare-cell.winner { box-shadow: 0 0 0 2.5px #6366f1; }
-    .compare-cell.rent.winner { box-shadow: 0 0 0 2.5px #f59e0b; }
-    .cell-type { font-size: 0.75rem; font-weight: 700; color: #888; }
-    /* [클레버 수정: .cell-dorm/.cell-rent는 존재하지 않는 클래스 — HTML에는 class="compare-cell dorm/rent". .dorm/.rent로 교정] */
-    .dorm .cell-type { color: #6366f1; }
-    .rent .cell-type { color: #b45309; }
+    .compare-cell.dorm { background: var(--dorm-soft); }
+    .compare-cell.rent { background: var(--rent-soft); }
+    .compare-cell.winner { box-shadow: 0 0 0 2.5px var(--dorm-primary); }
+    .compare-cell.rent.winner { box-shadow: 0 0 0 2.5px var(--rent-primary); }
+    .cell-type { font-size: 0.75rem; font-weight: 700; color: var(--text-sub); }
+    .dorm .cell-type { color: var(--dorm-primary); }
+    .rent .cell-type { color: var(--rent-hover); }
     .cell-amount {
       font-size: 1.5rem;
       font-weight: 800;
       margin-top: 0.2rem;
       line-height: 1.1;
     }
-    .dorm .cell-amount { color: #4f46e5; }
-    .rent .cell-amount { color: #92400e; }
-    .cell-unit { font-size: 0.75rem; color: #888; margin-top: 0.1rem; }
+    .dorm .cell-amount { color: var(--dorm-hover); }
+    .rent .cell-amount { color: var(--rent-hover); }
+    .cell-unit { font-size: 0.75rem; color: var(--text-sub); margin-top: 0.1rem; }
     .winner-badge {
       font-size: 0.7rem;
-      background: #6366f1;
+      background: var(--dorm-primary);
       color: #fff;
       border-radius: 4px;
       padding: 0.1rem 0.4rem;
       margin-top: 0.3rem;
       display: inline-block;
     }
-    .rent .winner-badge { background: #f59e0b; color: #fff; }
+    .rent .winner-badge { background: var(--rent-primary); }
     .diff-box {
-      background: #f8faff;
+      background: var(--dorm-soft);
+      border: 1px solid var(--dorm-soft-border);
       border-radius: 8px;
       padding: 0.85rem 1rem;
       text-align: center;
       margin-bottom: 1rem;
     }
-    .diff-amount {
-      font-size: 1.3rem;
-      font-weight: 800;
-    }
-    .diff-dorm { color: #4f46e5; }
-    .diff-rent { color: #92400e; }
-    .diff-label { font-size: 0.85rem; color: #555; margin-top: 0.2rem; }
+    .diff-amount { font-size: 1.3rem; font-weight: 800; }
+    .diff-dorm { color: var(--dorm-hover); }
+    .diff-rent { color: var(--rent-hover); }
+    .diff-label { font-size: 0.85rem; color: var(--text-sub); margin-top: 0.2rem; }
     .breakdown-title {
       font-size: 0.82rem;
       font-weight: 700;
-      color: #888;
+      color: var(--text-sub);
       margin-bottom: 0.5rem;
     }
     .breakdown-row {
@@ -216,42 +261,26 @@
     .breakdown-section { margin-bottom: 0.75rem; }
     .period-note {
       font-size: 0.78rem;
-      color: #888;
+      color: var(--text-sub);
       text-align: center;
       margin-bottom: 0.75rem;
     }
     .notice {
       font-size: 0.78rem;
-      color: #888;
+      color: var(--text-sub);
       line-height: 1.5;
       padding-top: 0.5rem;
-      border-top: 1px solid #eee;
+      border-top: 1px solid var(--border);
       margin-top: 0.5rem;
     }
     #ad-slot { min-height: 60px; margin-bottom: 1rem; }
-    .preset-row {
-      display: flex;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-      margin-bottom: 0.75rem;
-    }
-    .preset-btn {
-      padding: 0.35rem 0.7rem;
-      border: 1.5px solid #d4d4d4;
-      border-radius: 6px;
-      background: #f8f8f8;
-      font-size: 0.8rem;
-      color: #555;
-      cursor: pointer;
-      font-weight: 500;
-    }
-    .preset-btn:hover { border-color: #6366f1; color: #6366f1; background: #eef2ff; }
   </style>
 </head>
 <body>
 <main>
   <header>
     <h1>기숙사 vs 자취 비용 비교</h1>
+    <div class="hero-line"></div>
     <p class="subtitle">학기별·연간 총비용 한눈에 비교 — 9월 개강 전 주거 결정</p>
   </header>
 
@@ -538,8 +567,8 @@
         <span class="breakdown-val">${fmt(r.val * months)}만원</span>
       </div>`).join('') +
     `<div class="breakdown-row" style="font-weight:700;border-top:1.5px solid #e5e7eb;margin-top:0.25rem;padding-top:0.4rem">
-      <span class="breakdown-name" style="color:#4f46e5">합계</span>
-      <span class="breakdown-val" style="color:#4f46e5">${fmt(dormTotal)}만원</span>
+      <span class="breakdown-name" style="color:var(--dorm-hover)">합계</span>
+      <span class="breakdown-val" style="color:var(--dorm-hover)">${fmt(dormTotal)}만원</span>
     </div>`;
 
     document.getElementById('breakdown-rent').innerHTML = [
@@ -556,8 +585,8 @@
         <span class="breakdown-val">${fmt(r.val * months)}만원</span>
       </div>`).join('') +
     `<div class="breakdown-row" style="font-weight:700;border-top:1.5px solid #e5e7eb;margin-top:0.25rem;padding-top:0.4rem">
-      <span class="breakdown-name" style="color:#92400e">합계</span>
-      <span class="breakdown-val" style="color:#92400e">${fmt(rentTotal)}만원</span>
+      <span class="breakdown-name" style="color:var(--rent-hover)">합계</span>
+      <span class="breakdown-val" style="color:var(--rent-hover)">${fmt(rentTotal)}만원</span>
     </div>`;
 
     const resultEl = document.getElementById('result');

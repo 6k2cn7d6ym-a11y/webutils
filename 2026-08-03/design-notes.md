@@ -1,6 +1,6 @@
 ## 현재 상태
-- 단계: 달리 정리
-- 다음: 다빈치
+- 단계: 다빈치 판정 완료 · HTML 반영 완료 · 클레버 재검수 대기
+- 다음: 클레버
 - 반려 지목: 없음
 - 왕복 회차: 2/5
 
@@ -144,4 +144,40 @@ A안 (`#0D9488`)은 명도 대비 3.51:1로 **WCAG AA 미충족**. B안이 4.86:
   - 사유: 디자인팀 파이프라인 미완료. 두 파일 모두 Pretendard 미도입·CSS 토큰 미선언·h1 1.5rem 미적용·hero-line 없음·확정 팔레트 미반영 (moving-truck: 티일 #0F766E 미적용, dorm-vs-rent: 코발트 #1D4ED8 + 앰버 #D97706 미적용)
   - 다빈치 최종 판정·HTML 반영 완료 후 재검수 필요
 
-[[결재: 디자인팀 | 클레버 검수 재트리거 — 다빈치 HTML 반영 전 클레버 방이 열림. 2026-08-03 이사 짐·기숙사 vs 자취. 파이프라인 순서 조율 필요 (다빈치 완료 → 클레버 트리거)]]
+---
+
+## 다빈치 최종 판정
+
+**판정: 통과 — A안 폐기 확정 · B안 단일 채택 · HTML 다빈치 직접 반영**
+
+달리 정리 그대로 집행했습니다. 추가 이의 없음.
+
+### 반영 항목 (2건)
+
+**moving-truck-size-calculator/index.html**
+- `:root` 토큰 8종 (`--primary: #0F766E` 외) 선언
+- Pretendard CDN 추가
+- body font-family · h1 1.5rem · subtitle `var(--text-sub)`
+- `.hero-line` CSS 정의 + HTML 삽입
+- `.section-title` · `.item-vol` · `.truck-cap` · `.notice` → `var(--text-sub)`
+- `.qty-btn:hover` · `select:focus` · `calc-btn` · `.truck-box` · `.truck-name` · `.vol-summary` · `.badge` → teal 토큰
+- `@keyframes resultReveal` + `.result.show` 애니메이션 추가
+- 버튼 hover `translateY(-1px) + box-shadow` 추가
+- 기타 인라인 `#d4d4d4` → `var(--border)` · `#aaa` → `var(--text-sub)`
+- `aria-label` 추가 (기타 직접 입력 input · 클레버 접근성 지적 처리)
+- JS 로직·SEO·JSON-LD·`#ad-slot` 전체 유지
+
+**dorm-vs-rent-calculator/index.html**
+- `:root` 토큰 12종 (`--dorm-primary: #1D4ED8` · `--rent-primary: #D97706` 외) 선언
+- Pretendard CDN 추가
+- body font-family · h1 1.5rem · subtitle `var(--text-sub)`
+- `.hero-line` CSS 정의 + HTML 삽입
+- `.card-dorm` · `.card-rent` · `.dot-dorm` · `.dot-rent` → 각 토큰
+- `input:focus` · `select:focus` · toggle · 메인 버튼 → `var(--dorm-primary)`
+- preset-btn hover: dorm 카드 → dorm 톤 · rent 카드 → rent 톤 (컨텍스트 분기)
+- `.compare-cell.dorm/rent` · `.winner` border · `.cell-type` · `.cell-amount` → 토큰
+- `.diff-box` → `var(--dorm-soft)` + border
+- `.breakdown-title` · `.period-note` · `.notice` · `.unit` · `.field-note` → `var(--text-sub)`
+- JS 내 인라인 `#4f46e5` → `var(--dorm-hover)` · `#92400e` → `var(--rent-hover)`
+- `@keyframes resultReveal` + `.result.show` 애니메이션 추가
+- JS 로직·SEO·JSON-LD·`#ad-slot` 전체 유지
