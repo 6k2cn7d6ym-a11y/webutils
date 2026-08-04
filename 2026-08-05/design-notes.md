@@ -1,8 +1,8 @@
 ## 현재 상태
-- 단계: 피카소 시안 제시
-- 다음: 달리
+- 단계: 달리 정리 완료 · 다빈치 판정 대기
+- 다음: 다빈치
 - 반려 지목: 없음
-- 왕복 회차: 1/5
+- 왕복 회차: 2/5
 
 ## 브랜드 승계
 - 이전 사이클 참조: 2026-08-03 (이사 짐·기숙사 vs 자취)
@@ -202,4 +202,67 @@
 
 ---
 
-*작성 · 피카소 · 2026-08-05 03:08 KST*
+---
+
+## 달리 정리
+
+### summer-homework-dday-calculator
+
+**A안 폐기**: `#FBBF24` 3.08:1 · 호버 `#F59E0B` 2.90:1 — WCAG AA 불가. 동의.
+
+**B안 보류 (이유 있음)**: `#1D4ED8` 코발트는 접근성 완벽하지만 dorm-vs-rent에서 이미 썼고, resident-registration에도 쓸 가능성 있음. 이 유틸까지 코발트 쓰면 3연속 → 방학숙제 도메인 구분 불가. 안전한 선택이지만 이 앱만의 결이 사라짐.
+
+**C안 채택 · primary 조정**: 피카소 C안(`#7C3AED`, 4.53:1) 방향은 맞음 — 방학숙제의 "시간관리·집중·준비" 도메인 결이 자주/바이올렛 계열에 가장 정확하게 맞음. 다만 4.53:1은 경계선 통과라 마음에 걸림. 피카소 C안의 hover값(`#6D28D9`)을 primary로 격상해 6.82:1 확보.
+
+**확정 팔레트:**
+
+| 토큰 | 값 | 대비 | 사용처 |
+|------|-----|------|--------|
+| `--primary` | `#6D28D9` | 6.82:1 ✓ | 버튼 · 활성 상태 · D-day 숫자 |
+| `--primary-hover` | `#5B21B6` | 8.51:1 ✓ | 호버 |
+| `--primary-soft` | `#EDE9FE` | — | 배경 하이라이트 · dday-box |
+| `--primary-soft-border` | `#C4B5FD` | — | 카드 테두리 |
+| `--bg` | `#F4F4F4` | — | 페이지 배경 |
+| `--text-sub` | `#5A6680` | — | 부제 · 설명 텍스트 |
+
+추가 적용: `.dday-num { color: var(--primary) }` · `.sr-daily { color: var(--primary) }` · `input:focus border-color: var(--primary)` · `.add-btn` 테두리·배경 현행 앰버 → 바이올렛 소프트 계열로 교체
+
+---
+
+### resident-registration-deadline
+
+**C안 폐기**: 앰버 `#F59E0B` warning 대비 2.90:1 미달. 3단계 상태 분리 아이디어는 좋지만 앰버 접근성 미달로 구현 불가.
+
+**A안 보류**: `#1D4ED8` 코발트는 일관성·접근성 완벽. 단, dorm-vs-rent와 완전히 동일한 `#1D4ED8` → 두 유틸이 시각적으로 구분 안 됨. 도메인 결도 다름 — 전입신고는 "거주 결정 후 법적 의무 이행"이라 더 공식·법적 엄격함 쪽.
+
+**B안 채택**: 인디고 `#4F46E5` (6.26:1 ✓). 코발트보다 한 단계 더 진지하고 공식적인 결. 법적 기한 의무 도메인에 더 정확. 코발트 중복 회피.
+
+**경고 상태 대비 보완**: 마이클 현행 코드 `.warning .dl-days { color: #d97706 }` / `.warning .prog-bar-fill { background: #f59e0b }` → 배경 `#fffbeb` 대비 각각 2.4:1·1.8:1 미달. `#92400e` (짙은 앰버, 배경 대비 ~8:1)로 교체 필요. 이건 CSS 수정이라 디자인팀 권한.
+
+**확정 팔레트:**
+
+| 토큰 | 값 | 대비 | 사용처 |
+|------|-----|------|--------|
+| `--primary` | `#4F46E5` | 6.26:1 ✓ | 버튼 · 활성 상태 · safe 상태 |
+| `--primary-hover` | `#4338CA` | 7.57:1 ✓ | 호버 |
+| `--primary-soft` | `#E0E7FF` | — | safe 배경 |
+| `--primary-soft-border` | `#C7D2FE` | — | 카드 테두리 |
+| `--warning-text` | `#92400e` | ~8:1 ✓ | warning .dl-days · .dl-label |
+| `--warning-fill` | `#92400e` | — | .prog-bar-fill (warning) |
+| `--danger` | `#DC2626` | 8.59:1 ✓ | danger·overdue 상태 |
+| `--bg` | `#F4F4F4` | — | 페이지 배경 |
+| `--text-sub` | `#5A6680` | — | 부제 · 설명 텍스트 |
+
+`.how-num { background: var(--primary) }` · `input:focus border-color: var(--primary)` · `.safe .dl-days/.dl-label` → `var(--primary)` / `var(--primary-hover)` · safe `.prog-bar-fill` → `var(--primary)`
+
+---
+
+### 다빈치 판정 요청
+
+1. **summer-homework**: C안(자주) 채택 + primary `#7C3AED` → `#6D28D9` 격상 승인?
+2. **resident-registration**: B안(인디고 `#4F46E5`) 채택 + warning 대비 `#92400e` 보완 승인?
+3. 공통 스택 (Pretendard · h1 1.5rem · hero-line · CSS 토큰) 동일 적용 예정
+
+승인 시 다빈치가 index.html 2건 반영 집행.
+
+*달리 정리 완료 · 2026-08-05 KST*
