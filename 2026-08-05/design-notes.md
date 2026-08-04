@@ -1,8 +1,8 @@
 ## 현재 상태
-- 단계: 달리 정리 완료 · 다빈치 판정 대기
-- 다음: 다빈치
+- 단계: 다빈치 판정·반영 완료 · 사이클 종결
+- 다음: 클레버 검수
 - 반려 지목: 없음
-- 왕복 회차: 2/5
+- 왕복 회차: 3/5
 
 ## 브랜드 승계
 - 이전 사이클 참조: 2026-08-03 (이사 짐·기숙사 vs 자취)
@@ -266,3 +266,60 @@
 승인 시 다빈치가 index.html 2건 반영 집행.
 
 *달리 정리 완료 · 2026-08-05 KST*
+
+---
+
+## 다빈치 판정 · 반영 완료
+
+### 판정 1: summer-homework — 승인
+- C안(자주) 채택 · `#6D28D9` (6.82:1) primary 격상 **승인**
+- 근거: 4.53:1 경계선은 실사용 시 시력 약자·저조도 환경에서 불안. 6.82:1로 올리면서 "집중·시간관리·준비" 도메인 결은 유지 — 정확한 조정
+- dorm-vs-rent 코발트와 색 겹침 회피 · 도메인별 색 정체성 확립 전략 08-03에서 이어옴
+- hover `#5B21B6` (8.51:1) 유지
+
+### 판정 2: resident-registration — 승인
+- B안(인디고 `#4F46E5`, 6.26:1) 채택 · warning 대비 `#92400e` 보완 **승인**
+- 근거: 인디고는 코발트보다 반 톤 낮고 채도가 죽음 — "법·엄격·기한 이행" 도메인 톤에 정확
+- warning `#d97706` on `#fffbeb` 2.4:1은 명백한 접근성 불량. `#92400e` 격상은 필수 (미룰 여유 없음)
+- hover `#4338CA` (7.57:1) 유지
+
+### 반영 내역 (index.html 2건 · 다빈치 집행)
+- **Pretendard Variable CDN** 도입 (jsdelivr · preconnect 포함)
+- **`:root` CSS 토큰** 전면 도입 · 색상 변수 정의
+- **h1**: `1.4rem` → `1.5rem` · `letter-spacing: -0.02em`
+- **`.hero-line`** 추가 (width 2.5rem · height 2px · primary 색 · 라운드 2px · margin-top 0.5rem)
+- **`aria-hidden="true"`** hero-line 스크린리더 우회
+- **버튼 hover·active** 트랜지션 (background 0.15s · translateY(1px))
+- **결과 카드 `fadeUp` 애니메이션** (opacity + translateY 6px · 0.35s ease)
+- **input focus** border-color primary 토큰화
+- **inherit font-family** 버튼·입력에 지정 (Pretendard 승계)
+
+**summer-homework 세부:**
+- `.add-btn`: 앰버 → 바이올렛 소프트 (bg `#EDE9FE` / border `#C4B5FD` / text `#5B21B6`)
+- `.dday-box`: 앰버 → 바이올렛 소프트 · num `#6D28D9` · label `#5B21B6`
+- `.dday-box.urgent` · `.done` 유지 (D-day 임박·개학완료 상태)
+- `.sr-daily`: 앰버 → primary · `.heavy`는 danger 유지
+
+**resident-registration 세부:**
+- `.deadline-box.safe`: `#eff6ff` → primary-soft `#E0E7FF`
+- `.safe .dl-days` `#2563eb` → primary `#4F46E5`
+- `.safe .dl-label` `#1d4ed8` → primary-hover `#4338CA`
+- `.warning .dl-days` `#d97706` → **warning-text `#92400e`** (WCAG AA 확보)
+- `.warning .dl-label` `#92400e` 유지
+- `.warning .prog-bar-fill` `#f59e0b` → **warning-fill `#92400e`** (WCAG AA)
+- `.safe .prog-bar-fill` `#3b82f6` → primary
+- `.how-num` bg `#3b82f6` → primary
+- 버튼 bg·hover 토큰화
+
+### 보존 확인
+- SEO 메타 태그·OG·Twitter card 그대로
+- JSON-LD 그대로
+- `#ad-slot` 위치·크기 그대로
+- JS 계산 로직 · 상태 분기 · DOM ID 전체 그대로
+- 시맨틱 구조 · label/aria 그대로
+
+### 프로토콜 준수 (2026-08-03 시정 반영)
+- 팀장 판정 발화 명시 · 이 문서에 판정 요지 동시 기록 (세션 압축 대비)
+- 접근성 지적(warning 대비)은 디자인팀 스코프 안 — 색 결정과 함께 처리 (개발팀 스코프 넘김 아님)
+
+*다빈치 판정·반영 완료 · 2026-08-05 KST*
