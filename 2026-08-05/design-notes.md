@@ -323,3 +323,86 @@
 - 접근성 지적(warning 대비)은 디자인팀 스코프 안 — 색 결정과 함께 처리 (개발팀 스코프 넘김 아님)
 
 *다빈치 판정·반영 완료 · 2026-08-05 KST*
+
+---
+
+## 클레버 검수
+
+### 검수 개요
+- 세션: 웹유틸-검수 · 개발팀 팀장 단독 방
+- 인풋: `2026-08-05/summer-homework-dday-calculator/index.html` · `2026-08-05/resident-registration-deadline/index.html`
+- 4축 검수 결과: **정확성 수정 1건 / 완성도 OK / 원칙 OK / 배포준비 OK**
+
+### summer-homework-dday-calculator
+
+**기능 정확성 (수정 1건)**
+- ✓ D-day 계산: `Math.round(diffMs / 86400000)` · 로컬 자정 기준(setHours 0,0,0,0) · KST DST 없음 → 안전
+- ✓ availDays = `Math.max(diffDays, 1)` → 0 divison 방지 (D-DAY 케이스 오늘 다 하는 걸로 표시)
+- ✓ daily = `Math.ceil(amount / availDays)` · heavy 표시 `daily >= 10` 정확
+- ✓ 상태 분기: overdue(개학완료) / D-DAY / D-1~3(urgent) / D-4+ (basic) 모두 정확
+- 시뮬 확인: 개학 2026-08-25 · 일기 15편 → D-20 · 1편/하루 · 독서록 3권 → 1권/하루 ✓
+- [클레버 수정] `err-date` 문구: "개학일을 오늘 이후로 입력하세요" → "개학일을 입력하세요"
+  · 이유: 실제 검증 로직(348행 `if (!dateVal)`)은 미입력만 체크. 오늘 이전 개학일은 "개학완료" 상태로 정상 처리되므로 기존 문구는 실동작과 불일치. 오해 방지.
+
+**시각 완성도 (OK)**
+- 다빈치 반영 확인: Pretendard Variable · `:root` 자주 팔레트(`#6D28D9`) · h1 1.5rem · hero-line · fadeUp 애니메이션 · dday-box 자주 소프트 배경 · add-btn 자주 소프트 · urgent(D-3 이하) danger 상태 유지 · done(개학완료) 회색 상태
+- 브랜드 승계: 2026-08-03 팔레트와 도메인별 색 정체성 확립 전략 이어옴 ✓
+
+**개발 원칙 (OK)**
+- 인라인 CSS ✓ · JSON-LD 온전 ✓ · Pretendard preconnect ✓
+- WCAG AA 대비 검증:
+  - `#6D28D9` on white: 7.10 · on `#EDE9FE`: 5.98 ✓
+  - `#5B21B6` on white: 8.98 · on `#EDE9FE`: 7.57 ✓
+  - `#dc2626` (heavy·urgent) on `#fef2f2`: 4.41 → 3rem 큰 텍스트 기준 통과 (large text 3.0)
+- 접근성: 모든 input에 aria-label(과목명·분량·단위·삭제) · label `for` 연결(school-date) · hero-line aria-hidden ✓
+- 광고 슬롯 `<div id="ad-slot">` 유지 ✓
+
+**배포 준비 (OK)**
+- 파일 경로 · 인라인 CSS·JS · 외부 의존(Pretendard CDN만) ✓
+- 모바일 반응형 max-width 480px ✓
+
+### resident-registration-deadline
+
+**기능 정확성 (OK)**
+- ✓ 초일 불산입 정확: `new Date(vy, vm-1, vd+14)` → 이사 8/1 → 마감 8/15 (다음날 1일차 → 15일 14일차) 실무 관행 일치
+- ✓ 상태 분기: overdue(<0) / danger(=0, ≤3) / warning(≤7) / safe(>7)
+- ✓ 진행 바 pct = (14-remainDays)/14*100 · safe만 `Math.max(5, pct)` 최소 5% 보장 (이사 당일 표시용)
+- ✓ 과태료 안내 fine-box: overdue vs safe 이진 분기 정확
+- 시뮬 확인 (오늘 2026-08-05):
+  - 이사 7/22 → 마감 8/5 → remainDays=0 → danger "오늘 마감" ✓
+  - 이사 7/25 → 마감 8/8 → remainDays=3 → danger D-3 pct=78% ✓
+  - 이사 7/20 → 마감 8/3 → remainDays=-2 → overdue "2일 경과" ✓
+- move-date 기본값 오늘 자동 세팅 · YYYY-MM-DD 표준 형식 ✓
+
+**시각 완성도 (OK)**
+- 다빈치 반영 확인: Pretendard Variable · `:root` 인디고 팔레트(`#4F46E5`) · h1 1.5rem · hero-line · fadeUp · deadline-box safe 인디고 소프트 · warning-text `#92400e` · danger 붉은색 · overdue 회색 상태
+- 브랜드 승계: 08-03 코발트와 반 톤 차이(인디고) · 도메인별 색 구분 완성 ✓
+
+**개발 원칙 (OK)**
+- 인라인 CSS ✓ · JSON-LD 온전(주민등록법 언급) ✓ · Pretendard preconnect ✓
+- WCAG AA 대비 검증 (다빈치 warning-text 격상 효과 확인):
+  - `#4F46E5` on white: 6.29 · on `#E0E7FF`: 5.10 ✓
+  - `#4338CA` on white: 7.90 ✓
+  - `#92400e` on `#fffbeb`: 6.84 ✓ (이전 `#f59e0b` 2.4:1 → 6.84:1로 격상 반영)
+  - `#dc2626` on `#fef2f2`: 4.41 (large text OK) · `#b91c1c` on `#fef2f2`: 5.91 ✓
+  - `#166534` on `#f0fdf4` (fine safe): 6.81 ✓
+- 접근성: label `for` 연결(move-date) · hero-line aria-hidden ✓
+- 광고 슬롯 `<div id="ad-slot">` 유지 ✓
+
+**배포 준비 (OK)**
+- 파일 경로 · 인라인 CSS·JS · 외부 의존(Pretendard CDN만) ✓
+- 모바일 반응형 ✓
+- 기본 노출 카드(💡 전입신고 알아두기) — SEO/AdSense 대비 최소 콘텐츠 확보 ✓
+
+### 수정 항목
+1. `summer-homework-dday-calculator/index.html:261` — err-date 문구 정정 ("개학일을 입력하세요")
+
+### 이월 (blocker 아님 · 다음 사이클)
+- 공통: `#aaa` (2.32:1) · `#888` (3.54:1) 등 보조 텍스트 색 대비 미달 — 2026-08-03에서도 미해결 처리 관행 승계. 다음 사이클 팔레트 정비 시 함께 처리 권고.
+- summer-homework: 개학 이후 상태(diffDays<0)에서도 subject 결과가 표시되는 UX — 개학 완료 시 subject-results 숨기는 게 자연스러움. 논리 하자는 아님.
+- summer-homework: 좁은 폰(≤340px)에서 subject-row grid(1fr 80px 72px 32px) 여유 협소. 실사용 문제는 없음.
+
+### 배포 준비 상태
+**준비 완료** — 두 파일 모두 배포 가능. 대표 배포 지시 시 `git add . && git commit && git push origin main` + 파일 이동 (`2026-08-05/{slug}/` → `{slug}/`) 별도 실행 필요.
+
+*클레버 검수 완료 · 2026-08-05 04:07 KST*

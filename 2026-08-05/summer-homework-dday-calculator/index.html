@@ -258,7 +258,8 @@
     <label for="school-date">개학일 (학교별 날짜 입력)</label>
     <input type="date" id="school-date" value="2026-08-25">
     <p class="field-note">초등학교 기준 약 8/25 전후. 학교 알리미 또는 가정통신문 확인 필요</p>
-    <p class="error-msg" id="err-date">개학일을 오늘 이후로 입력하세요</p>
+    <!-- [클레버 수정: 실제 검증 로직은 dateVal 미입력만 체크(348행). 기존 "오늘 이후" 문구는 실제 동작과 불일치 → "입력하세요"로 정정. 오늘 이전 날짜는 "개학완료" 상태로 정상 처리됨] -->
+    <p class="error-msg" id="err-date">개학일을 입력하세요</p>
   </div>
 
   <div class="card">
