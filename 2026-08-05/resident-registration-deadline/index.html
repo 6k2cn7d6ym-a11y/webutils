@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>전입신고 마감일 계산기 — 이사 후 14일 이내 · 과태료 방지</title>
+  <meta name="description" content="이사일을 입력하면 전입신고(주민등록 이전 신고) 마감일과 남은 일수를 즉시 계산합니다. 14일 초과 시 과태료 5만원. 정부24 온라인 신청 안내 포함.">
+  <meta property="og:title" content="전입신고 마감일 계산기 — 이사 후 14일 이내 · 과태료 방지">
+  <meta property="og:description" content="이사일 입력 → 전입신고 마감일·남은 일수 즉시 계산 → 과태료 방지">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utils.minon.kr/resident-registration-deadline/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="전입신고 마감일 계산기">
+  <meta name="twitter:description" content="이사일 입력 → 전입신고 마감일 즉시 계산 · 14일 초과 시 과태료 5만원">
+  <link rel="canonical" href="https://utils.minon.kr/resident-registration-deadline/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "전입신고 마감일 계산기",
+    "description": "이사일을 입력해 주민등록 이전 신고(전입신고) 마감일과 남은 일수를 계산하는 계산기",
+    "url": "https://utils.minon.kr/resident-registration-deadline/",
+    "applicationCategory": "UtilitiesApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #f4f4f4;
+      padding: 1rem;
+    }
+    main { max-width: 480px; margin: 0 auto; }
+    header { margin-bottom: 1.25rem; }
+    h1 { font-size: 1.4rem; font-weight: 700; }
+    .subtitle { font-size: 0.875rem; color: #666; margin-top: 0.2rem; }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.85rem;
+    }
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: #333;
+    }
+    input[type="date"] {
+      padding: 0.65rem 0.75rem;
+      border: 1.5px solid #d4d4d4;
+      border-radius: 7px;
+      font-size: 1rem;
+      color: #1a1a1a;
+      width: 100%;
+      background: #fff;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    input[type="date"]:focus { outline: none; border-color: #3b82f6; }
+    .field-note { font-size: 0.75rem; color: #aaa; margin-top: 0.25rem; }
+    .error-msg { color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem; display: none; }
+    .error-msg.show { display: block; }
+    button {
+      width: 100%;
+      padding: 0.85rem;
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover { background: #2563eb; }
+    .result { display: none; }
+    .result.show { display: block; }
+    .deadline-box {
+      border-radius: 10px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .deadline-box.safe { background: #eff6ff; }
+    .deadline-box.warning { background: #fffbeb; }
+    .deadline-box.danger { background: #fef2f2; }
+    .deadline-box.overdue { background: #f3f4f6; }
+    .dl-days {
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .safe .dl-days { color: #2563eb; }
+    .warning .dl-days { color: #d97706; }
+    .danger .dl-days { color: #dc2626; }
+    .overdue .dl-days { color: #6b7280; }
+    .dl-label { font-size: 0.95rem; margin-top: 0.35rem; }
+    .safe .dl-label { color: #1d4ed8; }
+    .warning .dl-label { color: #92400e; }
+    .danger .dl-label { color: #b91c1c; }
+    .overdue .dl-label { color: #6b7280; }
+    .dl-deadline { font-size: 0.85rem; color: #666; margin-top: 0.25rem; }
+    .status-rows { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0.85rem;
+      background: #f9fafb;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .status-key { color: #555; }
+    .status-val { font-weight: 700; color: #1a1a1a; }
+    .fine-box {
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1rem;
+    }
+    .fine-box.safe { background: #f0fdf4; border: 1px solid #bbf7d0; }
+    .fine-box.overdue { background: #fef2f2; border: 1px solid #fecaca; }
+    .fine-title { font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .safe .fine-title { color: #166534; }
+    .overdue .fine-title { color: #b91c1c; }
+    .fine-body { font-size: 0.82rem; }
+    .safe .fine-body { color: #166534; }
+    .overdue .fine-body { color: #7f1d1d; }
+    .how-to { margin-bottom: 1rem; }
+    .how-to-title { font-size: 0.85rem; font-weight: 700; color: #333; margin-bottom: 0.5rem; }
+    .how-item {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f5f5f5;
+      font-size: 0.85rem;
+    }
+    .how-item:last-child { border-bottom: none; }
+    .how-num {
+      width: 20px; height: 20px;
+      background: #3b82f6;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .how-text { color: #444; line-height: 1.45; }
+    .how-text strong { color: #1a1a1a; }
+    .docs-box {
+      background: #f8faff;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-top: 0.5rem;
+    }
+    .docs-title { font-size: 0.82rem; font-weight: 700; color: #333; margin-bottom: 0.3rem; }
+    .docs-list { font-size: 0.82rem; color: #555; }
+    .docs-list li { padding: 0.1rem 0; list-style: disc; margin-left: 1rem; }
+    .law-box {
+      background: #f8faff;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: #475569;
+      line-height: 1.5;
+    }
+    .notice {
+      font-size: 0.78rem; color: #888; line-height: 1.5;
+      padding-top: 0.5rem; border-top: 1px solid #eee; margin-top: 0.75rem;
+    }
+    #ad-slot { min-height: 60px; margin-bottom: 1rem; }
+    .prog-bar-bg {
+      background: #e5e7eb;
+      border-radius: 999px;
+      height: 8px;
+      margin-top: 0.6rem;
+      overflow: hidden;
+    }
+    .prog-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+    .safe .prog-bar-fill { background: #3b82f6; }
+    .warning .prog-bar-fill { background: #f59e0b; }
+    .danger .prog-bar-fill { background: #ef4444; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>전입신고 마감일 계산기</h1>
+    <p class="subtitle">이사일 입력 → 마감일·남은 일수 즉시 계산 · 과태료 방지</p>
+  </header>
+
+  <div id="ad-slot"></div>
+
+  <div class="card">
+    <p class="section-title">📦 이사일</p>
+    <label for="move-date">이사한 날짜</label>
+    <input type="date" id="move-date">
+    <p class="field-note">이사 당일 기준으로 14일 이내에 전입신고를 완료해야 합니다 (민법 초일 불산입)</p>
+    <p class="error-msg" id="err-date">이사일을 입력하세요</p>
+  </div>
+
+  <button onclick="calculate()">마감일 계산하기</button>
+
+  <div class="card result" id="result">
+    <div class="deadline-box" id="deadline-box">
+      <div class="dl-days" id="dl-days"></div>
+      <div class="dl-label" id="dl-label"></div>
+      <div class="dl-deadline" id="dl-deadline"></div>
+      <div class="prog-bar-bg" id="prog-bar-bg" style="display:none">
+        <div class="prog-bar-fill" id="prog-bar-fill"></div>
+      </div>
+    </div>
+
+    <div class="status-rows">
+      <div class="status-row">
+        <span class="status-key">이사일</span>
+        <span class="status-val" id="stat-move"></span>
+      </div>
+      <div class="status-row">
+        <span class="status-key">전입신고 마감일</span>
+        <span class="status-val" id="stat-deadline"></span>
+      </div>
+      <div class="status-row">
+        <span class="status-key">오늘 기준 남은 기간</span>
+        <span class="status-val" id="stat-remain"></span>
+      </div>
+    </div>
+
+    <div class="fine-box" id="fine-box">
+      <div class="fine-title" id="fine-title"></div>
+      <div class="fine-body" id="fine-body"></div>
+    </div>
+
+    <div class="how-to">
+      <p class="how-to-title">전입신고 방법</p>
+      <div class="how-item">
+        <div class="how-num">1</div>
+        <div class="how-text">
+          <strong>정부24 온라인 신청</strong> (gov.kr) — 공동인증서 또는 간편인증으로 24시간 신청 가능. 직접 방문 없이 처리됩니다.
+        </div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">2</div>
+        <div class="how-text">
+          <strong>주민센터 방문</strong> — 이사한 곳의 주민센터(행정복지센터)에 방문해 신청합니다. 평일 09:00~18:00.
+        </div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">3</div>
+        <div class="how-text">
+          세대주 본인 또는 세대원이 신청 가능합니다. 대리 신청 시 위임장이 필요합니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="docs-box">
+      <p class="docs-title">준비 서류</p>
+      <ul class="docs-list">
+        <li>신분증 (주민등록증·운전면허증·여권 등)</li>
+        <li>세입자인 경우: 임대차계약서 (또는 사실확인서)</li>
+        <li>대리 신청 시: 위임장 + 위임자 신분증 사본</li>
+      </ul>
+    </div>
+
+    <div class="law-box" style="margin-top:0.75rem">
+      <strong>법적 근거</strong><br>
+      주민등록법 제10조: 거주지를 이동한 사람은 새로운 거주지에 전입한 날부터 14일 이내에 신고해야 합니다.<br>
+      위반 시 과태료: 세대주 5만원, 세대원 3만원 (2회 이상 반복 위반 시 가중)
+    </div>
+
+    <p class="notice">
+      ※ 본 계산기는 이사 당일 기준 민법 초일 불산입 원칙(이사 다음날부터 14일)을 적용합니다. 실제 마감일은 관할 주민센터 또는 정부24에서 확인하세요.
+    </p>
+  </div>
+
+  <!-- 미신청자를 위한 정보 (기본 노출) -->
+  <div class="card">
+    <p class="section-title">💡 전입신고 알아두기</p>
+    <div style="font-size:0.875rem; color:#444; display:flex; flex-direction:column; gap:0.5rem;">
+      <p>전입신고는 이사 후 <strong>14일 이내</strong> 완료해야 합니다 (민법 초일 불산입 적용).</p>
+      <p>미신고 시 <strong>과태료 5만원</strong>(세대주 기준)이 부과됩니다.</p>
+      <p>전·월세 세입자는 전입신고 완료 후 <strong>확정일자</strong>를 함께 받으면 보증금 보호가 강화됩니다.</p>
+      <p>온라인 신청: <strong>정부24 (gov.kr)</strong> → 전입신고 검색</p>
+    </div>
+  </div>
+</main>
+
+<script>
+  function fmt(date) {
+    return date.toLocaleDateString('ko-KR', {
+      year: 'numeric', month: 'long', day: 'numeric', weekday: 'short'
+    });
+  }
+
+  function calculate() {
+    const val = document.getElementById('move-date').value;
+    const errEl = document.getElementById('err-date');
+    if (!val) { errEl.classList.add('show'); return; }
+    errEl.classList.remove('show');
+
+    const [vy, vm, vd] = val.split('-').map(Number);
+    const moveDate = new Date(vy, vm - 1, vd);
+
+    // 민법 초일 불산입: 이사 다음날부터 14일째 = 마감일
+    const deadline = new Date(vy, vm - 1, vd + 14);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const remainMs = deadline - today;
+    const remainDays = Math.round(remainMs / (1000 * 60 * 60 * 24));
+
+    const box = document.getElementById('deadline-box');
+    const daysEl = document.getElementById('dl-days');
+    const labelEl = document.getElementById('dl-label');
+    const dateEl = document.getElementById('dl-deadline');
+    const prog = document.getElementById('prog-bar-bg');
+    const fill = document.getElementById('prog-bar-fill');
+
+    box.className = 'deadline-box';
+
+    if (remainDays < 0) {
+      box.classList.add('overdue');
+      daysEl.textContent = `${Math.abs(remainDays)}일 경과`;
+      labelEl.textContent = '⚠️ 마감일이 지났습니다 — 즉시 신고하세요';
+      dateEl.textContent = `마감일: ${fmt(deadline)}`;
+      prog.style.display = 'none';
+    } else if (remainDays === 0) {
+      box.classList.add('danger');
+      daysEl.textContent = '오늘 마감';
+      labelEl.textContent = '🚨 오늘이 마감일입니다 — 지금 바로 신청하세요';
+      dateEl.textContent = `마감일: ${fmt(deadline)}`;
+      prog.style.display = 'none';
+    } else if (remainDays <= 3) {
+      box.classList.add('danger');
+      daysEl.textContent = `D-${remainDays}`;
+      labelEl.textContent = `마감까지 ${remainDays}일 — 빠른 신청을 권장합니다`;
+      dateEl.textContent = `마감일: ${fmt(deadline)}`;
+      const pct = ((14 - remainDays) / 14 * 100).toFixed(0);
+      prog.style.display = '';
+      fill.style.width = pct + '%';
+    } else if (remainDays <= 7) {
+      box.classList.add('warning');
+      daysEl.textContent = `D-${remainDays}`;
+      labelEl.textContent = `마감까지 ${remainDays}일 남았습니다`;
+      dateEl.textContent = `마감일: ${fmt(deadline)}`;
+      const pct = ((14 - remainDays) / 14 * 100).toFixed(0);
+      prog.style.display = '';
+      fill.style.width = pct + '%';
+    } else {
+      box.classList.add('safe');
+      daysEl.textContent = `D-${remainDays}`;
+      labelEl.textContent = `마감까지 ${remainDays}일 남았습니다`;
+      dateEl.textContent = `마감일: ${fmt(deadline)}`;
+      const pct = ((14 - remainDays) / 14 * 100).toFixed(0);
+      prog.style.display = '';
+      fill.style.width = Math.max(5, pct) + '%';
+    }
+
+    document.getElementById('stat-move').textContent = fmt(moveDate);
+    document.getElementById('stat-deadline').textContent = fmt(deadline);
+
+    if (remainDays < 0) {
+      document.getElementById('stat-remain').textContent = `${Math.abs(remainDays)}일 초과`;
+      document.getElementById('stat-remain').style.color = '#dc2626';
+    } else if (remainDays === 0) {
+      document.getElementById('stat-remain').textContent = '오늘 마감';
+      document.getElementById('stat-remain').style.color = '#dc2626';
+    } else {
+      document.getElementById('stat-remain').textContent = `${remainDays}일 남음`;
+      document.getElementById('stat-remain').style.color = remainDays <= 3 ? '#dc2626' : '#1a1a1a';
+    }
+
+    const fineBox = document.getElementById('fine-box');
+    const fineTitle = document.getElementById('fine-title');
+    const fineBody = document.getElementById('fine-body');
+    if (remainDays < 0) {
+      fineBox.className = 'fine-box overdue';
+      fineTitle.textContent = '⚠️ 과태료 부과 가능 — 즉시 신고 필요';
+      fineBody.textContent = '신고 기한을 초과했습니다. 주민센터 방문 또는 정부24에서 신고 후 사유서를 제출하면 과태료가 감면될 수 있습니다. 세대주 기준 과태료 5만원.';
+    } else {
+      fineBox.className = 'fine-box safe';
+      fineTitle.textContent = '✓ 기한 내 신고 가능';
+      fineBody.textContent = `마감일(${fmt(deadline)}) 이내에 신고하면 과태료가 없습니다. 정부24 온라인 또는 주민센터 방문으로 신청하세요.`;
+    }
+
+    const resultEl = document.getElementById('result');
+    resultEl.classList.add('show');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // 기본값: 오늘 날짜
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2, '0');
+  const d = String(today.getDate()).padStart(2, '0');
+  document.getElementById('move-date').value = `${y}-${m}-${d}`;
+</script>
+</body>
+</html>
