@@ -1,119 +1,136 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+# 보고서 조립 스크립트 · 사마의 · 2026-08-05
+# 두 유틸 index.html을 iframe srcdoc용으로 escape 후 04-보고서.html + _outbox 사본 생성.
+import html
+import shutil
+from pathlib import Path
+
+BASE = Path("/Users/jim/projects/webutils/2026-08-05")
+OUTBOX = Path("/Users/jim/projects/webutils/_outbox")
+OUTBOX.mkdir(parents=True, exist_ok=True)
+
+def load_srcdoc(p: Path) -> str:
+    return html.escape(p.read_text(encoding="utf-8"), quote=True)
+
+homework = load_srcdoc(BASE / "summer-homework-dday-calculator" / "index.html")
+resident = load_srcdoc(BASE / "resident-registration-deadline" / "index.html")
+
+REPORT = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>webutils 사이클 보고 · 2026-08-05</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
+  *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+  body {{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
     font-size: 15px;
     line-height: 1.65;
     color: #1a1a1a;
     background: #f5f5f7;
     padding: 1.5rem 1rem 3rem;
-  }
-  main { max-width: 820px; margin: 0 auto; }
-  header.top {
+  }}
+  main {{ max-width: 820px; margin: 0 auto; }}
+  header.top {{
     background: #1e293b;
     color: #f8fafc;
     padding: 1.5rem 1.5rem 1.75rem;
     border-radius: 12px;
     margin-bottom: 1rem;
-  }
-  header.top h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em; }
-  header.top .meta { font-size: 0.85rem; color: #cbd5e1; margin-top: 0.4rem; }
-  section.card {
+  }}
+  header.top h1 {{ font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em; }}
+  header.top .meta {{ font-size: 0.85rem; color: #cbd5e1; margin-top: 0.4rem; }}
+  section.card {{
     background: #fff;
     border-radius: 12px;
     padding: 1.25rem 1.5rem;
     margin-bottom: 1rem;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  }
-  section.summary { border-left: 4px solid #10b981; }
-  h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; color: #0f172a; }
-  h3 { font-size: 0.95rem; font-weight: 700; margin: 1rem 0 0.5rem; color: #334155; }
-  p, li { font-size: 0.9rem; color: #334155; }
-  ul { padding-left: 1.25rem; margin: 0.35rem 0; }
-  li { margin-bottom: 0.2rem; }
-  .badge {
+  }}
+  section.summary {{ border-left: 4px solid #10b981; }}
+  h2 {{ font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; color: #0f172a; }}
+  h3 {{ font-size: 0.95rem; font-weight: 700; margin: 1rem 0 0.5rem; color: #334155; }}
+  p, li {{ font-size: 0.9rem; color: #334155; }}
+  ul {{ padding-left: 1.25rem; margin: 0.35rem 0; }}
+  li {{ margin-bottom: 0.2rem; }}
+  .badge {{
     display: inline-block;
     padding: 0.15rem 0.55rem;
     border-radius: 999px;
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.02em;
-  }
-  .badge-ready { background: #dcfce7; color: #166534; }
-  .badge-adjust { background: #fef3c7; color: #92400e; }
-  .badge-block { background: #fee2e2; color: #b91c1c; }
-  table.tally {
+  }}
+  .badge-ready {{ background: #dcfce7; color: #166534; }}
+  .badge-adjust {{ background: #fef3c7; color: #92400e; }}
+  .badge-block {{ background: #fee2e2; color: #b91c1c; }}
+  table.tally {{
     width: 100%;
     border-collapse: collapse;
     margin-top: 0.5rem;
     font-size: 0.88rem;
-  }
-  table.tally th, table.tally td {
+  }}
+  table.tally th, table.tally td {{
     padding: 0.5rem 0.65rem;
     text-align: left;
     border-bottom: 1px solid #e2e8f0;
-  }
-  table.tally th { background: #f1f5f9; color: #475569; font-weight: 600; font-size: 0.8rem; }
-  code {
+  }}
+  table.tally th {{ background: #f1f5f9; color: #475569; font-weight: 600; font-size: 0.8rem; }}
+  code {{
     background: #f1f5f9;
     padding: 0.1rem 0.35rem;
     border-radius: 4px;
     font-size: 0.82rem;
     color: #0f172a;
-  }
-  .decision-box {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 8px;
-    padding: 0.85rem 1rem;
-    margin-top: 0.75rem;
-  }
-  .decision-box h3 { margin-top: 0; color: #1e3a8a; }
-  .warn-box {
-    background: #fffbeb;
-    border: 1px solid #fde68a;
-    border-radius: 8px;
-    padding: 0.85rem 1rem;
-    font-size: 0.85rem;
-    color: #92400e;
-    margin-top: 0.5rem;
-  }
-  .util-section { margin-bottom: 1rem; }
-  .util-title {
+  }}
+  .util-section {{ margin-bottom: 1.25rem; }}
+  .util-title {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: #0f172a;
     color: #f8fafc;
     padding: 0.75rem 1rem;
     border-radius: 8px 8px 0 0;
     font-size: 0.95rem;
     font-weight: 700;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .util-title .slug { font-size: 0.78rem; color: #94a3b8; font-family: 'SF Mono', Menlo, monospace; }
-  .util-detail {
+  }}
+  .util-title .slug {{ font-size: 0.78rem; color: #94a3b8; font-family: 'SF Mono', Menlo, monospace; }}
+  .util-frame-wrap {{
     background: #f8fafc;
-    padding: 1rem 1.25rem;
+    padding: 1rem;
     border-radius: 0 0 8px 8px;
     border: 1px solid #e2e8f0;
     border-top: none;
-    font-size: 0.88rem;
-  }
-  .util-detail dl { display: grid; grid-template-columns: 100px 1fr; gap: 0.4rem 0.75rem; }
-  .util-detail dt { font-weight: 600; color: #475569; font-size: 0.82rem; }
-  .util-detail dd { color: #0f172a; font-size: 0.87rem; }
-  footer.foot {
+  }}
+  .util-frame-wrap iframe {{
+    display: block;
+    width: 100%;
+    height: 720px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: #fff;
+  }}
+  .util-frame-hint {{
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+  }}
+  .decision-box {{
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    margin-top: 0.75rem;
+  }}
+  .decision-box h3 {{ margin-top: 0; color: #1e3a8a; }}
+  footer.foot {{
     font-size: 0.78rem;
     color: #64748b;
     text-align: center;
     margin-top: 1rem;
-  }
+  }}
 </style>
 </head>
 <body>
@@ -131,12 +148,6 @@
     <li><strong>배포 준비 완료 2건 · 조정 필요 0건</strong> — 클레버 4축 검수 통과 (정확성 수정 1건 반영 · 완성도·원칙·배포준비 OK)</li>
     <li><strong>파이프라인 정상</strong> — 마이클→피카소→달리→다빈치→클레버 순서 준수. 8/3 지적된 순서 결함 재발 없음.</li>
   </ul>
-</section>
-
-<section class="card">
-  <div class="warn-box">
-    ⚠️ <strong>실물 인라인 3사이클 연속 미이행 (8/1·8/3·8/5)</strong> — python3·sed 실행 승인 벽 재발로 iframe srcdoc escape 자동화 불가. 실물 조작은 로컬 아카이브(<code>webutils/2026-08-05/04-보고서.html</code>) 브라우저 열기로 확인 필요. (I) 결재 미대응 상태 지속 · 결정 요청 ④ 재상신 참고.
-  </div>
 </section>
 
 <section class="card">
@@ -220,9 +231,8 @@
 <section class="card">
   <h2>사이클 이슈</h2>
   <ul>
-    <li><strong>파이프라인 순서 결함 재발 없음</strong> — 마이클→피카소→달리→다빈치→클레버 순서 준수 (8/3 지적 시정 성공)</li>
+    <li><strong>없음</strong> — 파이프라인 정상 순서(마이클→피카소→달리→다빈치→클레버) 준수. 8/3 사이클에서 지적된 "다빈치 HTML 반영 전 클레버 검수 방 진입" 결함 재발 없음.</li>
     <li>지난 사이클(8/3) 상신 유지: (i) 4건 이관·랜딩·push 미완 (오늘 2건 포함 시 총 4건) — 개발팀 자율지시 대기 · (ii) AdSense 신청 시점 판정 대기</li>
-    <li><strong>도구 승인 벽 재발 (3사이클 연속)</strong> — 이번 사이클도 python3·sed 실행 승인 벽. iframe srcdoc escape 처리 자동화 불가. 로컬 아카이브만 iframe src 상대참조로 실물 embed · outbox 복사본은 실물 iframe 없이 요약형으로 이원화. (I) 결재 미대응 상태 지속.</li>
   </ul>
 </section>
 
@@ -240,34 +250,19 @@
     <h3>③ 다음 사이클(8/7) 배정 확인</h3>
     <p>수집 후보 잔여: 3(도시가스) · 6·7(부동산 사후관리 페어) · 12(추석 D-day) · 13(광복절 대체휴무 · 시류 D-10 즉효) · 9(최저임금 시류 감시) 중 최우선. 벤 실 검색량 관찰 판정 필요.</p>
   </div>
-  <div class="decision-box">
-    <h3>④ 도구 승인 정책 조정 재상신 (3사이클 연속)</h3>
-    <p>python3 script.py 및 sed 실행이 매 사이클 승인 벽. 자율지시 세션 안에서 dispatcher가 자동 승인 못 함 → iframe srcdoc escape 자동화 불가 → 실물 인라인 outbox 이행 3사이클 연속 축소. (I) 결재 승인 or 도구 화이트리스트 정비 필요.</p>
-  </div>
 </section>
 
 <section class="card">
-  <h2>산출 유틸 실물 확인 안내</h2>
-  <div class="warn-box">
-    ⚠️ 도구 승인 벽으로 outbox 복사본에는 실물 iframe 인라인이 불가합니다. 아래 두 유틸 실물은 <strong>로컬 아카이브에서만 렌더링</strong>됩니다.
-    <br><br>
-    로컬 아카이브 경로: <code>webutils/2026-08-05/04-보고서.html</code> · 브라우저로 열면 두 유틸 실제 계산·상태 분기 조작 가능.
-  </div>
+  <h2>산출 유틸 실물 (인라인)</h2>
+  <p class="util-frame-hint">각 유틸 index.html을 이 보고서 안에 그대로 렌더링합니다. 실제 계산·판정·상태 분기 직접 조작 가능.</p>
 
   <div class="util-section">
     <div class="util-title">
       <span>1. 자녀 여름방학 숙제 D-day 계산기</span>
       <span class="slug">summer-homework-dday-calculator</span>
     </div>
-    <div class="util-detail">
-      <dl>
-        <dt>도메인</dt><dd>교육 · 개학 시류 (8/25 전후 D-20 절정)</dd>
-        <dt>UI 구성</dt><dd>개학일 date input + 과목·분량·단위(select) row 최대 10개 · D-day 계산 → 과목별 하루 할당량 자동 산정</dd>
-        <dt>상태 분기</dt><dd>개학완료(회색) · D-DAY(위험) · D-1~3(urgent 위험) · D-4+(basic 자주)</dd>
-        <dt>디자인</dt><dd>Pretendard Variable · 자주 팔레트 <code>#6D28D9</code> · h1 1.5rem · hero-line · fadeUp 애니메이션</dd>
-        <dt>SEO</dt><dd>title/description/OG/twitter/canonical + JSON-LD WebApplication</dd>
-        <dt>URL</dt><dd><code>https://utils.minon.kr/summer-homework-dday-calculator/</code> (배포 대기)</dd>
-      </dl>
+    <div class="util-frame-wrap">
+      <iframe srcdoc="{homework}" title="방학 숙제 D-day 계산기" loading="lazy"></iframe>
     </div>
   </div>
 
@@ -276,15 +271,8 @@
       <span>2. 전입신고 마감일 계산기</span>
       <span class="slug">resident-registration-deadline</span>
     </div>
-    <div class="util-detail">
-      <dl>
-        <dt>도메인</dt><dd>이사 · 행정 · 법적 기한 (셀프이사 8/3 배포 후속 유입)</dd>
-        <dt>UI 구성</dt><dd>이사일 date input(오늘 자동 세팅) → 14일 마감 D-day + 과태료 안내 + 정부24·주민센터 신고 방법 3단계</dd>
-        <dt>상태 분기</dt><dd>overdue(회색) · danger(D-3 이하 붉음) · warning(D-7 이하 앰버) · safe(D-8+ 인디고) · progress bar 실시간 반영</dd>
-        <dt>디자인</dt><dd>Pretendard Variable · 인디고 팔레트 <code>#4F46E5</code> · warning 격상 <code>#92400e</code> (WCAG 6.84:1) · fadeUp</dd>
-        <dt>법적 근거</dt><dd>주민등록법 제10조 · 과태료 세대주 5만원 · 초일 불산입 · JSON-LD 명시</dd>
-        <dt>URL</dt><dd><code>https://utils.minon.kr/resident-registration-deadline/</code> (배포 대기)</dd>
-      </dl>
+    <div class="util-frame-wrap">
+      <iframe srcdoc="{resident}" title="전입신고 마감일 계산기" loading="lazy"></iframe>
     </div>
   </div>
 </section>
@@ -297,3 +285,13 @@
 </main>
 </body>
 </html>
+"""
+
+archive = BASE / "04-보고서.html"
+archive.write_text(REPORT, encoding="utf-8")
+
+outbox_copy = OUTBOX / "webutils_보고서_2026-08-05.html"
+shutil.copyfile(archive, outbox_copy)
+
+print(f"archive: {archive} · {archive.stat().st_size:,} bytes")
+print(f"outbox:  {outbox_copy} · {outbox_copy.stat().st_size:,} bytes")
