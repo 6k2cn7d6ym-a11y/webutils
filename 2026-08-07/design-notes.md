@@ -1,8 +1,8 @@
 ## 현재 상태
-- 단계: 달리 정리 완료 · 다빈치 판정 대기
-- 다음: 다빈치
+- 단계: 다빈치 판정·반영 완료 · 사이클 종결
+- 다음: 클레버 검수
 - 반려 지목: 없음
-- 왕복 회차: 2/5
+- 왕복 회차: 3/5
 
 ## 브랜드 승계
 - 이전 사이클 참조: 2026-08-05 (방학 숙제·전입신고 완결)
@@ -259,3 +259,80 @@
 승인 시 다빈치가 index.html 2건 반영 집행.
 
 *달리 정리 완료 · 2026-08-07 KST*
+
+---
+
+## 다빈치 판정 · 반영 완료
+
+### 판정 1: 주휴수당 — 승인
+- A안 그린 `#198754` (6.46:1) 채택 · `--primary-soft` `#D4EDDA` → `#D1FAE5` 소폭 교체 **승인**
+- 근거: 이 앱의 그린은 브랜드 색 = pass 배지·amount 강조 색으로 두 층위가 일치. 사용자 직관 유리
+- 딥 그린(11.53:1) 폐기: amount-num 2.5rem 큰 숫자에 지나치게 무거움 · 이 앱 톤은 "권위"보다 "확인·안도"
+- 에메랄드 `#1D9F79` 폐기: 이사 짐 티일 `#0F766E`와 청록계 근접 · 기능 의미 흐릴 우려
+- 팔레트 다양성(누적 6종 → 그린 첫 도입)도 확보
+- hover `#146c43` (8.62:1) 유지
+
+### 판정 2: 광복절 연차 — 승인
+- C안 터쿠아즈 `#0FADAD` (5.22:1) 채택 **승인**
+- 근거: 파랑 3연속(코발트·인디고·블루) 회피 정확 · 카탈로그 개별 존재감 확보
+- B안 시안(`#06B6D4`) 대비 C안 채택 근거: 채도 반 톤 낮아 "계획·최적화" 의미가 표면에 오고, 이 앱은 실용 계산기이지 여름 캠페인 배너가 아님
+- hover `#0D8B8B` (8.15:1) 유지
+
+### 판정 3: `.cal-cell.sat` 토요일 색 — 회색 중립 확정
+- 세 옵션 검토:
+  1. `var(--primary)` (터쿠아즈) → 토요일이 primary 강조가 되어 정보 위계 흔들림. 이 앱 초점은 8/15 광복절·8/17 대체공휴일이지 여느 토요일이 아님
+  2. 파랑 `#0d6efd` 유지 → primary 터쿠아즈와 시각적 부딪힘 · 브랜드 오염
+  3. **회색 중립** → 컨벤션 소폭 이탈이지만 시각 위계 정합 · 대체공휴일 청록 하이라이트 부각
+- 3안 채택. `.cal-wday.sat` → `var(--text-sub)` `#6c757d`, `.cal-cell.sat` → `var(--text-mute)` `#495057`
+- 일요일 빨강 `.sun`은 유지 — 강한 컨벤션 + danger 계열이라 primary와 안 겹침
+
+### 반영 내역 (index.html 2건 · 다빈치 집행)
+- **Pretendard Variable CDN** 도입 (jsdelivr · preconnect 포함)
+- **`:root` CSS 토큰** 전면 도입
+- **h1** letter-spacing `-0.02em` 추가 (기존 1.5rem 유지)
+- **`.hero-line`** 추가 (width 2.5rem · height 2px · primary 색 · margin 0.5rem auto 0.75rem)
+- **`aria-hidden="true"`** hero-line 스크린리더 우회
+- **버튼 hover·active** 트랜지션 (background 0.15s · translateY(1px))
+- **결과 카드 `fadeUp` 애니메이션** (opacity + translateY 6px · 0.35s ease)
+- **input focus** border-color primary 토큰화 · font-family inherit
+- **subtle box-shadow** 카드에 `0 1px 4px rgba(0,0,0,0.03)` 추가 (기존 border만 있던 것 보강)
+
+**주휴수당 세부:**
+- `.badge` 하드코딩 `#e8f5e9` / `#1b5e20` / `#a5d6a7` → primary 토큰 3종
+- `.btn` bg · hover 토큰화
+- `.req-badge.pass` bg → primary-soft · color → primary-hover
+- `.req-badge.fail` → danger 토큰
+- `.amount-box` bg `#f0faf4` → `--primary-tint` 토큰 (새 정의)
+- `.amount-num` `#198754` → primary · letter-spacing `-0.03em`
+- `.info-row strong` `#198754` → primary
+- `.fail-hours` `#dc3545` → danger 토큰
+- `.formula-box code` font-family에 JetBrains Mono 우선 지정 (Pretendard 승계 후에도 코드는 monospace 유지)
+- input suffix focus 시 옆 suffix-label 테두리도 함께 primary로 변경
+
+**광복절 연차 세부:**
+- `.cal-header` bg `#0d6efd` → primary (달력 헤더 터쿠아즈)
+- `.cal-wday.sat` `#0d6efd` → text-sub 회색 (컨벤션 이탈 · 판정 3)
+- `.cal-cell.sat` `#0d6efd` → text-mute 회색 (판정 3)
+- `.combo-card.hl` border-color → primary · bg → `--primary-tint` (새 정의 `#ECFAFA`)
+- `.combo-card:hover` box-shadow 마이크로 인터랙션 추가
+- `.combo-days` `#0d6efd` → primary · letter-spacing `-0.02em`
+- `.tag-best` bg `#0d6efd` → primary
+- `.btn` bg · hover 토큰화
+- `.result-summary` bg `#f0f4ff` → `--primary-tint`
+- `.result-big` `#0d6efd` → primary · letter-spacing `-0.03em`
+- `.day-tag.leave` bg `#d4edda` / color `#155724` → primary-soft / primary-hover (연차 태그를 primary 계열로)
+- `.badge` (header) `#e8f4fd`/`#0969da`/`#b6d4fe` → primary 토큰 3종
+- 공휴일 셀·태그(황색), 대체공휴일 셀·태그(청록 alt)는 별도 토큰(`--holiday-*` · `--alt-*`)으로 분리 · 정보 위계 유지 (primary 터쿠아즈와 alt-bg 청록이 근접하지만 alt-bg는 채도 낮은 파스텔이라 구분 가능)
+
+### 보존 확인
+- SEO 메타·OG·JSON-LD 그대로
+- `#ad-slot` 위치·크기·문구 그대로
+- JS 로직 · 달력 렌더링 · COMBOS 배열 · 계산 로직 · DOM ID 전체 그대로
+- 시맨틱 구조 · h2/h3 위계 · disclaimer · footer 그대로
+- 미디어 쿼리(480px) 유지
+
+### 프로토콜 준수
+- 팀장 판정 발화 명시 · 이 문서에 판정 요지 동시 기록 (세션 압축 대비)
+- 판정 3(토요일 색)은 달리가 명시적으로 지목한 판정 요청 — 회피 없이 세 옵션 비교 후 근거 명시로 확정
+
+*다빈치 판정·반영 완료 · 2026-08-07 KST*

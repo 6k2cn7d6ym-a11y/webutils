@@ -10,6 +10,8 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://utils.minon.kr/liberation-day-vacation-planner/">
   <link rel="canonical" href="https://utils.minon.kr/liberation-day-vacation-planner/">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -22,79 +24,278 @@
   }
   </script>
   <style>
+    :root {
+      --primary: #0FADAD;
+      --primary-hover: #0D8B8B;
+      --primary-soft: #D6F5F5;
+      --primary-soft-border: #A8E5E5;
+      --primary-tint: #ECFAFA;
+      --danger: #dc3545;
+      --danger-soft: #f8d7da;
+      --danger-strong: #721c24;
+      --holiday-bg: #fff3cd;
+      --holiday-border: #ffc107;
+      --holiday-text: #856404;
+      --alt-bg: #d1ecf1;
+      --alt-text: #0c5460;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --text: #212529;
+      --text-sub: #6c757d;
+      --text-mute: #495057;
+      --border: #dee2e6;
+      --border-input: #ced4da;
+      --border-soft: #e9ecef;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif; background: #f8f9fa; color: #212529; line-height: 1.6; }
+    body {
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
     .container { max-width: 720px; margin: 0 auto; padding: 1rem; }
 
     header { text-align: center; padding: 2rem 1rem 1rem; }
-    header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-    header p { color: #6c757d; font-size: 0.95rem; }
-    .badge { display: inline-block; background: #e8f4fd; color: #0969da; border: 1px solid #b6d4fe; border-radius: 4px; padding: 0.25rem 0.75rem; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; }
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .hero-line {
+      width: 2.5rem;
+      height: 2px;
+      background: var(--primary);
+      margin: 0.5rem auto 0.75rem;
+      border-radius: 2px;
+    }
+    header p { color: var(--text-sub); font-size: 0.95rem; }
+    .badge {
+      display: inline-block;
+      background: var(--primary-soft);
+      color: var(--primary-hover);
+      border: 1px solid var(--primary-soft-border);
+      border-radius: 4px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
 
-    .info-card { background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+    .info-card {
+      background: var(--holiday-bg);
+      border: 1px solid var(--holiday-border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+    }
     .info-card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
     .info-card p { font-size: 0.9rem; color: #5a4000; }
     .info-card strong { color: #333; }
 
-    .section-title { font-size: 1.1rem; font-weight: 700; margin: 1.5rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid #e9ecef; }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 1.5rem 0 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border-soft);
+    }
 
     /* 달력 */
-    .calendar { background: #fff; border: 1px solid #dee2e6; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; }
-    .cal-header { background: #0d6efd; color: #fff; text-align: center; padding: 0.75rem; font-weight: 700; font-size: 1rem; }
-    .cal-weekday-row { display: grid; grid-template-columns: repeat(7, 1fr); background: #f8f9fa; border-bottom: 1px solid #dee2e6; }
-    .cal-wday { text-align: center; padding: 0.45rem 0; font-size: 0.8rem; font-weight: 600; color: #6c757d; }
-    .cal-wday.sun { color: #dc3545; }
-    .cal-wday.sat { color: #0d6efd; }
+    .calendar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+    .cal-header {
+      background: var(--primary);
+      color: #fff;
+      text-align: center;
+      padding: 0.75rem;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+    }
+    .cal-weekday-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .cal-wday {
+      text-align: center;
+      padding: 0.45rem 0;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-sub);
+    }
+    .cal-wday.sun { color: var(--danger); }
+    .cal-wday.sat { color: var(--text-sub); }
     .cal-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
-    .cal-cell { text-align: center; padding: 0.5rem 0.2rem; font-size: 0.9rem; border-bottom: 1px solid #f0f0f0; min-height: 3rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.1rem; }
+    .cal-cell {
+      text-align: center;
+      padding: 0.5rem 0.2rem;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #f0f0f0;
+      min-height: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.1rem;
+    }
     .cal-cell.empty { background: #fafafa; }
-    .cal-cell.sat { color: #0d6efd; }
-    .cal-cell.sun { color: #dc3545; }
-    .cal-cell.holiday { background: #fff3cd; }
-    .cal-cell.holiday .cal-date { font-weight: 700; color: #856404; }
-    .cal-cell.alt-holiday { background: #d1ecf1; }
-    .cal-cell.alt-holiday .cal-date { font-weight: 700; color: #0c5460; }
-    .cal-hl { font-size: 0.62rem; color: #856404; line-height: 1.2; }
-    .cal-hl.alt { color: #0c5460; }
+    .cal-cell.sat { color: var(--text-mute); }
+    .cal-cell.sun { color: var(--danger); }
+    .cal-cell.holiday { background: var(--holiday-bg); }
+    .cal-cell.holiday .cal-date { font-weight: 700; color: var(--holiday-text); }
+    .cal-cell.alt-holiday { background: var(--alt-bg); }
+    .cal-cell.alt-holiday .cal-date { font-weight: 700; color: var(--alt-text); }
+    .cal-hl { font-size: 0.62rem; color: var(--holiday-text); line-height: 1.2; }
+    .cal-hl.alt { color: var(--alt-text); }
 
     /* 황금 조합 */
     .combo-grid { display: grid; gap: 0.6rem; margin-bottom: 1.5rem; }
-    .combo-card { background: #fff; border: 1px solid #dee2e6; border-radius: 8px; padding: 0.9rem 1.1rem; }
-    .combo-card.hl { border-color: #0d6efd; background: #f0f4ff; }
+    .combo-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+      transition: box-shadow 0.15s ease;
+    }
+    .combo-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .combo-card.hl {
+      border-color: var(--primary);
+      background: var(--primary-tint);
+    }
     .combo-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem; }
-    .combo-leave { font-size: 0.85rem; color: #6c757d; }
-    .combo-leave strong { color: #212529; font-size: 1rem; }
+    .combo-leave { font-size: 0.85rem; color: var(--text-sub); }
+    .combo-leave strong { color: var(--text); font-size: 1rem; }
     .combo-right { display: flex; align-items: center; gap: 0.4rem; }
-    .combo-days { font-size: 1.3rem; font-weight: 700; color: #0d6efd; }
-    .combo-days .unit { font-size: 0.8rem; font-weight: 400; color: #6c757d; }
-    .tag-best { background: #0d6efd; color: #fff; border-radius: 4px; font-size: 0.72rem; padding: 0.1rem 0.45rem; font-weight: 700; }
-    .combo-period { font-size: 0.9rem; color: #212529; font-weight: 500; }
-    .combo-detail { font-size: 0.78rem; color: #6c757d; margin-top: 0.2rem; }
+    .combo-days {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    .combo-days .unit { font-size: 0.8rem; font-weight: 400; color: var(--text-sub); }
+    .tag-best {
+      background: var(--primary);
+      color: #fff;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      padding: 0.1rem 0.45rem;
+      font-weight: 700;
+    }
+    .combo-period { font-size: 0.9rem; color: var(--text); font-weight: 500; }
+    .combo-detail { font-size: 0.78rem; color: var(--text-sub); margin-top: 0.2rem; }
 
     /* 기간 계산기 */
-    .calc-card { background: #fff; border: 1px solid #dee2e6; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.75rem; }
+    .calc-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
     .form-group label { display: block; font-size: 0.87rem; font-weight: 600; margin-bottom: 0.3rem; }
-    .form-group input[type="date"] { width: 100%; padding: 0.55rem 0.75rem; border: 1px solid #ced4da; border-radius: 6px; font-size: 0.95rem; }
-    .btn { width: 100%; padding: 0.75rem; background: #0d6efd; color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; }
-    .btn:hover { background: #0b5ed7; }
+    .form-group input[type="date"] {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid var(--border-input);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--card);
+      transition: border-color 0.15s ease;
+    }
+    .form-group input[type="date"]:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+      font-family: inherit;
+      letter-spacing: -0.01em;
+    }
+    .btn:hover { background: var(--primary-hover); }
+    .btn:active { transform: translateY(1px); }
     .result-area { margin-top: 1rem; display: none; }
-    .result-area.show { display: block; }
-    .result-summary { background: #f0f4ff; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
-    .result-big { font-size: 2rem; font-weight: 700; color: #0d6efd; }
-    .result-sub { font-size: 0.9rem; color: #495057; margin-top: 0.1rem; }
+    .result-area.show { display: block; animation: fadeUp 0.35s ease; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .result-summary {
+      background: var(--primary-tint);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .result-big {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.03em;
+    }
+    .result-sub { font-size: 0.9rem; color: var(--text-mute); margin-top: 0.1rem; }
     .day-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.75rem; }
     .day-tag { font-size: 0.75rem; padding: 0.15rem 0.45rem; border-radius: 4px; }
-    .day-tag.weekend { background: #e9ecef; color: #6c757d; }
-    .day-tag.holiday { background: #fff3cd; color: #856404; }
-    .day-tag.alt { background: #d1ecf1; color: #0c5460; }
-    .day-tag.leave { background: #d4edda; color: #155724; font-weight: 600; }
-    .result-meta { font-size: 0.82rem; color: #6c757d; }
-    .result-error { background: #f8d7da; border-radius: 8px; padding: 0.75rem 1rem; color: #721c24; font-size: 0.9rem; }
+    .day-tag.weekend { background: var(--border-soft); color: var(--text-sub); }
+    .day-tag.holiday { background: var(--holiday-bg); color: var(--holiday-text); }
+    .day-tag.alt { background: var(--alt-bg); color: var(--alt-text); }
+    .day-tag.leave { background: var(--primary-soft); color: var(--primary-hover); font-weight: 600; }
+    .result-meta { font-size: 0.82rem; color: var(--text-sub); }
+    .result-error {
+      background: var(--danger-soft);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--danger-strong);
+      font-size: 0.9rem;
+    }
 
-    #ad-slot { margin: 1.5rem 0; min-height: 90px; background: #f8f9fa; border: 1px dashed #ced4da; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 0.8rem; }
-    .disclaimer { font-size: 0.8rem; color: #6c757d; margin-top: 1rem; padding: 0.75rem 1rem; background: #f8f9fa; border-radius: 6px; }
-    footer { text-align: center; color: #6c757d; font-size: 0.8rem; padding: 2rem 1rem; }
+    #ad-slot {
+      margin: 1.5rem 0;
+      min-height: 90px;
+      background: var(--bg);
+      border: 1px dashed var(--border-input);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #adb5bd;
+      font-size: 0.8rem;
+    }
+    .disclaimer {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg);
+      border-radius: 6px;
+    }
+    footer { text-align: center; color: var(--text-sub); font-size: 0.8rem; padding: 2rem 1rem; }
 
     @media (max-width: 480px) {
       header h1 { font-size: 1.25rem; }
@@ -109,6 +310,7 @@
   <header>
     <div class="badge">📅 D-8 시류 · 2026 광복절 대체공휴일</div>
     <h1>광복절 여름휴가<br>연차 조합 계산기</h1>
+    <div class="hero-line" aria-hidden="true"></div>
     <p>연차 며칠이면 최대 며칠 연속으로 쉴 수 있는지 바로 확인</p>
   </header>
 

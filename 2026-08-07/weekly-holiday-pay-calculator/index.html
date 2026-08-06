@@ -10,6 +10,8 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://utils.minon.kr/weekly-holiday-pay-calculator/">
   <link rel="canonical" href="https://utils.minon.kr/weekly-holiday-pay-calculator/">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -22,61 +24,245 @@
   }
   </script>
   <style>
+    :root {
+      --primary: #198754;
+      --primary-hover: #146c43;
+      --primary-soft: #D1FAE5;
+      --primary-soft-border: #A7F3D0;
+      --primary-tint: #f0faf4;
+      --danger: #dc3545;
+      --danger-soft: #f8d7da;
+      --danger-strong: #721c24;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --text: #212529;
+      --text-sub: #6c757d;
+      --text-mute: #495057;
+      --border: #dee2e6;
+      --border-input: #ced4da;
+      --border-soft: #e9ecef;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif; background: #f8f9fa; color: #212529; line-height: 1.6; }
+    body {
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
     .container { max-width: 680px; margin: 0 auto; padding: 1rem; }
 
     header { text-align: center; padding: 2rem 1rem 1rem; }
-    header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-    header p { color: #6c757d; font-size: 0.95rem; }
-    .badge { display: inline-block; background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; border-radius: 4px; padding: 0.25rem 0.75rem; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; }
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .hero-line {
+      width: 2.5rem;
+      height: 2px;
+      background: var(--primary);
+      margin: 0.5rem auto 0.75rem;
+      border-radius: 2px;
+    }
+    header p { color: var(--text-sub); font-size: 0.95rem; }
+    .badge {
+      display: inline-block;
+      background: var(--primary-soft);
+      color: var(--primary-hover);
+      border: 1px solid var(--primary-soft-border);
+      border-radius: 4px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
 
-    .calc-card { background: #fff; border: 1px solid #dee2e6; border-radius: 10px; padding: 1.5rem; margin-bottom: 1.25rem; }
+    .calc-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
     .calc-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 1.1rem; }
     .form-group { margin-bottom: 1rem; }
     .form-group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.35rem; }
-    .form-group .hint { font-size: 0.8rem; color: #6c757d; margin-top: 0.25rem; }
+    .form-group .hint { font-size: 0.8rem; color: var(--text-sub); margin-top: 0.25rem; }
     .input-suffix { display: flex; }
-    .input-suffix input { flex: 1; padding: 0.65rem 0.85rem; border: 1px solid #ced4da; border-right: none; border-radius: 6px 0 0 6px; font-size: 1.05rem; }
-    .input-suffix .suffix-label { padding: 0.65rem 0.85rem; background: #f8f9fa; border: 1px solid #ced4da; border-radius: 0 6px 6px 0; font-size: 0.9rem; color: #6c757d; white-space: nowrap; display: flex; align-items: center; }
-    .btn { width: 100%; padding: 0.85rem; background: #198754; color: #fff; border: none; border-radius: 6px; font-size: 1.05rem; font-weight: 700; cursor: pointer; margin-top: 0.25rem; }
-    .btn:hover { background: #146c43; }
+    .input-suffix input {
+      flex: 1;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--border-input);
+      border-right: none;
+      border-radius: 6px 0 0 6px;
+      font-size: 1.05rem;
+      font-family: inherit;
+      transition: border-color 0.15s ease;
+    }
+    .input-suffix input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .input-suffix input:focus + .suffix-label {
+      border-color: var(--primary);
+    }
+    .input-suffix .suffix-label {
+      padding: 0.65rem 0.85rem;
+      background: var(--bg);
+      border: 1px solid var(--border-input);
+      border-radius: 0 6px 6px 0;
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      transition: border-color 0.15s ease;
+    }
+    .btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 0.25rem;
+      transition: background 0.15s ease, transform 0.1s ease;
+      font-family: inherit;
+      letter-spacing: -0.01em;
+    }
+    .btn:hover { background: var(--primary-hover); }
+    .btn:active { transform: translateY(1px); }
 
     /* 결과 */
-    .result-card { background: #fff; border: 1px solid #dee2e6; border-radius: 10px; padding: 1.5rem; margin-bottom: 1.25rem; display: none; }
-    .result-card.show { display: block; }
-    .req-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.95rem; font-weight: 700; margin-bottom: 1.1rem; }
-    .req-badge.pass { background: #d4edda; color: #155724; }
-    .req-badge.fail { background: #f8d7da; color: #721c24; }
+    .result-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      display: none;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+    .result-card.show {
+      display: block;
+      animation: fadeUp 0.35s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .req-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 1.1rem;
+    }
+    .req-badge.pass { background: var(--primary-soft); color: var(--primary-hover); }
+    .req-badge.fail { background: var(--danger-soft); color: var(--danger-strong); }
 
-    .amount-box { text-align: center; padding: 1.25rem; background: #f0faf4; border-radius: 8px; margin-bottom: 1rem; }
-    .amount-num { font-size: 2.5rem; font-weight: 700; color: #198754; }
-    .amount-unit { font-size: 1rem; color: #6c757d; }
-    .amount-sub { font-size: 0.85rem; color: #6c757d; margin-top: 0.2rem; }
+    .amount-box {
+      text-align: center;
+      padding: 1.25rem;
+      background: var(--primary-tint);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .amount-num {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.03em;
+    }
+    .amount-unit { font-size: 1rem; color: var(--text-sub); }
+    .amount-sub { font-size: 0.85rem; color: var(--text-sub); margin-top: 0.2rem; }
 
-    .formula-box { background: #f8f9fa; border-radius: 6px; padding: 0.85rem 1rem; font-size: 0.85rem; color: #495057; margin-bottom: 0.85rem; line-height: 1.7; }
-    .formula-box code { font-family: 'Courier New', monospace; background: #e9ecef; padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.82rem; }
+    .formula-box {
+      background: var(--bg);
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text-mute);
+      margin-bottom: 0.85rem;
+      line-height: 1.7;
+    }
+    .formula-box code {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      background: var(--border-soft);
+      padding: 0.1rem 0.3rem;
+      border-radius: 3px;
+      font-size: 0.82rem;
+    }
 
-    .row-divider { border: none; border-top: 1px solid #e9ecef; margin: 0.1rem 0; }
-    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0; font-size: 0.9rem; }
-    .info-row span { color: #6c757d; }
-    .info-row strong { color: #198754; font-size: 1.05rem; }
+    .row-divider { border: none; border-top: 1px solid var(--border-soft); margin: 0.1rem 0; }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0;
+      font-size: 0.9rem;
+    }
+    .info-row span { color: var(--text-sub); }
+    .info-row strong { color: var(--primary); font-size: 1.05rem; }
 
     .fail-msg { text-align: center; padding: 1rem 0; }
     .fail-icon { font-size: 2.2rem; margin-bottom: 0.5rem; }
-    .fail-hours { font-size: 1.3rem; font-weight: 700; color: #dc3545; margin: 0.5rem 0; }
-    .fail-desc { font-size: 0.9rem; color: #6c757d; }
+    .fail-hours {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--danger);
+      margin: 0.5rem 0;
+    }
+    .fail-desc { font-size: 0.9rem; color: var(--text-sub); }
 
     /* 정보 섹션 */
-    .section-title { font-size: 1.05rem; font-weight: 700; margin: 1.5rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid #e9ecef; }
-    .info-item { background: #fff; border: 1px solid #dee2e6; border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.5rem; }
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 1.5rem 0 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border-soft);
+    }
+    .info-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.5rem;
+    }
     .info-item h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; }
-    .info-item p { font-size: 0.85rem; color: #495057; }
-    .info-item p strong { color: #212529; }
+    .info-item p { font-size: 0.85rem; color: var(--text-mute); }
+    .info-item p strong { color: var(--text); }
 
-    #ad-slot { margin: 1.5rem 0; min-height: 90px; background: #f8f9fa; border: 1px dashed #ced4da; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 0.8rem; }
-    .disclaimer { font-size: 0.8rem; color: #6c757d; margin-top: 1rem; padding: 0.75rem 1rem; background: #f8f9fa; border-radius: 6px; }
-    footer { text-align: center; color: #6c757d; font-size: 0.8rem; padding: 2rem 1rem; }
+    #ad-slot {
+      margin: 1.5rem 0;
+      min-height: 90px;
+      background: var(--bg);
+      border: 1px dashed var(--border-input);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #adb5bd;
+      font-size: 0.8rem;
+    }
+    .disclaimer {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg);
+      border-radius: 6px;
+    }
+    footer { text-align: center; color: var(--text-sub); font-size: 0.8rem; padding: 2rem 1rem; }
 
     @media (max-width: 480px) {
       header h1 { font-size: 1.25rem; }
@@ -90,6 +276,7 @@
   <header>
     <div class="badge">⚖️ 근로기준법 제55조 기준</div>
     <h1>주휴수당 계산기</h1>
+    <div class="hero-line" aria-hidden="true"></div>
     <p>주 15시간 이상·1주 개근 → 지급 여부와 금액 즉시 확인</p>
   </header>
 
