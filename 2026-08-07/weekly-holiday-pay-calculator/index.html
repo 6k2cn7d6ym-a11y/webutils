@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주휴수당 계산기 – 주 15시간 이상 요건 판정 + 지급액 계산</title>
+  <meta name="description" content="주 소정근로시간과 시급을 입력하면 주휴수당 지급 여부(주 15시간·1주 개근)와 지급액을 바로 계산해드립니다. 아르바이트·단시간 근로자 필수 확인.">
+  <meta property="og:title" content="주휴수당 계산기 – 주휴수당 얼마? 요건 판정 + 지급액">
+  <meta property="og:description" content="아르바이트·단시간 근로자 주휴수당 계산기. 주 15시간 이상 요건 자동 판정, 지급액 즉시 계산.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utils.minon.kr/weekly-holiday-pay-calculator/">
+  <link rel="canonical" href="https://utils.minon.kr/weekly-holiday-pay-calculator/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "주휴수당 계산기",
+    "description": "주 소정근로시간과 시급으로 주휴수당 지급 여부와 지급액을 계산하는 도구",
+    "url": "https://utils.minon.kr/weekly-holiday-pay-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "inLanguage": "ko"
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif; background: #f8f9fa; color: #212529; line-height: 1.6; }
+    .container { max-width: 680px; margin: 0 auto; padding: 1rem; }
+
+    header { text-align: center; padding: 2rem 1rem 1rem; }
+    header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+    header p { color: #6c757d; font-size: 0.95rem; }
+    .badge { display: inline-block; background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; border-radius: 4px; padding: 0.25rem 0.75rem; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; }
+
+    .calc-card { background: #fff; border: 1px solid #dee2e6; border-radius: 10px; padding: 1.5rem; margin-bottom: 1.25rem; }
+    .calc-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 1.1rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.35rem; }
+    .form-group .hint { font-size: 0.8rem; color: #6c757d; margin-top: 0.25rem; }
+    .input-suffix { display: flex; }
+    .input-suffix input { flex: 1; padding: 0.65rem 0.85rem; border: 1px solid #ced4da; border-right: none; border-radius: 6px 0 0 6px; font-size: 1.05rem; }
+    .input-suffix .suffix-label { padding: 0.65rem 0.85rem; background: #f8f9fa; border: 1px solid #ced4da; border-radius: 0 6px 6px 0; font-size: 0.9rem; color: #6c757d; white-space: nowrap; display: flex; align-items: center; }
+    .btn { width: 100%; padding: 0.85rem; background: #198754; color: #fff; border: none; border-radius: 6px; font-size: 1.05rem; font-weight: 700; cursor: pointer; margin-top: 0.25rem; }
+    .btn:hover { background: #146c43; }
+
+    /* 결과 */
+    .result-card { background: #fff; border: 1px solid #dee2e6; border-radius: 10px; padding: 1.5rem; margin-bottom: 1.25rem; display: none; }
+    .result-card.show { display: block; }
+    .req-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.95rem; font-weight: 700; margin-bottom: 1.1rem; }
+    .req-badge.pass { background: #d4edda; color: #155724; }
+    .req-badge.fail { background: #f8d7da; color: #721c24; }
+
+    .amount-box { text-align: center; padding: 1.25rem; background: #f0faf4; border-radius: 8px; margin-bottom: 1rem; }
+    .amount-num { font-size: 2.5rem; font-weight: 700; color: #198754; }
+    .amount-unit { font-size: 1rem; color: #6c757d; }
+    .amount-sub { font-size: 0.85rem; color: #6c757d; margin-top: 0.2rem; }
+
+    .formula-box { background: #f8f9fa; border-radius: 6px; padding: 0.85rem 1rem; font-size: 0.85rem; color: #495057; margin-bottom: 0.85rem; line-height: 1.7; }
+    .formula-box code { font-family: 'Courier New', monospace; background: #e9ecef; padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.82rem; }
+
+    .row-divider { border: none; border-top: 1px solid #e9ecef; margin: 0.1rem 0; }
+    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0; font-size: 0.9rem; }
+    .info-row span { color: #6c757d; }
+    .info-row strong { color: #198754; font-size: 1.05rem; }
+
+    .fail-msg { text-align: center; padding: 1rem 0; }
+    .fail-icon { font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .fail-hours { font-size: 1.3rem; font-weight: 700; color: #dc3545; margin: 0.5rem 0; }
+    .fail-desc { font-size: 0.9rem; color: #6c757d; }
+
+    /* 정보 섹션 */
+    .section-title { font-size: 1.05rem; font-weight: 700; margin: 1.5rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid #e9ecef; }
+    .info-item { background: #fff; border: 1px solid #dee2e6; border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.5rem; }
+    .info-item h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .info-item p { font-size: 0.85rem; color: #495057; }
+    .info-item p strong { color: #212529; }
+
+    #ad-slot { margin: 1.5rem 0; min-height: 90px; background: #f8f9fa; border: 1px dashed #ced4da; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 0.8rem; }
+    .disclaimer { font-size: 0.8rem; color: #6c757d; margin-top: 1rem; padding: 0.75rem 1rem; background: #f8f9fa; border-radius: 6px; }
+    footer { text-align: center; color: #6c757d; font-size: 0.8rem; padding: 2rem 1rem; }
+
+    @media (max-width: 480px) {
+      header h1 { font-size: 1.25rem; }
+      .amount-num { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="badge">⚖️ 근로기준법 제55조 기준</div>
+    <h1>주휴수당 계산기</h1>
+    <p>주 15시간 이상·1주 개근 → 지급 여부와 금액 즉시 확인</p>
+  </header>
+
+  <!-- 입력 -->
+  <div class="calc-card">
+    <div class="calc-title">📋 근무 정보 입력</div>
+
+    <div class="form-group">
+      <label for="hourlyWage">시급 (원)</label>
+      <div class="input-suffix">
+        <input type="number" id="hourlyWage" value="10030" min="1" step="10" inputmode="numeric">
+        <div class="suffix-label">원</div>
+      </div>
+      <div class="hint">2025년 최저임금 10,030원 · 본인 시급 입력</div>
+    </div>
+
+    <div class="form-group">
+      <label for="weeklyHours">주 소정근로시간 (시간)</label>
+      <div class="input-suffix">
+        <input type="number" id="weeklyHours" value="20" min="0" max="52" step="0.5" inputmode="decimal">
+        <div class="suffix-label">시간 / 주</div>
+      </div>
+      <div class="hint">15시간 미만이면 주휴수당 미지급 · 40시간 초과 시 40시간으로 계산</div>
+    </div>
+
+    <button class="btn" onclick="calc()">주휴수당 계산하기</button>
+  </div>
+
+  <!-- 결과 -->
+  <div class="result-card" id="resultCard">
+    <div id="resultInner"></div>
+  </div>
+
+  <div id="ad-slot">광고 영역</div>
+
+  <!-- 설명 -->
+  <h2 class="section-title">📖 주휴수당 핵심 정보</h2>
+  <div class="info-item">
+    <h3>📌 주휴수당이란?</h3>
+    <p>주 15시간 이상 일하고 그 주를 개근한 근로자에게 지급하는 유급 휴일 수당입니다. 아르바이트·파트타임·정직원 모두 해당하며, 사업장 규모에 무관합니다.</p>
+  </div>
+  <div class="info-item">
+    <h3>📐 계산 공식</h3>
+    <p><strong>주휴수당 = (주 소정근로시간 ÷ 40) × 8시간 × 시급</strong><br>
+    주 소정근로시간이 40시간을 초과해도 분자를 40시간으로 캡합니다.</p>
+  </div>
+  <div class="info-item">
+    <h3>✅ 지급 요건 2가지</h3>
+    <p>① 주 소정근로시간 <strong>15시간 이상</strong><br>② 해당 주 <strong>결근 없이 개근</strong> (지각·조퇴는 결근으로 보지 않음)</p>
+  </div>
+  <div class="info-item">
+    <h3>💡 월급제엔 이미 포함?</h3>
+    <p>월급제 근로자는 대부분 주휴수당이 월급에 포함돼 있습니다. 시급제·일급제 아르바이트가 별도로 챙겨야 할 항목입니다. 계약서에 '주휴수당 포함' 문구가 있으면 해당 금액을 확인하세요.</p>
+  </div>
+  <div class="info-item">
+    <h3>💼 편의점·카페 알바도 받나요?</h3>
+    <p>네. 근로기준법 제55조에 따라 사업장 규모 무관하게 요건 충족 시 지급 의무가 있습니다. 미지급 시 임금체불에 해당합니다.</p>
+  </div>
+
+  <div class="disclaimer">
+    ※ 이 계산기는 정보 제공 목적이며, 실제 주휴수당은 근로계약서·취업규칙·단체협약에 따라 달라질 수 있습니다. 분쟁 발생 시 고용노동부(1350) 또는 공인노무사에게 상담하세요.
+  </div>
+
+  <footer>
+    <p>© 2026 utils.minon.kr · 근로기준법 제55조 기준 · 법 개정 시 내용이 달라질 수 있습니다</p>
+  </footer>
+
+</div>
+<script>
+  function fmt(n) {
+    return Math.round(n).toLocaleString('ko-KR');
+  }
+
+  function calc() {
+    var wage = parseFloat(document.getElementById('hourlyWage').value);
+    var weeklyHours = parseFloat(document.getElementById('weeklyHours').value);
+    var card = document.getElementById('resultCard');
+    var inner = document.getElementById('resultInner');
+    card.className = 'result-card show';
+
+    if (isNaN(wage) || wage <= 0) {
+      inner.innerHTML = '<p style="color:#dc3545;font-size:.9rem;">시급을 올바르게 입력해주세요.</p>';
+      return;
+    }
+    if (isNaN(weeklyHours) || weeklyHours < 0) {
+      inner.innerHTML = '<p style="color:#dc3545;font-size:.9rem;">주 소정근로시간을 올바르게 입력해주세요.</p>';
+      return;
+    }
+
+    var MIN_HOURS = 15;
+
+    if (weeklyHours < MIN_HOURS) {
+      var gap = (MIN_HOURS - weeklyHours).toFixed(1).replace(/\.0$/, '');
+      inner.innerHTML =
+        '<div class="req-badge fail">❌ 주휴수당 미지급 요건</div>' +
+        '<div class="fail-msg">' +
+          '<div class="fail-icon">⏰</div>' +
+          '<p>주 소정근로시간 <strong>' + weeklyHours + '시간</strong></p>' +
+          '<div class="fail-hours">15시간 기준까지 ' + gap + '시간 부족</div>' +
+          '<p class="fail-desc">주 15시간 이상 근무 시 주휴수당을 받을 수 있습니다.</p>' +
+        '</div>';
+      return;
+    }
+
+    // 계산
+    var cappedHours = Math.min(weeklyHours, 40);
+    var ratio = cappedHours / 40;
+    var weeklyPay = ratio * 8 * wage;
+    var monthlyPay = weeklyPay * 4.345;
+    var effectiveWage = wage + (weeklyPay / weeklyHours);
+
+    var capNote = weeklyHours > 40 ? cappedHours + '시간(40시간 상한 적용)' : cappedHours + '시간';
+
+    inner.innerHTML =
+      '<div class="req-badge pass">✅ 주휴수당 지급 요건 충족 (주 ' + weeklyHours + '시간 ≥ 15시간)</div>' +
+      '<div class="amount-box">' +
+        '<div class="amount-num">' + fmt(weeklyPay) + '</div>' +
+        '<div class="amount-unit">원</div>' +
+        '<div class="amount-sub">주 1회 주휴수당 (세전)</div>' +
+      '</div>' +
+      '<div class="formula-box">' +
+        '계산식: <code>(' + capNote + ' ÷ 40) × 8시간 × ' + fmt(wage) + '원</code><br>' +
+        '= <code>' + ratio.toFixed(4) + ' × 8 × ' + fmt(wage) + '</code><br>' +
+        '= <strong>' + fmt(weeklyPay) + '원</strong>' +
+      '</div>' +
+      '<hr class="row-divider">' +
+      '<div class="info-row"><span>월 주휴수당 (×4.345주 기준)</span><strong>≈ ' + fmt(monthlyPay) + '원</strong></div>' +
+      '<hr class="row-divider">' +
+      '<div class="info-row"><span>주휴수당 포함 실질 시급</span><strong>' + fmt(effectiveWage) + '원</strong></div>';
+  }
+</script>
+</body>
+</html>
