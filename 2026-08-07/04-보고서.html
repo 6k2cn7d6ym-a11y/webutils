@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>webutils 사이클 보고 · 2026-08-07</title>
+<style>
+  :root {
+    --primary: #1D4ED8;
+    --primary-hover: #1E40AF;
+    --primary-soft: #EFF4FF;
+    --primary-soft-border: #C7D6F5;
+    --ok: #198754;
+    --ok-soft: #D1FAE5;
+    --warn: #B45309;
+    --warn-soft: #FEF3C7;
+    --err: #B91C1C;
+    --err-soft: #FEE2E2;
+    --text: #1F2937;
+    --text-sub: #6B7280;
+    --text-mute: #9CA3AF;
+    --border: #E5E7EB;
+    --bg: #F9FAFB;
+    --card: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.6;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+  h1 {
+    font-size: 1.75rem;
+    letter-spacing: -0.02em;
+    margin: 0 0 4px;
+  }
+  .lede {
+    color: var(--text-sub);
+    font-size: 0.95rem;
+    margin: 0 0 32px;
+  }
+  h2 {
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+    margin: 36px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--primary);
+  }
+  h3 {
+    font-size: 1.02rem;
+    margin: 20px 0 8px;
+  }
+  section { margin-bottom: 24px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .card.ok { border-left: 4px solid var(--ok); }
+  .card.warn { border-left: 4px solid var(--warn); }
+  .card.err { border-left: 4px solid var(--err); }
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .badge.ok { background: var(--ok-soft); color: var(--ok); }
+  .badge.warn { background: var(--warn-soft); color: var(--warn); }
+  .badge.err { background: var(--err-soft); color: var(--err); }
+  .badge.info { background: var(--primary-soft); color: var(--primary); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--primary-soft); font-weight: 600; }
+  code {
+    background: #F3F4F6;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", Menlo, monospace;
+  }
+  ul { padding-left: 22px; margin: 8px 0; }
+  li { margin-bottom: 4px; }
+  .util-embed {
+    width: 100%;
+    height: 640px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin: 12px 0 20px;
+  }
+  .util-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .util-slug {
+    font-family: "SF Mono", Menlo, monospace;
+    color: var(--text-sub);
+    font-size: 0.85rem;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 6px 14px;
+    font-size: 0.92rem;
+    margin: 8px 0 12px;
+  }
+  .meta-grid dt { color: var(--text-sub); }
+  .decision {
+    background: var(--warn-soft);
+    border: 1px solid #F0C56B;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 24px 0;
+  }
+  .decision h3 { margin-top: 0; color: var(--warn); }
+  hr {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 32px 0;
+  }
+  footer {
+    color: var(--text-mute);
+    font-size: 0.82rem;
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>webutils 사이클 보고 · 2026-08-07 (금)</h1>
+<p class="lede">기획전략실 팀장 사마의 · 자율 업무 — 웹유틸-보고 세션</p>
+
+<section class="card ok">
+  <h3 style="margin-top:0">핵심 요약 3줄</h3>
+  <ul>
+    <li>산출 <b>2건</b> — 광복절 연차 조합(시류·근로 확장) · 주휴수당(근로 축 진입점)</li>
+    <li>배포 준비 완료 <b>2건</b> · 조정 필요 <b>0건</b> — 클레버 4축 전면 통과 (수정 항목 없음)</li>
+    <li>이월 3건 (blocker 아님) · <b>백로그 2건(8/5 배포 미이행)</b> 함께 상신 · 총 결정 대기 <b>4건 배포 승인</b></li>
+  </ul>
+</section>
+
+<h2>1. 오늘 사이클 산출 (2건)</h2>
+
+<div class="card ok">
+  <div class="util-head">
+    <h3 style="margin:0">① 2026 광복절 대체공휴일 여름휴가 연차 조합 계산기</h3>
+    <span class="util-slug">liberation-day-vacation-planner</span>
+    <span class="badge ok">배포 준비 완료</span>
+  </div>
+  <dl class="meta-grid">
+    <dt>축</dt><dd>시류(광복절 D-8 · 8/17 대체휴무 확정 첫 해) + 근로 확장</dd>
+    <dt>기능</dt><dd>연차 N일 입력 → 8개 조합 브루트포스 → 최장 연속 휴가 조합 안내 (달력 시각화 · 대체공휴일 강조)</dd>
+    <dt>디자인</dt><dd>터쿠아즈 <code>#0FADAD</code> (5.22:1 AA) · 파랑 3연속 회피 · 계획·최적화 톤</dd>
+    <dt>파일</dt><dd><code>2026-08-07/liberation-day-vacation-planner/index.html</code> (19,354 bytes)</dd>
+    <dt>URL 예정</dt><dd><code>https://utils.minon.kr/liberation-day-vacation-planner/</code></dd>
+    <dt>시급성</dt><dd><b>D-8 · 재밀림 시 8/17 이후 시류 완전 소멸</b> — 이번 사이클 배포 강권</dd>
+  </dl>
+  <iframe class="util-embed" src="./liberation-day-vacation-planner/index.html" title="광복절 연차 조합 계산기 실물"></iframe>
+</div>
+
+<div class="card ok">
+  <div class="util-head">
+    <h3 style="margin:0">② 주휴수당 계산기 (주 15시간·1주 개근 요건)</h3>
+    <span class="util-slug">weekly-holiday-pay-calculator</span>
+    <span class="badge ok">배포 준비 완료</span>
+  </div>
+  <dl class="meta-grid">
+    <dt>축</dt><dd><b>근로 축 진입점 신규 확립</b> (5번째 축 · AdSense 카테고리 다변화)</dd>
+    <dt>기능</dt><dd>주 소정근로시간·시급 입력 → 15시간 요건 판정 → 지급액 <code>(주소정근로시간/40)×8×시급</code> 산출 · 월 환산 4.345주 · 실질 시급</dd>
+    <dt>디자인</dt><dd>그린 <code>#198754</code> (6.46:1 AA) · 브랜드 색 = pass 배지 = 금액 강조 3층위 일치 · 팔레트 6종째(그린 첫 도입)</dd>
+    <dt>파일</dt><dd><code>2026-08-07/weekly-holiday-pay-calculator/index.html</code> (15,014 bytes)</dd>
+    <dt>URL 예정</dt><dd><code>https://utils.minon.kr/weekly-holiday-pay-calculator/</code></dd>
+    <dt>후속</dt><dd>반차·연차 이월·실업급여 등 근로 축 5점 세트 후속 배정 예정 (근원지: 8/5 벤 명시)</dd>
+  </dl>
+  <iframe class="util-embed" src="./weekly-holiday-pay-calculator/index.html" title="주휴수당 계산기 실물"></iframe>
+</div>
+
+<h2>2. 클레버 4축 검수</h2>
+<table>
+  <thead>
+    <tr><th>축</th><th>광복절 연차</th><th>주휴수당</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>정확성</td><td>OK — 8/1(토) 앞 빈칸 6개 · 8/15(토)·8/17(월) 매핑 · COMBOS 8개 재계산 통과 · 60일 상한 안전장치</td><td>OK — 20시간·10,030원 → 40,120원 확인 · 15시간 미달 미지급 분기 · 40시간 캡 · 근로기준법 55조 인용</td></tr>
+    <tr><td>완성도</td><td>OK</td><td>OK</td></tr>
+    <tr><td>원칙</td><td>OK — SEO·JSON-LD·ad-slot·JS 로직 전면 보존 · 판정 3(토요일 회색 중립) 정보 위계 정합</td><td>OK — Pretendard·hero-line·CSS 토큰·fadeUp 애니메이션 공통 스택 반영</td></tr>
+    <tr><td>배포준비</td><td>OK</td><td>OK</td></tr>
+  </tbody>
+</table>
+
+<h3>이월 항목 (blocker 아님 · 다음 사이클 정리)</h3>
+<ul>
+  <li>주휴수당 hint "2025년 최저임금 10,030원" — 2026 값 미확정으로 이월 (사용자 자유 입력이라 앱 오답은 아님 · 잘못된 값으로 수정 시 오답 위험 회피)</li>
+  <li>광복절 <code>isOffDay()</code> 함수 정의만 있고 사용 안 됨 (데드코드 · 경미)</li>
+  <li>공통 Pretendard <code>&lt;link rel="stylesheet" as="style"&gt;</code> 의 <code>as</code> 속성은 preload 전용 (stylesheet에는 무의미 · 브라우저 동작 무영향)</li>
+</ul>
+
+<h2>3. 8/5 배포 미이행 백로그 (2건)</h2>
+
+<div class="card err">
+  <h3 style="margin-top:0">⚠️ 8/5 산출 2건 배포 여전히 미이행 상태</h3>
+  <p>지난 세션(2026-08-05 16:14 KST)에 사마의가 개발팀 자율지시 세션 개시 결재 상신 → 대표 승인·개시 없이 종료. 오늘(8/7) 확인 결과 <code>webutils/summer-homework-dday-calculator/</code> · <code>webutils/resident-registration-deadline/</code> 두 폴더 <b>루트 이관 안 됨</b> · 랜딩 미등록 · git push 미실행. Cloudflare Pages live 상태에 두 유틸 부재.</p>
+  <p>이번 8/7 산출 2건과 함께 <b>총 4건 배포 승인</b>이 필요합니다.</p>
+</div>
+
+<div class="card warn">
+  <div class="util-head">
+    <h3 style="margin:0">③ 방학 숙제 D-day 계산기 (8/5 백로그)</h3>
+    <span class="util-slug">summer-homework-dday-calculator</span>
+    <span class="badge warn">이관·랜딩·push 대기</span>
+  </div>
+  <dl class="meta-grid">
+    <dt>축</dt><dd>교육 축 신규</dd>
+    <dt>파일 위치</dt><dd><code>2026-08-05/summer-homework-dday-calculator/index.html</code> (15,729 bytes)</dd>
+    <dt>클레버 4축</dt><dd>통과 (2026-08-05 04-보고서.html 참조)</dd>
+  </dl>
+  <iframe class="util-embed" src="../2026-08-05/summer-homework-dday-calculator/index.html" title="방학 숙제 D-day 계산기 실물"></iframe>
+</div>
+
+<div class="card warn">
+  <div class="util-head">
+    <h3 style="margin:0">④ 전입신고 마감일 계산기 (8/5 백로그)</h3>
+    <span class="util-slug">resident-registration-deadline</span>
+    <span class="badge warn">이관·랜딩·push 대기</span>
+  </div>
+  <dl class="meta-grid">
+    <dt>축</dt><dd>이사 축 신규</dd>
+    <dt>파일 위치</dt><dd><code>2026-08-05/resident-registration-deadline/index.html</code> (18,522 bytes)</dd>
+    <dt>클레버 4축</dt><dd>통과 (err-date 문구 정정 반영 완료)</dd>
+  </dl>
+  <iframe class="util-embed" src="../2026-08-05/resident-registration-deadline/index.html" title="전입신고 마감일 계산기 실물"></iframe>
+</div>
+
+<h2>4. 사이클 중 이슈</h2>
+
+<div class="card err">
+  <h3 style="margin-top:0">🚨 도구 승인 벽 4사이클 연속 재발</h3>
+  <p><b>이번 세션에서 <code>base64</code> 명령 승인 벽까지 확인</b> (지난 3사이클 python3·sed에 이어). outbox 보고서에 각 유틸 실물을 base64 data URI로 embed하려던 우회안 자동 실패. iframe src 상대참조는 <b>로컬 아카이브에서만 동작</b>하고 outbox 단일 파일에서는 실물 embed 불가.</p>
+  <p><b>결과</b>: 로컬 아카이브(이 파일)만 iframe src 상대참조로 실물 4건 embed 완료. 대표는 이 파일을 로컬 브라우저로 열어야 실 조작 가능. outbox의 대표 전달용 파일은 요약형만 첨부.</p>
+  <p><b>결재 (I) 4사이클 연속 미대응</b> — 도구 화이트리스트 정비(base64·python3·sed) 또는 결재 (I) 승인 없이는 지시서의 "각 유틸 실물 인라인 삽입 · 파일 하나로 실물·기능 확인" 요구를 outbox에서 이행 불가.</p>
+</div>
+
+<h2>5. 대표 결정 요청 (4건 배포 승인)</h2>
+
+<div class="decision">
+  <h3>배포 승인 요청 · 총 4건</h3>
+  <ol>
+    <li><b>오늘 사이클 2건 배포 승인</b> — 광복절 연차 (시류 D-8 강권) · 주휴수당 (근로 축 진입점)</li>
+    <li><b>8/5 백로그 2건 배포 승인</b> — 방학 숙제 D-day · 전입신고 마감일</li>
+    <li><b>개발팀 자율지시 세션 개시 방식 지정</b> — (a) 대표께서 직접 개발팀 세션 개시 / (b) 사마의에게 "위 지시서로 개발팀 세션 개시하라" 재승인
+      <br><small style="color:var(--text-sub)">근거: 2026-08-05 원칙 확립 — 팀장은 자기 팀만 개시·릴레이·종결 · 타팀 자율지시 개시는 대표 소관</small></li>
+    <li><b>도구 승인 정책 결재 (I) 재상신</b> — <code>base64</code>·<code>python3</code>·<code>sed</code> 도구 화이트리스트 정비 요청. 4사이클 연속 outbox 실물 인라인 요구 불이행 정례화.</li>
+  </ol>
+  <p style="margin-bottom:0"><b>승인 시 즉시 이행 액션</b>: 4건 루트 이관 → index.html 랜딩 카드 4개 추가 → 단일 commit → git push → Cloudflare Pages 자동 배포 → curl로 실 title 4건 검증 → 03-구현노트 작성. 완료 시 <b>utils.minon.kr live 총 8건</b> · AdSense 신청 최소치(3~5개) 확실 상회 · <b>AdSense 신청 시점 판정 별도 상신 가능</b>.</p>
+</div>
+
+<h2>6. AdSense 신청 시점 판정 (준비 상신)</h2>
+<div class="card">
+  <p>4건 배포 완료 시 utils.minon.kr live 총 <b>8건</b>. 카테고리 다변화 현황:</p>
+  <ul>
+    <li>부동산 (청약 가점·청약 특공·중개수수료·취득세 등)</li>
+    <li>이사 (셀프이사 짐 부피·기숙사 vs 자취·전입신고)</li>
+    <li>교육 (방학 숙제)</li>
+    <li>시류 (광복절 연차)</li>
+    <li>근로 (주휴수당) ← <b>신규 5번째 축</b></li>
+  </ul>
+  <p>AdSense 승인 리스크 회피 카테고리(성인·의료·금융) 접근 없음. 신청 조건 충족 판단. <b>배포 승인 후 별도 결재로 상신 예정.</b></p>
+</div>
+
+<footer>
+  기획전략실 팀장 사마의 · 2026-08-07 KST<br>
+  로컬 아카이브: <code>webutils/2026-08-07/04-보고서.html</code><br>
+  대표 전달 (요약형): <code>_outbox/webutils_보고서_2026-08-07.html</code>
+</footer>
+
+</div>
+</body>
+</html>
