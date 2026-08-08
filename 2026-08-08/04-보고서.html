@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>웹유틸 2026-08-08 사이클 보고서 (기획전략실 · 사마의)</title>
+<style>
+  :root {
+    --bg: #F7F8FA; --surface: #FFFFFF; --border: #E4E7EC;
+    --ink: #1A2332; --ink-mute: #5A6472; --accent: #2D4A6B;
+    --warn: #B8410E; --warn-bg: #FCEEE8; --warn-border: #F0BFA8;
+    --ok: #1F7A4F; --ok-bg: #E7F4EC;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, 'Pretendard', BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.6; padding: 1.5rem;
+  }
+  main { max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--ink-mute); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  h2 { font-size: 1.15rem; color: var(--accent); margin: 1.75rem 0 0.75rem; padding-bottom: 0.35rem; border-bottom: 2px solid var(--border); }
+  h3 { font-size: 1rem; margin: 1rem 0 0.5rem; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
+  .warn { background: var(--warn-bg); border-color: var(--warn-border); color: var(--warn); }
+  .ok { background: var(--ok-bg); border-color: #B8D9C4; color: var(--ok); }
+  .summary { background: #EDF1F7; border-left: 4px solid var(--accent); padding: 0.9rem 1.1rem; margin-bottom: 1.5rem; border-radius: 4px; }
+  .summary strong { color: var(--accent); }
+  ul, ol { padding-left: 1.3rem; margin: 0.4rem 0 0.6rem; }
+  li { margin-bottom: 0.25rem; font-size: 0.95rem; }
+  table { width: 100%; border-collapse: collapse; margin: 0.5rem 0 1rem; font-size: 0.9rem; }
+  th, td { border: 1px solid var(--border); padding: 0.5rem 0.65rem; text-align: left; }
+  th { background: #EDF1F7; font-weight: 600; }
+  code { background: #F0F2F5; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.85em; }
+  .tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 3px; font-size: 0.75rem; font-weight: 600; margin-right: 0.4rem; }
+  .tag-warn { background: var(--warn); color: white; }
+  .tag-ok { background: var(--ok); color: white; }
+  .tag-neutral { background: var(--ink-mute); color: white; }
+  footer { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--ink-mute); font-size: 0.85rem; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <h1>웹유틸 2026-08-08 사이클 보고서</h1>
+  <p class="subtitle">기획전략실 · 사마의 · 2026-08-08 07:30 KST</p>
+
+  <div class="summary">
+    <strong>핵심 요약 3줄</strong>
+    <ol>
+      <li><strong>오늘 구현·배포 산출 0건</strong> — 토요일은 원칙 사이클(월·수·금) 밖 · 수집 세션만 실행됨 · 확정 2건(추석 D-day·야근수당)은 <strong>8/17 이후 배포 예정</strong></li>
+      <li><strong>어제(8/7) 자율지시 3건 실질 미실행</strong> — 18시간 경과 · 각 팀 방 개시 트리거 미지정 · ads.txt·광고배치원칙·GSC진단 모두 파일 없음</li>
+      <li><strong>AdSense 킬 스위치 D-27 (9/4 만료)</strong> · ads.txt 미배치 정책 리스크 · 최근 배포 8건 광고 스크립트 미삽입 = 광고 로드 0 · <strong>실행 트리거 결단 시급</strong></li>
+    </ol>
+  </div>
+
+  <h2>1. 오늘 사이클 실행 상황</h2>
+
+  <div class="card">
+    <p><span class="tag tag-ok">완료</span> <strong>웹유틸-수집</strong> 세션 — 해리(사원) 초안 15건 · 벤(대리) 판정 완료</p>
+    <p><span class="tag tag-neutral">미실행</span> 웹유틸-SEO스코어 / 웹유틸-디자인 / 웹유틸-구현배포 — <strong>토요일은 사이클 밖 · 원칙 정합</strong></p>
+    <p style="color: var(--ink-mute); font-size: 0.88rem; margin-top: 0.5rem;">수집 세션은 8/17 이후 배포용 신규 발굴 목적 · 오늘 즉시 구현·배포 대상 아님</p>
+  </div>
+
+  <h2>2. 수집 확정 2건 (미래 배포용)</h2>
+
+  <table>
+    <thead>
+      <tr><th>#</th><th>유틸명 (슬러그 예정)</th><th>배포 예정</th><th>배정 축</th><th>확정 근거</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>2026 추석 D-day 카운터 (<code>chuseok-dday-2026</code>)</td>
+        <td>8/17~19</td>
+        <td>시류 (명절 D-48)</td>
+        <td>광복절 D-day 스킴 재활용 · 시류 절정 9/25 매치 · 경쟁 2/5</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>야근수당 계산기 (<code>night-work-pay-calculator</code>)</td>
+        <td>8/20~22</td>
+        <td>근로 (6번째 진입점)</td>
+        <td>8/10 주휴수당 편승 세트 검색 흡수 · 지식iN 미해결 다수</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="color: var(--ink-mute); font-size: 0.88rem;">벤 판정 근거: 심사 대기 중(D-27) 트래픽 계측 확실성 우선 · 축 다변화는 심사 통과 후 여러 사이클로 여유. 상세: <code>webutils/2026-08-08/00-유틸후보.md</code></p>
+
+  <h2>3. 배정 확정 로드맵 (수집 결과 반영)</h2>
+  <ul>
+    <li><strong>8/10 (월)</strong>: 2 최저임금 · 3 도시가스 · 15 주휴수당 (8/7 사이클 배정)</li>
+    <li><strong>8/12·14 (수·금)</strong>: 6+7 하자보수·층간소음 (부동산 사후관리 축)</li>
+    <li><strong>8/17~19</strong>: 1 추석 D-day (시류 절정 진입)</li>
+    <li><strong>8/20~22</strong>: 3 야근수당 (근로 축 강화)</li>
+    <li><strong>심사 통과 후 조건부 대기</strong>: 5 개강예산 · 14 개학학용품 · 13 수강신청 · 12 청년도약(금융 재확인)</li>
+  </ul>
+
+  <h2 style="color: var(--warn);">4. ⚠ 지연 사안 — 어제(8/7) 자율지시 3건 미실행</h2>
+
+  <div class="card warn">
+    <p><strong>발행 시점</strong>: 2026-08-07 13:40 KST (사마의 · 대표 "니가 내려" 명시 위임)</p>
+    <p><strong>경과</strong>: 18시간 · 각 팀 방 개시 트리거 미지정 · 실질 실행 0건</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>#</th><th>자율지시</th><th>산출물 예정</th><th>현재 상태</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>웹유틸-광고슬롯-디자인</td>
+        <td><code>2026-08-07/광고배치원칙.md</code></td>
+        <td><span class="tag tag-warn">파일 없음</span></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>웹유틸-GSC색인-마케팅</td>
+        <td><code>2026-08-07/GSC-색인진단.md</code></td>
+        <td><span class="tag tag-warn">파일 없음</span></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>웹유틸-광고배치-개발</td>
+        <td><code>ads.txt</code> + 8건 유틸 스크립트 삽입</td>
+        <td><span class="tag tag-warn">파일 없음 · 스크립트 0/8</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="color: var(--warn); font-size: 0.92rem; margin-top: 0.5rem;">
+    ⚠ 원인 진단: 각 팀 방 개시 방식(자율 크론 대기 vs 대표 직접 개시 vs 사마의 실행 대행) 대표 결정 미확정 상태에서 마커만 발행 · 실행 트리거 부재
+  </p>
+
+  <h2 style="color: var(--warn);">5. ⚠ AdSense 킬 스위치 카운트다운</h2>
+
+  <div class="card warn">
+    <p><strong>D-day</strong>: 2026-09-04 (오늘 D-27)</p>
+    <p><strong>킬 스위치 조건</strong> (CLAUDE.md §1): 4주 후 AdSense 승인 실패 or 월 PV < 1,000</p>
+    <p><strong>현재 리스크</strong>:</p>
+    <ul>
+      <li>승인은 완료(8/7 대표 통보). 다만 <strong>ads.txt 미배치 = 정책 경고 잠재</strong></li>
+      <li>최근 배포 8건 유틸 <strong>광고 스크립트 미삽입 = 광고 로드 0 = 수익 0</strong> · 승인 통과 후에도 실질 수익화 미개시</li>
+      <li>GSC 색인 미진단 · 미색인 페이지에는 광고 노출 트래픽 자체 없음</li>
+      <li>월 PV 계측 시작 못함 상태로 D-27 지나가면 킬 스위치 리스크</li>
+    </ul>
+  </div>
+
+  <h2>6. 대표 결정 요청 (배포 승인 없음 · 트리거 결단만 요청)</h2>
+
+  <div class="card">
+    <p><strong>오늘 배포 대상: 없음</strong> — 구현·배포 산출 0건 · 배포 승인 불필요</p>
+  </div>
+
+  <div class="card">
+    <p><strong>대신 다음 결단 시급</strong>:</p>
+    <ol>
+      <li><strong>어제 자율지시 3건 실행 트리거 지정</strong>
+        <ul>
+          <li>A. 8/10 월요일 자율 크론 대기 (2일 지연 · AdSense 리스크 지속)</li>
+          <li>B. 대표가 지금 각 팀 방 순차 개시 지시 (즉시 · 원칙 정합)</li>
+          <li>C. 사마의에게 실행 대행 위임 (즉시 · 원칙 예외 · 8/7 위임 확장)</li>
+          <li><strong>사마의 권고: B (혹은 최소 3번 ads.txt만 C 예외)</strong></li>
+        </ul>
+      </li>
+      <li><strong>Bot Fight Mode OFF 유지 통보 승인</strong> (사마의 판단 완료 · 형식적 결재)</li>
+      <li><strong>수집 확정 2건 배정 재확인</strong> (추석 D-day 8/17~19 · 야근수당 8/20~22)</li>
+    </ol>
+  </div>
+
+  <h2>7. 이슈 · 지속 사안</h2>
+  <ul>
+    <li><strong>도구 승인 (I) 5사이클 미대응</strong> (8/1·8/3·8/5·8/7 + 오늘 8/8) — 이번 보고서는 순수 HTML로 실물 인라인 없음 · 관련 도구(python3·sed·base64) 이슈 재발 없음 · 다만 원칙 정비는 지속 필요</li>
+    <li><strong>사마의 역할 원칙 확정</strong> (8/7 확정) — 자율지시 발행자 · 실행 대행 안 함 · 실행 주체는 각 팀 팀장. 각 팀 방 개시 트리거 원칙 명시 필요(이번 D-27 리스크의 근본 원인)</li>
+  </ul>
+
+  <footer>
+    <p>webutils 2026-08-08 사이클 보고서 · 기획전략실 팀장 사마의 단독 · AdSense D-27</p>
+    <p>로컬 아카이브: webutils/2026-08-08/04-보고서.html</p>
+  </footer>
+</main>
+</body>
+</html>
