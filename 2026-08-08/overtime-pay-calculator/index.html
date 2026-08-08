@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>야근수당 계산기 – 연장·야간·휴일근로 통합 계산 (2026)</title>
+  <meta name="description" content="야근수당(연장근로·야간근로·휴일근로) 계산기. 근로기준법 56조 기준 2026 최저임금 반영. 시급 또는 월급으로 수당을 계산하세요.">
+  <meta property="og:title" content="야근수당 계산기 – 연장·야간·휴일근로 통합">
+  <meta property="og:description" content="야근수당 얼마? 연장·야간·휴일근로 수당을 근로기준법 기준으로 계산하세요.">
+  <meta property="og:type" content="website">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "야근수당 계산기",
+    "description": "연장근로·야간근로·휴일근로 수당 통합 계산기 (근로기준법 56조 기준)",
+    "applicationCategory": "UtilityApplication",
+    "inLanguage": "ko"
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #fafafa;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 1rem 1.25rem;
+    }
+    header h1 { font-size: 1.1rem; font-weight: 700; }
+    main {
+      flex: 1;
+      padding: 1.5rem 1.25rem;
+      max-width: 560px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .section-card {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .section-card h2 { font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; }
+    .wage-mode { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+    .wage-mode button {
+      flex: 1;
+      padding: 0.55rem;
+      border: 1px solid #d0d0d0;
+      background: #f5f5f5;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      color: #555;
+      font-weight: 500;
+    }
+    .wage-mode button.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+    .form-row { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.875rem; }
+    label { font-size: 0.85rem; font-weight: 600; color: #333; }
+    .label-desc { font-size: 0.775rem; color: #888; font-weight: 400; }
+    .input-with-unit { position: relative; }
+    .input-with-unit input { width: 100%; padding: 0.65rem 3rem 0.65rem 0.875rem; border: 1px solid #d0d0d0; border-radius: 8px; font-size: 1rem; color: #1a1a1a; background: #fafafa; -moz-appearance: textfield; }
+    .input-with-unit input::-webkit-outer-spin-button,
+    .input-with-unit input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .input-with-unit input:focus { outline: none; border-color: #1a1a1a; background: #fff; }
+    .input-unit { position: absolute; right: 0.875rem; top: 50%; transform: translateY(-50%); font-size: 0.85rem; color: #888; pointer-events: none; }
+    .derived-value { font-size: 0.825rem; color: #555; background: #f5f5f5; border-radius: 6px; padding: 0.4rem 0.75rem; margin-top: 0.25rem; display: none; }
+    .overtime-group { border: 1px solid #eee; border-radius: 10px; padding: 1rem; margin-bottom: 0.75rem; }
+    .overtime-group h3 { font-size: 0.875rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
+    .rate-badge { font-size: 0.7rem; background: #f0f0f0; color: #555; padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 600; }
+    .rate-badge.ext { background: #fff0e0; color: #b35900; }
+    .rate-badge.ngt { background: #e8eeff; color: #2244b3; }
+    .rate-badge.hol { background: #f0ffe8; color: #2d7a1a; }
+    .hint { font-size: 0.775rem; color: #888; margin-top: 0.375rem; line-height: 1.5; }
+    .calc-btn { width: 100%; padding: 0.85rem; background: #1a1a1a; color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-bottom: 1rem; }
+    .calc-btn:hover { background: #333; }
+    .result-card { background: #fff; border: 2px solid #1a1a1a; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; display: none; }
+    .result-card.visible { display: block; }
+    .result-card h2 { font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; }
+    .result-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; }
+    .result-row:last-child { border-bottom: none; }
+    .result-label { color: #555; }
+    .result-value { font-weight: 700; }
+    .result-value.zero { color: #bbb; font-weight: 400; }
+    .result-total { display: flex; justify-content: space-between; align-items: baseline; padding: 0.875rem 0 0; margin-top: 0.5rem; border-top: 2px solid #1a1a1a; }
+    .result-total-label { font-size: 0.95rem; font-weight: 700; }
+    .result-total-value { font-size: 1.5rem; font-weight: 800; color: #e8540a; }
+    .result-note { font-size: 0.775rem; color: #888; margin-top: 0.75rem; line-height: 1.55; }
+    .law-card { background: #f8f8f8; border-radius: 10px; padding: 1.125rem 1.25rem; margin-bottom: 1rem; }
+    .law-card h2 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .law-table { width: 100%; border-collapse: collapse; font-size: 0.825rem; }
+    .law-table th { text-align: left; padding: 0.35rem 0.5rem; color: #666; font-weight: 600; border-bottom: 1px solid #e0e0e0; }
+    .law-table td { padding: 0.4rem 0.5rem; border-bottom: 1px solid #f0f0f0; color: #333; }
+    .law-table tr:last-child td { border-bottom: none; }
+    .error-msg { color: #cc2200; font-size: 0.825rem; margin-bottom: 0.5rem; display: none; }
+    #ad-slot { background: #f0f0f0; border-radius: 8px; min-height: 90px; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 0.75rem; margin-bottom: 1rem; }
+    footer { background: #fff; border-top: 1px solid #e5e5e5; padding: 1.25rem; text-align: center; font-size: 0.8rem; color: #999; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌙 야근수당 계산기</h1>
+  </header>
+  <main>
+    <div class="section-card">
+      <h2>① 시급 입력</h2>
+      <div class="wage-mode">
+        <button id="btn-hourly" class="active" onclick="setMode('hourly')">시급으로 입력</button>
+        <button id="btn-monthly" onclick="setMode('monthly')">월급으로 환산</button>
+      </div>
+      <div id="section-hourly">
+        <div class="form-row">
+          <label for="hourly">시급 <span class="label-desc">(원/시간)</span></label>
+          <div class="input-with-unit">
+            <input type="number" id="hourly" placeholder="10030" min="0" inputmode="numeric">
+            <span class="input-unit">원</span>
+          </div>
+          <span class="hint">2026년 최저시급 10,030원</span>
+        </div>
+      </div>
+      <div id="section-monthly" style="display:none">
+        <div class="form-row">
+          <label for="monthly">월급 <span class="label-desc">(세전)</span></label>
+          <div class="input-with-unit">
+            <input type="number" id="monthly" placeholder="2500000" min="0" inputmode="numeric" oninput="calcHourly()">
+            <span class="input-unit">원</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="weekly-hours">주 소정근로시간 <span class="label-desc">(보통 40시간)</span></label>
+          <div class="input-with-unit">
+            <input type="number" id="weekly-hours" value="40" min="1" max="52" inputmode="numeric" oninput="calcHourly()">
+            <span class="input-unit">시간</span>
+          </div>
+        </div>
+        <div id="derived-hourly" class="derived-value"></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2>② 근로 유형별 시간 입력</h2>
+      <div class="overtime-group">
+        <h3>연장근로 <span class="rate-badge ext">×1.5배</span></h3>
+        <div class="form-row">
+          <label for="ext-hours">연장근로 시간 <span class="label-desc">(소정근로시간 초과분)</span></label>
+          <div class="input-with-unit">
+            <input type="number" id="ext-hours" placeholder="0" min="0" max="100" step="0.5" inputmode="decimal">
+            <span class="input-unit">시간</span>
+          </div>
+        </div>
+        <p class="hint">정규 근무시간 초과 시 해당 · 주 최대 52시간(기본 40+연장 12)</p>
+      </div>
+      <div class="overtime-group">
+        <h3>야간근로 <span class="rate-badge ngt">+0.5배 가산</span></h3>
+        <div class="form-row">
+          <label for="ngt-hours">야간 시간 <span class="label-desc">(22:00~06:00 해당 시간)</span></label>
+          <div class="input-with-unit">
+            <input type="number" id="ngt-hours" placeholder="0" min="0" max="8" step="0.5" inputmode="decimal">
+            <span class="input-unit">시간</span>
+          </div>
+        </div>
+        <p class="hint">기본급 위에 가산분(+50%)만 계산 · 연장+야간 중복 시 각각 합산</p>
+      </div>
+      <div class="overtime-group">
+        <h3>휴일근로 <span class="rate-badge hol">8h↓ ×1.5 / 8h↑ ×2.0</span></h3>
+        <div class="form-row">
+          <label for="hol-hours">휴일 근무 시간 <span class="label-desc">(법정공휴일·주휴일)</span></label>
+          <div class="input-with-unit">
+            <input type="number" id="hol-hours" placeholder="0" min="0" max="24" step="0.5" inputmode="decimal">
+            <span class="input-unit">시간</span>
+          </div>
+        </div>
+        <p class="hint">8시간 이내 통상임금 ×1.5 / 8시간 초과분 ×2.0</p>
+      </div>
+    </div>
+
+    <div class="error-msg" id="error-msg"></div>
+    <button class="calc-btn" onclick="calculate()">수당 계산하기</button>
+
+    <div class="result-card" id="result-card">
+      <h2>📋 계산 결과</h2>
+      <div class="result-row">
+        <span class="result-label">적용 시급</span>
+        <span class="result-value" id="r-hourly">-</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">연장근로수당</span>
+        <span class="result-value" id="r-ext">-</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">야간근로 가산수당</span>
+        <span class="result-value" id="r-ngt">-</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">휴일근로수당</span>
+        <span class="result-value" id="r-hol">-</span>
+      </div>
+      <div class="result-total">
+        <span class="result-total-label">총 추가 수당</span>
+        <span class="result-total-value" id="r-total">-</span>
+      </div>
+      <p class="result-note" id="r-note"></p>
+    </div>
+
+    <div class="law-card">
+      <h2>⚖️ 근로기준법 56조 가산 기준</h2>
+      <table class="law-table">
+        <thead><tr><th>구분</th><th>기준</th><th>가산율</th></tr></thead>
+        <tbody>
+          <tr><td>연장근로</td><td>소정근로 초과</td><td>통상임금 ×1.5</td></tr>
+          <tr><td>야간근로</td><td>22:00~06:00</td><td>+0.5 가산</td></tr>
+          <tr><td>휴일근로 8h↓</td><td>법정공휴일·주휴일</td><td>통상임금 ×1.5</td></tr>
+          <tr><td>휴일근로 8h↑</td><td>8시간 초과분</td><td>통상임금 ×2.0</td></tr>
+          <tr><td>연장+야간 중복</td><td>—</td><td>×1.5+0.5=×2.0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="ad-slot">광고 영역</div>
+  </main>
+  <footer>
+    <p>근로기준법 56조 기준 · 2026년 최저시급 10,030원 반영<br>
+    실제 수령액은 취업규칙·단체협약에 따라 달라질 수 있습니다 · 법적 효력 없음</p>
+  </footer>
+
+  <script>
+    let mode = 'hourly';
+
+    function setMode(m) {
+      mode = m;
+      document.getElementById('section-hourly').style.display = m === 'hourly' ? '' : 'none';
+      document.getElementById('section-monthly').style.display = m === 'monthly' ? '' : 'none';
+      document.getElementById('btn-hourly').classList.toggle('active', m === 'hourly');
+      document.getElementById('btn-monthly').classList.toggle('active', m === 'monthly');
+      if (m === 'monthly') calcHourly();
+    }
+
+    function calcHourly() {
+      const monthly = parseFloat(document.getElementById('monthly').value) || 0;
+      const wh = parseFloat(document.getElementById('weekly-hours').value) || 40;
+      const el = document.getElementById('derived-hourly');
+      if (!monthly) { el.style.display = 'none'; return; }
+      const monthlyHours = (wh + (wh >= 15 ? 8 : 0)) * 52 / 12;
+      el.style.display = '';
+      el.textContent = '시급 환산: 약 ' + Math.round(monthly / monthlyHours).toLocaleString('ko-KR') + '원 (월 ' + Math.round(monthlyHours) + '시간 기준)';
+    }
+
+    function getHourly() {
+      if (mode === 'hourly') return parseFloat(document.getElementById('hourly').value) || 0;
+      const monthly = parseFloat(document.getElementById('monthly').value) || 0;
+      const wh = parseFloat(document.getElementById('weekly-hours').value) || 40;
+      const monthlyHours = (wh + (wh >= 15 ? 8 : 0)) * 52 / 12;
+      return monthly / monthlyHours;
+    }
+
+    function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
+
+    function showError(msg) {
+      const el = document.getElementById('error-msg');
+      el.textContent = msg;
+      el.style.display = msg ? 'block' : 'none';
+    }
+
+    function setResult(id, value, skip) {
+      const el = document.getElementById(id);
+      if (skip || value === 0) { el.textContent = '-'; el.className = 'result-value zero'; }
+      else { el.textContent = fmt(value) + '원'; el.className = 'result-value'; }
+    }
+
+    function calculate() {
+      showError('');
+      const hourly = getHourly();
+      if (!hourly || hourly <= 0) { showError('시급(또는 월급)을 입력해 주세요.'); return; }
+
+      const extH = parseFloat(document.getElementById('ext-hours').value) || 0;
+      const ngtH = parseFloat(document.getElementById('ngt-hours').value) || 0;
+      const holH = parseFloat(document.getElementById('hol-hours').value) || 0;
+      if (extH === 0 && ngtH === 0 && holH === 0) { showError('근로 시간을 하나 이상 입력해 주세요.'); return; }
+
+      const extPay = hourly * 1.5 * extH;
+      const ngtPay = hourly * 0.5 * ngtH;
+      const holPay = hourly * 1.5 * Math.min(8, holH) + hourly * 2.0 * Math.max(0, holH - 8);
+      const total = extPay + ngtPay + holPay;
+
+      document.getElementById('r-hourly').textContent = fmt(Math.round(hourly)) + '원';
+      setResult('r-ext', extPay, extH === 0);
+      setResult('r-ngt', ngtPay, ngtH === 0);
+      setResult('r-hol', holPay, holH === 0);
+      document.getElementById('r-total').textContent = fmt(total) + '원';
+
+      let note = '';
+      if (ngtH > 0 && extH > 0) note = '연장+야간 중복 시간은 각각 합산 적용됩니다. ';
+      note += '세금(소득세·4대보험) 공제 전 금액입니다.';
+      document.getElementById('r-note').textContent = note;
+      document.getElementById('result-card').classList.add('visible');
+    }
+  </script>
+</body>
+</html>
