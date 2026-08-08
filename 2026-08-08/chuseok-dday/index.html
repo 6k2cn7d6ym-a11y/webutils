@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 추석 D-day 카운터 – 추석까지 며칠 남았을까?</title>
+  <meta name="description" content="2026년 추석(9월 25일)까지 남은 날짜를 실시간으로 확인하세요. 추석 연휴 9/24~9/28 대체공휴일 포함 5일 연속.">
+  <meta property="og:title" content="2026 추석 D-day 카운터">
+  <meta property="og:description" content="추석까지 며칠 남았나요? 2026년 추석 D-day 실시간 카운트다운.">
+  <meta property="og:type" content="website">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "2026 추석 D-day 카운터",
+    "description": "2026년 추석까지 남은 날짜를 실시간으로 확인하는 카운트다운",
+    "applicationCategory": "UtilityApplication",
+    "inLanguage": "ko"
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #fafafa;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 1rem 1.25rem;
+    }
+    header h1 { font-size: 1.1rem; font-weight: 700; }
+    main {
+      flex: 1;
+      padding: 2rem 1.25rem;
+      max-width: 540px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .hero {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+    .dday-label { font-size: 0.875rem; color: #666; margin-bottom: 0.5rem; }
+    .dday-number {
+      font-size: 5rem;
+      font-weight: 800;
+      line-height: 1;
+      color: #e8540a;
+      letter-spacing: -2px;
+      margin-bottom: 0.25rem;
+    }
+    .dday-unit { font-size: 1.125rem; color: #444; margin-bottom: 1.5rem; }
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .countdown-item {
+      background: #f5f5f5;
+      border-radius: 8px;
+      padding: 0.75rem 0.25rem;
+    }
+    .countdown-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      display: block;
+    }
+    .countdown-label { font-size: 0.7rem; color: #888; }
+    .date-badge {
+      display: inline-block;
+      background: #fff3ec;
+      border: 1px solid #f9c5a0;
+      color: #c44b00;
+      border-radius: 6px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .info-card {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .info-card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+    .holiday-list { list-style: none; }
+    .holiday-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 0.9rem;
+    }
+    .holiday-list li:last-child { border-bottom: none; }
+    .holiday-date { color: #444; }
+    .holiday-name { font-weight: 600; }
+    .holiday-tag {
+      font-size: 0.7rem;
+      background: #f0f0f0;
+      color: #666;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+    }
+    .holiday-tag.main { background: #fff3ec; color: #c44b00; }
+    .holiday-tag.alt { background: #e8f4f0; color: #2d7a5c; }
+    .tip-card {
+      background: #f8f8f8;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .tip-card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .tip-card p { font-size: 0.875rem; color: #555; line-height: 1.6; }
+    #ad-slot {
+      background: #f0f0f0;
+      border-radius: 8px;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+      font-size: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    footer {
+      background: #fff;
+      border-top: 1px solid #e5e5e5;
+      padding: 1.25rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #999;
+    }
+    .today-msg { font-size: 2rem; font-weight: 800; color: #e8540a; }
+    @media (max-width: 360px) {
+      .dday-number { font-size: 4rem; }
+      .countdown-value { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌕 2026 추석 D-day</h1>
+  </header>
+  <main>
+    <div class="hero">
+      <p class="dday-label">2026년 추석(9월 25일)까지</p>
+      <div id="dday-display"></div>
+      <div class="countdown-grid" id="countdown-grid"></div>
+      <span class="date-badge">추석 당일: 2026년 9월 25일(금)</span>
+    </div>
+
+    <div class="info-card">
+      <h2>📅 2026 추석 연휴 일정</h2>
+      <ul class="holiday-list">
+        <li>
+          <span class="holiday-date">9월 24일(목)</span>
+          <span class="holiday-name">추석 연휴 첫날</span>
+          <span class="holiday-tag">법정공휴일</span>
+        </li>
+        <li>
+          <span class="holiday-date">9월 25일(금)</span>
+          <span class="holiday-name">추석 당일</span>
+          <span class="holiday-tag main">추석</span>
+        </li>
+        <li>
+          <span class="holiday-date">9월 26일(토)</span>
+          <span class="holiday-name">추석 연휴</span>
+          <span class="holiday-tag">법정공휴일</span>
+        </li>
+        <li>
+          <span class="holiday-date">9월 27일(일)</span>
+          <span class="holiday-name">일요일</span>
+          <span class="holiday-tag">주말</span>
+        </li>
+        <li>
+          <span class="holiday-date">9월 28일(월)</span>
+          <span class="holiday-name">대체공휴일</span>
+          <span class="holiday-tag alt">대체</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tip-card">
+      <h2>💡 연차 조합 팁</h2>
+      <p>9/24(목)~9/28(월) 기본 5일 연휴입니다. 9/22(화)·9/23(수) 이틀만 연차를 사용하면 <strong>9/19(토)부터 9/28(월)까지 10일 연속</strong> 황금연휴를 만들 수 있습니다.</p>
+    </div>
+
+    <div id="ad-slot">광고 영역</div>
+  </main>
+  <footer>
+    <p>날짜 정보는 한국 표준시(KST) 기준입니다 · 대체공휴일은 관공서 공휴일 규정에 따름</p>
+  </footer>
+
+  <script>
+    const TARGET = new Date('2026-09-25T00:00:00+09:00');
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function render() {
+      const now = new Date();
+      const diffMs = TARGET - now;
+      const ddayEl = document.getElementById('dday-display');
+      const gridEl = document.getElementById('countdown-grid');
+
+      if (diffMs < 0) {
+        const daysPast = Math.floor(-diffMs / (1000 * 60 * 60 * 24));
+        ddayEl.innerHTML = '<p class="dday-label">추석이 지났습니다</p><p class="dday-number" style="color:#888">D+' + daysPast + '</p>';
+        gridEl.innerHTML = '';
+        return;
+      }
+
+      const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+      if (days === 0 && hours === 0 && mins < 1) {
+        ddayEl.innerHTML = '<p class="today-msg">🎑 오늘이 추석!</p>';
+        gridEl.innerHTML = '';
+        return;
+      }
+
+      ddayEl.innerHTML =
+        '<p class="dday-label">추석까지</p>' +
+        '<p class="dday-number">D-' + days + '</p>' +
+        '<p class="dday-unit">일 남음</p>';
+
+      gridEl.innerHTML =
+        '<div class="countdown-item"><span class="countdown-value">' + days + '</span><span class="countdown-label">일</span></div>' +
+        '<div class="countdown-item"><span class="countdown-value">' + pad(hours) + '</span><span class="countdown-label">시간</span></div>' +
+        '<div class="countdown-item"><span class="countdown-value">' + pad(mins) + '</span><span class="countdown-label">분</span></div>' +
+        '<div class="countdown-item"><span class="countdown-value">' + pad(secs) + '</span><span class="countdown-label">초</span></div>';
+    }
+
+    render();
+    setInterval(render, 1000);
+  </script>
+</body>
+</html>
