@@ -12,17 +12,26 @@
 - Cloudflare Pages 배포 후 sitemap.xml 현행 상태 확인 (없으면 개발팀 결재 상신)
 - Google Search Console(GSC)에서 `https://utils.minon.kr/sitemap.xml` 재제출
 
-### 2. 16건 유틸 색인 상태 전수 진단
-- GSC "색인 > 페이지" 리포트에서 다음 16건 상태 확인:
-  - funeral-condolence-calculator · acquisition-tax-calculator · ac-electricity-calculator · studio-electricity-calculator · real-estate-commission-calculator · color-picker · national-housing-bond-calculator · property-tax-calculator
-  - apartment-subscription-score · apartment-subscription-special · moving-truck-size-calculator · dorm-vs-rent-calculator
-  - resident-registration-deadline · summer-homework-dday-calculator · liberation-day-vacation-planner · weekly-holiday-pay-calculator
+### 2. 색인 대상 전수 진단 (18개 URL)
+- GSC "색인 > 페이지" 리포트에서 다음 URL 상태 확인:
+  - **메인 (2건 · 신규 추가 · 대표 지시 2026-08-08)**:
+    - `https://minon.kr/` (회사 메인 · 별도 GSC 속성 등록 필요 여부 진단)
+    - `https://utils.minon.kr/` (webutils 랜딩)
+  - **유틸 16건**:
+    - funeral-condolence-calculator · acquisition-tax-calculator · ac-electricity-calculator · studio-electricity-calculator · real-estate-commission-calculator · color-picker · national-housing-bond-calculator · property-tax-calculator
+    - apartment-subscription-score · apartment-subscription-special · moving-truck-size-calculator · dorm-vs-rent-calculator
+    - resident-registration-deadline · summer-homework-dday-calculator · liberation-day-vacation-planner · weekly-holiday-pay-calculator
 - 상태 분류: 색인됨 · 색인 요청 대기 · 발견됨(색인 안 됨) · 색인되지 않음
 - 미색인 사유 파악 (robots.txt·noindex·canonical 문제·중복 콘텐츠 등)
+- **minon.kr는 별개 도메인 · GSC 속성 미등록 시 등록부터 진행 (Cloudflare DNS TXT 인증 · 개발팀 결재 상신)**
 
 ### 3. 미색인·색인 지연 페이지 개별 색인 요청
-- GSC "URL 검사" 도구에서 개별 페이지 색인 요청 (16건 각 URL)
-- 시류 유틸(liberation-day-vacation-planner · 8/17 이후 소멸) 우선 처리
+- GSC "URL 검사" 도구에서 개별 페이지 색인 요청 (18건 각 URL)
+- **우선순위**:
+  1. minon.kr 메인 (회사 브랜드 앵커 · 대표 지시)
+  2. utils.minon.kr 랜딩 (허브 · 내부링크 앵커)
+  3. 시류 유틸(liberation-day-vacation-planner · 8/17 이후 소멸) 우선
+  4. 나머지 유틸 15건
 
 ### 4. robots.txt 상태 확인
 - `https://utils.minon.kr/robots.txt` 200 응답 확인 (없으면 개발팀 결재 상신)
@@ -30,7 +39,8 @@
 
 ### 5. 산출물 저장
 - `webutils/2026-08-07/GSC-색인진단.md`
-- 16건 색인 상태 표 + 재제출·색인 요청 결과 + robots·sitemap 정합 진단
+- 18건(minon.kr·utils.minon.kr·유틸16) 색인 상태 표 + 재제출·색인 요청 결과 + robots·sitemap 정합 진단
+- minon.kr GSC 속성 등록 상태(등록됨/신규등록/개발팀상신) 명시
 
 ## 세션 종료 마커 (팀장 제니)
-- 완료: `[[기록: 완료 | GSC sitemap 재제출 · 16건 색인 상태 전수 진단 · 미색인 N건 색인 요청 · robots·sitemap 정합 확인]]` → `[[자율종결]]`
+- 완료: `[[기록: 완료 | GSC sitemap 재제출 · 18건(minon.kr·utils랜딩·유틸16) 색인 상태 전수 진단 · 미색인 N건 색인 요청 · robots·sitemap 정합 확인]]` → `[[자율종결]]`
