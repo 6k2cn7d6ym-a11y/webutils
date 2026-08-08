@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /2026-*/
+
+Sitemap: https://utils.minon.kr/sitemap.xml
