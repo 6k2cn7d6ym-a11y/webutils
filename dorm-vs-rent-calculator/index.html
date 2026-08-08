@@ -273,7 +273,12 @@
       border-top: 1px solid var(--border);
       margin-top: 0.5rem;
     }
-    #ad-slot { min-height: 60px; margin-bottom: 1rem; }
+
+    /* 광고 슬롯 */
+    .ad-slot { min-height: 250px; max-width: 100%; width: 100%; margin: 1.5rem auto; padding: 0.75rem; border-radius: 4px; background-color: transparent; text-align: center; }
+    .ad-slot-label { display: block; font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; text-align: center; font-weight: 600; letter-spacing: 0.05em; }
+    .ad-slot-bottom { display: none; }
+    @media (min-width: 768px) { .ad-slot { max-width: 90%; margin: 2rem auto; padding: 1rem; } .ad-slot-bottom { display: block; } }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
 </head>
@@ -284,8 +289,6 @@
     <div class="hero-line"></div>
     <p class="subtitle">학기별·연간 총비용 한눈에 비교 — 9월 개강 전 주거 결정</p>
   </header>
-
-  <div id="ad-slot"></div>
 
   <!-- 비교 기간 -->
   <div class="card card-common">
@@ -451,6 +454,26 @@
       ※ 보증금 기회비용은 연 2.5% 기준 적용입니다. 기숙사 추첨·대기 현황, 자취 입주 시기·계약 조건에 따라 실제 비용이 달라질 수 있습니다. 학교 기숙사비는 학교 포털에서 실제 금액을 확인하세요.
     </p>
   </div>
+  <div class="ad-slot" id="ad-slot-result">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </main>
 
 <script>

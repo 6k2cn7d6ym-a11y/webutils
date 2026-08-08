@@ -228,7 +228,6 @@
       font-size: 0.78rem; color: var(--text-mute); line-height: 1.5;
       padding-top: 0.5rem; border-top: 1px solid #eee; margin-top: 0.75rem;
     }
-    #ad-slot { min-height: 60px; margin-bottom: 1rem; }
     .col-header {
       display: grid;
       grid-template-columns: 1fr 80px 72px 32px;
@@ -238,6 +237,12 @@
       font-weight: 600;
       padding: 0 0 0.3rem;
     }
+
+    /* 광고 슬롯 */
+    .ad-slot { min-height: 250px; max-width: 100%; width: 100%; margin: 1.5rem auto; padding: 0.75rem; border-radius: 4px; background-color: transparent; text-align: center; }
+    .ad-slot-label { display: block; font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; text-align: center; font-weight: 600; letter-spacing: 0.05em; }
+    .ad-slot-bottom { display: none; }
+    @media (min-width: 768px) { .ad-slot { max-width: 90%; margin: 2rem auto; padding: 1rem; } .ad-slot-bottom { display: block; } }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
 </head>
@@ -248,8 +253,6 @@
     <div class="hero-line" aria-hidden="true"></div>
     <p class="subtitle">개학일 + 남은 숙제 → 하루 할당량 즉시 계산</p>
   </header>
-
-  <div id="ad-slot"></div>
 
   <div class="card">
     <p class="section-title">📅 개학일</p>
@@ -294,6 +297,26 @@
       ※ 개학일은 학교마다 다를 수 있습니다. 학교 알리미(schoolinfo.go.kr) 또는 학교 가정통신문에서 공식 개학일을 확인하세요.
     </p>
   </div>
+  <div class="ad-slot" id="ad-slot-result">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </main>
 
 <script>

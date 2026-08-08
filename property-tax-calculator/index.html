@@ -110,6 +110,12 @@
     @media (max-width: 480px) {
       .radio-group label { font-size: 0.8rem; padding: 0.4rem 0.7rem; }
     }
+
+    /* 광고 슬롯 */
+    .ad-slot { min-height: 250px; max-width: 100%; width: 100%; margin: 1.5rem auto; padding: 0.75rem; border-radius: 4px; background-color: transparent; text-align: center; }
+    .ad-slot-label { display: block; font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; text-align: center; font-weight: 600; letter-spacing: 0.05em; }
+    .ad-slot-bottom { display: none; }
+    @media (min-width: 768px) { .ad-slot { max-width: 90%; margin: 2rem auto; padding: 1rem; } .ad-slot-bottom { display: block; } }
   </style>
 </head>
 <body>
@@ -199,6 +205,16 @@
     </div>
     <p class="result-note" style="margin-top:1rem;">※ 직전년도 재산세 대비 세부담 상한(105~130%) 적용 시 실제 납부액이 다를 수 있습니다.</p>
   </div>
+  <div class="ad-slot" id="ad-slot-result">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
   <div class="info-section">
     <h3>재산세란?</h3>
@@ -249,6 +265,16 @@
   <div class="disclaimer">
     이 계산기는 참고용입니다. 세부담 상한·감면·분리과세 특례 등 개별 사정에 따라 실제 납부액이 다를 수 있습니다. 정확한 세액은 해당 지방자치단체 또는 위택스(wetax.go.kr)에서 확인하세요.
   </div>
+  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
   <footer class="site-footer">
     <a href="/">← 민온 웹유틸</a>

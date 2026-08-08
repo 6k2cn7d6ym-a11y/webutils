@@ -124,17 +124,6 @@
     }
     .tip-card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; }
     .tip-card p { font-size: 0.875rem; color: #555; line-height: 1.6; }
-    #ad-slot {
-      background: #f0f0f0;
-      border-radius: 8px;
-      min-height: 90px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #bbb;
-      font-size: 0.75rem;
-      margin-bottom: 1.25rem;
-    }
     footer {
       background: #fff;
       border-top: 1px solid #e5e5e5;
@@ -148,7 +137,15 @@
       .dday-number { font-size: 4rem; }
       .countdown-value { font-size: 1.5rem; }
     }
+
+    /* 광고 슬롯 */
+    .ad-slot { min-height: 250px; max-width: 100%; width: 100%; margin: 1.5rem auto; padding: 0.75rem; border-radius: 4px; background-color: transparent; text-align: center; }
+    .ad-slot-label { display: block; font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; text-align: center; font-weight: 600; letter-spacing: 0.05em; }
+    .ad-slot-bottom { display: none; }
+    @media (min-width: 768px) { .ad-slot { max-width: 90%; margin: 2rem auto; padding: 1rem; } .ad-slot-bottom { display: block; } }
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643"
+          crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
@@ -161,6 +158,16 @@
       <div class="countdown-grid" id="countdown-grid"></div>
       <span class="date-badge">추석 당일: 2026년 9월 25일(금)</span>
     </div>
+  <div class="ad-slot" id="ad-slot-result">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
     <div class="info-card">
       <h2>📅 2026 추석 연휴 일정</h2>
@@ -197,8 +204,16 @@
       <h2>💡 연차 조합 팁</h2>
       <p>9/24(목)~9/28(월) 기본 5일 연휴입니다. 9/22(화)·9/23(수) 이틀만 연차를 사용하면 <strong>9/19(토)부터 9/28(월)까지 10일 연속</strong> 황금연휴를 만들 수 있습니다.</p>
     </div>
-
-    <div id="ad-slot">광고 영역</div>
+  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </main>
   <footer>
     <p>날짜 정보는 한국 표준시(KST) 기준입니다 · 대체공휴일은 관공서 공휴일 규정에 따름</p>

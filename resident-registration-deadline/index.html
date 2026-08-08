@@ -225,7 +225,6 @@
       font-size: 0.78rem; color: #888; line-height: 1.5;
       padding-top: 0.5rem; border-top: 1px solid #eee; margin-top: 0.75rem;
     }
-    #ad-slot { min-height: 60px; margin-bottom: 1rem; }
     .prog-bar-bg {
       background: #e5e7eb;
       border-radius: 999px;
@@ -241,6 +240,12 @@
     .safe .prog-bar-fill { background: var(--primary); }
     .warning .prog-bar-fill { background: var(--warning-fill); }
     .danger .prog-bar-fill { background: var(--danger); }
+
+    /* 광고 슬롯 */
+    .ad-slot { min-height: 250px; max-width: 100%; width: 100%; margin: 1.5rem auto; padding: 0.75rem; border-radius: 4px; background-color: transparent; text-align: center; }
+    .ad-slot-label { display: block; font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; text-align: center; font-weight: 600; letter-spacing: 0.05em; }
+    .ad-slot-bottom { display: none; }
+    @media (min-width: 768px) { .ad-slot { max-width: 90%; margin: 2rem auto; padding: 1rem; } .ad-slot-bottom { display: block; } }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
 </head>
@@ -251,8 +256,6 @@
     <div class="hero-line" aria-hidden="true"></div>
     <p class="subtitle">이사일 입력 → 마감일·남은 일수 즉시 계산 · 과태료 방지</p>
   </header>
-
-  <div id="ad-slot"></div>
 
   <div class="card">
     <p class="section-title">📦 이사일</p>
@@ -335,6 +338,16 @@
       ※ 본 계산기는 이사 당일 기준 민법 초일 불산입 원칙(이사 다음날부터 14일)을 적용합니다. 실제 마감일은 관할 주민센터 또는 정부24에서 확인하세요.
     </p>
   </div>
+  <div class="ad-slot" id="ad-slot-result">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
   <!-- 미신청자를 위한 정보 (기본 노출) -->
   <div class="card">
@@ -346,6 +359,16 @@
       <p>온라인 신청: <strong>정부24 (gov.kr)</strong> → 전입신고 검색</p>
     </div>
   </div>
+  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </main>
 
 <script>

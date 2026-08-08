@@ -238,19 +238,6 @@
     .info-item h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; }
     .info-item p { font-size: 0.85rem; color: var(--text-mute); }
     .info-item p strong { color: var(--text); }
-
-    #ad-slot {
-      margin: 1.5rem 0;
-      min-height: 90px;
-      background: var(--bg);
-      border: 1px dashed var(--border-input);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #adb5bd;
-      font-size: 0.8rem;
-    }
     .disclaimer {
       font-size: 0.8rem;
       color: var(--text-sub);
@@ -265,6 +252,12 @@
       header h1 { font-size: 1.25rem; }
       .amount-num { font-size: 2rem; }
     }
+
+    /* 광고 슬롯 */
+    .ad-slot { min-height: 250px; max-width: 100%; width: 100%; margin: 1.5rem auto; padding: 0.75rem; border-radius: 4px; background-color: transparent; text-align: center; }
+    .ad-slot-label { display: block; font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; text-align: center; font-weight: 600; letter-spacing: 0.05em; }
+    .ad-slot-bottom { display: none; }
+    @media (min-width: 768px) { .ad-slot { max-width: 90%; margin: 2rem auto; padding: 1rem; } .ad-slot-bottom { display: block; } }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
 </head>
@@ -307,8 +300,16 @@
   <div class="result-card" id="resultCard">
     <div id="resultInner"></div>
   </div>
-
-  <div id="ad-slot">광고 영역</div>
+  <div class="ad-slot" id="ad-slot-result">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
   <!-- 설명 -->
   <h2 class="section-title">📖 주휴수당 핵심 정보</h2>
@@ -337,6 +338,16 @@
   <div class="disclaimer">
     ※ 이 계산기는 정보 제공 목적이며, 실제 주휴수당은 근로계약서·취업규칙·단체협약에 따라 달라질 수 있습니다. 분쟁 발생 시 고용노동부(1350) 또는 공인노무사에게 상담하세요.
   </div>
+  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
   <footer>
     <p>© 2026 민온 · 근로기준법 제55조 기준 · 법 개정 시 내용이 달라질 수 있습니다</p>

@@ -214,7 +214,12 @@
     summary::-webkit-details-marker { display: none; }
     summary::before { content: "▶ "; font-size: 0.7rem; }
     details[open] summary::before { content: "▼ "; }
-    #ad-slot { min-height: 60px; margin-bottom: 1rem; }
+
+    /* 광고 슬롯 */
+    .ad-slot { min-height: 250px; max-width: 100%; width: 100%; margin: 1.5rem auto; padding: 0.75rem; border-radius: 4px; background-color: transparent; text-align: center; }
+    .ad-slot-label { display: block; font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; text-align: center; font-weight: 600; letter-spacing: 0.05em; }
+    .ad-slot-bottom { display: none; }
+    @media (min-width: 768px) { .ad-slot { max-width: 90%; margin: 2rem auto; padding: 1rem; } .ad-slot-bottom { display: block; } }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
 </head>
@@ -225,8 +230,6 @@
     <div class="hero-line"></div>
     <p class="subtitle">무주택 기간·부양가족·저축 가입기간 → 84점 만점 즉시 계산</p>
   </header>
-
-  <div id="ad-slot"></div>
 
   <div class="card">
     <p class="section-title">① 무주택 기간</p>
@@ -346,6 +349,26 @@
       공식 가점 확인은 <strong>청약홈(applyhome.co.kr)</strong>에서 하시기 바랍니다.
     </p>
   </div>
+  <div class="ad-slot" id="ad-slot-result">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="AUTO_PENDING"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </main>
 
 <script>
