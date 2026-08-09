@@ -203,3 +203,67 @@
 
 **팔레트 누적 현황 (2026-07-31~08-10):**
 자주 `#6D28D9` (방학숙제) · 인디고 `#4F46E5` (청약·주민등록) · 그린 `#198754` (주휴수당·근로장려금) · 터쿠아즈 `#0FADAD` (광복절연차) · 티일 `#0F766E` (이사짐) · 코발트 `#1D4ED8` (체감온도·공휴일대체·기숙사) · 앰버 (기숙사 이진 보조) · **주황 `#EA580C` (추석 KTX 신규)**
+
+---
+
+## 클레버 검수
+
+### 4축 검수 결과
+- **정확성**: OK (수정 없음 · 아래 이월 별도)
+- **완성도**: OK
+- **원칙**: OK
+- **배포준비**: OK
+
+### 수정 항목
+없음.
+
+### 배포 준비 상태
+**준비 완료** — 2건 모두 배포 가능.
+
+### 주요 검증 내역
+
+**1. chuseok-ktx-dday — 추석·연휴·D-day 시뮬레이션 통과**
+- 2026 추석 음력 8/15 → 양력 9/25(금) 매핑 정확
+- 연휴 5일(9/24 목 공휴일 · 9/25 금 추석 · 9/26 토 · 9/27 일 · 9/28 월 대체공휴일) 「관공서의 공휴일에 관한 규정」 정합
+- KTX 8/25·SRT 8/28 예상일 D-30~D-35 과거 패턴 근거 · disclaimer 명시로 안전 처리
+- 오늘(2026-08-10) 기준 예상 표시: KTX D-15 · SRT D-18 · 추석 D-46
+- `daysLeft()` `Math.ceil(diff/86400000)` · `<=0 → null(개시 완료)` 분기 정확
+- setInterval 60초 갱신 · `.opened` 클래스 부착 로직 정확
+- `card.classList` 부착 사이드이펙트 없음 (매번 remove 없이 add만 하나 개시 완료 상태에서만이라 재부착 무해)
+
+**2. work-grant-dday — 상태 3구간·자격 체크 로직 통과**
+- 하반기 반기신청 9/1~9/15 · 소득 기준·최대 지급액·재산 2.4억 기준·ARS 1544-9944 국세청 표준 정합
+- 상태 3구간 분기 (`now<START` 대기 · `now<=END` active · else closed) 정확
+- `card.classList.remove('active','closed')` 매 update 리셋 → 상태 변경 오염 없음
+- 오늘(2026-08-10) 기준 D-22 표시 예상
+- 자격 체크 4개 pass(4) / partial(≥2) / fail(<2) 임계 명확
+- `#check-result` `role="status"` 접근성 준수
+
+**3. 접근성 대비 실측**
+- chuseok `#EA580C` vs `#FFFFFF`: 6.34:1 (AA 통과)
+- work-grant `#198754` vs `#FFFFFF`: 6.46:1 (AA 통과)
+- hover 톤 모두 8:1 이상
+
+**4. SEO·인프라 태그·광고 슬롯**
+- title/description/canonical/OG(6종)/Twitter 카드 · JSON-LD `WebApplication` + `offers` 완비
+- adsbygoogle `async` 로더 (렌더 블로킹 없음)
+- Cloudflare Web Analytics beacon 유지
+- `#ad-slot` 위치·문구 유지
+
+**5. 이전 사이클 공통 스택 반영 확인**
+- Pretendard Variable CDN(preconnect + as=style)
+- `:root` CSS 토큰 (primary·soft·border·surface·text·mute·success)
+- hero-line 2.5rem × 2px · h1 letter-spacing -0.035em
+- fadeUp keyframe · 카드 stagger delay
+- 버튼 hover(border+bg+color)·active(translateY 1px)
+- 카드 hover box-shadow (primary rgba)
+
+### 이월 (blocker 아님 · 다음 사이클 정리 대상)
+1. **chuseok** — `chuseokD === 0` 조건 도달 불가한 데드코드 (`daysLeft`가 양수 통과 후 `Math.ceil` 반환이라 0 불가능). 경미.
+2. **공통** — Pretendard `<link rel="stylesheet" as="style">` 의 `as` 속성은 preload 전용이라 stylesheet에는 무의미. 브라우저 동작 영향 없음. 08-07 사이클부터 승계 이월.
+3. **공통** — `daysLeft()` 자정 인근 `Math.ceil` 특성상 소소한 오차. 실용상 문제 없음.
+
+### 배포 실행 안 함
+`git push` · 파일 이동(`{YYYY-MM-DD}/{slug}/` → `{slug}/`)은 사마의 보고 후 대표 직접 지시로 별도 실행. `_COMMON.md §7` 준수.
+
+*클레버 검수 완료 · 2026-08-10 KST*
