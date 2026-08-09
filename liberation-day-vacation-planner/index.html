@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2026 광복절 대체공휴일 여름휴가 연차 조합 계산기 – 8월 17일 대체휴무</title>
-  <meta name="description" content="2026년 광복절(8/15 토)로 인한 8월 17일(월) 대체공휴일을 활용한 여름휴가 연차 최적 조합 계산기. 연차 5일로 10일 연속 휴가!">
-  <meta property="og:title" content="2026 광복절 대체공휴일 여름휴가 연차 조합 계산기">
-  <meta property="og:description" content="연차 N일로 만드는 최장 연속 여름휴가 조합. 8/17 대체공휴일 황금연차 활용법.">
+  <title>2026 광복절 대체공휴일 여름휴가 연차 계산기 – 달력에서 선택</title>
+  <meta name="description" content="달력에서 날짜를 선택하면 연차 일수를 자동 계산합니다. 2026년 8월 17일(월) 대체공휴일 활용 여름휴가.">
+  <meta property="og:title" content="2026 광복절 대체공휴일 여름휴가 연차 계산기">
+  <meta property="og:description" content="달력에서 날짜 선택 → 연차 자동 계산. 8/17 대체공휴일 황금연차 활용법.">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
@@ -14,13 +14,14 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "2026 광복절 대체공휴일 여름휴가 연차 조합 계산기",
+    "name": "2026 광복절 대체공휴일 여름휴가 연차 계산기",
     "description": "2026년 광복절 대체공휴일(8월 17일)을 활용한 여름휴가 연차 최적 조합 계산기",
     "applicationCategory": "UtilityApplication",
     "inLanguage": "ko"
   }
   </script>
   <link rel="stylesheet" href="/shared/ads.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
   <style>
     :root {
       --primary: #0FADAD;
@@ -29,8 +30,6 @@
       --primary-soft-border: #A8E5E5;
       --primary-tint: #ECFAFA;
       --danger: #dc3545;
-      --danger-soft: #f8d7da;
-      --danger-strong: #721c24;
       --holiday-bg: #fff3cd;
       --holiday-border: #ffc107;
       --holiday-text: #856404;
@@ -42,7 +41,6 @@
       --text-sub: #6c757d;
       --text-mute: #495057;
       --border: #dee2e6;
-      --border-input: #ced4da;
       --border-soft: #e9ecef;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -55,19 +53,8 @@
     .container { max-width: 720px; margin: 0 auto; padding: 1rem; }
 
     header { text-align: center; padding: 2rem 1rem 1rem; }
-    header h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.02em;
-    }
-    .hero-line {
-      width: 2.5rem;
-      height: 2px;
-      background: var(--primary);
-      margin: 0.5rem auto 0.75rem;
-      border-radius: 2px;
-    }
+    header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+    .hero-line { width: 2.5rem; height: 2px; background: var(--primary); margin: 0.5rem auto 0.75rem; border-radius: 2px; }
     header p { color: var(--text-sub); font-size: 0.95rem; }
     .badge {
       display: inline-block;
@@ -88,17 +75,9 @@
       padding: 1rem 1.25rem;
       margin-bottom: 1.5rem;
     }
-    .info-card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .info-card p { font-size: 0.9rem; color: #5a4000; }
+    .info-card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .info-card p { font-size: 0.88rem; color: #5a4000; }
     .info-card strong { color: #333; }
-
-    .section-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin: 1.5rem 0 0.75rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid var(--border-soft);
-    }
 
     /* 달력 */
     .calendar {
@@ -106,8 +85,8 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+      margin-bottom: 0.75rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
     .cal-header {
       background: var(--primary);
@@ -116,200 +95,188 @@
       padding: 0.75rem;
       font-weight: 700;
       font-size: 1rem;
-      letter-spacing: -0.01em;
     }
+    .cal-guide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      background: var(--primary-tint);
+      border-bottom: 1px solid var(--primary-soft-border);
+      min-height: 2.2rem;
+    }
+    .reset-btn {
+      display: none;
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1.4;
+    }
+    .reset-btn:hover { color: var(--danger); border-color: var(--danger); }
+    .reset-btn.show { display: inline-block; }
     .cal-weekday-row {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       background: var(--bg);
       border-bottom: 1px solid var(--border);
     }
-    .cal-wday {
-      text-align: center;
-      padding: 0.45rem 0;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-sub);
-    }
+    .cal-wday { text-align: center; padding: 0.45rem 0; font-size: 0.8rem; font-weight: 600; color: var(--text-sub); }
     .cal-wday.sun { color: var(--danger); }
-    .cal-wday.sat { color: var(--text-sub); }
     .cal-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
     .cal-cell {
       text-align: center;
-      padding: 0.5rem 0.2rem;
+      padding: 0.5rem 0.15rem;
       font-size: 0.9rem;
       border-bottom: 1px solid #f0f0f0;
-      min-height: 3rem;
+      min-height: 3.2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 0.1rem;
+      transition: background 0.1s ease;
+      position: relative;
     }
     .cal-cell.empty { background: #fafafa; }
-    .cal-cell.sat { color: var(--text-mute); }
-    .cal-cell.sun { color: var(--danger); }
+    .cal-cell.past { opacity: 0.32; }
+    .cal-cell.sat .cal-date { color: var(--text-mute); }
+    .cal-cell.sun .cal-date { color: var(--danger); }
     .cal-cell.holiday { background: var(--holiday-bg); }
     .cal-cell.holiday .cal-date { font-weight: 700; color: var(--holiday-text); }
     .cal-cell.alt-holiday { background: var(--alt-bg); }
     .cal-cell.alt-holiday .cal-date { font-weight: 700; color: var(--alt-text); }
-    .cal-hl { font-size: 0.62rem; color: var(--holiday-text); line-height: 1.2; }
+    .cal-hl { font-size: 0.6rem; color: var(--holiday-text); line-height: 1.2; }
     .cal-hl.alt { color: var(--alt-text); }
+    /* 오늘 표시 */
+    .cal-cell.today::before {
+      content: '';
+      position: absolute;
+      top: 0.25rem; right: 0.25rem;
+      width: 5px; height: 5px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+    /* 클릭 가능 */
+    .cal-cell.clickable { cursor: pointer; }
+    .cal-cell.clickable:hover { background: var(--primary-tint) !important; }
+    /* 선택 상태 */
+    .cal-cell.selected-start,
+    .cal-cell.selected-end {
+      background: var(--primary) !important;
+    }
+    .cal-cell.selected-start .cal-date,
+    .cal-cell.selected-end .cal-date { color: #fff !important; font-weight: 700; }
+    .cal-cell.selected-start .cal-hl,
+    .cal-cell.selected-end .cal-hl { color: rgba(255,255,255,0.8) !important; }
+    .cal-cell.in-range { background: var(--primary-soft) !important; }
+    .cal-cell.hover-range { background: rgba(13,173,173,0.1) !important; }
+
+    /* 결과 */
+    .result-area { display: none; }
+    .result-area.show { display: block; animation: fadeUp 0.3s ease; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .result-card {
+      background: var(--card);
+      border: 1px solid var(--primary-soft-border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .result-period { font-size: 0.88rem; color: var(--text-sub); margin-bottom: 0.5rem; }
+    .result-big { font-size: 2.5rem; font-weight: 700; color: var(--primary); letter-spacing: -0.03em; line-height: 1.1; }
+    .result-big .unit { font-size: 1rem; font-weight: 400; color: var(--text-sub); }
+    .result-note { font-size: 0.88rem; color: var(--text-mute); margin-top: 0.25rem; }
+    .day-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.75rem; }
+    .day-tag { font-size: 0.75rem; padding: 0.15rem 0.45rem; border-radius: 4px; }
+    .day-tag.weekend { background: var(--border-soft); color: var(--text-sub); }
+    .day-tag.holiday-t { background: var(--holiday-bg); color: var(--holiday-text); }
+    .day-tag.alt-t { background: var(--alt-bg); color: var(--alt-text); }
+    .day-tag.leave { background: var(--primary-soft); color: var(--primary-hover); font-weight: 600; }
 
     /* 황금 조합 */
-    .combo-grid { display: grid; gap: 0.6rem; margin-bottom: 1.5rem; }
+    .combo-section { margin-top: 1.5rem; }
+    details summary {
+      cursor: pointer;
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      padding: 0.4rem 0;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      user-select: none;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details summary::before { content: '▶'; font-size: 0.6rem; transition: transform 0.2s; }
+    details[open] summary::before { transform: rotate(90deg); }
+    .combo-grid { display: grid; gap: 0.45rem; margin-top: 0.6rem; }
     .combo-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 0.9rem 1.1rem;
+      padding: 0.7rem 1rem;
+      cursor: pointer;
       transition: box-shadow 0.15s ease;
     }
-    .combo-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-    .combo-card.hl {
-      border-color: var(--primary);
-      background: var(--primary-tint);
-    }
-    .combo-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem; }
-    .combo-leave { font-size: 0.85rem; color: var(--text-sub); }
-    .combo-leave strong { color: var(--text); font-size: 1rem; }
-    .combo-right { display: flex; align-items: center; gap: 0.4rem; }
-    .combo-days {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--primary);
-      letter-spacing: -0.02em;
-    }
-    .combo-days .unit { font-size: 0.8rem; font-weight: 400; color: var(--text-sub); }
-    .tag-best {
-      background: var(--primary);
-      color: #fff;
-      border-radius: 4px;
-      font-size: 0.72rem;
-      padding: 0.1rem 0.45rem;
-      font-weight: 700;
-    }
-    .combo-period { font-size: 0.9rem; color: var(--text); font-weight: 500; }
-    .combo-detail { font-size: 0.78rem; color: var(--text-sub); margin-top: 0.2rem; }
+    .combo-card.hl { border-color: var(--primary); background: var(--primary-tint); }
+    .combo-card:hover { box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+    .combo-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.15rem; }
+    .combo-leave { font-size: 0.82rem; color: var(--text-sub); }
+    .combo-leave strong { color: var(--text); }
+    .combo-days { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+    .combo-days .unit { font-size: 0.75rem; font-weight: 400; color: var(--text-sub); }
+    .tag-best { background: var(--primary); color: #fff; border-radius: 4px; font-size: 0.68rem; padding: 0.1rem 0.4rem; font-weight: 700; margin-left: 0.3rem; }
+    .combo-period { font-size: 0.82rem; color: var(--text-mute); }
 
-    /* 기간 계산기 */
-    .calc-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.25rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
-    }
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 0.75rem;
-    }
-    .form-group label { display: block; font-size: 0.87rem; font-weight: 600; margin-bottom: 0.3rem; }
-    .form-group input[type="date"] {
-      width: 100%;
-      padding: 0.55rem 0.75rem;
-      border: 1px solid var(--border-input);
-      border-radius: 6px;
-      font-size: 0.95rem;
-      font-family: inherit;
-      color: var(--text);
-      background: var(--card);
-      transition: border-color 0.15s ease;
-    }
-    .form-group input[type="date"]:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-    .btn {
-      width: 100%;
-      padding: 0.75rem;
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.15s ease, transform 0.1s ease;
-      font-family: inherit;
-      letter-spacing: -0.01em;
-    }
-    .btn:hover { background: var(--primary-hover); }
-    .btn:active { transform: translateY(1px); }
-    .result-area { margin-top: 1rem; display: none; }
-    .result-area.show { display: block; animation: fadeUp 0.35s ease; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .result-summary {
-      background: var(--primary-tint);
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
-      margin-bottom: 0.75rem;
-    }
-    .result-big {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--primary);
-      letter-spacing: -0.03em;
-    }
-    .result-sub { font-size: 0.9rem; color: var(--text-mute); margin-top: 0.1rem; }
-    .day-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.75rem; }
-    .day-tag { font-size: 0.75rem; padding: 0.15rem 0.45rem; border-radius: 4px; }
-    .day-tag.weekend { background: var(--border-soft); color: var(--text-sub); }
-    .day-tag.holiday { background: var(--holiday-bg); color: var(--holiday-text); }
-    .day-tag.alt { background: var(--alt-bg); color: var(--alt-text); }
-    .day-tag.leave { background: var(--primary-soft); color: var(--primary-hover); font-weight: 600; }
-    .result-meta { font-size: 0.82rem; color: var(--text-sub); }
-    .result-error {
-      background: var(--danger-soft);
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-      color: var(--danger-strong);
-      font-size: 0.9rem;
-    }
-    .disclaimer {
-      font-size: 0.8rem;
-      color: var(--text-sub);
-      margin-top: 1rem;
-      padding: 0.75rem 1rem;
-      background: var(--bg);
-      border-radius: 6px;
-    }
+    .disclaimer { font-size: 0.8rem; color: var(--text-sub); margin-top: 1.5rem; padding: 0.75rem 1rem; background: var(--bg); border-radius: 6px; border: 1px solid var(--border-soft); }
     footer { text-align: center; color: var(--text-sub); font-size: 0.8rem; padding: 2rem 1rem; }
 
     @media (max-width: 480px) {
       header h1 { font-size: 1.25rem; }
-      .form-row { grid-template-columns: 1fr; }
-      .cal-hl { font-size: 0.58rem; }
+      .cal-hl { font-size: 0.55rem; }
+      .result-big { font-size: 2rem; }
+      .cal-cell { min-height: 2.8rem; }
     }
-
   </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
-  <link rel="canonical" href="https://utils.minon.kr/liberation-day-vacation-planner/">
 </head>
 <body>
 <div class="container">
 
   <header>
-    <div class="badge">📅 D-8 시류 · 2026 광복절 대체공휴일</div>
-    <h1>광복절 여름휴가<br>연차 조합 계산기</h1>
+    <div class="badge" id="ddayBadge">📅 2026 광복절 대체공휴일</div>
+    <h1>광복절 여름휴가<br>연차 계산기</h1>
     <div class="hero-line" aria-hidden="true"></div>
-    <p>연차 며칠이면 최대 며칠 연속으로 쉴 수 있는지 바로 확인</p>
+    <p>달력에서 휴가 기간을 선택하면 연차 일수를 바로 계산합니다</p>
   </header>
 
   <div class="info-card">
     <h2>🎌 2026 광복절 대체공휴일 — 8월 17일(월) 확정</h2>
-    <p>2026년 광복절(8월 15일)이 <strong>토요일</strong>이라 → 관공서의 공휴일에 관한 규정에 따라 <strong>8월 17일(월요일)</strong>이 대체공휴일로 지정됩니다.<br>주말에 묻히던 광복절 연휴가 월요일로 살아났습니다. 연차를 조금 더하면 긴 여름휴가가 됩니다.</p>
+    <p>2026년 광복절(8월 15일)이 <strong>토요일</strong>이라 → <strong>8월 17일(월요일)</strong>이 대체공휴일로 지정됩니다. 연차를 더하면 긴 여름휴가가 됩니다.</p>
   </div>
 
-  <h2 class="section-title">📆 2026년 8월 달력</h2>
+  <div class="ad-slot">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9477150496807643" data-ad-slot="AUTO_PENDING" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
   <div class="calendar">
     <div class="cal-header">2026년 8월</div>
+    <div class="cal-guide">
+      <span id="guideText">시작일을 클릭하세요</span>
+      <button class="reset-btn" id="resetBtn" onclick="resetSel()">✕ 초기화</button>
+    </div>
     <div class="cal-weekday-row">
       <div class="cal-wday sun">일</div>
       <div class="cal-wday">월</div>
@@ -321,47 +288,23 @@
     </div>
     <div class="cal-days-grid" id="calGrid"></div>
   </div>
-  <div class="ad-slot" id="ad-slot-result">
-    <div class="ad-slot-label">광고</div>
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-9477150496807643"
-         data-ad-slot="AUTO_PENDING"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-  </div>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-  <h2 class="section-title">✨ 황금 연차 조합</h2>
-  <div class="combo-grid" id="comboGrid"></div>
+  <div class="result-area" id="resultArea"></div>
 
-  <h2 class="section-title">🗓️ 내 휴가 기간으로 연차 계산</h2>
-  <div class="calc-card">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="startDate">휴가 시작일</label>
-        <input type="date" id="startDate" value="2026-08-10" min="2026-08-01" max="2026-08-31">
-      </div>
-      <div class="form-group">
-        <label for="endDate">휴가 종료일</label>
-        <input type="date" id="endDate" value="2026-08-17" min="2026-08-01" max="2026-08-31">
-      </div>
-    </div>
-    <button class="btn" onclick="calcLeave()">연차 일수 계산</button>
-    <div class="result-area" id="resultArea"></div>
+  <div class="combo-section">
+    <details id="comboDetails">
+      <summary>황금 연차 조합 참고</summary>
+      <div class="combo-grid" id="comboGrid"></div>
+    </details>
   </div>
 
   <div class="disclaimer">
     ※ 대체공휴일 지정은 「관공서의 공휴일에 관한 규정」에 따른 것입니다. 회사 취업규칙·단체협약에 따라 적용이 다를 수 있으니 인사팀에 확인하세요.
   </div>
-  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+
+  <div class="ad-slot ad-slot-bottom">
     <div class="ad-slot-label">광고</div>
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-9477150496807643"
-         data-ad-slot="AUTO_PENDING"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9477150496807643" data-ad-slot="AUTO_PENDING" data-ad-format="auto" data-full-width-responsive="true"></ins>
   </div>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
@@ -371,148 +314,202 @@
 
 </div>
 <script>
-  // 2026년 8월 공휴일
   var HOLIDAYS = {
     '2026-08-15': '광복절',
     '2026-08-17': '대체공휴일'
   };
 
-  // 달력 그리기 (2026-08-01 = 토요일, day=6)
-  (function buildCalendar() {
+  var COMBOS = [
+    { leave: 0, total: 3, start: '2026-08-15', end: '2026-08-17', period: '8/15(토) ~ 8/17(월)', hl: false, best: null },
+    { leave: 1, total: 4, start: '2026-08-14', end: '2026-08-17', period: '8/14(금) ~ 8/17(월)', hl: false, best: null },
+    { leave: 2, total: 5, start: '2026-08-13', end: '2026-08-17', period: '8/13(목) ~ 8/17(월)', hl: false, best: null },
+    { leave: 3, total: 6, start: '2026-08-12', end: '2026-08-17', period: '8/12(수) ~ 8/17(월)', hl: false, best: null },
+    { leave: 4, total: 7, start: '2026-08-11', end: '2026-08-17', period: '8/11(화) ~ 8/17(월)', hl: false, best: null },
+    { leave: 5, total: 10, start: '2026-08-08', end: '2026-08-17', period: '8/8(토) ~ 8/17(월)', hl: true, best: '5일로 10일!' },
+    { leave: 6, total: 11, start: '2026-08-08', end: '2026-08-18', period: '8/8(토) ~ 8/18(화)', hl: false, best: null },
+    { leave: 9, total: 16, start: '2026-08-08', end: '2026-08-23', period: '8/8(토) ~ 8/23(일)', hl: true, best: '9일로 16일!' }
+  ];
+
+  // 오늘
+  var now = new Date();
+  now.setHours(0, 0, 0, 0);
+  var todayDs = fmtDs(now);
+
+  // D-day 배지
+  var target = new Date(2026, 7, 17);
+  target.setHours(0, 0, 0, 0);
+  var dday = Math.round((target - now) / 86400000);
+  var badge = document.getElementById('ddayBadge');
+  if (dday > 0) badge.textContent = '📅 대체공휴일까지 D-' + dday;
+  else if (dday === 0) badge.textContent = '📅 오늘이 대체공휴일!';
+
+  function fmtDs(d) {
+    var y = d.getFullYear(), m = d.getMonth() + 1, dd = d.getDate();
+    return y + '-' + (m < 10 ? '0' : '') + m + '-' + (dd < 10 ? '0' : '') + dd;
+  }
+  function parseDs(s) { var p = s.split('-').map(Number); return new Date(p[0], p[1]-1, p[2]); }
+
+  // 선택 상태
+  var selStart = null, selEnd = null, hoverDs = null;
+
+  // 달력 그리기 (2026-08-01 = 토, dow=6 → 빈칸 6개)
+  (function buildCal() {
     var grid = document.getElementById('calGrid');
-    // 첫째 날 (토=6) → 앞 빈칸 6개
     for (var i = 0; i < 6; i++) {
-      var blank = document.createElement('div');
-      blank.className = 'cal-cell empty';
-      grid.appendChild(blank);
+      var b = document.createElement('div'); b.className = 'cal-cell empty'; grid.appendChild(b);
     }
     for (var d = 1; d <= 31; d++) {
       var date = new Date(2026, 7, d);
-      var dow = date.getDay(); // 0=일,6=토
-      var ds = '2026-08-' + (d < 10 ? '0' + d : d);
+      var dow = date.getDay();
+      var ds = '2026-08-' + (d < 10 ? '0' : '') + d;
+      var isPast = ds < todayDs;
+
       var cell = document.createElement('div');
       var cls = 'cal-cell';
+      if (isPast) cls += ' past';
+      if (ds === todayDs) cls += ' today';
       if (HOLIDAYS[ds] === '광복절') cls += ' holiday';
       else if (HOLIDAYS[ds] === '대체공휴일') cls += ' alt-holiday';
       else if (dow === 0) cls += ' sun';
       else if (dow === 6) cls += ' sat';
+      if (!isPast) cls += ' clickable';
       cell.className = cls;
+      cell.setAttribute('data-date', ds);
+
       var dateEl = document.createElement('span');
       dateEl.className = 'cal-date';
       dateEl.textContent = d;
       cell.appendChild(dateEl);
+
       if (HOLIDAYS[ds]) {
         var lbl = document.createElement('div');
         lbl.className = 'cal-hl' + (HOLIDAYS[ds] === '대체공휴일' ? ' alt' : '');
         lbl.textContent = HOLIDAYS[ds];
         cell.appendChild(lbl);
       }
+
+      if (!isPast) {
+        cell.addEventListener('click', function() { handleClick(this.getAttribute('data-date')); });
+        cell.addEventListener('mouseenter', function() { handleHover(this.getAttribute('data-date')); });
+      }
       grid.appendChild(cell);
     }
+    grid.addEventListener('mouseleave', function() { hoverDs = null; refreshCells(); });
   })();
 
-  // 황금 연차 조합 데이터 (2026년 8월 하드코딩)
-  var COMBOS = [
-    { leave: 0, total: 3, period: '8/15(토) ~ 8/17(월)', detail: '광복절·주말(8/15~16) + 대체공휴일(8/17)', hl: false, best: null },
-    { leave: 1, total: 4, period: '8/14(금) ~ 8/17(월)', detail: '연차 8/14(금) · 광복절·주말(15~16) · 대체공휴일(17)', hl: false, best: null },
-    { leave: 2, total: 5, period: '8/13(목) ~ 8/17(월)', detail: '연차 8/13~14 · 광복절·주말(15~16) · 대체공휴일(17)', hl: false, best: null },
-    { leave: 3, total: 6, period: '8/12(수) ~ 8/17(월)', detail: '연차 8/12~14 · 광복절·주말(15~16) · 대체공휴일(17)', hl: false, best: null },
-    { leave: 4, total: 7, period: '8/11(화) ~ 8/17(월)', detail: '연차 8/11~14 · 광복절·주말(15~16) · 대체공휴일(17)', hl: false, best: null },
-    { leave: 5, total: 10, period: '8/8(토) ~ 8/17(월)', detail: '주말(8/8~9) · 연차 8/10~14 · 광복절·주말(15~16) · 대체공휴일(17)', hl: true, best: '5일로 10일!' },
-    { leave: 6, total: 11, period: '8/8(토) ~ 8/18(화)', detail: '주말(8/8~9) · 연차 8/10~14 · 광복절·주말(15~16) · 대체공휴일(17) · 연차 8/18', hl: false, best: null },
-    { leave: 9, total: 16, period: '8/8(토) ~ 8/23(일)', detail: '주말(8/8~9) · 연차 8/10~14 · 광복절·주말(15~16) · 대체공휴일(17) · 연차 8/18~21 · 주말(22~23)', hl: true, best: '9일로 16일!' }
-  ];
-
+  // 황금 조합 (오늘 이후 시작만)
   (function buildCombos() {
+    var filtered = COMBOS.filter(function(c) { return c.start >= todayDs; });
+    var details = document.getElementById('comboDetails');
+    if (!filtered.length) { details.style.display = 'none'; return; }
     var grid = document.getElementById('comboGrid');
-    COMBOS.forEach(function(c) {
+    filtered.forEach(function(c) {
       var card = document.createElement('div');
       card.className = 'combo-card' + (c.hl ? ' hl' : '');
       card.innerHTML =
         '<div class="combo-top">' +
-          '<div class="combo-leave">연차 <strong>' + c.leave + '일</strong> 사용</div>' +
-          '<div class="combo-right">' +
-            '<div class="combo-days">' + c.total + '<span class="unit">일 연속</span></div>' +
-            (c.best ? '<span class="tag-best">' + c.best + '</span>' : '') +
-          '</div>' +
+          '<div class="combo-leave">연차 <strong>' + c.leave + '일</strong></div>' +
+          '<div><span class="combo-days">' + c.total + '<span class="unit">일 연속</span></span>' +
+          (c.best ? '<span class="tag-best">' + c.best + '</span>' : '') + '</div>' +
         '</div>' +
-        '<div class="combo-period">' + c.period + '</div>' +
-        '<div class="combo-detail">' + c.detail + '</div>';
+        '<div class="combo-period">' + c.period + '</div>';
+      card.addEventListener('click', (function(combo) {
+        return function() {
+          selStart = combo.start >= todayDs ? combo.start : todayDs;
+          selEnd = combo.end;
+          hoverDs = null;
+          refreshCells();
+          setGuide('done');
+          showResult();
+        };
+      })(c));
       grid.appendChild(card);
     });
   })();
 
-  // 날짜 유틸
-  function dateStr(date) {
-    var y = date.getFullYear();
-    var m = date.getMonth() + 1;
-    var d = date.getDate();
-    return y + '-' + (m < 10 ? '0' : '') + m + '-' + (d < 10 ? '0' : '') + d;
+  function handleClick(ds) {
+    if (!selStart || selEnd) {
+      selStart = ds; selEnd = null; hoverDs = null;
+      setGuide('picking');
+    } else {
+      if (ds < selStart) { selStart = ds; selEnd = null; setGuide('picking'); }
+      else { selEnd = ds; hoverDs = null; setGuide('done'); showResult(); }
+    }
+    refreshCells();
   }
 
-  function parseDate(str) {
-    var p = str.split('-').map(Number);
-    return new Date(p[0], p[1] - 1, p[2]);
+  function handleHover(ds) {
+    if (selStart && !selEnd) { hoverDs = ds; refreshCells(); }
   }
 
-  function isOffDay(date) {
-    var ds = dateStr(date);
-    var dow = date.getDay();
-    return dow === 0 || dow === 6 || !!HOLIDAYS[ds];
-  }
-
-  function calcLeave() {
-    var s = document.getElementById('startDate').value;
-    var e = document.getElementById('endDate').value;
+  function resetSel() {
+    selStart = null; selEnd = null; hoverDs = null;
+    refreshCells(); setGuide('idle');
     var area = document.getElementById('resultArea');
-    area.className = 'result-area show';
+    area.className = 'result-area'; area.innerHTML = '';
+  }
 
-    if (!s || !e) {
-      area.innerHTML = '<div class="result-error">시작일과 종료일을 모두 선택해주세요.</div>';
-      return;
-    }
-    var start = parseDate(s);
-    var end = parseDate(e);
-    if (end < start) {
-      area.innerHTML = '<div class="result-error">종료일이 시작일보다 앞입니다.</div>';
-      return;
-    }
+  function setGuide(state) {
+    var txt = document.getElementById('guideText');
+    var btn = document.getElementById('resetBtn');
+    if (state === 'idle') { txt.textContent = '시작일을 클릭하세요'; btn.className = 'reset-btn'; }
+    else if (state === 'picking') { txt.textContent = '종료일을 클릭하세요'; btn.className = 'reset-btn show'; }
+    else { txt.textContent = '다시 선택하려면 달력을 클릭하세요'; btn.className = 'reset-btn show'; }
+  }
+
+  function refreshCells() {
+    var effectiveEnd = selEnd || hoverDs;
+    var rS = selStart, rE = effectiveEnd;
+    if (rS && rE && rE < rS) { var tmp = rS; rS = rE; rE = tmp; }
+
+    document.querySelectorAll('.cal-cell[data-date]').forEach(function(cell) {
+      var ds = cell.getAttribute('data-date');
+      cell.classList.remove('selected-start', 'selected-end', 'in-range', 'hover-range');
+      if (ds === selStart) cell.classList.add('selected-start');
+      if (ds === selEnd) cell.classList.add('selected-end');
+      if (rS && rE && ds > rS && ds < rE) {
+        cell.classList.add(selEnd ? 'in-range' : 'hover-range');
+      }
+    });
+  }
+
+  function showResult() {
+    if (!selStart || !selEnd) return;
+    var start = parseDs(selStart), end = parseDs(selEnd);
     var diff = Math.round((end - start) / 86400000) + 1;
-    if (diff > 60) {
-      area.innerHTML = '<div class="result-error">기간이 너무 깁니다. 60일 이내로 입력해주세요.</div>';
-      return;
-    }
-
-    var leaveCount = 0, weekendCount = 0, holidayCount = 0;
     var DNAMES = ['일','월','화','수','목','금','토'];
-    var tags = [];
+    var leaveCount = 0, wkndCount = 0, holCount = 0, tags = [];
 
     for (var i = 0; i < diff; i++) {
       var cur = new Date(start.getTime() + i * 86400000);
-      var ds = dateStr(cur);
+      var ds = fmtDs(cur);
       var dow = cur.getDay();
-      var mm = cur.getMonth() + 1;
-      var dd = cur.getDate();
-      var label = mm + '/' + dd + '(' + DNAMES[dow] + ')';
+      var lbl = (cur.getMonth()+1) + '/' + cur.getDate() + '(' + DNAMES[dow] + ')';
       if (HOLIDAYS[ds]) {
-        holidayCount++;
-        tags.push('<span class="day-tag ' + (HOLIDAYS[ds] === '대체공휴일' ? 'alt' : 'holiday') + '">' + label + ' ' + HOLIDAYS[ds] + '</span>');
+        holCount++;
+        tags.push('<span class="day-tag ' + (HOLIDAYS[ds] === '대체공휴일' ? 'alt-t' : 'holiday-t') + '">' + lbl + ' ' + HOLIDAYS[ds] + '</span>');
       } else if (dow === 0 || dow === 6) {
-        weekendCount++;
-        tags.push('<span class="day-tag weekend">' + label + '</span>');
+        wkndCount++;
+        tags.push('<span class="day-tag weekend">' + lbl + '</span>');
       } else {
         leaveCount++;
-        tags.push('<span class="day-tag leave">' + label + ' 연차</span>');
+        tags.push('<span class="day-tag leave">' + lbl + ' 연차</span>');
       }
     }
 
+    var s = parseDs(selStart), e = parseDs(selEnd);
+    var periodStr = (s.getMonth()+1) + '/' + s.getDate() + '(' + DNAMES[s.getDay()] + ') ~ ' +
+                    (e.getMonth()+1) + '/' + e.getDate() + '(' + DNAMES[e.getDay()] + ')';
+
+    var area = document.getElementById('resultArea');
     area.innerHTML =
-      '<div class="result-summary">' +
-        '<div class="result-big">' + leaveCount + '일</div>' +
-        '<div class="result-sub">필요한 연차 · ' + diff + '일 연속 휴가</div>' +
+      '<div class="result-card">' +
+        '<div class="result-period">' + periodStr + ' · 총 ' + diff + '일 연속</div>' +
+        '<div class="result-big">' + leaveCount + '<span class="unit">일 연차 필요</span></div>' +
+        '<div class="result-note">주말 ' + wkndCount + '일 + 공휴일 ' + holCount + '일 포함</div>' +
         '<div class="day-tags">' + tags.join('') + '</div>' +
-      '</div>' +
-      '<div class="result-meta">주말 ' + weekendCount + '일 + 공휴일 ' + holidayCount + '일 + 연차 ' + leaveCount + '일 = 총 ' + diff + '일</div>';
+      '</div>';
+    area.className = 'result-area show';
   }
 </script>
 </body>
