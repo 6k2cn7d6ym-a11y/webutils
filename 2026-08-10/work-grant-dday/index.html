@@ -15,6 +15,8 @@
   <meta name="twitter:title" content="2026 근로장려금 하반기 반기 신청 D-day">
   <meta name="twitter:description" content="2026 하반기 근로장려금 반기 신청 기간(9/1~9/15)까지 D-day와 자격 요건을 확인하세요.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232D4A6B'/%3E%3Ctext x='32' y='42' font-family='system-ui,sans-serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23F7F8FA'%3EU%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -29,100 +31,146 @@
   </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
   <style>
+    :root {
+      --primary: #198754;
+      --primary-hover: #146c43;
+      --primary-soft: #D1FAE5;
+      --primary-soft-border: #6EE7B7;
+      --bg: #F8F9FA;
+      --surface: #FFFFFF;
+      --text: #1a1a2e;
+      --text-sub: #6c757d;
+      --text-mute: #adb5bd;
+      --border: #dee2e6;
+      --border-soft: #f1f3f5;
+    }
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
       margin: 0; padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      background: #f8f9fa;
-      color: #1a1a2e;
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       -webkit-font-smoothing: antialiased;
     }
-    a { color: #0d6efd; }
+    a { color: var(--primary); }
     main { max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
 
     .site-nav { font-size: 13px; margin-bottom: 24px; }
-    .site-nav a { color: #6c757d; text-decoration: none; }
-    .site-nav a:hover { color: #0d6efd; }
+    .site-nav a { color: var(--text-sub); text-decoration: none; transition: color .15s; }
+    .site-nav a:hover { color: var(--primary); }
 
-    h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 8px; line-height: 1.3; letter-spacing: -0.02em; }
-    .lede { font-size: 14px; color: #6c757d; margin: 0 0 28px; line-height: 1.6; }
+    h1 {
+      font-size: 1.5rem; font-weight: 700;
+      margin: 0 0 12px; line-height: 1.3;
+      letter-spacing: -0.035em;
+    }
+    .hero-line {
+      display: block;
+      width: 2.5rem; height: 2px;
+      background: var(--primary);
+      margin: 0 0 20px;
+      border-radius: 2px;
+    }
+    .lede { font-size: 14px; color: var(--text-sub); margin: 0 0 28px; line-height: 1.65; }
+    .lede strong { color: var(--primary-hover); }
 
     .status-card {
-      background: #fff;
-      border: 1px solid #dee2e6;
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 14px;
       padding: 28px 24px;
       text-align: center;
       margin-bottom: 24px;
-      transition: border-color .2s, background .2s;
+      transition: border-color .2s, background .2s, box-shadow .2s;
+      animation: fadeUp .5s ease both;
     }
-    .status-card.active { border-color: #198754; background: #f0fff4; }
-    .status-card.closed { border-color: #adb5bd; }
+    .status-card:hover {
+      box-shadow: 0 6px 22px rgba(25, 135, 84, 0.08);
+    }
+    .status-card.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 8px 24px rgba(25, 135, 84, 0.14);
+    }
+    .status-card.closed { border-color: var(--text-mute); }
 
     .status-label {
       font-size: 13px; font-weight: 600;
-      color: #6c757d; margin-bottom: 14px;
+      color: var(--text-sub); margin-bottom: 14px;
+      letter-spacing: -0.01em;
     }
-    .status-card.active .status-label { color: #198754; }
+    .status-card.active .status-label { color: var(--primary-hover); }
 
     .main-days {
       font-size: 3.5rem; font-weight: 800;
       letter-spacing: -0.05em; line-height: 1;
-      color: #0d6efd; margin-bottom: 8px;
+      color: var(--primary); margin-bottom: 8px;
+      animation: fadeUp .55s ease both .1s;
     }
-    .status-card.active .main-days { color: #198754; }
-    .status-card.closed .main-days { font-size: 2rem; color: #adb5bd; }
+    .status-card.active .main-days { color: var(--primary-hover); }
+    .status-card.closed .main-days { font-size: 2rem; color: var(--text-mute); }
 
-    .days-sub { font-size: 13px; color: #6c757d; margin-bottom: 12px; }
+    .days-sub { font-size: 13px; color: var(--text-sub); margin-bottom: 12px; }
 
     .period-bar {
       font-size: 14px; font-weight: 600; color: #343a40;
-      background: #f1f3f5; border-radius: 8px;
+      background: var(--border-soft); border-radius: 8px;
       padding: 8px 14px; display: inline-block;
     }
-    .period-bar span { color: #0d6efd; }
-    .status-card.active .period-bar { background: #d1e7dd; }
-    .status-card.active .period-bar span { color: #198754; }
+    .period-bar span { color: var(--primary); }
+    .status-card.active .period-bar { background: rgba(255,255,255,0.7); }
+    .status-card.active .period-bar span { color: var(--primary-hover); }
 
-    h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; color: #1a1a2e; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; color: var(--text); letter-spacing: -0.02em; }
 
     .section-card {
-      background: #fff;
-      border: 1px solid #dee2e6;
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 10px;
       padding: 20px;
       margin-bottom: 16px;
+      transition: box-shadow .18s ease;
+    }
+    .section-card:hover {
+      box-shadow: 0 4px 16px rgba(25, 135, 84, 0.06);
     }
 
     .income-table {
       width: 100%; border-collapse: collapse; font-size: 14px;
     }
     .income-table th {
-      background: #f1f3f5; padding: 9px 12px;
+      background: var(--border-soft); padding: 9px 12px;
       font-size: 12px; font-weight: 600; color: #495057;
-      border-bottom: 1px solid #dee2e6; text-align: left;
+      border-bottom: 1px solid var(--border); text-align: left;
     }
     .income-table td {
       padding: 10px 12px;
-      border-bottom: 1px solid #f1f3f5; color: #343a40;
+      border-bottom: 1px solid var(--border-soft); color: #343a40;
     }
     .income-table tr:last-child td { border-bottom: none; }
-    .income-table .amount { font-weight: 700; color: #0d6efd; }
-    .income-table small { font-size: 12px; color: #adb5bd; display: block; margin-top: 2px; }
+    .income-table .amount { font-weight: 700; color: var(--primary); }
+    .income-table small { font-size: 12px; color: var(--text-mute); display: block; margin-top: 2px; font-weight: 500; }
 
     .checklist { list-style: none; margin: 0; padding: 0; }
     .checklist li {
       padding: 10px 0;
-      border-bottom: 1px solid #f1f3f5;
+      border-bottom: 1px solid var(--border-soft);
     }
     .checklist li:last-child { border-bottom: none; }
     .checklist label {
       display: flex; align-items: flex-start; gap: 10px;
       cursor: pointer; font-size: 14px; line-height: 1.5; color: #343a40;
+      transition: color .15s;
     }
+    .checklist label:hover { color: var(--primary-hover); }
     .checklist input[type="checkbox"] {
       margin-top: 2px; flex-shrink: 0;
-      accent-color: #0d6efd; width: 16px; height: 16px;
+      accent-color: var(--primary); width: 16px; height: 16px;
     }
 
     #check-result {
@@ -130,43 +178,45 @@
       border-radius: 8px; font-size: 14px; font-weight: 600;
       display: none;
     }
-    #check-result.pass   { background: #d1e7dd; color: #0f5132; display: block; }
-    #check-result.fail   { background: #f8d7da; color: #842029; display: block; }
-    #check-result.partial { background: #fff3cd; color: #664d03; display: block; }
+    #check-result.pass    { background: var(--primary-soft); color: var(--primary-hover); display: block; animation: fadeUp .3s ease both; }
+    #check-result.fail    { background: #f8d7da; color: #842029; display: block; animation: fadeUp .3s ease both; }
+    #check-result.partial { background: #fff3cd; color: #664d03; display: block; animation: fadeUp .3s ease both; }
 
     .apply-list { list-style: none; margin: 0; padding: 0; }
     .apply-list li {
       display: flex; gap: 12px; align-items: flex-start;
-      padding: 10px 0; border-bottom: 1px solid #f1f3f5;
+      padding: 10px 0; border-bottom: 1px solid var(--border-soft);
       font-size: 14px;
     }
     .apply-list li:last-child { border-bottom: none; }
-    .method-title { font-weight: 700; color: #343a40; min-width: 70px; flex-shrink: 0; }
+    .method-title { font-weight: 700; color: var(--primary-hover); min-width: 70px; flex-shrink: 0; }
     .method-desc { color: #495057; line-height: 1.55; }
+    .method-desc strong { color: var(--primary-hover); }
 
     .disclaimer {
-      font-size: 12px; color: #adb5bd; line-height: 1.7;
+      font-size: 12px; color: var(--text-mute); line-height: 1.7;
       margin-bottom: 24px; padding: 12px 16px;
-      background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;
+      background: var(--bg); border-radius: 8px; border: 1px solid #e9ecef;
     }
 
     #ad-slot {
-      min-height: 90px; background: #f8f9fa; border-radius: 8px;
+      min-height: 90px; background: var(--bg); border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       color: #ced4da; font-size: 12px; margin-bottom: 32px;
     }
 
     footer {
-      font-size: 12px; color: #adb5bd;
+      font-size: 12px; color: var(--text-mute);
       padding-top: 20px; border-top: 1px solid #e9ecef;
       display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
     }
-    footer a { color: #adb5bd; text-decoration: none; }
-    footer a:hover { color: #6c757d; }
+    footer a { color: var(--text-mute); text-decoration: none; transition: color .15s; }
+    footer a:hover { color: var(--text-sub); }
 
     @media (max-width: 480px) {
       .main-days { font-size: 2.8rem; }
-      h1 { font-size: 1.3rem; }
+      h1 { font-size: 1.35rem; }
+      .status-card { padding: 24px 20px; }
     }
   </style>
 </head>
@@ -175,6 +225,7 @@
   <nav class="site-nav"><a href="/">← 유틸 목록</a></nav>
 
   <h1>2026 근로장려금<br>하반기 반기 신청 D-day</h1>
+  <span class="hero-line" aria-hidden="true"></span>
   <p class="lede">2026 하반기 근로장려금(EITC) 반기 신청 기간은 <strong>9월 1일(월)~9월 15일(월)</strong>입니다. 신청 시작까지 남은 날짜와 자격 요건을 확인하세요.</p>
 
   <div class="status-card" id="status-card">
@@ -208,7 +259,7 @@
         </tr>
       </tbody>
     </table>
-    <p style="font-size:12px;color:#adb5bd;margin:10px 0 0;line-height:1.6;">재산 합계 2억 4천만 원 미만 조건 추가 · 반기 신청(9월)은 상반기 소득 50% 선지급 후 내년 9월 정산</p>
+    <p style="font-size:12px;color:var(--text-mute);margin:10px 0 0;line-height:1.6;">재산 합계 2억 4천만 원 미만 조건 추가 · 반기 신청(9월)은 상반기 소득 50% 선지급 후 내년 9월 정산</p>
   </div>
 
   <div class="section-card">

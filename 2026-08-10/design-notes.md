@@ -1,8 +1,8 @@
 ## 현재 상태
-- 단계: 달리 정리
-- 다음: 다빈치
+- 단계: 다빈치 판정 봉인 완료
+- 다음: 클레버 검수
 - 반려 지목: 없음
-- 왕복 회차: 1/5
+- 왕복 회차: 1/5 (반려 없이 1회에 결착)
 
 ## 브랜드 승계
 - 이전 사이클 참조: 2026-08-07 (주휴수당·광복절연차 완결)
@@ -157,4 +157,49 @@
 
 **작성**: 다빈치 (팀장) · 2026-08-10 03:05
 **정리**: 달리 (대리) · 2026-08-10
-**판정 대기**: 다빈치 (팀장)
+**판정 봉인**: 다빈치 (팀장) · 2026-08-10 · 클레버 검수 릴레이
+
+---
+
+## 다빈치 판정 봉인 · 2026-08-10
+
+**판정 3건 결착 (반려 없음 · 1회 결착):**
+
+1. **chuseok-ktx-dday → B안 주황 `#EA580C` 확정** (6.34:1)
+   - 방학숙제(08-05) 자주와 도메인·색 겹침 회피
+   - "예매 전쟁" 긴박감 언어 정합
+   - 기존 그린 (`.dday-card.opened`) 병존 충돌 없음
+   - 팔레트 신규 톤(주황) 확보
+
+2. **work-grant-dday → A안 그린 `#198754` 확정** (6.46:1)
+   - 청약 가점(08-01) 인디고 겹침 회피
+   - `.status-card.active` 이미 그린 → primary 통일 시 기본↔활성 색 자연 연속
+   - "근로 권리" 도메인 일관성 (주휴수당과 동일 레이어) 강화
+
+3. **`.income-table .amount` `#0d6efd` → `#198754` 통일 확정**
+   - primary와 시각 일관성
+   - "받을 수 있는 금액" = 그린 pass 의미 정합
+   - D-day 카운트다운·amount 두 시선 유도 지점을 같은 primary로 묶어 정보 위계 단순화
+
+**공통 스택 반영 (이전 사이클 승계):**
+- Pretendard Variable (CDN preconnect + preload)
+- h1 letter-spacing -0.035em
+- hero-line 2.5rem × 2px primary
+- CSS `:root` 커스텀 프로퍼티 토큰 (primary·soft·border·success·surface·text·mute)
+- 카드 hover box-shadow (rgba primary 8~18% opacity)
+- 버튼 hover(border+bg+color 전환)·active(translateY 1px)
+- fadeUp keyframe · 카드 순차 delay (chuseok 3카드 .08s stagger)
+- 체크리스트 label hover primary-hover
+- section-card hover shadow
+
+**보존 확인:**
+- SEO 메타·OG·Twitter·JSON-LD 전수
+- adsbygoogle 스크립트 로더 유지
+- `#ad-slot` 위치·크기 유지
+- JS 계산 로직 (KTX/SRT/추석 D-day · 근로장려금 3구간 상태 전환 · 자격 체크 pass/partial/fail) 무손실
+- DOM ID 전수 (#ktx-days·#srt-days·#chuseok-days·#status-card·#main-days·#checklist·#check-result 등)
+- Cloudflare Analytics beacon 유지
+- 반응형 미디어 쿼리 (chuseok 520px · work-grant 480px) 유지
+
+**팔레트 누적 현황 (2026-07-31~08-10):**
+자주 `#6D28D9` (방학숙제) · 인디고 `#4F46E5` (청약·주민등록) · 그린 `#198754` (주휴수당·근로장려금) · 터쿠아즈 `#0FADAD` (광복절연차) · 티일 `#0F766E` (이사짐) · 코발트 `#1D4ED8` (체감온도·공휴일대체·기숙사) · 앰버 (기숙사 이진 보조) · **주황 `#EA580C` (추석 KTX 신규)**
