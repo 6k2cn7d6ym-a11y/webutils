@@ -1,8 +1,8 @@
 ## 현재 상태
-- 단계: 피카소 시안 진행 중
-- 다음: 달리 정리
+- 단계: 달리 정리 완료 → 다빈치 판정 대기
+- 다음: 다빈치
 - 반려 지목: 없음
-- 왕복 회차: 1/?
+- 왕복 회차: 1/5
 
 ## 브랜드 승계
 - 이전 사이클 참조: 2026-08-10 (chuseok-ktx-dday · work-grant-dday)
@@ -139,4 +139,78 @@
 ---
 
 **작성**: 피카소 (사원) · 2026-08-12 03:XX
-**정리 대기**: 달리 (대리)
+**정리**: 달리 (대리) · 2026-08-12
+
+---
+
+## 달리 정리 — 다빈치 판정 요청
+
+### 판단 요약 (2건 + `.far` 색상)
+
+#### 1. suneung-dday → **A안 자주 `#6D28D9` 권고**
+
+이유 2가지:
+- **사용자 감정 코드**: 수험생이 이 유틸을 여는 순간의 마음은 "준비·집중·긴장". 인디고(`#4F46E5`)의 "교육정책 공식감"은 교육부 공문 느낌에 가깝다. 자주가 수험생 감정에 더 직접 닿는다.
+- **팔레트 도메인 분기**: 누적 팔레트에서 자주=집중·준비·D-day로 이미 확립. 인디고는 청약 가점(공식·법·주택정책)에 배정돼 있어 수능에 인디고를 쓰면 도메인 분기 전략 흐트러짐.
+
+B안 인디고 보류 이유: 청약 가점과 톤 겹침. "국가시험 = 공식" 논리는 맞지만 도메인 분기 정합성이 우선.
+
+#### 2. defect-warranty-dday → **A안 그린 `#198754` 권고**
+
+이유 2가지:
+- **도구 핵심 감정**: "기한 내 내 권리 행사." 법령 기반이지만 사용자가 체감하는 것은 권리·보호. 그린(신뢰·권리) 도메인이 일치.
+- **인디고 과집중 방지**: 청약 가점에 인디고를 이미 배정. 하자보수도 인디고 쓰면 "공식·법·정책" 계열이 인디고 하나에 과집중됨. 그린으로 권리 계열 독립.
+
+B안 인디고 보류 이유: 도메인 분기 전략상 인디고=청약/공식 배정. 하자보수가 법령 근거지만 사용자 감정은 권리이므로 그린이 더 직관적.
+
+#### 3. `.dday-cell.far` (365일 이상) — **중성 회색 `#495057` 권고**
+
+이유:
+- primary를 그린 `#198754`으로 바꾸면 코발트 `#0d6efd`가 결과 테이블 `.far` 상태 색으로만 고립. `a { color: #0d6efd }`, `site-nav a:hover`, `result-header strong` 등이 여전히 코발트라면 계열 난립.
+- `.far` = "여유, 문제없음" — 강조보다 중성이 더 맞다. 회색은 "확인했지만 위협 없음" 상태를 직관적으로 전달.
+- `#495057` vs white: **7.37:1** ✓ (WCAG AA 충분 · font-weight 800 + 15px 기준)
+- 코발트(`#0d6efd`)를 `.far`에서 빼면 color 사용처가 단순해져 primary 그린이 더 도드라짐.
+
+대안 검토: `#6c757d`(4.48:1, AA 경계)는 너무 아슬아슬. `#495057`이 안전.
+
+---
+
+### 공통 스택 (이번 사이클 · 2026-08-10 승계)
+
+다빈치 판정 후 index.html 반영 시 아래를 함께 적용할 예정:
+
+| 항목 | 값 |
+|------|-----|
+| 폰트 | Pretendard Variable (CDN preconnect + preload) |
+| CSS :root | 8토큰 (`--primary`, `--primary-hover`, `--primary-soft`, `--primary-soft-border`, `--bg`, `--text-sub`, `--radius-card`, `--radius-btn`) |
+| h1 letter-spacing | `-0.035em` |
+| hero-line / section 강조 | `2.5rem × 2px` border-bottom |
+| fadeUp | `.3 ~ .55s ease both` (3카드 순차 stagger) |
+| hover shadow | `rgba(primary, .15) 0 4px 12px` |
+| 보존 전수 | SEO 메타·OG·Twitter·JSON-LD·adsbygoogle·`#ad-slot`·JS 계산 로직·DOM ID 전수·Cloudflare Analytics·480px 미디어 쿼리 |
+
+suneung-dday 전용:
+- `.dday-num` 색 → `--primary` (자주)
+- `.sch-date` 색 → `--primary` (자주, 현재 코발트 교체)
+- `.btn-share:hover` 색 → `--primary` (자주)
+- `.site-nav a:hover` → `--primary`
+- `a { color }` → `--primary`
+
+defect-warranty-dday 전용:
+- `.btn-calc` → `--primary` (그린)
+- `.btn-calc:hover` → `--primary-hover`
+- `.period-badge` 색 → `--primary` (그린, 현재 코발트)
+- `.law-table .yr` 색 → `--primary` (그린)
+- `input[type="date"]:focus` border → `--primary`
+- `result-header strong` 색 → `--primary`
+- `.dday-cell.ok` → `--primary` (그린, 현행과 동일)
+- `.dday-cell.far` → `#495057` (중성 회색, 코발트 교체)
+- `.site-nav a:hover` → `--primary`
+
+---
+
+**다빈치, 판정 요청 사항:**
+1. suneung-dday: A안 자주 `#6D28D9` 확정 or 재지목
+2. defect-warranty-dday: A안 그린 `#198754` 확정 or 재지목
+3. `.dday-cell.far`: 중성 회색 `#495057` 확정 or 코발트 유지 or 다른 방향
+4. 공통 스택 일괄 적용 방향 이견 없으면 확정 후 index.html 반영 진행
