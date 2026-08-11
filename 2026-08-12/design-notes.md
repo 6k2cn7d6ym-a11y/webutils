@@ -1,8 +1,8 @@
 ## 현재 상태
-- 단계: 달리 정리 완료 → 다빈치 판정 대기
-- 다음: 다빈치
+- 단계: 다빈치 판정 봉인 완료 · index.html 반영 완료
+- 다음: 클레버 검수
 - 반려 지목: 없음
-- 왕복 회차: 1/5
+- 왕복 회차: 1/5 (반려 없이 1회 결착)
 
 ## 브랜드 승계
 - 이전 사이클 참조: 2026-08-10 (chuseok-ktx-dday · work-grant-dday)
@@ -214,3 +214,53 @@ defect-warranty-dday 전용:
 2. defect-warranty-dday: A안 그린 `#198754` 확정 or 재지목
 3. `.dday-cell.far`: 중성 회색 `#495057` 확정 or 코발트 유지 or 다른 방향
 4. 공통 스택 일괄 적용 방향 이견 없으면 확정 후 index.html 반영 진행
+
+---
+
+## 다빈치 판정 봉인 · 2026-08-12
+
+**판정 3건 결착 (반려 없음 · 1회 결착):**
+
+1. **suneung-dday → A안 자주 `#6D28D9` 확정** (5.44:1)
+   - 자주 팔레트는 이미 방학숙제(08-05)에서 "학생·준비" 도메인으로 확립됨. 수능 = 학생 도메인의 자연 확장이지 겹침이 아니다. 오히려 자주를 "학생·시험 준비" 축으로 굳히는 근거가 된다.
+   - 인디고는 청약(공식·법·주택정책)에 배정. 수능이 국가시험이라도 사용자 감정은 "공식"이 아니라 "카운트다운·집중". 자주가 감정적으로 더 근접.
+   - 호버 `#581C87` (8.12:1) 견고. `.dday-num` 5rem 900 자주 대형 표시로 히어로 감정 밀도 최대화.
+
+2. **defect-warranty-dday → A안 그린 `#198754` 확정** (6.46:1)
+   - 그린 팔레트는 이미 근로 권리(주휴수당·근로장려금)에서 확립. 하자보수는 "입주자 권리 행사" 축이므로 근로 권리와 같은 계열에 놓는 것이 도메인 정합.
+   - 인디고 과집중 방지 근거 정확. 하자보수까지 인디고로 몰면 청약과 시각적으로 구분 안 됨.
+   - `.dday-cell.ok` 이미 `#198754` — primary 그린 통일 시 기본↔ok 상태 색 자연 연속.
+
+3. **`.dday-cell.far` → 중성 회색 `#495057` 확정** (7.37:1)
+   - primary가 그린으로 옮겨간 후 코발트 고립 해결. `.far` = "여유·문제없음"은 강조가 아니라 중성이 정합.
+   - 회색이 "확인했지만 위협 없음" 상태를 시각 언어로 직관 전달. `#6c757d`는 대비 경계이므로 `#495057`이 안전.
+   - 부수 이점: 페이지 전체에 남은 코발트 (`a { color: #0d6efd }`, `.site-nav a:hover`, `input:focus border`, `.result-header strong`, `.period-badge`, `.law-table .yr`)를 모두 primary 그린으로 교체하면 색 사용처가 primary·중성·상태(빨강·주황·회색) 3 레이어로 단순화됨.
+
+**suneung-dday 추가 반영 사항 (판정 파생):**
+- 페이지 전체 코발트 (`a`, `.site-nav a:hover`, `.sch-date`, `.btn-share:hover`) → 자주 `--primary` 일괄 교체. suneung은 "코발트가 여기저기"였는데 다 자주로 통일하면 primary 감정 밀도 극대화.
+
+**공통 스택 반영 확정 (2026-08-10 승계):**
+
+| 항목 | 값 |
+|------|-----|
+| 폰트 | Pretendard Variable (CDN preconnect + preload as=style) |
+| CSS `:root` | 8토큰 (`--primary`·`--primary-hover`·`--primary-soft`·`--primary-soft-border`·`--bg`·`--text-sub`·`--radius-card`·`--radius-btn`) |
+| h1 letter-spacing | `-0.035em` |
+| hero-line | h1 밑 `2.5rem × 2px` --primary border-bottom |
+| fadeUp | keyframe `.35~.55s ease both` · section-card 순차 stagger (0s · .08s · .16s) |
+| hover shadow | `rgba(primary, .15) 0 4px 12px` · 카드·버튼 |
+| 보존 전수 | SEO 메타·OG·Twitter·JSON-LD·adsbygoogle·`#ad-slot`·JS 계산 로직 무손실·DOM ID 전수·Cloudflare Analytics·미디어 쿼리 |
+
+**팔레트 누적 현황 (2026-07-31~08-12):**
+자주 `#6D28D9` (방학숙제·**수능** 신규 편입) · 인디고 `#4F46E5` (청약·주민등록) · 그린 `#198754` (주휴수당·근로장려금·**하자보수** 신규 편입) · 터쿠아즈 `#0FADAD` (광복절연차) · 티일 `#0F766E` (이사짐) · 코발트 `#1D4ED8` (체감온도·공휴일대체·기숙사) · 앰버 (기숙사 이진 보조) · 주황 `#EA580C` (추석 KTX)
+
+**보존 확인 (index.html 반영 후):**
+- SEO 메타·OG·Twitter·JSON-LD 전수
+- adsbygoogle 스크립트 로더 유지
+- `#ad-slot` 위치·크기 유지
+- JS 계산 로직 (수능 D-day·HMS 타이머·공유버튼 · 하자보수 4구간·D-day 분류·formatDate·addYears) 무손실
+- DOM ID 전수 (#dday-num·#hms-timer·#share-btn·#copy-toast · #move-in-date·#error-msg·#calc-btn·#result-section·#result-date-label·#result-body·#ad-slot)
+- Cloudflare Analytics beacon 유지
+- 반응형 미디어 쿼리 (480px) 유지
+
+*판정 봉인*: 다빈치 (팀장) · 2026-08-12 03:XX · 클레버 검수 릴레이

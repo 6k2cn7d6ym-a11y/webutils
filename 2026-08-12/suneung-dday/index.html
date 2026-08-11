@@ -27,83 +27,127 @@
     "offers": { "@type": "Offer", "price": "0" }
   }
   </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
   <style>
+    :root {
+      --primary: #6D28D9;
+      --primary-hover: #581C87;
+      --primary-soft: #E9D5FF;
+      --primary-soft-border: #D8B4FE;
+      --bg: #F8F9FA;
+      --text-sub: #6C757D;
+      --radius-card: 16px;
+      --radius-btn: 8px;
+    }
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
       margin: 0; padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      background: #f8f9fa;
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
       color: #1a1a2e;
       -webkit-font-smoothing: antialiased;
     }
-    a { color: #0d6efd; }
+    a { color: var(--primary); }
     main { max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
 
     .site-nav { font-size: 13px; margin-bottom: 24px; }
-    .site-nav a { color: #6c757d; text-decoration: none; }
-    .site-nav a:hover { color: #0d6efd; }
+    .site-nav a { color: var(--text-sub); text-decoration: none; }
+    .site-nav a:hover { color: var(--primary); }
 
-    h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 8px; line-height: 1.3; letter-spacing: -0.02em; }
-    .lede { font-size: 14px; color: #6c757d; margin: 0 0 28px; line-height: 1.6; }
+    h1 {
+      font-size: 1.5rem; font-weight: 700;
+      margin: 0 0 12px; line-height: 1.3;
+      letter-spacing: -0.035em;
+    }
+    .hero-line {
+      width: 2.5rem; height: 2px;
+      background: var(--primary);
+      margin: 0 0 14px;
+      border: 0;
+    }
+    .lede { font-size: 14px; color: var(--text-sub); margin: 0 0 28px; line-height: 1.65; }
 
     /* D-day 메인 카운터 */
     .dday-hero {
       background: #fff;
       border: 1px solid #dee2e6;
-      border-radius: 16px;
-      padding: 36px 24px;
+      border-radius: var(--radius-card);
+      padding: 40px 24px 32px;
       text-align: center;
       margin-bottom: 20px;
+      animation: fadeUp .45s ease both;
     }
-    .dday-label { font-size: 13px; font-weight: 600; color: #6c757d; margin-bottom: 12px; letter-spacing: 0.03em; }
+    .dday-label {
+      font-size: 12px; font-weight: 700; color: var(--primary);
+      margin-bottom: 14px; letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
     .dday-num {
-      font-size: 5rem; font-weight: 900;
-      color: #0d6efd;
-      letter-spacing: -0.06em;
+      font-size: 5.25rem; font-weight: 900;
+      color: var(--primary);
+      letter-spacing: -0.065em;
       line-height: 1;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      font-variant-numeric: tabular-nums;
     }
-    .dday-date { font-size: 15px; font-weight: 600; color: #343a40; margin-bottom: 10px; }
+    .dday-date { font-size: 15px; font-weight: 600; color: #343a40; margin-bottom: 14px; }
     .hms-timer {
-      font-size: 1.4rem; font-weight: 700;
+      font-size: 1.45rem; font-weight: 700;
       color: #495057; letter-spacing: 0.04em;
       font-variant-numeric: tabular-nums;
       margin-bottom: 4px;
     }
-    .hms-label { font-size: 11px; color: #adb5bd; letter-spacing: 0.08em; }
+    .hms-label { font-size: 11px; color: #adb5bd; letter-spacing: 0.1em; }
 
     /* 공유 버튼 */
-    .share-row { display: flex; justify-content: center; margin-top: 14px; }
+    .share-row { display: flex; justify-content: center; margin-top: 18px; }
     .btn-share {
       display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 16px;
-      border: 1px solid #dee2e6; border-radius: 8px;
-      background: #f8f9fa; font-size: 13px; font-weight: 600;
-      color: #6c757d; cursor: pointer;
-      transition: border-color .1s, background .1s;
+      padding: 9px 18px;
+      border: 1px solid #dee2e6; border-radius: var(--radius-btn);
+      background: #fff; font-size: 13px; font-weight: 600;
+      color: var(--text-sub); cursor: pointer;
+      font-family: inherit;
+      transition: border-color .15s, background .15s, color .15s, box-shadow .15s;
     }
-    .btn-share:hover { border-color: #0d6efd; background: #f0f5ff; color: #0d6efd; }
+    .btn-share:hover {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary);
+      box-shadow: 0 4px 12px rgba(109, 40, 217, .15);
+    }
 
-    h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; color: #1a1a2e; }
+    h2 { font-size: 1rem; font-weight: 700; margin: 0 0 14px; color: #1a1a2e; letter-spacing: -0.015em; }
 
     .section-card {
       background: #fff;
       border: 1px solid #dee2e6;
-      border-radius: 10px;
-      padding: 20px;
+      border-radius: 12px;
+      padding: 22px;
       margin-bottom: 16px;
+      transition: box-shadow .2s, border-color .2s;
+      animation: fadeUp .45s ease both;
     }
+    .section-card:hover {
+      box-shadow: 0 4px 14px rgba(109, 40, 217, .1);
+      border-color: var(--primary-soft-border);
+    }
+    .section-card:nth-of-type(1) { animation-delay: 0s; }
+    .section-card:nth-of-type(2) { animation-delay: .08s; }
+    .section-card:nth-of-type(3) { animation-delay: .16s; }
 
     /* 시험 시간표 */
     .timetable { width: 100%; border-collapse: collapse; font-size: 14px; }
     .timetable th {
-      background: #f1f3f5; padding: 9px 12px;
+      background: #f1f3f5; padding: 10px 12px;
       font-size: 12px; font-weight: 600; color: #495057;
       border-bottom: 1px solid #dee2e6; text-align: left;
     }
     .timetable td {
-      padding: 10px 12px;
+      padding: 11px 12px;
       border-bottom: 1px solid #f1f3f5; color: #343a40;
       vertical-align: middle;
     }
@@ -112,25 +156,26 @@
     .badge-sub {
       display: inline-block; font-size: 11px; font-weight: 600;
       padding: 2px 7px; border-radius: 999px;
-      margin-left: 5px; background: #e9ecef; color: #495057;
+      margin-left: 5px; background: var(--primary-soft); color: var(--primary);
     }
-    .time-range { font-size: 13px; color: #6c757d; }
+    .time-range { font-size: 13px; color: var(--text-sub); font-variant-numeric: tabular-nums; }
     .duration { font-size: 12px; color: #adb5bd; }
 
     /* 주요 일정 */
     .schedule-list { list-style: none; margin: 0; padding: 0; }
     .schedule-list li {
       display: flex; gap: 14px; align-items: flex-start;
-      padding: 10px 0; border-bottom: 1px solid #f1f3f5;
+      padding: 11px 0; border-bottom: 1px solid #f1f3f5;
       font-size: 14px;
     }
     .schedule-list li:last-child { border-bottom: none; }
-    .sch-date { font-weight: 700; color: #0d6efd; min-width: 80px; flex-shrink: 0; }
+    .sch-date { font-weight: 700; color: var(--primary); min-width: 80px; flex-shrink: 0; }
     .sch-desc { color: #343a40; line-height: 1.5; }
-    .sch-note { font-size: 12px; color: #adb5bd; display: block; }
+    .sch-note { font-size: 12px; color: #adb5bd; display: block; margin-top: 2px; }
 
     /* 수험생 팁 */
-    .tips-list { margin: 0; padding: 0 0 0 18px; font-size: 14px; line-height: 1.85; color: #343a40; }
+    .tips-list { margin: 0; padding: 0 0 0 18px; font-size: 14px; line-height: 1.9; color: #343a40; }
+    .tips-list li::marker { color: var(--primary); }
 
     .disclaimer {
       font-size: 12px; color: #adb5bd; line-height: 1.7;
@@ -150,7 +195,7 @@
       display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
     }
     footer a { color: #adb5bd; text-decoration: none; }
-    footer a:hover { color: #6c757d; }
+    footer a:hover { color: var(--text-sub); }
 
     #copy-toast {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
@@ -161,10 +206,18 @@
     }
     #copy-toast.show { opacity: 1; }
 
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
     @media (max-width: 480px) {
-      .dday-num { font-size: 3.8rem; }
+      main { padding: 24px 16px 60px; }
+      .dday-hero { padding: 32px 20px 26px; }
+      .dday-num { font-size: 3.9rem; letter-spacing: -0.06em; }
       .hms-timer { font-size: 1.2rem; }
       h1 { font-size: 1.3rem; }
+      .section-card { padding: 18px; }
     }
   </style>
 </head>
@@ -173,6 +226,7 @@
   <nav class="site-nav"><a href="/">← 유틸 목록</a></nav>
 
   <h1>2026 수능 D-day 카운터</h1>
+  <hr class="hero-line">
   <p class="lede">2026학년도 대학수학능력시험은 <strong>2026년 11월 12일(목)</strong>입니다. 매일 확인하세요.</p>
 
   <div class="dday-hero">
