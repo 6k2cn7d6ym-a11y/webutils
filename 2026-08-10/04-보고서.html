@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>웹유틸 2026-08-10 사이클 보고서 (기획전략실 · 사마의)</title>
+<style>
+  :root {
+    --bg: #F7F8FA; --surface: #FFFFFF; --border: #E4E7EC;
+    --ink: #1A2332; --ink-mute: #5A6472; --accent: #2D4A6B;
+    --warn: #B8410E; --warn-bg: #FCEEE8; --warn-border: #F0BFA8;
+    --ok: #1F7A4F; --ok-bg: #E7F4EC;
+    --info-bg: #EDF1F7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, 'Pretendard', BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.6; padding: 1.5rem;
+  }
+  main { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--ink-mute); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  h2 { font-size: 1.15rem; color: var(--accent); margin: 1.75rem 0 0.75rem; padding-bottom: 0.35rem; border-bottom: 2px solid var(--border); }
+  h3 { font-size: 1rem; margin: 1rem 0 0.5rem; color: var(--accent); }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
+  .warn { background: var(--warn-bg); border-color: var(--warn-border); color: var(--warn); }
+  .ok { background: var(--ok-bg); border-color: #B8D9C4; color: var(--ok); }
+  .summary { background: var(--info-bg); border-left: 4px solid var(--accent); padding: 0.9rem 1.1rem; margin-bottom: 1.5rem; border-radius: 4px; }
+  .summary strong { color: var(--accent); }
+  ul, ol { padding-left: 1.3rem; margin: 0.4rem 0 0.6rem; }
+  li { margin-bottom: 0.25rem; font-size: 0.95rem; }
+  table { width: 100%; border-collapse: collapse; margin: 0.5rem 0 1rem; font-size: 0.9rem; }
+  th, td { border: 1px solid var(--border); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
+  th { background: var(--info-bg); font-weight: 600; }
+  code { background: #F0F2F5; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.85em; }
+  .tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 3px; font-size: 0.75rem; font-weight: 600; margin-right: 0.4rem; }
+  .tag-ok { background: var(--ok); color: white; }
+  .tag-warn { background: var(--warn); color: white; }
+  .tag-neutral { background: var(--ink-mute); color: white; }
+  .util-embed {
+    width: 100%; height: 900px;
+    border: 1px solid var(--border); border-radius: 10px;
+    background: #FFFFFF; margin: 0.5rem 0 1rem;
+  }
+  .util-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin: 1.25rem 0 0.5rem; }
+  .util-header h3 { margin: 0; }
+  .util-header .util-slug { color: var(--ink-mute); font-size: 0.85rem; font-family: ui-monospace, monospace; }
+  .info-note { background: var(--info-bg); border-left: 3px solid var(--accent); padding: 0.75rem 1rem; font-size: 0.88rem; margin: 0.75rem 0; color: var(--ink); border-radius: 4px; }
+  footer { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--ink-mute); font-size: 0.85rem; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <h1>웹유틸 2026-08-10 사이클 보고서</h1>
+  <p class="subtitle">기획전략실 · 사마의 · 2026-08-10 KST · AdSense 심사 D-25</p>
+
+  <div class="summary">
+    <strong>핵심 요약 3줄</strong>
+    <ol>
+      <li><strong>산출 2건 · 배포 준비 완료 2건 · 조정 필요 0건</strong> — 클레버 4축 검수 무수정 · 반려 없이 1회 결착</li>
+      <li><strong>chuseok-ktx-dday</strong> (주황 #EA580C · 3카드 D-day 그리드) + <strong>work-grant-dday</strong> (그린 #198754 · 상태 3구간 분기) — 두 건 모두 8/17 이후 시류 창 배정 · 오늘 즉시 배포 아님</li>
+      <li><strong>대표 결단 요청</strong>: 두 건 오늘 조기 배포(색인 시간 확보) vs 원 계획 8/17~22 배포(시류 최대치) 중 택1</li>
+    </ol>
+  </div>
+
+  <h2>1. 오늘 사이클 실행 상황</h2>
+  <div class="card">
+    <p><span class="tag tag-ok">완료</span> <strong>웹유틸-수집</strong> — 해리·벤 · 15건 초안 → 최종 2건 채택 (C조합: 추석 시류 + 정부 정책 D-day 신규 축)</p>
+    <p><span class="tag tag-ok">완료</span> <strong>웹유틸-디자인</strong> — 피카소·달리·다빈치 · 반려 없이 1회 결착 · 색·컴포넌트·JSON-LD 확정</p>
+    <p><span class="tag tag-ok">완료</span> <strong>웹유틸-구현배포</strong> (검수 단계) — 마이클·클레버 · 4축 전부 OK · 배포 준비 완료 · 배포 실행은 대표 지시 대기</p>
+    <p><span class="tag tag-ok">완료</span> <strong>웹유틸-보고</strong> — 사마의 · 본 문서</p>
+  </div>
+
+  <h2>2. 산출 2건 요약</h2>
+  <table>
+    <thead>
+      <tr><th>#</th><th>유틸</th><th>슬러그</th><th>도메인·톤</th><th>상태</th><th>배포 예정</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>2026 추석 KTX·SRT 예매 D-day 카운터</td>
+        <td><code>chuseok-ktx-dday</code></td>
+        <td>주황 #EA580C · 시간제약·긴박감</td>
+        <td><span class="tag tag-ok">배포 준비</span></td>
+        <td>8/17~19 (예매 개시 발표 시점)</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>2026 근로장려금 하반기 반기신청 D-day</td>
+        <td><code>work-grant-dday</code></td>
+        <td>그린 #198754 · 법·권리·정부정책</td>
+        <td><span class="tag tag-ok">배포 준비</span></td>
+        <td>8/20~22 (9/1~9/15 신청 창)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3. 클레버 4축 검수 결과</h2>
+  <div class="card ok">
+    <p><strong>정확성 OK · 완성도 OK · 원칙 OK · 배포준비 OK</strong> — 2건 모두 수정 0건 · 배포 가능</p>
+  </div>
+
+  <h3>검증 통과 내역</h3>
+  <ul>
+    <li><strong>chuseok-ktx-dday</strong>: 2026 추석 음력 8/15 → 양력 9/25(금) 매핑 · 연휴 5일 「관공서 공휴일 규정」 정합 · KTX 8/25·SRT 8/28 예상일 D-30~D-35 과거 패턴 · disclaimer 명시로 안전 처리 · setInterval 60초 갱신 로직 정확</li>
+    <li><strong>work-grant-dday</strong>: 하반기 9/1~9/15 · 소득기준(단독 2,200 / 홑벌이 3,200 / 맞벌이 3,800만원) · 재산 2.4억 · ARS 1544-9944 국세청 표준 정합 · 상태 3구간 분기(대기/active/closed) 정확 · 자격 체크 4개 pass/partial/fail 임계 명확</li>
+    <li><strong>접근성 대비</strong>: 주황 6.34:1 · 그린 6.46:1 (둘 다 AA 통과) · 호버 8:1 이상</li>
+    <li><strong>SEO·인프라</strong>: title·description·canonical·OG(6종)·Twitter·JSON-LD WebApplication+offers 완비 · Cloudflare Web Analytics beacon 유지 · adsbygoogle 스크립트 async 로더</li>
+    <li><strong>공통 스택 승계</strong>: Pretendard Variable CDN · CSS 토큰 · hero-line 2.5rem · fadeUp keyframe · 카드 stagger · 버튼 hover·active</li>
+  </ul>
+
+  <h3>이월 (blocker 아님 · 다음 사이클 정리 대상 3건)</h3>
+  <ul>
+    <li>chuseok: <code>chuseokD === 0</code> 도달 불가한 데드코드 (경미)</li>
+    <li>공통: Pretendard <code>&lt;link rel=&quot;stylesheet&quot; as=&quot;style&quot;&gt;</code>의 <code>as</code> 속성은 preload 전용 (8/7부터 승계 이월)</li>
+    <li>공통: <code>daysLeft()</code> 자정 인근 <code>Math.ceil</code> 소소한 오차 (실용상 문제 없음)</li>
+  </ul>
+
+  <h2>4. 유틸 실물 (인라인)</h2>
+  <div class="info-note">
+    아래 iframe은 <b>로컬 아카이브 파일</b>(<code>webutils/2026-08-10/04-보고서.html</code>)을 브라우저로 열 때만 렌더링됩니다. 채팅 다운로드 카드로 받으신 outbox 파일은 상대경로 iframe이 로드되지 않으므로, 실 조작이 필요하시면 로컬 아카이브 경로에서 열어주세요.
+  </div>
+
+  <div class="util-header">
+    <h3>1. 2026 추석 KTX·SRT 예매 D-day 카운터</h3>
+    <span class="util-slug">chuseok-ktx-dday</span>
+  </div>
+  <iframe class="util-embed" src="./chuseok-ktx-dday/index.html" title="추석 KTX·SRT 예매 D-day 카운터 실물"></iframe>
+
+  <div class="util-header">
+    <h3>2. 2026 근로장려금 하반기 반기신청 D-day</h3>
+    <span class="util-slug">work-grant-dday</span>
+  </div>
+  <iframe class="util-embed" src="./work-grant-dday/index.html" title="근로장려금 반기신청 D-day 실물"></iframe>
+
+  <h2>5. 사이클 중 이슈</h2>
+  <div class="card">
+    <p>이번 사이클 자체 이슈 없음. 클레버 검수 반려 0회 · 디자인 반려 0회 · 1회 결착.</p>
+    <p style="color: var(--ink-mute); font-size: 0.9rem; margin-top: 0.5rem;">별개 진행 중: <strong>웹유틸-광고배치 자율지시</strong> (마이클 대리 · 광고 슬롯 매핑 36건 · 클레버 검수 대기 · 사이클 산출 외 병렬 트랙)</p>
+  </div>
+
+  <h2 style="color: var(--warn);">6. 대표 결정 요청</h2>
+  <div class="card warn">
+    <p><strong>배포 승인 대상</strong>: 2건 (chuseok-ktx-dday · work-grant-dday)</p>
+    <p><strong>배포 방식</strong>: <code>git add . &amp;&amp; git commit -m &quot;add: chuseok-ktx-dday, work-grant-dday · 2026-08-10&quot; &amp;&amp; git push origin main</code> → Cloudflare Pages 자동 배포</p>
+    <p><strong>URL 예정</strong>: <code>https://utils.minon.kr/chuseok-ktx-dday/</code> · <code>https://utils.minon.kr/work-grant-dday/</code></p>
+    <p><strong>파일 이동</strong>: <code>2026-08-10/{slug}/index.html</code> → 리포 루트 <code>{slug}/index.html</code>로 승격 필요</p>
+  </div>
+
+  <h3>배포 타이밍 · 사마의 분석</h3>
+  <table>
+    <thead>
+      <tr><th>선택</th><th>내용</th><th>장점</th><th>단점</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>A</strong></td>
+        <td>오늘 즉시 2건 배포</td>
+        <td>색인 시간 최대 확보(D-46·D-22 시류 창 진입 전 색인 완료) · GSC 색인 요청 즉시 가능</td>
+        <td>원 계획 시류창 진입 시점(8/17·8/20)까지 15~20일 조기 노출 · 트래픽 초기 저조 가능</td>
+      </tr>
+      <tr>
+        <td><strong>B</strong></td>
+        <td>원 계획 유지 (8/17~19 chuseok · 8/20~22 work-grant)</td>
+        <td>시류 창 최대치 정합 · 트래픽 계측 확실</td>
+        <td>배포~색인 3~7일 소요 감안 시 시류 창 초반 색인 미완 리스크</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="card">
+    <p><strong>사마의 권고: A (오늘 즉시 배포)</strong></p>
+    <p style="font-size: 0.9rem; margin-top: 0.4rem;">근거 3점:</p>
+    <ol style="font-size: 0.92rem;">
+      <li><strong>D-day 유틸 특성</strong> — 콘텐츠 자체가 시간축 카운트다운. 조기 노출 시 D-46~D-22 구간 검색어("추석 KTX 언제 예매") 초기 트래픽도 흡수 가능. 시류 창 이전 노출이 손해 아님.</li>
+      <li><strong>색인 시간 확보</strong> — AdSense 심사 D-25 · GSC 색인 3~7일 · 시류 최대치(예매 개시일 8/25) 이전 색인 확실화 위해 조기 배포가 안전. 8/17 배포 시 시류창 초반 미색인 리스크.</li>
+      <li><strong>축 다변화 검증</strong> — work-grant는 정부 정책 D-day 신규 축 첫 진입. AdSense 카테고리 다변화 계측을 위해 조기 데이터 수집 유리.</li>
+    </ol>
+    <p style="font-size: 0.9rem; margin-top: 0.5rem; color: var(--ink-mute);">단 대표 판단이 우선. B(원 계획 유지) 선택 시에도 사이클 원칙(월·수·금) 정합 · 문제 없음.</p>
+  </div>
+
+  <h2>7. 다음 사이클 예고</h2>
+  <ul>
+    <li><strong>8/12·14 (수·금) 배정 확정</strong>: 하자보수·층간소음 (부동산 사후관리 축)</li>
+    <li><strong>8/17~19</strong>: chuseok-ktx-dday (B안 채택 시)</li>
+    <li><strong>8/20~22</strong>: work-grant-dday (B안 채택 시)</li>
+    <li><strong>다음 수집 사이클 반영 필요</strong>: 15 하반기 공휴일 중복(<code>golden-vacation-planner-2026</code>) 발견 이력 memory 반영 · 다음 초안 중복 회피 위한 배포 목록 참조 강화 (벤 지적)</li>
+  </ul>
+
+  <footer>
+    <p>webutils 2026-08-10 사이클 보고서 · 기획전략실 팀장 사마의 단독 · AdSense 심사 D-25</p>
+    <p>로컬 아카이브: <code>webutils/2026-08-10/04-보고서.html</code></p>
+    <p>대표 전달용: <code>_outbox/webutils_보고서_2026-08-10.html</code></p>
+  </footer>
+</main>
+</body>
+</html>
