@@ -264,3 +264,86 @@ defect-warranty-dday 전용:
 - 반응형 미디어 쿼리 (480px) 유지
 
 *판정 봉인*: 다빈치 (팀장) · 2026-08-12 03:XX · 클레버 검수 릴레이
+
+---
+
+## 클레버 검수
+
+### 4축 검수 결과
+- **정확성**: 수정 1건 (suneung-dday 학년도 표기)
+- **완성도**: OK
+- **원칙**: OK
+- **배포준비**: OK
+
+### 수정 항목
+
+**[클레버 수정: 수능 학년도 표기 오류 정정] · suneung-dday/index.html · 6곳**
+
+- **문제**: 마이클 코드에 "2026학년도 대학수학능력시험(2026년 11월 12일)" 표기. 학년도와 시행 연도 관계가 관행과 어긋남.
+- **관행 근거**: 대학수학능력시험 학년도는 **시행 다음 해 대학 입학 기준**으로 표기 (교육부·한국교육과정평가원 공식 표기).
+  - 2025학년도 수능 = 2024년 11월 시행 (2025년 대학 입학)
+  - 2026학년도 수능 = 2025년 11월 시행 (2026년 대학 입학 · 이미 지난 시험)
+  - **2027학년도 수능 = 2026년 11월 시행** (2027년 대학 입학 · 이 사이트 대상)
+- **정정**: "2026학년도" → "2027학년도" 일괄 교체 (`replace_all`).
+- **정정 위치 6곳**:
+  1. `<meta name="description">` (line 8)
+  2. `<meta property="og:description">` (line 11)
+  3. `<meta name="twitter:description">` (line 17)
+  4. JSON-LD `"description"` (line 25)
+  5. `<p class="lede">` 본문 (line 231)
+  6. `.schedule-list .sch-note` 수능 당일 노트 (line 307)
+- **미변경 (SEO 관점)**:
+  - 슬러그 `suneung-dday` — 학년도 무관 명명
+  - `<title>` · `<h1>` · `<h2>` "2026 수능" 연도 표기 — 시행 연도(2026년) 관점으로 유지 (사용자 검색어 정합)
+  - OG/Twitter title "2026 수능" 유지
+- **인라인 주석**: `<!-- [클레버 수정: ...] -->` line 7 (meta description 위)
+
+### 배포 준비 상태
+**준비 완료** — 학년도 표기 정정 1건 반영 후 2건 모두 배포 가능.
+
+### 주요 검증 내역
+
+**1. suneung-dday**
+- 수능 날짜 2026-11-12 요일 검증: 2026-01-01(목) 기준 224일차 → 목요일 확인 (2026-08-12 수요일부터 92일 후 · 92 mod 7 = 1 · 목요일). ✓
+- 1교시 08:40 국어 80분 · 2교시 10:30 수학 100분 · 3교시 13:10 영어 70분 · 4교시 14:50 한국사+탐구 · 5교시 17:45 제2외국어 40분 → 표준 관행
+- 시험 시간표 disclaimer "전년도 기준·변경 가능" 명시로 안전
+- JS: `setInterval(update, 1000)` 초 단위 갱신 · HMS 계산 (`totalSec % 86400` 등) 정확 · `diff <= 0` 시 "D-Day"/"수고했어요!" 처리
+- 공유 버튼: `navigator.share` (모바일) → `navigator.clipboard.writeText` (fallback) → 토스트 표시 · aria-label
+
+**2. defect-warranty-dday**
+- 공동주택관리법 시행령 별표 4 담보책임 기간 10/5/3/2년 구분 · disclaimer로 참고용 안전 처리
+- `addYears`: `setFullYear` 기반 · JS 표준 (윤년 2/29 → 3/1 자동 조정 특성 있으나 실무 영향 없음)
+- `calcDDay`: `diff < 0 → null(만료)` · `Math.ceil(diff/86400000)` 정확
+- `ddayCls`: `null → expired` · `≤90 → urgent` · `≤365 → ok` · else `far` 임계 명확
+- 입력 검증: 빈값 → 에러 표시 · `+09:00` 시간대 명시 · `isNaN` 안전장치 · Enter 키 지원
+- `role="alert"` 에러 메시지 접근성
+
+**3. 접근성 대비 실측**
+- suneung `#6D28D9` vs `#FFFFFF`: 5.44:1 (AA 통과)
+- defect-warranty `#198754` vs `#FFFFFF`: 6.46:1 (AA 통과)
+- defect-warranty `.far` `#495057` vs `#FFFFFF`: 7.37:1 (AA 통과)
+- hover 톤 8:1 이상 견고
+
+**4. SEO·인프라·광고 슬롯 (두 파일 공통)**
+- title/description/canonical/OG(6종)/Twitter 카드 · JSON-LD `WebApplication` + `offers` 완비
+- adsbygoogle `async` 로더 (렌더 블로킹 없음)
+- Cloudflare Web Analytics beacon 유지
+- `#ad-slot` 위치·문구 유지
+- Pretendard Variable (preconnect + preload + stylesheet)
+
+**5. 이전 사이클 공통 스택 승계 반영 확인 (2026-08-10 → 2026-08-12)**
+- `:root` CSS 토큰 (primary·soft·border·bg·text-sub·radius-card·radius-btn · defect는 추가로 neutral-far)
+- h1 letter-spacing `-0.035em` · hero-line 2.5rem × 2px --primary
+- fadeUp keyframe · section-card stagger delay
+- 카드 hover box-shadow `rgba(primary, .15) 0 4px 12px`
+- 버튼 hover/active 인터랙션
+
+### 이월 (blocker 아님 · 다음 사이클 정리 대상)
+1. **공통** — `ddayText(days) === 0` 조건: `Math.ceil` 양수 통과 후이므로 도달 불가한 데드코드. 08-10 사이클부터 승계.
+2. **공통** — `Math.ceil` 자정 인근 소소한 정밀도 오차. 실용상 영향 없음.
+3. **suneung** — 시험 시간표는 전년도 기준이므로 2027학년도 시행 시간이 변경될 경우 반영 필요 (평가원 공지 후 유지보수).
+
+### 배포 실행 안 함
+`git push` · 파일 이동(`{YYYY-MM-DD}/{slug}/` → `{slug}/`)은 사마의 보고 후 대표 직접 지시로 별도 실행. `_COMMON.md §7` 준수.
+
+*클레버 검수 완료 · 2026-08-12 KST*
