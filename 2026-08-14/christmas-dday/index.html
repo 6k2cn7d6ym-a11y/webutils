@@ -32,10 +32,10 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
   <style>
     :root {
-      --primary: #1a6b3a;
-      --primary-hover: #145a2f;
-      --primary-soft: #d4edda;
-      --primary-soft-border: #a3d9b1;
+      --primary: #0FADAD;
+      --primary-hover: #0A9396;
+      --primary-soft: #D5F5F4;
+      --primary-soft-border: #7FDCDC;
       --red: #c0392b;
       --bg: #f8f9fa;
       --surface: #ffffff;
@@ -77,6 +77,7 @@
       background: var(--primary-soft);
       border-color: var(--primary-soft-border);
     }
+    .dday-card.arrived .dday-main { color: var(--red); }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -86,7 +87,7 @@
     .dday-main { font-size: 4rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; color: var(--primary); margin-bottom: 6px; }
     .dday-card.arrived .dday-main { font-size: 2.5rem; }
     .dday-date { font-size: 14px; font-weight: 600; color: #343a40; background: var(--border-soft); border-radius: 8px; padding: 8px 14px; display: inline-block; margin-bottom: 20px; }
-    .dday-date span { color: var(--primary); }
+    .dday-date span { color: var(--red); }
 
     .countdown {
       display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
@@ -114,6 +115,7 @@
     }
     .schedule-list li:last-child { border-bottom: none; }
     .sch-date { font-weight: 700; color: var(--primary); min-width: 70px; flex-shrink: 0; }
+    .schedule-list .holiday .sch-date { color: var(--red); }
     .sch-desc { color: #495057; line-height: 1.5; }
 
     .share-btn {
@@ -188,7 +190,7 @@
         <span class="sch-date">12월 24일(목)</span>
         <span class="sch-desc">크리스마스 이브 · 크리스마스 전날</span>
       </li>
-      <li>
+      <li class="holiday">
         <span class="sch-date">12월 25일(금)</span>
         <span class="sch-desc">크리스마스 · 공휴일 (성탄절)</span>
       </li>

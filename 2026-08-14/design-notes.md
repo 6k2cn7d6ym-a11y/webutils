@@ -1,8 +1,8 @@
 ## 현재 상태
-- 단계: 달리 정리 완료 → 다빈치 판정 대기
-- 다음: 다빈치
+- 단계: 다빈치 판정 봉인 완료 · index.html 반영 완료
+- 다음: 클레버 검수
 - 반려 지목: 없음
-- 왕복 회차: 1/5
+- 왕복 회차: 1/5 (반려 없이 1회 결착)
 
 ## 브랜드 승계
 - 이전 사이클 참조: 2026-08-12 (suneung-dday · defect-warranty-dday)
@@ -228,3 +228,73 @@
 1. child-care-grant-dday: B안 그린 `#198754` 확정 or A안 현행 `#7B4FBF` 유지(라벤더 자주 신규 도메인) or C안 인디고 or 재지목
 2. christmas-dday: B안 터쿠아즈 `#0FADAD` 확정 or A안 현행 다크그린 유지 or 재지목
 3. christmas-dday 레드 액센트 `#c0392b` 실제 연결 범위 — `.sch-date` 크리스마스 당일 강조 or `.dday-date span` or 기타 or 제거
+
+---
+
+## 다빈치 판정 봉인 · 2026-08-14
+
+**판정 3건 결착 (반려 없음 · 1회 결착):**
+
+1. **child-care-grant-dday → B안 그린 `#198754` 확정** (6.46:1)
+   달리 근거 그대로 채택. 결정적 근거는 두 개다. (1) 자녀장려금·근로장려금은 국세청 동일 창구·동일 기간 신청 정책 묶음이고 HTML에 이미 크로스링크(`/work-grant-dday/`)까지 걸려 있다. 두 유틸이 같은 primary 계열이면 사용자가 "같은 정책 세트"로 시각 인식. (2) 현행 `#7B4FBF` 라벤더는 기존 자주 `#6D28D9`(방학숙제·수능)와 색역 인접 — 사용자가 두 자주를 구분하기 어려워 도메인 분기 흐림.
+   
+   A안(현행 라벤더 유지)이 "부모·아이" 신규 도메인으로 팔레트 확장할 여지는 있으나, 색역 혼동 리스크가 팔레트 확장 이득보다 크다. C안 인디고는 청약 축이라 부적합.
+
+2. **christmas-dday → B안 터쿠아즈 `#0FADAD` 확정** (6.09:1)
+   달리 근거 그대로 채택. 현행 다크그린 `#1a6b3a` 유지 시 팔레트에 그린 샤드 2개(`#1a6b3a` vs `#198754`)가 공존해 사용자가 "왜 다른 초록?" 혼동. 터쿠아즈는 이미 광복절연차(2026-08-07)에서 "활기·최적화" 축으로 확립됨 — 크리스마스 = "축제·기다림"은 그 축의 자연 확장이다. 팔레트 신규 톤이 아니라 기존 터쿠아즈 축의 도메인 확장.
+   
+   호버 `#0A9396` (8.61:1) 견고. C안 코랄은 WCAG AA 미달로 채택 불가 확정.
+
+3. **레드 액센트 `#c0392b` → 3곳 활성화 확정**
+   달리 지적대로 현재 `--red` 토큰은 정의만 있고 사용처 0. 이 상태로는 미완성. 크리스마스 시그니처(청록+빨강)를 완성하려면 레드가 "크리스마스 당일" 순간에 국한해 등장해야 축제감이 최대화된다. 3곳으로 정한다:
+   
+   - **`.dday-date span`** (헤더 "(금요일)") → 레드. 크리스마스 당일 요일. 히어로 진입 순간 눈이 가는 지점.
+   - **12/25(금) 스케줄 항목** → `<li class="holiday">` 클래스 추가 후 `.holiday .sch-date { color: var(--red); }`. 연말 일정 리스트에서 크리스마스 당일만 시각 시그니처. `:nth-child`는 HTML 재배열 시 취약하므로 명시 클래스로.
+   - **`.dday-card.arrived .dday-main`** → 레드. D-day 도착(12/25) 순간 primary(터쿠아즈)에서 레드로 색 전환 — "기다림 → 축제" 전환 순간의 시각 폭발.
+   
+   기다림 상태 = 터쿠아즈 · 도착 순간 = 레드. 팔레트 이야기가 사용자 여정에 매핑됨.
+
+**공통 스택 확인 (마이클 편입분 승계):**
+
+두 파일 모두 마이클이 Pretendard Variable · `:root` 8토큰 · hero-line 2.5rem×2px · fadeUp keyframe · section-card · @media 480px 재정의를 이미 넣어둠. 이번 사이클 다빈치 반영 범위 = **색 토큰 교체 + 레드 활성화 3곳 + 하드코딩 rgba shadow 정합화**.
+
+| 항목 | 값 |
+|------|-----|
+| 폰트 | Pretendard Variable (마이클 원본 유지 · preload 추가 없음 · 클레버 검수에서 판단) |
+| CSS `:root` | 8토큰 방식 유지 · primary 계열 4개만 교체 |
+| h1 letter-spacing | `-0.035em` (마이클 유지) |
+| hero-line | 2.5rem × 2px --primary (마이클 유지 · 색만 자동 반영) |
+| fadeUp | `.5s ease both` (마이클 유지) |
+| 하드코딩 rgba 정합화 | child-care `rgba(123, 79, 191, 0.12)` → `rgba(25, 135, 84, 0.12)` |
+
+**child-care-grant-dday 토큰 교체:**
+- `--primary: #7B4FBF` → `#198754`
+- `--primary-hover: #5E3A9A` → `#146c43`
+- `--primary-soft: #EDE7F6` → `#D1FAE5`
+- `--primary-soft-border: #C5B3E6` → `#6EE7B7`
+- `.status-card.active` box-shadow `rgba(123, 79, 191, 0.12)` → `rgba(25, 135, 84, 0.12)`
+
+**christmas-dday 토큰 교체 + 레드 활성화:**
+- `--primary: #1a6b3a` → `#0FADAD`
+- `--primary-hover: #145a2f` → `#0A9396`
+- `--primary-soft: #d4edda` → `#D5F5F4`
+- `--primary-soft-border: #a3d9b1` → `#7FDCDC`
+- `--red: #c0392b` 유지
+- `.dday-date span` → `color: var(--red)` (기존 primary에서 교체)
+- `.schedule-list .holiday .sch-date` → `color: var(--red)` (신규 룰 · 12/25 li에 class="holiday" 추가)
+- `.dday-card.arrived .dday-main` → `color: var(--red)` (신규 룰)
+
+**팔레트 누적 갱신 (2026-07-31~08-14):**
+자주 `#6D28D9` (방학숙제·수능) · 인디고 `#4F46E5` (청약·주민등록) · 그린 `#198754` (주휴수당·근로장려금·하자보수·**자녀장려금** 신규 편입) · 터쿠아즈 `#0FADAD` (광복절연차·**크리스마스** 신규 편입) · 티일 `#0F766E` (이사짐) · 코발트 `#1D4ED8` (체감온도·공휴일대체·기숙사) · 앰버 (기숙사 이진 보조) · 주황 `#EA580C` (추석 KTX) · 레드 `#c0392b` (크리스마스 액센트 · primary 아님 · 크리스마스 당일 시그니처)
+
+**보존 확인:**
+- SEO 메타·OG·Twitter·JSON-LD 전수
+- adsbygoogle 스크립트 로더 유지
+- `#ad-slot` 위치·크기 유지
+- JS 계산 로직 (자녀장려금 3구간 상태 전환·자격 체크·홈택스·ARS 링크 · 크리스마스 D-day·HMS 타이머·arrived 클래스·공유버튼) 무손실
+- DOM ID 전수 (#status-card·#status-label·#main-days·#days-sub·#checklist·#check-result · #ddayCard·#ddayLabel·#ddayMain·#countdown·#cH·#cM·#cS·#shareMsg)
+- 크로스링크 `/work-grant-dday/` 유지
+- Cloudflare Analytics beacon 유지
+- 반응형 미디어 쿼리 (480px) 유지
+
+*판정 봉인*: 다빈치 (팀장) · 2026-08-14 03:XX · 클레버 검수 릴레이
