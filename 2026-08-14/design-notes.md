@@ -298,3 +298,49 @@
 - 반응형 미디어 쿼리 (480px) 유지
 
 *판정 봉인*: 다빈치 (팀장) · 2026-08-14 03:XX · 클레버 검수 릴레이
+
+---
+
+## 클레버 검수 · 2026-08-14
+
+- 4축 검수 결과: [정확성: 수정 / 완성도: OK / 원칙: OK / 배포준비: OK]
+- 수정 항목:
+  - **child-care-grant-dday** · 요일 표기 오류 2곳 정정 · `9월 1일(월)~9월 15일(월)` → `9월 1일(화)~9월 15일(화)` · `.lede` + `.period-bar` · 실증: `date -jf "%Y-%m-%d" "2026-09-01"` = 화요일 · `2026-09-15` = 화요일 · 마이클·다빈치 놓친 관성 오류(월요일 관행 가정) · 08-12 학년도 표기 오류 사후 패턴과 동일 (요일·연도·표기 사실관계 검증은 검수 필수 항목)
+  - **christmas-dday** · 수정 없음 · 12/1(화)·12/24(목)·12/25(금)·12/26(토)·12/31(목) 5곳 요일 전수 검증 통과
+- 배포 준비 상태: **준비 완료**
+
+**검증 로그:**
+
+| 검증 항목 | christmas-dday | child-care-grant-dday |
+|-----------|----------------|-----------------------|
+| 요일 정확성 | 5곳 통과 (12/1·24·25·26·31) | 2곳 오류→정정 (9/1·15 월→화) |
+| 다빈치 판정 반영 | ✓ `--primary:#0FADAD` · `--primary-hover:#0A9396` · `--primary-soft:#D5F5F4` · `--primary-soft-border:#7FDCDC` · `--red:#c0392b` 유지 · 레드 활성화 3곳(`.dday-date span` · `.holiday .sch-date` + 12/25 li `class="holiday"` · `.dday-card.arrived .dday-main`) 전수 확인 | ✓ `--primary:#198754` · `--primary-hover:#146c43` · `--primary-soft:#D1FAE5` · `--primary-soft-border:#6EE7B7` · `.status-card.active` box-shadow `rgba(25,135,84,0.12)` 정합화 확인 |
+| WCAG AA 대비 | 6.09:1 · 8.61:1 통과 | 6.46:1 · 8.62:1 통과 |
+| SEO 메타·OG·Twitter | 전수 유지 | 전수 유지 |
+| JSON-LD WebApplication | ✓ | ✓ |
+| canonical URL | `/christmas-dday/` | `/child-care-grant-dday/` |
+| adsbygoogle 로더 | ✓ `ca-pub-9477150496807643` | ✓ 동일 |
+| `#ad-slot` 위치 | ✓ disclaimer 하단 | ✓ disclaimer 하단 |
+| DOM ID 전수 | #ddayCard·#ddayLabel·#ddayMain·#countdown·#cH·#cM·#cS·#shareMsg | #status-card·#status-label·#main-days·#days-sub·#checklist·#check-result |
+| 크로스링크 | — | `/work-grant-dday/` 유지 |
+| 반응형 480px | ✓ | ✓ |
+| Cloudflare Analytics | ✓ token `8f333dc2c9e844b39f36daec8c0c0570` | ✓ 동일 |
+| 시맨틱 태그 | `<main>·<nav>·<h1>·<h2>·<footer>` | 동일 |
+| 키보드 접근 | 버튼·링크 · label로 체크박스 감싸기 | 동일 |
+| 인라인 CSS | ✓ | ✓ |
+| 외부 의존 | Pretendard CDN·adsbygoogle·CF beacon만 | 동일 |
+
+**계산 로직 시뮬레이션 (오늘 2026-08-14 04:XX KST 기준):**
+
+- christmas-dday: `TARGET - now` = 약 133일 → D-133 표시 · 초 단위 정확 계산 · 자정 정확 전환 (`Math.floor(totalSec/86400)`) · arrived 상태 UI 로직 정합
+- child-care-grant-dday: `now < START` 분기 · `Math.ceil((START-now)/86400000)` = 약 D-18 · 3구간 상태 전환(신청 전·중·후) 로직 정합 · 자격 체크 로직(0/2/5 임계 정합) · `--red` 스타일 없어 fail 상태 배경 `#f8d7da` 하드코딩(다빈치 스택 밖 · 원본 유지)
+
+**이월 이슈 (사이클 밖 유지보수):**
+1. `Math.ceil((START-now)/86400000)` 자정 정밀도 · 08-12부터 이월 · 자녀장려금도 동일 패턴 · 대체 방식 검토는 이월
+2. `<link rel="stylesheet" as="style" ...>` — `as` 속성은 `rel="preload"` 전용 · 브라우저 관대 무시 · 08-12부터 이월 · 두 파일 승계 · 스타일 시트 preload 패턴 재설계 필요
+3. adsbygoogle inline `<ins class="adsbygoogle">` 태그 없이 로더만 로드됨 · `#ad-slot` div만 있음 · AdSense 승인 후 슬롯 삽입 결정 · 08-01 이후 전 파일 공통 이월
+
+**전 파일 이전 사이클 브랜드 승계 확인:**
+- 공통 스택(Pretendard Variable · `:root` 8토큰 · hero-line 2.5rem×2px · fadeUp `.5s ease both` · section-card · `@media 480px`) 마이클이 이미 편입 완료 · 다빈치 반영 범위 = 색 토큰 교체 + 레드 활성화 3곳(christmas) + rgba shadow 정합화(자녀장려금) · 클레버 검수에서 승계 무결성 확인
+
+*검수 봉인*: 클레버 (팀장) · 2026-08-14 04:XX · 배포 지시 대기 (git push 실행 X · 파일 이동 실행 X · `_COMMON.md §7` 준수 · 사마의 보고 후 대표 직접 승인)
