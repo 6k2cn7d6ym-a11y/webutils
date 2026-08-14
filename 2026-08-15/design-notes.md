@@ -1,14 +1,14 @@
 ## 현재 상태
-- 단계: 달리 정리 완료 → 다빈치 판정 대기
-- 다음: 다빈치
-- 반려 지목: 없음
+- 단계: 다빈치 판정 봉인·index.html 반영 완료 → 클레버 검수 대기
+- 다음: 클레버 (개발팀 검수)
+- 반려 지목: 없음 (1회 결착)
 - 왕복 회차: 1/5
 
 ## 브랜드 승계
 - 이전 사이클 참조: 2026-08-14 (child-care-grant-dday · christmas-dday)
 - 승계 · 조정 내역:
   - 도메인 분기 전략 계속 적용 (다빈치 지시 · 2026-08-05~현재)
-  - 누적 팔레트: 자주 `#6D28D9` (집중·준비·D-day · 방학숙제·수능) · 인디고 `#4F46E5` (공식·법·정책·청약) · 그린 `#198754` (신뢰·권리·근로·자녀장려금·하자보수) · 터쿠아즈 `#0FADAD` (활기·축제·기다림·크리스마스) · 주황 `#EA580C` (긴박감·예매·추석)
+  - 누적 팔레트: 자주 `#6D28D9` (집중·준비·D-day · 방학숙제·수시·수능) · 인디고 `#4F46E5` (공식·법·정책·청약) · 그린 `#198754` (신뢰·권리·근로·자녀장려금·하자보수) · 터쿠아즈 `#0FADAD` (활기·축제·기다림·크리스마스) · 주황 `#EA580C` (긴박감·예매·추석) · **코발트 `#1971C2` (절약·경제·재테크·자동차세 연납) — 2026-08-15 신규 편입**
   - **car-tax-yearly-dday**: "자동차세 연납 D-day" = 절약·경제·납부 기한 도메인 → **현행 유지 vs 인디고 톤 통일 vs 새로운 톤 권고**
   - **susi-dday**: "2027학년도 수시 원서접수 D-day" = 학생·진학·준비 도메인 → **현행 인디고 vs 자주 톤 통일 권고**
 
@@ -201,3 +201,70 @@
 2. car-tax-yearly-dday `.highlight .sch-date` 레드 하드코딩 — 현행 유지 or `--accent-red` 토큰으로 명시 정리
 3. susi-dday: B안 자주 `#6D28D9`(권고) or A안 현행 `#3B5BDB` 유지 or 재지목
 4. susi-dday 레드 액센트 `#e03131` — 유지 확정 or 자주 primary와 충돌 판단
+
+---
+
+## 다빈치 판정 봉인 (2026-08-15)
+
+**판정 4건 결착 · 반려 0 · 1회 결착.**
+
+### 1. car-tax-yearly-dday → **A안 현행 `#1971C2` 유지 확정** (6.52:1)
+
+달리 근거 채택. 결정적 두 축:
+- **감정 정합**: 유틸의 핵심 가치는 "6.4% 절약" · 사용자 감정은 "돈 아끼기". 코발트(`#1971C2`)는 신뢰감·경제성 톤으로 이 감정에 정확히 부합. 인디고(`#4F46E5`)는 이미 청약·자녀장려금 "정책 축"에 배정 — 도메인 감정이 "정책 준수"이지 "절약"이 아님. 축 통합 논리는 있으나 감정 축이 다름.
+- **2-레이어 역할 분리 보존**: 마이클이 primary(코발트 D-day 타이머·버튼) + accent(그린 `#2f9e44` 절약 배지·절약액)로 이미 색으로 "지금 얼마 남았냐"와 "얼마 아낄 수 있냐"를 구분 설계. 이 구조를 유지하려면 primary=코발트 그대로. 인디고로 바꾸면 구조는 유지되나 코발트 고유 색역이 소실 → "절약·경제·재테크" 신규 도메인 편입 기회 상실.
+
+**팔레트 확장**: 코발트 `#1971C2` = **"절약·경제·재테크" 도메인** 신규 편입. 향후 소득공제·환급·재테크 유틸을 이 축으로 묶을 근거 확보.
+
+### 2. car-tax-yearly-dday `.highlight .sch-date` 하드코딩 레드 → **`--accent-red: #e03131` 토큰으로 정리 확정**
+
+`--accent`는 이미 그린(`#2f9e44`) "절약 시각화"에 배정. 이 유틸엔 액센트가 실제로 2종 — 그린(절약) · 레드(마감 긴박감) — 역할이 완전히 다름. 하나의 `--accent` 토큰에 두 색을 담을 수 없으니 토큰을 분리한다. `.calc-error`의 `#e03131`도 같은 값이라 함께 토큰화 (하드코딩 총 2곳 → `var(--accent-red)`).
+
+### 3. susi-dday → **B안 자주 `#6D28D9` 확정** (5.44:1)
+
+달리 근거 채택. 결정적 두 축:
+- **학생 진학 여정 자주 축 3중 완성**: 스케줄에 "11월 12일(목) 2027학년도 수능"이 이미 HTML에 명시 → 자주 `#6D28D9`를 채택하면 **방학숙제(여름) → 수시(9월) → 수능(11월)** 학생 진학 여정이 색으로 묶임. 사용자가 유틸 간 이동 시 "같은 학생 여정 도구"로 직관 인식.
+- **인디고 샤드 혼동 방지**: 현행 `#3B5BDB`는 팔레트 인디고 `#4F46E5`와 색역 인접 → "왜 이 페이지 인디고가 조금 다르지?" 인지 부담. 자주 이관으로 인디고 축은 "청약·공식·정책" 전용 정리.
+
+### 4. susi-dday `--accent: #e03131` 레드 → **유지 확정**
+
+자주 primary와 레드 액센트는 색상환 반대 방향으로 대비 충분. 자주 primary와 충돌 없음. `.dday-period span`(히어로 접수 기간 날짜) · `.schedule-list .highlight .sch-date`(스케줄 접수 시작·마감) 실제 동작 중 — "긴박한 마감 강조" 역할 그대로 보존.
+
+---
+
+### index.html 반영 요지
+
+**car-tax-yearly-dday/index.html:**
+- `:root` — `--accent-red: #e03131` 신규 토큰 추가 (그 외 토큰 변경 없음 · 코발트 primary 유지)
+- `.calc-error { color: var(--accent-red); }` — 하드코딩 → 토큰
+- `.schedule-list .highlight .sch-date { color: var(--accent-red); }` — 하드코딩 → 토큰
+- 마이클 편입 공통 스택(Pretendard·8토큰·hero-line·fadeUp·section-card·discount-badge·calc-wrap·schedule-list·method-list·tip-list·크로스링크·share) 그대로 승계
+
+**susi-dday/index.html:**
+- `:root` — primary 4토큰 자주 교체 (`--primary: #6D28D9`, `--primary-hover: #581C87`, `--primary-soft: #E9D5FF`, `--primary-soft-border: #D8B4FE`)
+- `--accent: #e03131` 유지 (히어로 날짜·스케줄 마감 레드 강조 보존)
+- 마이클 편입 공통 스택(Pretendard·8토큰·hero-line·fadeUp·section-card·apply-grid·checklist·share) 그대로 승계
+
+### 전수 보존 확인 (2건 공통)
+
+- SEO 메타 · OG · Twitter · JSON-LD · adsbygoogle · `#ad-slot` (자리·크기 무손실)
+- JS 계산 로직 (car-tax-yearly-dday: D-day 3구간·6.4% 절약액 계산·HMS 카운트다운 · susi-dday: D-day 3구간·HMS 카운트다운)
+- DOM ID 전수 (car-tax-yearly-dday: `#ddayCard`·`#ddayLabel`·`#ddayMain`·`#countdown`·`#cH`·`#cM`·`#cS`·`#taxInput`·`#calcError`·`#calcResult`·`#calcSaveVal`·`#calcPayVal`·`#shareMsg` · susi-dday: `#ddayCard`·`#ddayLabel`·`#ddayMain`·`#countdown`·`#cH`·`#cM`·`#cS`·`#shareMsg`)
+- 크로스링크 (car-tax-yearly-dday: `/property-tax-calculator/`·`/acquisition-tax-calculator/`·`/work-grant-dday/`)
+- Cloudflare Analytics · 480px 반응형 미디어 쿼리 무손실
+
+### 팔레트 누적 갱신 (2026-08-15)
+
+| 톤 | 색값 | 도메인 |
+|-----|------|--------|
+| 자주 | `#6D28D9` | 집중·준비·D-day · 방학숙제·**수시(신규)**·수능 |
+| 인디고 | `#4F46E5` | 공식·법·정책·청약 |
+| 그린 | `#198754` | 신뢰·권리·근로·자녀장려금·하자보수 |
+| 터쿠아즈 | `#0FADAD` | 활기·축제·기다림·크리스마스 |
+| 주황 | `#EA580C` | 긴박감·예매·추석 |
+| **코발트** | **`#1971C2`** | **절약·경제·재테크·자동차세 연납 (2026-08-15 신규)** |
+
+---
+
+**판정**: 다빈치 (팀장) · 2026-08-15
+**다음**: 클레버 (개발팀 검수)

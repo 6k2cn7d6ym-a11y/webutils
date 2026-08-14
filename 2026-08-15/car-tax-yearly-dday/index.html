@@ -44,6 +44,7 @@
       --border: #dee2e6;
       --border-soft: #f1f3f5;
       --accent: #2f9e44;
+      --accent-red: #e03131;
     }
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
@@ -143,7 +144,7 @@
       align-self: flex-end;
     }
     .calc-btn:hover { background: var(--primary-hover); }
-    .calc-error { font-size: 13px; color: #e03131; margin-top: 8px; min-height: 18px; }
+    .calc-error { font-size: 13px; color: var(--accent-red); margin-top: 8px; min-height: 18px; }
     .calc-result {
       display: none; margin-top: 14px;
       background: var(--primary-soft); border: 1px solid var(--primary-soft-border);
@@ -167,7 +168,7 @@
     }
     .schedule-list li:last-child { border-bottom: none; }
     .sch-date { font-weight: 700; color: var(--primary); min-width: 100px; flex-shrink: 0; }
-    .schedule-list .highlight .sch-date { color: #e03131; }
+    .schedule-list .highlight .sch-date { color: var(--accent-red); }
     .sch-desc { color: #495057; line-height: 1.5; }
 
     .method-list { list-style: none; margin: 0; padding: 0; }
