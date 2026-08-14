@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>자동차세 연납 D-day 2027 — 1월 신청으로 6.4% 절약</title>
+  <meta name="description" content="2027년 자동차세 연납 신청 기간(1월 16일~31일)까지 D-day를 확인하고 절약액을 계산하세요. 6.4% 할인 혜택 안내.">
+  <link rel="canonical" href="https://utils.minon.kr/car-tax-yearly-dday/">
+  <meta property="og:title" content="자동차세 연납 D-day 2027 — 1월 신청으로 6.4% 절약">
+  <meta property="og:description" content="2027년 자동차세 연납 신청 기간(1/16~1/31)까지 D-day와 절약액을 계산하세요.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utils.minon.kr/car-tax-yearly-dday/">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="자동차세 연납 D-day 2027 — 1월 신청으로 6.4% 절약">
+  <meta name="twitter:description" content="2027년 자동차세 연납 신청 기간(1/16~1/31)까지 D-day와 절약액을 계산하세요.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232D4A6B'/%3E%3Ctext x='32' y='42' font-family='system-ui,sans-serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23F7F8FA'%3EU%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "자동차세 연납 D-day 2027",
+    "url": "https://utils.minon.kr/car-tax-yearly-dday/",
+    "description": "2027년 자동차세 연납 신청 기간까지 D-day와 절약액을 계산하는 도구",
+    "applicationCategory": "UtilityApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --primary: #1971C2;
+      --primary-hover: #1562A8;
+      --primary-soft: #DBE9FF;
+      --primary-soft-border: #74B0F5;
+      --bg: #f8f9fa;
+      --surface: #ffffff;
+      --text: #1a1a2e;
+      --text-sub: #6c757d;
+      --text-mute: #adb5bd;
+      --border: #dee2e6;
+      --border-soft: #f1f3f5;
+      --accent: #2f9e44;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    main { max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .site-nav { font-size: 13px; margin-bottom: 24px; }
+    .site-nav a { color: var(--text-sub); text-decoration: none; }
+    .site-nav a:hover { color: var(--primary); }
+
+    h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 12px; line-height: 1.3; letter-spacing: -0.035em; }
+    .hero-line { display: block; width: 2.5rem; height: 2px; background: var(--primary); margin: 0 0 20px; border-radius: 2px; }
+    .lede { font-size: 14px; color: var(--text-sub); margin: 0 0 28px; line-height: 1.65; }
+    .lede strong { color: var(--primary-hover); }
+
+    .dday-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px 24px 28px;
+      text-align: center;
+      margin-bottom: 24px;
+      animation: fadeUp .5s ease both;
+    }
+    .dday-card.active {
+      background: var(--primary-soft);
+      border-color: var(--primary-soft-border);
+    }
+    .dday-card.closed {
+      background: #f1f3f5;
+      border-color: var(--border);
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .dday-label { font-size: 13px; font-weight: 600; color: var(--text-sub); margin-bottom: 14px; letter-spacing: -0.01em; }
+    .dday-main { font-size: 4rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; color: var(--primary); margin-bottom: 6px; }
+    .dday-card.active .dday-main { font-size: 2.5rem; color: var(--primary); }
+    .dday-card.closed .dday-main { font-size: 2rem; color: var(--text-sub); }
+    .dday-period {
+      font-size: 14px; font-weight: 600; color: #343a40;
+      background: var(--border-soft); border-radius: 8px;
+      padding: 8px 14px; display: inline-block; margin-bottom: 20px;
+    }
+    .dday-period span { color: var(--primary); }
+
+    .discount-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px;
+      margin-bottom: 4px;
+    }
+
+    .countdown {
+      display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .count-block { text-align: center; min-width: 56px; }
+    .count-num { font-size: 1.8rem; font-weight: 700; color: var(--primary); line-height: 1; display: block; }
+    .count-lbl { font-size: 11px; color: var(--text-sub); display: block; margin-top: 3px; }
+    .count-sep { font-size: 1.6rem; font-weight: 300; color: var(--text-mute); align-self: flex-start; padding-top: 2px; }
+
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.02em; }
+
+    .calc-wrap { display: flex; gap: 8px; align-items: flex-start; flex-wrap: wrap; }
+    .calc-input-wrap { flex: 1; min-width: 160px; }
+    .calc-input-wrap label { display: block; font-size: 12px; color: var(--text-sub); margin-bottom: 6px; }
+    .calc-input {
+      width: 100%; padding: 10px 12px;
+      border: 1px solid var(--border); border-radius: 8px;
+      font-size: 15px; font-family: inherit;
+      outline: none; transition: border-color .15s;
+    }
+    .calc-input:focus { border-color: var(--primary); }
+    .calc-btn {
+      padding: 10px 18px; border: none; border-radius: 8px;
+      background: var(--primary); color: #fff;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      font-family: inherit; white-space: nowrap;
+      transition: background .15s;
+      align-self: flex-end;
+    }
+    .calc-btn:hover { background: var(--primary-hover); }
+    .calc-error { font-size: 13px; color: #e03131; margin-top: 8px; min-height: 18px; }
+    .calc-result {
+      display: none; margin-top: 14px;
+      background: var(--primary-soft); border: 1px solid var(--primary-soft-border);
+      border-radius: 8px; padding: 14px 16px;
+    }
+    .calc-result-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 14px; padding: 5px 0;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .calc-result-row:last-child { border-bottom: none; }
+    .calc-result-row .label { color: var(--text-sub); }
+    .calc-result-row .val { font-weight: 700; color: var(--primary); }
+    .calc-result-row.save .val { color: var(--accent); }
+
+    .schedule-list { list-style: none; margin: 0; padding: 0; }
+    .schedule-list li {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 9px 0; border-bottom: 1px solid var(--border-soft);
+      font-size: 14px;
+    }
+    .schedule-list li:last-child { border-bottom: none; }
+    .sch-date { font-weight: 700; color: var(--primary); min-width: 100px; flex-shrink: 0; }
+    .schedule-list .highlight .sch-date { color: #e03131; }
+    .sch-desc { color: #495057; line-height: 1.5; }
+
+    .method-list { list-style: none; margin: 0; padding: 0; }
+    .method-list li {
+      font-size: 14px; padding: 8px 0;
+      border-bottom: 1px solid var(--border-soft);
+      line-height: 1.6;
+    }
+    .method-list li:last-child { border-bottom: none; }
+    .method-list strong { color: var(--primary); }
+    .method-list a { color: var(--text-sub); text-decoration: none; font-size: 12px; }
+    .method-list a:hover { color: var(--primary); }
+
+    .tip-list { list-style: none; margin: 0; padding: 0; }
+    .tip-list li {
+      font-size: 14px; padding: 7px 0;
+      border-bottom: 1px solid var(--border-soft);
+      color: #495057; line-height: 1.5;
+      padding-left: 20px; position: relative;
+    }
+    .tip-list li:last-child { border-bottom: none; }
+    .tip-list li::before { content: '!'; position: absolute; left: 0; color: var(--primary); font-weight: 700; }
+
+    .related-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border: 1px solid var(--border);
+      border-radius: 8px; text-decoration: none;
+      font-size: 13px; color: var(--text-sub);
+      transition: border-color .15s, color .15s;
+      margin-right: 8px; margin-bottom: 8px;
+    }
+    .related-link:hover { border-color: var(--primary); color: var(--primary); }
+
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px; border-radius: 8px; border: none;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      font-family: inherit;
+      background: var(--primary); color: #fff;
+      transition: background .15s, transform .1s;
+    }
+    .share-btn:hover { background: var(--primary-hover); }
+    .share-btn:active { transform: scale(.97); }
+    .share-area { text-align: center; margin-bottom: 8px; }
+    .share-msg { font-size: 12px; color: var(--text-mute); text-align: center; min-height: 18px; }
+
+    .disclaimer {
+      font-size: 12px; color: var(--text-mute); line-height: 1.7;
+      margin-bottom: 24px; padding: 12px 16px;
+      background: var(--bg); border-radius: 8px; border: 1px solid #e9ecef;
+    }
+
+    #ad-slot {
+      min-height: 90px; background: var(--bg); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: #ced4da; font-size: 12px; margin-bottom: 32px;
+    }
+
+    footer {
+      font-size: 12px; color: var(--text-mute);
+      padding-top: 20px; border-top: 1px solid #e9ecef;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--text-mute); text-decoration: none; }
+    footer a:hover { color: var(--text-sub); }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.3rem; }
+      .dday-main { font-size: 3rem; }
+      .count-num { font-size: 1.5rem; }
+      .calc-wrap { flex-direction: column; }
+      .calc-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <nav class="site-nav"><a href="/">← 유틸 목록</a></nav>
+
+  <h1>자동차세 연납 D-day 2027</h1>
+  <span class="hero-line" aria-hidden="true"></span>
+  <p class="lede">2027년 자동차세 연납 신청은 <strong>1월 16일(토) ~ 1월 31일(일)</strong>입니다. 1월에 신청하면 연세의 <strong>약 6.4%</strong>를 절약할 수 있습니다.</p>
+
+  <div class="dday-card" id="ddayCard">
+    <div class="discount-badge">1월 연납 6.4% 할인</div>
+    <div class="dday-label" id="ddayLabel" style="margin-top:10px;">연납 신청 시작까지</div>
+    <div class="dday-main" id="ddayMain">—</div>
+    <div class="dday-period">2027년 <span>1월 16일(토)</span> ~ <span>1월 31일(일)</span></div>
+    <div class="countdown" id="countdown">
+      <div class="count-block"><span class="count-num" id="cH">--</span><span class="count-lbl">시간</span></div>
+      <span class="count-sep">:</span>
+      <div class="count-block"><span class="count-num" id="cM">--</span><span class="count-lbl">분</span></div>
+      <span class="count-sep">:</span>
+      <div class="count-block"><span class="count-num" id="cS">--</span><span class="count-lbl">초</span></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>절약액 계산기</h2>
+    <div class="calc-wrap">
+      <div class="calc-input-wrap">
+        <label for="taxInput">2027년 연간 자동차세액 (원)</label>
+        <input class="calc-input" type="number" id="taxInput" placeholder="예: 280000" min="0" inputmode="numeric" aria-label="연간 자동차세액">
+      </div>
+      <button class="calc-btn" onclick="calcSave()" type="button">계산</button>
+    </div>
+    <p class="calc-error" id="calcError" role="alert"></p>
+    <div class="calc-result" id="calcResult" aria-live="polite">
+      <div class="calc-result-row save">
+        <span class="label">절약액 (6.4%)</span>
+        <span class="val" id="calcSaveVal">—</span>
+      </div>
+      <div class="calc-result-row">
+        <span class="label">실납부액</span>
+        <span class="val" id="calcPayVal">—</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>연납 신청 주요 일정</h2>
+    <ul class="schedule-list">
+      <li>
+        <span class="sch-date">1월 초</span>
+        <span class="sch-desc">위택스·이택스에서 연납 고지서 사전 확인 가능</span>
+      </li>
+      <li class="highlight">
+        <span class="sch-date">1월 16일(토)</span>
+        <span class="sch-desc">2027년 자동차세 연납 신청 시작</span>
+      </li>
+      <li class="highlight">
+        <span class="sch-date">1월 31일(일)</span>
+        <span class="sch-desc">연납 신청 마감 · 이후 신청 불가 (6월·12월 정기 납부로 전환)</span>
+      </li>
+      <li>
+        <span class="sch-date">6월 · 12월</span>
+        <span class="sch-desc">연납 미신청 시 정기 납부 (상·하반기 각 50% · 할인 없음)</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h2>연납 신청 방법</h2>
+    <ul class="method-list">
+      <li>
+        <strong>위택스 (wetax.go.kr)</strong><br>
+        전국 공통 · 공동인증서 또는 간편인증 로그인 후 자동차세 연납 신청
+        <br><a href="https://www.wetax.go.kr" target="_blank" rel="noopener">wetax.go.kr →</a>
+      </li>
+      <li>
+        <strong>서울시 이택스 (etax.seoul.go.kr)</strong><br>
+        서울시 등록 차량 전용 · 서울시 STAX 앱에서도 신청 가능
+        <br><a href="https://etax.seoul.go.kr" target="_blank" rel="noopener">etax.seoul.go.kr →</a>
+      </li>
+      <li>
+        <strong>관할 시·군·구청 세무과</strong><br>
+        방문 신청 · 신분증 지참 · 지로영수증 또는 고지서 번호 필요
+      </li>
+      <li>
+        <strong>ARS 전화 신청</strong><br>
+        위택스 ARS: 1661-0001 · 신용카드 납부 가능
+      </li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h2>연납 신청 전 확인사항</h2>
+    <ul class="tip-list">
+      <li>연납은 1월에 신청해야 최대 절약 (6.4%) · 3월·6월·9월 신청 시 할인율 감소</li>
+      <li>차량이 연중 말소·이전될 경우 환급 가능 · 납부 후 처리 기관에 문의</li>
+      <li>2대 이상 보유 시 차량별로 각각 신청 필요</li>
+      <li>연납 후 차량 매도 시 잔여 기간 환급 신청 가능 (관할 구청 세무과)</li>
+      <li>할인율은 지방세법 개정에 따라 변동될 수 있음 · 신청 전 위택스 공지 확인</li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h2>관련 유틸</h2>
+    <a class="related-link" href="/property-tax-calculator/">재산세 계산기</a>
+    <a class="related-link" href="/acquisition-tax-calculator/">취득세 계산기</a>
+    <a class="related-link" href="/work-grant-dday/">근로장려금 D-day</a>
+  </div>
+
+  <div class="section-card">
+    <div class="share-area">
+      <button class="share-btn" onclick="doShare()" type="button">링크 공유하기</button>
+    </div>
+    <p class="share-msg" id="shareMsg"></p>
+  </div>
+
+  <p class="disclaimer">
+    ※ 자동차세 연납 할인율(6.4%)은 1월 연납 기준이며, 지방세법 개정에 따라 변동될 수 있습니다. 신청 기간(1월 16일~31일)은 지자체별로 하루 이틀 차이가 있을 수 있으니 관할 지자체 공지를 반드시 확인하세요. 납부 기한을 놓치면 할인 적용이 불가합니다.
+  </p>
+
+  <div id="ad-slot">광고</div>
+
+  <footer>
+    <span>© 민온</span>
+    <nav><a href="/privacy.html">개인정보처리방침</a> · <a href="/contact.html">문의</a></nav>
+  </footer>
+</main>
+<script>
+(function () {
+  var START = new Date('2027-01-16T00:00:00+09:00');
+  var END   = new Date('2027-01-31T23:59:59+09:00');
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function update() {
+    var now  = new Date();
+    var card = document.getElementById('ddayCard');
+    var main = document.getElementById('ddayMain');
+    var lbl  = document.getElementById('ddayLabel');
+    var cntd = document.getElementById('countdown');
+
+    card.classList.remove('active', 'closed');
+
+    if (now < START) {
+      var diff = START - now;
+      var totalSec = Math.floor(diff / 1000);
+      var days = Math.floor(totalSec / 86400);
+      var hrs  = Math.floor((totalSec % 86400) / 3600);
+      var mins = Math.floor((totalSec % 3600) / 60);
+      var secs = totalSec % 60;
+
+      main.textContent = 'D-' + days;
+      lbl.textContent  = '연납 신청 시작까지';
+      cntd.style.display = 'flex';
+      document.getElementById('cH').textContent = pad(hrs);
+      document.getElementById('cM').textContent = pad(mins);
+      document.getElementById('cS').textContent = pad(secs);
+
+    } else if (now <= END) {
+      var diff2 = END - now;
+      var totalSec2 = Math.floor(diff2 / 1000);
+      var days2 = Math.floor(totalSec2 / 86400);
+      var hrs2  = Math.floor((totalSec2 % 86400) / 3600);
+      var mins2 = Math.floor((totalSec2 % 3600) / 60);
+      var secs2 = totalSec2 % 60;
+
+      card.classList.add('active');
+      main.textContent = '🚗 신청 중 · D-' + days2 + '까지';
+      lbl.textContent  = '자동차세 연납 신청 진행 중';
+      cntd.style.display = 'flex';
+      document.getElementById('cH').textContent = pad(hrs2);
+      document.getElementById('cM').textContent = pad(mins2);
+      document.getElementById('cS').textContent = pad(secs2);
+
+    } else {
+      card.classList.add('closed');
+      main.textContent = '신청 마감';
+      lbl.textContent  = '2027년 자동차세 연납 · 다음 신청: 2028년 1월';
+      cntd.style.display = 'none';
+    }
+  }
+
+  update();
+  setInterval(update, 1000);
+
+  window.calcSave = function () {
+    var raw = document.getElementById('taxInput').value.replace(/[^0-9]/g, '');
+    var val = parseInt(raw, 10);
+    var errEl = document.getElementById('calcError');
+    var resEl = document.getElementById('calcResult');
+
+    if (!val || val <= 0) {
+      resEl.style.display = 'none';
+      errEl.textContent = '연간 자동차세액을 입력해 주세요.';
+      return;
+    }
+    errEl.textContent = '';
+
+    var save = Math.floor(val * 0.064);
+    var pay  = val - save;
+    document.getElementById('calcSaveVal').textContent = save.toLocaleString('ko-KR') + '원';
+    document.getElementById('calcPayVal').textContent  = pay.toLocaleString('ko-KR') + '원';
+    resEl.style.display = 'block';
+  };
+
+  document.getElementById('taxInput').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') window.calcSave();
+  });
+
+  window.doShare = function () {
+    var url = location.href;
+    var msg = document.getElementById('shareMsg');
+    if (navigator.share) {
+      navigator.share({ title: '자동차세 연납 D-day 2027', url: url });
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(function () {
+        msg.textContent = '링크가 복사되었습니다!';
+        setTimeout(function () { msg.textContent = ''; }, 2000);
+      });
+    } else {
+      msg.textContent = url;
+    }
+  };
+}());
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8f333dc2c9e844b39f36daec8c0c0570"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
