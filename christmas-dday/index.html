@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 크리스마스 D-day — 크리스마스까지 며칠 남았어?</title>
+  <meta name="description" content="2026년 크리스마스(12월 25일 금요일)까지 남은 날짜를 실시간으로 확인합니다. 시·분·초 카운트다운.">
+  <link rel="canonical" href="https://utils.minon.kr/christmas-dday/">
+  <meta property="og:title" content="2026 크리스마스 D-day 카운터">
+  <meta property="og:description" content="크리스마스(12/25)까지 남은 날짜를 실시간으로 확인하세요. 시·분·초 카운트다운.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utils.minon.kr/christmas-dday/">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="2026 크리스마스 D-day 카운터">
+  <meta name="twitter:description" content="크리스마스(12/25)까지 남은 날짜를 실시간으로 확인하세요. 시·분·초 카운트다운.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232D4A6B'/%3E%3Ctext x='32' y='42' font-family='system-ui,sans-serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23F7F8FA'%3EU%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "2026 크리스마스 D-day 카운터",
+    "url": "https://utils.minon.kr/christmas-dday/",
+    "description": "2026년 크리스마스(12월 25일)까지 남은 날짜를 실시간으로 확인하는 카운트다운 도구",
+    "applicationCategory": "UtilityApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --primary: #0FADAD;
+      --primary-hover: #0A9396;
+      --primary-soft: #D5F5F4;
+      --primary-soft-border: #7FDCDC;
+      --red: #c0392b;
+      --bg: #f8f9fa;
+      --surface: #ffffff;
+      --text: #1a1a2e;
+      --text-sub: #6c757d;
+      --text-mute: #adb5bd;
+      --border: #dee2e6;
+      --border-soft: #f1f3f5;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    main { max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .site-nav { font-size: 13px; margin-bottom: 24px; }
+    .site-nav a { color: var(--text-sub); text-decoration: none; }
+    .site-nav a:hover { color: var(--primary); }
+
+    h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 12px; line-height: 1.3; letter-spacing: -0.035em; }
+    .hero-line { display: block; width: 2.5rem; height: 2px; background: var(--primary); margin: 0 0 20px; border-radius: 2px; }
+    .lede { font-size: 14px; color: var(--text-sub); margin: 0 0 28px; line-height: 1.65; }
+    .lede strong { color: var(--primary-hover); }
+
+    .dday-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px 24px 28px;
+      text-align: center;
+      margin-bottom: 24px;
+      animation: fadeUp .5s ease both;
+    }
+    .dday-card.arrived {
+      background: var(--primary-soft);
+      border-color: var(--primary-soft-border);
+    }
+    .dday-card.arrived .dday-main { color: var(--red); }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .dday-label { font-size: 13px; font-weight: 600; color: var(--text-sub); margin-bottom: 14px; letter-spacing: -0.01em; }
+    .dday-main { font-size: 4rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; color: var(--primary); margin-bottom: 6px; }
+    .dday-card.arrived .dday-main { font-size: 2.5rem; }
+    .dday-date { font-size: 14px; font-weight: 600; color: #343a40; background: var(--border-soft); border-radius: 8px; padding: 8px 14px; display: inline-block; margin-bottom: 20px; }
+    .dday-date span { color: var(--red); }
+
+    .countdown {
+      display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .count-block { text-align: center; min-width: 56px; }
+    .count-num { font-size: 1.8rem; font-weight: 700; color: var(--primary); line-height: 1; display: block; }
+    .count-lbl { font-size: 11px; color: var(--text-sub); display: block; margin-top: 3px; }
+    .count-sep { font-size: 1.6rem; font-weight: 300; color: var(--text-mute); align-self: flex-start; padding-top: 2px; }
+
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.02em; }
+
+    .schedule-list { list-style: none; margin: 0; padding: 0; }
+    .schedule-list li {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 9px 0; border-bottom: 1px solid var(--border-soft);
+      font-size: 14px;
+    }
+    .schedule-list li:last-child { border-bottom: none; }
+    .sch-date { font-weight: 700; color: var(--primary); min-width: 70px; flex-shrink: 0; }
+    .schedule-list .holiday .sch-date { color: var(--red); }
+    .sch-desc { color: #495057; line-height: 1.5; }
+
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px; border-radius: 8px; border: none;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      font-family: inherit;
+      background: var(--primary); color: #fff;
+      transition: background .15s, transform .1s;
+    }
+    .share-btn:hover { background: var(--primary-hover); }
+    .share-btn:active { transform: scale(.97); }
+    .share-area { text-align: center; margin-bottom: 8px; }
+    .share-msg { font-size: 12px; color: var(--text-mute); text-align: center; min-height: 18px; }
+
+    .disclaimer {
+      font-size: 12px; color: var(--text-mute); line-height: 1.7;
+      margin-bottom: 24px; padding: 12px 16px;
+      background: var(--bg); border-radius: 8px; border: 1px solid #e9ecef;
+    }
+
+    #ad-slot {
+      min-height: 90px; background: var(--bg); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: #ced4da; font-size: 12px; margin-bottom: 32px;
+    }
+
+    footer {
+      font-size: 12px; color: var(--text-mute);
+      padding-top: 20px; border-top: 1px solid #e9ecef;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--text-mute); text-decoration: none; }
+    footer a:hover { color: var(--text-sub); }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.3rem; }
+      .dday-main { font-size: 3rem; }
+      .count-num { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <nav class="site-nav"><a href="/">← 유틸 목록</a></nav>
+
+  <h1>2026 크리스마스 D-day</h1>
+  <span class="hero-line" aria-hidden="true"></span>
+  <p class="lede">2026년 크리스마스는 <strong>12월 25일(금요일)</strong>입니다. 크리스마스까지 남은 날짜를 실시간으로 확인하세요.</p>
+
+  <div class="dday-card" id="ddayCard">
+    <div class="dday-label" id="ddayLabel">크리스마스까지</div>
+    <div class="dday-main" id="ddayMain">—</div>
+    <div class="dday-date">2026년 12월 25일 <span>(금요일)</span></div>
+    <div class="countdown" id="countdown">
+      <div class="count-block"><span class="count-num" id="cH">--</span><span class="count-lbl">시간</span></div>
+      <span class="count-sep">:</span>
+      <div class="count-block"><span class="count-num" id="cM">--</span><span class="count-lbl">분</span></div>
+      <span class="count-sep">:</span>
+      <div class="count-block"><span class="count-num" id="cS">--</span><span class="count-lbl">초</span></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>연말 주요 일정</h2>
+    <ul class="schedule-list">
+      <li>
+        <span class="sch-date">12월 1일(화)</span>
+        <span class="sch-desc">크리스마스 D-25 · 연말 분위기 시작</span>
+      </li>
+      <li>
+        <span class="sch-date">12월 24일(목)</span>
+        <span class="sch-desc">크리스마스 이브 · 크리스마스 전날</span>
+      </li>
+      <li class="holiday">
+        <span class="sch-date">12월 25일(금)</span>
+        <span class="sch-desc">크리스마스 · 공휴일 (성탄절)</span>
+      </li>
+      <li>
+        <span class="sch-date">12월 26일(토)</span>
+        <span class="sch-desc">크리스마스 연휴 마지막 날</span>
+      </li>
+      <li>
+        <span class="sch-date">12월 31일(목)</span>
+        <span class="sch-desc">연말 마지막 날 · 기부금·연말정산 마감</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <div class="share-area">
+      <button class="share-btn" onclick="doShare()" type="button">링크 공유하기</button>
+    </div>
+    <p class="share-msg" id="shareMsg"></p>
+  </div>
+
+  <p class="disclaimer">
+    본 카운터는 KST(한국 표준시) 기준으로 계산됩니다. 크리스마스 공휴일 관련 정보는 참고용이며, 변경 사항은 관계 기관 공식 발표를 확인하세요.
+  </p>
+
+  <div id="ad-slot">광고</div>
+
+  <footer>
+    <span>© 민온</span>
+    <nav><a href="/privacy.html">개인정보처리방침</a> · <a href="/contact.html">문의</a></nav>
+  </footer>
+</main>
+<script>
+(function () {
+  var TARGET = new Date('2026-12-25T00:00:00+09:00');
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function update() {
+    var now  = new Date();
+    var diff = TARGET - now;
+    var card = document.getElementById('ddayCard');
+    var main = document.getElementById('ddayMain');
+    var lbl  = document.getElementById('ddayLabel');
+    var cntd = document.getElementById('countdown');
+
+    card.classList.remove('arrived');
+
+    if (diff > 0) {
+      var totalSec = Math.floor(diff / 1000);
+      var days = Math.floor(totalSec / 86400);
+      var hrs  = Math.floor((totalSec % 86400) / 3600);
+      var mins = Math.floor((totalSec % 3600) / 60);
+      var secs = totalSec % 60;
+
+      main.textContent = 'D-' + days;
+      lbl.textContent  = '크리스마스까지';
+      cntd.style.display = 'flex';
+      document.getElementById('cH').textContent = pad(hrs);
+      document.getElementById('cM').textContent = pad(mins);
+      document.getElementById('cS').textContent = pad(secs);
+    } else {
+      main.textContent = '🎄 메리 크리스마스!';
+      lbl.textContent  = '2026년 크리스마스';
+      cntd.style.display = 'none';
+      card.classList.add('arrived');
+    }
+  }
+
+  update();
+  setInterval(update, 1000);
+
+  window.doShare = function () {
+    var url = location.href;
+    var msg = document.getElementById('shareMsg');
+    if (navigator.share) {
+      navigator.share({ title: '2026 크리스마스 D-day', url: url });
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(function () {
+        msg.textContent = '링크가 복사되었습니다!';
+        setTimeout(function () { msg.textContent = ''; }, 2000);
+      });
+    } else {
+      msg.textContent = url;
+    }
+  };
+}());
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8f333dc2c9e844b39f36daec8c0c0570"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

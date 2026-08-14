@@ -19,4 +19,9 @@
   <url><loc>https://utils.minon.kr/weekly-holiday-pay-calculator/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://utils.minon.kr/chuseok-dday/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://utils.minon.kr/overtime-pay-calculator/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://utils.minon.kr/chuseok-ktx-dday/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://utils.minon.kr/work-grant-dday/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://utils.minon.kr/annual-leave-calculator/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://utils.minon.kr/christmas-dday/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://utils.minon.kr/child-care-grant-dday/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
