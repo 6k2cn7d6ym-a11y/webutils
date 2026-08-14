@@ -268,3 +268,58 @@
 
 **판정**: 다빈치 (팀장) · 2026-08-15
 **다음**: 클레버 (개발팀 검수)
+
+---
+
+## 클레버 검수 (2026-08-15)
+
+- **4축 검수 결과**: [정확성: 수정 1건 / 완성도: OK / 원칙: OK / 배포준비: OK]
+- **수정 항목**:
+  - **susi-dday/index.html L273** 자소서 체크리스트 팩트 오류 정정
+    - 이전: "자기소개서 최종 점검 (2024년부터 자소서 폐지 대학 증가 · 각 대학 확인)"
+    - 이후: "학생부·서류 최종 점검 (2024학년도 대입부터 자기소개서 전면 폐지 · 특별전형 서류만 확인)"
+    - 근거: 자소서는 2024학년도 대입부터 대교협 공통원서에서 전면 폐지(교육부 2022-05 방침). "폐지 대학 증가"는 시행 이전 표현 · 현시점 사용자(2027학년도 수시 준비생)가 "자소서를 준비해야 하는지" 오해 유발. 사용자 실질 니드에 영향.
+- **배포 준비 상태**: 준비 완료 · 클레버 검수 통과 · 대표 배포 지시 대기
+
+### 4축 상세
+
+**1. 기능 정확성**
+- car-tax-yearly-dday: D-day 3단계(신청 전·중·후) 로직 · `Math.floor(val * 0.064)` 6.4% 절약률 정확 · input validation `!val || val <= 0` NaN·0·음수 처리 · HMS 카운트다운 · share 3-fallback(navigator.share → clipboard → text) · 요일 표기 검증(1/16 토·1/31 일 · 2027-01-01 금 기준 산출 일치)
+- susi-dday: D-day 3단계 · HMS 카운트다운 · 요일 표기 전수 검증(9/8 화·9/12 토·11/12 목 · 2026-01-01 목 기준 산출 일치)
+- 자소서 체크리스트 팩트 정정(위 수정 항목)
+
+**2. 시각 완성도**
+- car-tax: 코발트 primary + 그린 accent(절약) + 레드 accent-red(마감) 3-레이어 역할 분리 · 다빈치 판정 반영(--accent-red 신규 토큰 · 하드코딩 2곳 정리) 정확 반영 확인
+- susi: 자주 primary + 레드 accent 2-레이어 · 다빈치 판정 반영(:root 4토큰 자주 교체 · accent 유지) 정확 반영 확인
+- 공통 스택 승계: Pretendard Variable · :root 토큰 · hero-line 2.5rem×2px · fadeUp · section-card 전수 보존
+
+**3. 개발 원칙 준수**
+- SEO: title · description · canonical · OG(6) · Twitter(3) · JSON-LD WebApplication · inLanguage:ko 전수 확인
+- 접근성: semantic tags(main·nav·footer) · ARIA(role="alert" · aria-live="polite" · aria-label · aria-hidden) · WCAG AA 통과(car-tax 6.52:1 · susi 5.44:1)
+- Core Web Vitals: 인라인 CSS · SVG favicon 인라인 · script async · Pretendard preconnect
+- 광고 슬롯: `#ad-slot` div 자리·크기 유지 · adsbygoogle.js 로드 확인
+- DOM ID 전수 보존(car-tax 12개 · susi 8개)
+- 크로스링크(car-tax: property-tax·acquisition-tax·work-grant-dday) · Cloudflare Analytics · 480px 반응형
+
+**4. 배포 준비 상태**
+- 파일 구조: `2026-08-15/car-tax-yearly-dday/index.html` · `2026-08-15/susi-dday/index.html` (배포 시 슬러그 폴더로 이동 필요 · 사마의 보고 후 대표 지시)
+- 외부 의존: Pretendard CDN · adsbygoogle · CF Analytics · 접수처 링크(target="_blank" rel="noopener")
+- 모바일 반응형: 480px 미디어 쿼리 · calc-wrap flex-column · apply-grid 1fr 1fr
+
+### 이월 이슈 (배포 블로킹 아님 · 다음 사이클 처리 대상)
+
+- **[이월 유지]** `<link rel="stylesheet" as="style">` 문법 이슈 — rel="stylesheet"에 as 속성 불필요(rel="preload"에만 유효). 브라우저는 as 무시하고 stylesheet로 처리하므로 동작엔 문제 없음. 다음 사이클 공통 스택 정리 시 일괄.
+- **[이월 유지]** adsbygoogle inline slot 미삽입 — `<ins class="adsbygoogle">` + `(adsbygoogle = window.adsbygoogle || []).push({})` 미포함 · `#ad-slot` div만. AdSense 승인(심사 대기) 확정 후 삽입 계획.
+- **[이월 유지]** Math.ceil 자정 정밀도 — Math.floor(diff/1000) 사용 · 자정 정확 시점 초 단위 오차 가능성 (D-1 → D-0 전환 순간). 실질 사용자 영향 미미하나 정밀도 이슈로 이월.
+- **[신규 이월]** 2027학년도 수시 원서접수 정확 일정(2026-09-08~12) — 대교협 공식 확정 대기. 마이클 조사값(관행 기반). 정확 발표는 통상 대입전형 시행계획에서 확인 가능. 배포 후 공식 확정 시 갱신.
+- **[신규 이월]** 2027학년도 수능 정확 일정(2026-11-12 목) — 교육부 공식 확정 대기(통상 3~4월 발표). 마이클 조사값. 요일 표기 자체는 산출 검증 통과. 배포 후 공식 확정 시 갱신.
+
+### 계산 로직 실증 시뮬레이션 (현재 2026-08-15 04:XX KST 기준)
+
+- car-tax-yearly-dday: START = 2027-01-16 · 오늘로부터 약 D-154 · "신청 전" 상태 · 절약액 계산기(예: 280,000원 입력 시 절약 17,920원 · 실납부 262,080원 · Math.floor 정확)
+- susi-dday: START = 2026-09-08 · 오늘로부터 약 D-23 · "접수 전" 상태 · HMS 카운트다운 정상 동작
+
+---
+
+**검수**: 클레버 (개발 팀장) · 2026-08-15
+**다음**: 사마의 (일일보고) → 대표 배포 지시 대기
