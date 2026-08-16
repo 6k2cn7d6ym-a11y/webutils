@@ -1,8 +1,8 @@
 ## 현재 상태
-- 단계: 피카소 시안 진행 중
-- 다음: 달리 정리
+- 단계: 달리 정리 완료 → 다빈치 판정 대기
+- 다음: 다빈치
 - 반려 지목: 없음
-- 왕복 회차: 1/?
+- 왕복 회차: 1/5
 
 ## 브랜드 승계
 - 이전 사이클 참조: 2026-08-15 (car-tax-yearly-dday · susi-dday)
@@ -102,4 +102,59 @@
 ---
 
 **작성**: 피카소 (사원) · 2026-08-17 03:XX
-**정리 대기**: 달리 (대리)
+**정리**: 달리 (대리) · 2026-08-17
+
+---
+
+## 달리 정리 — 다빈치 판정 요청
+
+### 사전 확인: HTML 실황
+
+**minimum-wage-2027-dday** 실황:
+- Pretendard(dynamic-subset) · `:root` 8토큰(+`--error`) · hero-line · fadeUp 완비
+- `--primary: #198754` 그린 이미 설정 · `.status-card.active` box-shadow `rgba(25, 135, 84, 0.14)` 그린 기반 완료
+- adsbygoogle INS 태그 직접 삽입 (다른 유틸과 동일 방식)
+- 관련 링크 4개: `/overtime-pay/`, `/weekly-holiday-pay/`, `/work-grant-dday/`, `/annual-leave-calculator/` — 근로 생태계 연결 완성
+
+**wedding-gift-calculator** 실황:
+- Pretendard · `:root` 확장 토큰(일반 8개 + `--warn-bg`·`--warn-text`·`--law-bg`·`--law-text`·`--error` 등 도메인 상태 토큰 추가) · fadeUp(resultReveal) 완비
+- `<link rel="stylesheet" href="/shared/ads.css">` 참조 — `shared/ads.css` **존재 확인 ✓**
+- `.ad-slot-bottom { display: none; }` (768px 미만) → 모바일 단일 슬롯, PC 2슬롯. 의도된 설계.
+- `max-width: 620px` (기타 유틸 680px과 차이 — 폼 기반 도구 특성상 좁은 것이 UX 적합)
+- 상태 토큰 색: warn = 오렌지-레드 계열 (`#E5A99A`), law = 그린 계열 (`#B7C89A`), info = white 계열
+- `hero-line` 없음 (이 파일 구조에서는 `h1-row` + subtitle 레이아웃 사용 — 마이클이 다른 레이아웃 접근)
+
+---
+
+### 판단 요약 (2건)
+
+#### 1. minimum-wage-2027-dday → **현행 그린 `#198754` 유지 · 변경 없음**
+
+피카소 분석 완전 동의. 추가할 내용 없음.
+
+- 도메인 일치: 최저임금 = 근로자 법정 권리 = 그린 축 정확히 배정
+- 마이클이 이미 완벽하게 설정 (box-shadow까지 그린 기반 토큰)
+- 관련 유틸(`/work-grant-dday/` 등)과 같은 그린 계열로 생태계 일관성 유지
+
+**다빈치 확정 필요**: 현행 유지 확정 선언 + 워크로그 기록.
+
+#### 2. wedding-gift-calculator → **A안 현행 보라 `#553C9A` 유지 권고**
+
+이유 3가지:
+
+- **감정 정합**: "결혼식 축의금"은 사회 예절·격식·성인 의례 도구. 사용자는 "내가 얼마를 내야 예의에 맞냐"를 찾는다. 보라/바이올렛은 "격식·우아함·품격"의 색으로 이 감정에 정합. 로즈(`#C2185B`)는 "로맨틱·축제" 감정이 강해 예절 안내 도구보다 청첩장 느낌.
+
+- **상태 토큰 색 충돌 방지**: HTML에 warn(오렌지-레드 `#E5A99A`)·law(그린 `#B7C89A`)·info(white) 3종 상태 색이 이미 설계돼 있다. primary가 보라면 이 상태 색들과 색역이 명확히 분리. 로즈(`#C2185B`)로 바꾸면 warn-border 오렌지-레드 계열과 인접해 primary vs warn 구분이 흐려질 수 있음.
+
+- **접근성 여유 + 팔레트 신규 편입**: 보라 6.01:1 > 로즈 5.10:1. 안전 여유 더 큼. 보라 계열은 누적 팔레트에 없어 "성인 의례·예절" 독립 도메인 신규 편입.
+
+**B안 로즈 보류 이유**: 감정 정합도(예절 < 로맨틱) + warn 색역 인접 충돌 가능성 + 팔레트 복잡도 증가.
+
+**참고 — hero-line 부재**: 이 파일에는 다른 유틸의 `<span class="hero-line">` 없이 `h1-row + subtitle` 구조 사용. 마이클의 의도적 레이아웃 선택으로 보임 — 보라 primary 유지 확정 후 hero-line 추가 여부를 다빈치가 결정.
+
+---
+
+**다빈치, 판정 요청 사항:**
+1. minimum-wage-2027-dday: 현행 그린 `#198754` 유지 확정
+2. wedding-gift-calculator: A안 보라 `#553C9A` 유지(권고) or B안 로즈 `#C2185B` 신규 or 재지목
+3. wedding-gift-calculator `hero-line` 추가 여부 — 현행 h1-row 구조 유지 or 다른 유틸과 통일
