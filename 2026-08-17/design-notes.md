@@ -1,14 +1,14 @@
 ## 현재 상태
-- 단계: 달리 정리 완료 → 다빈치 판정 대기
-- 다음: 다빈치
-- 반려 지목: 없음
+- 단계: 다빈치 판정 봉인·index.html 반영 완료 → 클레버 검수 대기
+- 다음: 클레버 (개발팀 검수)
+- 반려 지목: 없음 (1회 결착)
 - 왕복 회차: 1/5
 
 ## 브랜드 승계
 - 이전 사이클 참조: 2026-08-15 (car-tax-yearly-dday · susi-dday)
 - 승계 · 조정 내역:
   - 도메인 분기 전략 계속 적용 (다빈치 지시 · 2026-08-05~현재)
-  - 누적 팔레트: 자주 `#6D28D9` (학생·진학·준비 · 방학숙제·수시·수능) · 인디고 `#4F46E5` (공식·법·정책·청약) · 그린 `#198754` (신뢰·권리·근로·자녀장려금·하자보수) · 터쿠아즈 `#0FADAD` (축제·활기·기다림·크리스마스) · 주황 `#EA580C` (긴박감·예매·추석) · 코발트 `#1971C2` (절약·경제·재테크·자동차세)
+  - 누적 팔레트: 자주 `#6D28D9` (학생·진학·준비 · 방학숙제·수시·수능) · 인디고 `#4F46E5` (공식·법·정책·청약) · 그린 `#198754` (신뢰·권리·근로·자녀장려금·하자보수 · **최저임금 신규 편입**) · 터쿠아즈 `#0FADAD` (축제·활기·기다림·크리스마스) · 주황 `#EA580C` (긴박감·예매·추석) · 코발트 `#1971C2` (절약·경제·재테크·자동차세) · **보라 `#553C9A` (성인 의례·예절·격식·경조사·축의금 — 2026-08-17 신규 편입)**
   - **minimum-wage-2027-dday**: "2027 최저임금 시행 D-day" = 근로자 권리·소득 도메인 → **현행 유지 그린 톤** (완벽 도메인 일치)
   - **wedding-gift-calculator**: "결혼식 축의금 계산기" = 성인 의례·사회 예절·결혼 도메인 → **현행 보라 유지 vs 새로운 톤 권고**
 
@@ -158,3 +158,79 @@
 1. minimum-wage-2027-dday: 현행 그린 `#198754` 유지 확정
 2. wedding-gift-calculator: A안 보라 `#553C9A` 유지(권고) or B안 로즈 `#C2185B` 신규 or 재지목
 3. wedding-gift-calculator `hero-line` 추가 여부 — 현행 h1-row 구조 유지 or 다른 유틸과 통일
+
+---
+
+## 다빈치 판정 봉인 (2026-08-17)
+
+**판정 3건 결착 · 반려 0 · 1회 결착.**
+
+### 1. minimum-wage-2027-dday → **현행 그린 `#198754` 유지 확정** (6.19:1)
+
+피카소·달리 완전 동의. 마이클이 이미 완벽 세팅:
+- `--primary: #198754` · `--primary-hover: #146c43` · `--primary-soft: #D1FAE5` · `--primary-soft-border: #6EE7B7`
+- `.status-card.active` box-shadow `rgba(25, 135, 84, 0.14)` · `.section-card:hover` box-shadow `rgba(25, 135, 84, 0.06)` — 그린 기반
+- select 화살표 SVG `stroke='%23198754'` · favicon `fill='%23198754'` — 그린 일관
+- related-links 배지: `background: var(--primary-soft)` · `border: var(--primary-soft-border)` — 그린 축 완결
+
+**팔레트 편입**: 그린 축(근로장려금·자녀장려금·하자보수)에 **최저임금 추가**. 근로 생태계 5중 완성(최저임금·근로장려금·자녀장려금·연장수당·주휴수당). 관련 링크(`/overtime-pay/`·`/weekly-holiday-pay/`·`/work-grant-dday/`·`/annual-leave-calculator/`)와 색으로 묶임.
+
+**토큰 변경 0건 · index.html 무수정.**
+
+### 2. wedding-gift-calculator → **A안 현행 보라 `#553C9A` 유지 확정** (6.01:1)
+
+달리 근거 채택. 결정적 두 축:
+- **감정 정합**: 이 도구는 "예절·격식 안내"이지 "결혼 로맨스 연출"이 아님. 사용자 검색 감정은 "내가 얼마를 내야 결례 아니냐" — 격식·품격 톤. 보라/바이올렛이 정확. 로즈 `#C2185B`는 청첩장·로맨틱 감정이 강해 도구 성격에서 미묘하게 이탈.
+- **상태 토큰 색역 충돌 방지**: warn `#E5A99A`(오렌지-레드) · law `#B7C89A`(그린) · info 흰색 3종 상태 색이 이미 설계 완료. 보라는 이들과 색역 완전 분리 → primary vs 상태 색 시각 구분 명확. 로즈로 primary 바꾸면 warn 오렌지-레드와 색역 인접 → 사용자 "왜 primary와 warn이 비슷하지?" 인지 부담.
+
+**팔레트 편입**: 보라 `#553C9A` = **"성인 의례·예절·격식·경조사"** 도메인 신규 편입. 이미 링크된 `/funeral-condolence-calculator/`(장례식 조의금)와 같은 축 예약 — 이후 조의금 계산기가 배포되면 보라 축으로 자연 편입.
+
+### 3. wedding-gift-calculator hero-line → **추가 확정**
+
+브랜드 시리즈 일관성 우선. 다른 유틸 다수(car-tax-yearly-dday·susi-dday·minimum-wage-2027-dday·christmas-dday·child-care-grant-dday·work-grant-dday 등)가 `.hero-line` 통일 사용. 폼 유틸 하나만 예외로 두면 시리즈 시각 정체성 약화.
+
+**삽입 방식**: 마이클의 `h1-row + subtitle` 구조 훼손 없이 그 **사이**에 삽입:
+```
+<div class="h1-row">...h1 + 공유 버튼...</div>
+<span class="hero-line" aria-hidden="true"></span>  ← 신규
+<p class="subtitle">...</p>
+```
+
+**스타일**: 이 파일이 rem 기반이라 rem 단위 맞춤. `margin: 0 0 1.25rem` (기존 subtitle margin-bottom 2rem 유지 → 히어로 여백 축소 없이 라인만 추가). 색은 `background: var(--primary)` → 보라 자동 반영. 2px 얇은 라인이라 폼 진입 지연 없음 (Core Web Vitals 무영향).
+
+---
+
+### index.html 반영 요지
+
+**minimum-wage-2027-dday/index.html:**
+- 변경 없음. 마이클 상태 그대로 최종 승인.
+
+**wedding-gift-calculator/index.html:**
+- CSS: `.hero-line` 룰 추가 (`display:block · width:2.5rem · height:2px · background:var(--primary) · margin:0 0 1.25rem · border-radius:2px`)
+- HTML: `.h1-row` 다음 · `.subtitle` 앞에 `<span class="hero-line" aria-hidden="true"></span>` 1행 삽입
+
+### 전수 보존 확인 (2건 공통)
+
+- SEO 메타 · OG · Twitter · JSON-LD (`WebApplication` / `LifestyleApplication`) · canonical
+- adsbygoogle INS 태그 · `#ad-slot` (wedding-gift는 `.ad-slot` + `.ad-slot-bottom` 2슬롯 · 768px 미만 하단 숨김 설계 존중) · `/shared/ads.css` 참조
+- JS 계산 로직 무손실 (minimum-wage: `WAGE_2027`·D-day 갱신·주휴수당·월 4.345주 환산 · wedding-gift: `M` 관계×친밀도 매트릭스·`STEPS` 단계 이동·김영란법 5만원 상한·participate/situation 조정·`callout--warn`/`--law`/`--info`·공유 로직)
+- DOM ID 전수 (minimum-wage: `#status-card`·`#status-label`·`#main-days`·`#days-sub`·`#enforce-date`·`#disp-hourly`·`#disp-daily`·`#disp-monthly`·`#weekly-hours`·`#weekly-holiday-toggle`·`#btn-calc`·`#calc-error`·`#calc-result`·`#r-hourly`·`#r-weekly`·`#r-weekly-sub`·`#r-monthly`·`#r-yearly`·`#ad-slot` · wedding-gift: `#form`·`#relation`·`#err`·`#result`·`#res-amount`·`#res-range`·`#res-note`·`#res-callouts`·`#btn-share`·`#share-label`·`#sharePageBtn`·`#copyToast`·`#ad-slot`·`#ad-slot-bottom`)
+- 크로스링크 (minimum-wage: 근로 유틸 4개 · wedding-gift: 조의금 계산기)
+- Cloudflare Analytics · 480px 반응형 미디어 쿼리 무손실
+
+### 팔레트 누적 갱신 (2026-08-17)
+
+| 톤 | 색값 | 도메인 |
+|-----|------|--------|
+| 자주 | `#6D28D9` | 학생·진학·준비 · 방학숙제·수시·수능 |
+| 인디고 | `#4F46E5` | 공식·법·정책·청약 |
+| 그린 | `#198754` | 신뢰·권리·근로 · 근로장려금·자녀장려금·하자보수·**최저임금(신규)** |
+| 터쿠아즈 | `#0FADAD` | 축제·활기·기다림·크리스마스 |
+| 주황 | `#EA580C` | 긴박감·예매·추석 |
+| 코발트 | `#1971C2` | 절약·경제·재테크·자동차세 연납 |
+| **보라** | **`#553C9A`** | **성인 의례·예절·격식·경조사·축의금 (2026-08-17 신규 · 조의금 계산기 예약)** |
+
+---
+
+**판정**: 다빈치 (팀장) · 2026-08-17
+**다음**: 클레버 (개발팀 검수)
