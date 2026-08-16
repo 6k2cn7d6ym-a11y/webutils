@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2027 최저임금 시행 D-day — 시급·월급 계산기</title>
+  <meta name="description" content="2027년 최저임금 시행일(2027-01-01)까지 D-day와 시급·주급·월급 계산기입니다. 주 근무시간을 입력하면 예상 월급을 즉시 확인합니다.">
+  <meta property="og:title" content="2027 최저임금 시행 D-day — 시급·월급 계산기">
+  <meta property="og:description" content="2027년 최저임금 시행일까지 D-day와 시급·월급 계산기. 주 근무시간 입력 → 예상 월급 즉시 확인.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://utils.minon.kr/minimum-wage-2027-dday/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="2027 최저임금 시행 D-day — 시급·월급 계산기">
+  <meta name="twitter:description" content="2027년 최저임금 시행일까지 D-day와 시급·월급 계산기. 주 근무시간 입력 → 예상 월급 즉시 확인.">
+  <link rel="canonical" href="https://utils.minon.kr/minimum-wage-2027-dday/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23198754'/%3E%3Ctext x='32' y='44' font-family='system-ui,sans-serif' font-size='30' text-anchor='middle' fill='%23fff'%3E₩%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "2027 최저임금 시행 D-day",
+    "url": "https://utils.minon.kr/minimum-wage-2027-dday/",
+    "description": "2027년 최저임금 시행일(2027-01-01)까지 D-day와 시급·월급 계산기",
+    "applicationCategory": "UtilityApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+  <style>
+    :root {
+      --primary: #198754;
+      --primary-hover: #146c43;
+      --primary-soft: #D1FAE5;
+      --primary-soft-border: #6EE7B7;
+      --bg: #F8F9FA;
+      --surface: #FFFFFF;
+      --text: #1a1a2e;
+      --text-sub: #6c757d;
+      --text-mute: #adb5bd;
+      --border: #dee2e6;
+      --border-soft: #f1f3f5;
+      --error: #dc3545;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--primary); }
+    main { max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .site-nav { font-size: 13px; margin-bottom: 24px; }
+    .site-nav a { color: var(--text-sub); text-decoration: none; transition: color .15s; }
+    .site-nav a:hover { color: var(--primary); }
+
+    h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 12px; line-height: 1.3; letter-spacing: -0.03em; }
+    .hero-line { display: block; width: 2.5rem; height: 2px; background: var(--primary); margin: 0 0 20px; border-radius: 2px; }
+    .lede { font-size: 14px; color: var(--text-sub); margin: 0 0 28px; line-height: 1.65; }
+    .lede strong { color: var(--primary-hover); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* D-day 카드 */
+    .status-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+      transition: border-color .2s, background .2s, box-shadow .2s;
+      animation: fadeUp .5s ease both;
+    }
+    .status-card.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 8px 24px rgba(25, 135, 84, 0.14);
+    }
+    .status-label {
+      font-size: 13px; font-weight: 600;
+      color: var(--text-sub); margin-bottom: 14px;
+    }
+    .status-card.active .status-label { color: var(--primary-hover); }
+    .main-days {
+      font-size: 3.5rem; font-weight: 800;
+      letter-spacing: -0.05em; line-height: 1;
+      color: var(--primary); margin-bottom: 8px;
+    }
+    .status-card.active .main-days { color: var(--primary-hover); }
+    .days-sub { font-size: 13px; color: var(--text-sub); margin-bottom: 12px; }
+    .period-bar {
+      font-size: 14px; font-weight: 600; color: #343a40;
+      background: var(--border-soft); border-radius: 8px;
+      padding: 8px 14px; display: inline-block;
+    }
+    .period-bar span { color: var(--primary); }
+    .status-card.active .period-bar { background: rgba(255,255,255,0.7); }
+
+    h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.02em; }
+
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .section-card:hover { box-shadow: 0 4px 16px rgba(25, 135, 84, 0.06); transition: box-shadow .18s; }
+
+    /* 최저임금 요약 테이블 */
+    .wage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .wage-item {
+      background: var(--border-soft);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+    .wage-label { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; }
+    .wage-value { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+    .wage-note  { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
+
+    /* 계산기 */
+    .calc-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+    .calc-field { flex: 1; min-width: 140px; }
+    .calc-field label { display: block; font-size: 13px; font-weight: 600; color: var(--text-sub); margin-bottom: 6px; }
+    .calc-field input[type="number"],
+    .calc-field select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      appearance: none;
+    }
+    .calc-field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23198754' stroke-width='2' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1rem;
+      padding-right: 2.5rem;
+    }
+    .calc-field input:focus,
+    .calc-field select:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+    .btn-calc {
+      padding: 10px 20px;
+      font-size: 14px; font-family: inherit; font-weight: 700;
+      background: var(--primary); color: #fff;
+      border: none; border-radius: 8px; cursor: pointer;
+      white-space: nowrap;
+      transition: background .15s;
+    }
+    .btn-calc:hover { background: var(--primary-hover); }
+    .btn-calc:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+    #calc-result {
+      margin-top: 16px;
+      display: none;
+    }
+    #calc-result.show { display: block; animation: fadeUp .3s ease both; }
+    .calc-result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .calc-result-item {
+      background: var(--primary-soft);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .calc-result-label { font-size: 12px; color: var(--primary-hover); margin-bottom: 2px; }
+    .calc-result-value { font-size: 1.15rem; font-weight: 700; color: var(--primary-hover); }
+    .calc-result-sub   { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
+    .calc-error { color: var(--error); font-size: 13px; margin-top: 8px; }
+
+    /* 위반 제재 */
+    .penalty-list { list-style: none; margin: 0; padding: 0; }
+    .penalty-list li {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px solid var(--border-soft);
+      font-size: 14px;
+    }
+    .penalty-list li:last-child { border-bottom: none; }
+    .penalty-tag {
+      flex-shrink: 0; padding: 2px 8px;
+      border-radius: 4px; font-size: 12px; font-weight: 700;
+      background: #fff3cd; color: #664d03;
+      white-space: nowrap; margin-top: 1px;
+    }
+    .penalty-desc { color: #495057; line-height: 1.55; }
+    .penalty-desc strong { color: var(--primary-hover); }
+
+    /* 관련 링크 */
+    .related-links {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 20px; margin-bottom: 16px;
+    }
+    .related-links h3 { font-size: 13px; color: var(--text-sub); margin-bottom: 10px; font-weight: 600; }
+    .related-links a {
+      display: inline-block; margin-right: 10px; margin-bottom: 4px;
+      font-size: 13px; color: var(--primary); text-decoration: none;
+      padding: 4px 10px; border: 1px solid var(--primary-soft-border);
+      border-radius: 20px; background: var(--primary-soft);
+      transition: background .15s;
+    }
+    .related-links a:hover { background: #b7f5d8; }
+
+    .disclaimer {
+      font-size: 12px; color: var(--text-mute); line-height: 1.7;
+      margin-bottom: 24px; padding: 12px 16px;
+      background: var(--bg); border-radius: 8px; border: 1px solid #e9ecef;
+    }
+
+    #ad-slot {
+      min-height: 90px; background: var(--bg); border-radius: 8px;
+      margin-bottom: 32px;
+    }
+
+    footer {
+      font-size: 12px; color: var(--text-mute);
+      padding-top: 20px; border-top: 1px solid #e9ecef;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--text-mute); text-decoration: none; }
+    footer a:hover { color: var(--text-sub); }
+
+    @media (max-width: 480px) {
+      .main-days { font-size: 2.8rem; }
+      h1 { font-size: 1.3rem; }
+      .wage-grid { grid-template-columns: 1fr 1fr; }
+      .calc-result-grid { grid-template-columns: 1fr; }
+      .calc-row { flex-direction: column; }
+      .btn-calc { width: 100%; }
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
+</head>
+<body>
+<main>
+  <nav class="site-nav"><a href="/">← 유틸 목록</a></nav>
+
+  <h1>2027 최저임금 시행 D-day</h1>
+  <span class="hero-line" aria-hidden="true"></span>
+  <p class="lede">2027년 1월 1일부터 새 최저임금이 시행됩니다. 시행일까지 남은 기간과 시급·월급을 확인하세요.</p>
+
+  <div class="status-card" id="status-card">
+    <div class="status-label" id="status-label">2027 최저임금 시행까지</div>
+    <div class="main-days" id="main-days">—</div>
+    <div class="days-sub" id="days-sub">계산 중</div>
+    <div class="period-bar">시행일 <span id="enforce-date">2027. 1. 1(금)</span></div>
+  </div>
+
+  <!-- 최저임금 요약 -->
+  <div class="section-card">
+    <h2>2027 최저임금 (최저임금위원회 확정)</h2>
+    <div class="wage-grid">
+      <div class="wage-item">
+        <div class="wage-label">시급</div>
+        <div class="wage-value" id="disp-hourly">—</div>
+        <div class="wage-note">원/시간</div>
+      </div>
+      <div class="wage-item">
+        <div class="wage-label">일급 (8시간)</div>
+        <div class="wage-value" id="disp-daily">—</div>
+        <div class="wage-note">원</div>
+      </div>
+      <div class="wage-item">
+        <div class="wage-label">월급 (주 40시간)</div>
+        <div class="wage-value" id="disp-monthly">—</div>
+        <div class="wage-note">원 (주휴 포함)</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-mute);line-height:1.6;">
+      월급 기준: 주 40시간 + 주휴시간 8시간 × 월 환산주수 4.345주. 2026년 최저임금(10,030원) 대비 변동분은 아래 계산기에서 확인하세요.
+    </p>
+  </div>
+
+  <!-- 급여 계산기 -->
+  <div class="section-card">
+    <h2>내 급여 계산기</h2>
+    <p style="font-size:13px;color:var(--text-sub);margin-bottom:14px;line-height:1.6;">주 근무시간을 입력하면 2027년 최저임금 기준 주급·월급을 계산합니다.</p>
+    <div class="calc-row">
+      <div class="calc-field">
+        <label for="weekly-hours">주 근무시간</label>
+        <input type="number" id="weekly-hours" value="40" min="1" max="52" step="0.5" aria-label="주 근무시간">
+      </div>
+      <div class="calc-field">
+        <label for="weekly-holiday-toggle">주휴수당</label>
+        <select id="weekly-holiday-toggle" aria-label="주휴수당 포함 여부">
+          <option value="yes">포함 (주 15시간 이상)</option>
+          <option value="no">제외</option>
+        </select>
+      </div>
+      <button class="btn-calc" id="btn-calc" type="button">계산</button>
+    </div>
+    <div id="calc-error" class="calc-error" role="alert" aria-live="assertive"></div>
+    <div id="calc-result">
+      <div class="calc-result-grid">
+        <div class="calc-result-item">
+          <div class="calc-result-label">시간당</div>
+          <div class="calc-result-value" id="r-hourly">—</div>
+          <div class="calc-result-sub">최저임금 기준</div>
+        </div>
+        <div class="calc-result-item">
+          <div class="calc-result-label">주급</div>
+          <div class="calc-result-value" id="r-weekly">—</div>
+          <div class="calc-result-sub" id="r-weekly-sub">주휴수당 포함</div>
+        </div>
+        <div class="calc-result-item">
+          <div class="calc-result-label">월급 (월 환산)</div>
+          <div class="calc-result-value" id="r-monthly">—</div>
+          <div class="calc-result-sub">× 4.345주</div>
+        </div>
+        <div class="calc-result-item">
+          <div class="calc-result-label">연간 (12개월)</div>
+          <div class="calc-result-value" id="r-yearly">—</div>
+          <div class="calc-result-sub">세전 기준</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 위반 제재 -->
+  <div class="section-card">
+    <h2>최저임금 위반 시 제재</h2>
+    <ul class="penalty-list">
+      <li>
+        <span class="penalty-tag">형사</span>
+        <span class="penalty-desc">최저임금 미지급 시 <strong>3년 이하 징역 또는 2천만원 이하 벌금</strong> (최저임금법 제28조)</span>
+      </li>
+      <li>
+        <span class="penalty-tag">행정</span>
+        <span class="penalty-desc">주지의무(최저임금 게시) 위반 시 <strong>100만원 이하 과태료</strong></span>
+      </li>
+      <li>
+        <span class="penalty-tag">민사</span>
+        <span class="penalty-desc">차액 소급 청구 가능 · 노동부 신고 후 <strong>체불임금 지급 명령</strong></span>
+      </li>
+    </ul>
+    <p style="font-size:12px;color:var(--text-mute);margin-top:10px;line-height:1.6;">신고: 고용노동부 고객상담센터 ☎ 1350 (24시간 운영)</p>
+  </div>
+
+  <div id="ad-slot">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="4197594404"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- 관련 노동 유틸 -->
+  <div class="related-links">
+    <h3>함께 많이 찾는 노동 관련 유틸</h3>
+    <a href="/overtime-pay/">연장·야간·휴일 근로수당</a>
+    <a href="/weekly-holiday-pay/">주휴수당 계산기</a>
+    <a href="/work-grant-dday/">근로장려금 신청 D-day</a>
+    <a href="/annual-leave-calculator/">연차 계산기</a>
+  </div>
+
+  <p class="disclaimer">
+    2027년 최저임금은 최저임금위원회 공식 발표 기준입니다. 실제 급여는 소정근로시간·수당 구성에 따라 달라질 수 있습니다. 본 계산 결과는 참고용이며 법적 효력이 없습니다. 정확한 임금 기준은 고용노동부(☎1350) 또는 국세청 홈택스에서 확인하시기 바랍니다.
+  </p>
+
+  <footer>
+    <span>© 2026 민온</span>
+    <nav><a href="/privacy.html">개인정보처리방침</a> · <a href="/contact.html">문의</a></nav>
+  </footer>
+</main>
+
+<script>
+(function () {
+  /* 확인 필요: 2027년 최저임금 최저임금위원회 공식 발표값으로 업데이트 필요 */
+  var WAGE_2027  = 10030;
+  var WAGE_2026  = 10030;
+
+  var ENFORCE = new Date('2027-01-01T00:00:00+09:00');
+
+  /* 숫자 3자리 콤마 포맷 */
+  function fmt(n) {
+    return Math.round(n).toLocaleString('ko-KR');
+  }
+
+  /* D-day 카드 업데이트 */
+  function updateDday() {
+    var now  = new Date();
+    var card = document.getElementById('status-card');
+    var mainDays  = document.getElementById('main-days');
+    var daysSub   = document.getElementById('days-sub');
+    var statusLbl = document.getElementById('status-label');
+
+    card.classList.remove('active');
+
+    if (now < ENFORCE) {
+      var diff = Math.ceil((ENFORCE - now) / 86400000);
+      mainDays.textContent  = 'D-' + diff;
+      daysSub.textContent   = '시행일까지';
+      statusLbl.textContent = '2027 최저임금 시행까지';
+    } else {
+      mainDays.textContent  = '시행 중';
+      daysSub.textContent   = '2027 최저임금 적용 중';
+      statusLbl.textContent = '현재 적용 최저임금';
+      card.classList.add('active');
+    }
+  }
+
+  /* 최저임금 요약 표시 */
+  function displayWageInfo() {
+    var daily   = WAGE_2027 * 8;
+    var monthly = Math.round(WAGE_2027 * (40 + 8) * 4.345);
+
+    document.getElementById('disp-hourly').textContent  = fmt(WAGE_2027);
+    document.getElementById('disp-daily').textContent   = fmt(daily);
+    document.getElementById('disp-monthly').textContent = fmt(monthly);
+  }
+
+  /* 급여 계산기 */
+  document.getElementById('btn-calc').addEventListener('click', function () {
+    var errEl = document.getElementById('calc-error');
+    errEl.textContent = '';
+
+    var hoursRaw = parseFloat(document.getElementById('weekly-hours').value);
+    var holidayInclude = document.getElementById('weekly-holiday-toggle').value === 'yes';
+
+    if (isNaN(hoursRaw) || hoursRaw <= 0) {
+      errEl.textContent = '주 근무시간을 바르게 입력하세요.';
+      return;
+    }
+    if (hoursRaw > 52) {
+      errEl.textContent = '주 최대 근무시간은 52시간(법정 한도)입니다.';
+      return;
+    }
+
+    var weeklyHoliday = 0;
+    if (holidayInclude && hoursRaw >= 15) {
+      weeklyHoliday = (hoursRaw / 40) * 8;
+    }
+
+    var weeklyPay  = Math.round(WAGE_2027 * (hoursRaw + weeklyHoliday));
+    var monthlyPay = Math.round(weeklyPay * 4.345);
+    var yearlyPay  = monthlyPay * 12;
+
+    document.getElementById('r-hourly').textContent  = fmt(WAGE_2027) + '원';
+    document.getElementById('r-weekly').textContent  = fmt(weeklyPay) + '원';
+    document.getElementById('r-weekly-sub').textContent =
+      holidayInclude && hoursRaw >= 15
+        ? '주휴수당 포함 (주 ' + hoursRaw + '시간)'
+        : '주휴수당 미포함 (주 ' + hoursRaw + '시간)';
+    document.getElementById('r-monthly').textContent = fmt(monthlyPay) + '원';
+    document.getElementById('r-yearly').textContent  = fmt(yearlyPay) + '원';
+
+    var result = document.getElementById('calc-result');
+    result.classList.add('show');
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  updateDday();
+  displayWageInfo();
+  setInterval(updateDday, 60000);
+}());
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8f333dc2c9e844b39f36daec8c0c0570"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
