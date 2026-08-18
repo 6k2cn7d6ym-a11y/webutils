@@ -198,3 +198,86 @@ h1-row는 `wedding-gift-calculator`에서 우측 공유 버튼과 h1을 한 줄�
 **작성**: 피카소 (사원) 예비 분석 · 달리 (대리) 정리 · 2026-08-19
 **판정**: 다빈치 (팀장) · 2026-08-19
 **다음**: 클레버 (개발팀 검수)
+
+---
+
+## 클레버 검수 (2026-08-19)
+
+### 4축 판정
+
+| 축 | national-scholarship-dday | senior-subway-free-dday |
+|-----|-----|-----|
+| 정확성 | OK | OK |
+| 완성도 | OK | OK |
+| 원칙 | OK | OK |
+| 배포 준비 | **조건부 준비** (사유: 소득분위 지원 금액 팩트 재확인) | **조건부 준비** (사유: 지역별 운영기관 사명·전화번호 팩트 재확인) |
+
+### 수정 항목
+
+**두 파일 무수정.** 다빈치 판정 결과가 index.html에 정확히 반영됨(national-scholarship `--primary`·`--primary-hover`·favicon 3건 교체 · senior-subway 무수정). 코드·SEO·JSON-LD·adsbygoogle·접근성 전수 통과.
+
+### 실증 검증
+
+- **JS 문법**: 2건 전수 `node --check` 통과 (nsc OK · ssf OK)
+- **shared/ads.css 존재 확인**: 489B (`/Users/jim/projects/webutils/shared/ads.css`)
+- **국가장학금 SCHEDULES 16개 날짜 요일 검증**: `date -jf` 실증 전수 **목요일** 통과 (한국장학재단 관례 정합 · 2025-11-20 ~ 2027-08-12 8회차 16날짜)
+- **국가장학금 계산 로직 시뮬레이션**: 오늘(2026-08-19) 기준 activeSchedule 없음 · nextSchedule = `2027학년도 1학기 1차` · **D-92** 산출 (8/19→11/19 92일 · 8월 잔여 12일+9월 30+10월 31+11월 19 = 92 ✓)
+- **senior-subway 계산 로직 시뮬레이션 6케이스 통과**:
+  · 1961-08-19생(오늘 65세) → eligible ✓
+  · 1961-08-20생(내일 65세) → D-1 ✓
+  · 1961-08-18생(어제 65세) → eligible ✓
+  · 1965-08-19생(만 61세) → D-1461 (윤년 2028 포함 4년) ✓
+  · 1960-02-29생(2/29 · 65+1960=2025 비윤년) → 2/28 처리 · eligible ✓
+  · 2/29 처리 로직 (m===1 && d===29 && result.getDate()!==29) 정상 동작
+
+### 팩트 재확인 상신 항목 (마케팅팀 · 배포 전 필수)
+
+1. **국가장학금 소득분위 8구간 지원 금액** (2026학년도 기준 명시)
+   · 1구간(기초) 570 · 2구간 570 · 3구간 480 · 4구간 360 · 5구간 240 · 6구간 195 · 7구간 135 · 8구간 67.5 만원 (연 단위)
+   · 한국장학재단 2026학년도 공식 발표값 대조 필요
+   · 안전장치: disclaimer에 "매년 조정될 수 있습니다" 명시됨 → 잠정 상태 표기는 이미 안전화
+
+2. **65세 지하철 무임 지역별 운영기관 사명·전화번호** (6개 지자체)
+   · 서울교통공사 · 부산교통공사 · **대구도시철도** · 인천교통공사 · **광주도시철도** · 대전교통공사
+   · **대구는 2023년 대구도시철도공사·대구시설공단 통합해 "대구교통공사"로 사명 변경 가능성** (재확인 필요)
+   · 광주·기타 지자체 사명 최신성 재확인 필요
+   · 전화번호 6건 최신성 재확인 필요
+   · 안전장치: 안내문 아래 "역무실 방문 전 해당 기관 홈페이지에서 최신 절차를 확인" 문구 있음
+
+### 이월 이슈 (누적 유지 · 이번 사이클 미해결)
+
+1. WAGE_2027 확정값 원복 (8/17 이월)
+2. Math.ceil 자정 정밀도 (누적)
+3. `<link as="style">` 문법 (누적)
+4. adsbygoogle inline slot 미삽입 (누적)
+5. wedding-gift favicon 톤차 (8/17 이월)
+6. **[신규]** senior-subway `max="2026-08-19"` 하드코딩 (JS로 오늘 날짜 동적 설정 미적용 · 실용상 무해 · 신생아가 지하철 D-day 검색할 일 없음)
+7. **[신규]** 국가장학금 SCHEDULES 2028학년도 이후 미포함 (2027-08-12 이후 상태카드 "일정 종료" 표시 · 매년 갱신 필요)
+
+### 전수 보존 확인 (2건 공통)
+
+- SEO 메타·OG·Twitter·canonical·JSON-LD (`WebApplication`) — 다빈치 봉인과 일치
+- Pretendard v1.3.9 CDN + preconnect crossorigin
+- `/shared/ads.css` 참조 · adsbygoogle 2슬롯 (`#ad-slot` · `#ad-slot-bottom`) · client `ca-pub-9477150496807643` · slot 4197594404/9059038840
+- DOM ID 전수 (nsc: status-card·status-label·status-badge·main-days·days-sub·period-bar·schedule-table·schedule-tbody / ssf: birth-date·btn-calc·form-error·result-card·result-label·result-days·result-sub·result-date-bar·result-date·result-age-note)
+- 크로스링크 (nsc: 수시·수능·방학숙제·추석 · ssf: 근로장려금·아동수당·연차·출생신고)
+- Cloudflare Analytics beacon · 480px 반응형 미디어 쿼리
+
+### 배포 판단 상신 (대표 결정 요청 · 사마의 일일 보고 통해)
+
+- **A안**: 두 파일 오늘 동시 배포 (disclaimer 안전장치 있음 · 팩트 재확인 후 hotfix)
+- **B안**: 마케팅팀 팩트 조사(소득분위+지역별 사명·전화번호) 완료 후 두 파일 배포
+- **C안**: senior-subway만 오늘 배포 (계산 로직·주 도메인 무결 · 지역별 안내는 후속 수정) · national-scholarship은 소득분위 팩트 확인 후
+- **D안 (클레버 권고)**: 두 파일 모두 마케팅팀 팩트 조사 완료 후 배포. 사유:
+  · 8/17 minimum-wage-2027 미확정 팩트 대기 원칙과 정합
+  · 지역별 사명 오류(대구교통공사 통합 가능성)는 신뢰도 훼손 리스크 큼 (지자체 공식명은 검색 결과에서 즉시 대조됨)
+  · 국가장학금 소득분위 금액은 학년도별 차이가 크고 "570만원"이 확정값인지 상한인지 애매
+
+### 배포 준비 상태 최종
+
+- national-scholarship-dday: **조건부 준비 · 소득분위 지원 금액 마케팅팀 팩트 확인 후 배포**
+- senior-subway-free-dday: **조건부 준비 · 지역별 운영기관 사명·전화번호 마케팅팀 팩트 확인 후 배포**
+
+`_COMMON.md §7` 준수 — `git push`·배포 실행·파일 이동 없음. 대표 결정 대기.
+
+**검수**: 클레버 (팀장) · 2026-08-19
