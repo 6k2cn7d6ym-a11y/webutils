@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>웹유틸 2026-08-17 사이클 보고서 · 사마의</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 32px 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Pretendard Variable', system-ui, sans-serif;
+    background: #F7F8FA; color: #1a1a2e;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 1.6rem; font-weight: 800; margin: 0 0 6px; letter-spacing: -0.03em; }
+  .subtitle { color: #6c757d; font-size: 14px; margin: 0 0 32px; }
+  h2 { font-size: 1.15rem; font-weight: 800; margin: 40px 0 14px; letter-spacing: -0.02em; padding-bottom: 8px; border-bottom: 2px solid #212529; }
+  h3 { font-size: 1rem; font-weight: 700; margin: 24px 0 10px; letter-spacing: -0.015em; }
+  .card { background: #fff; border: 1px solid #dee2e6; border-radius: 12px; padding: 22px 24px; margin-bottom: 16px; }
+  .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+  .summary-cell { background: #fff; border: 1px solid #dee2e6; border-radius: 10px; padding: 18px 16px; text-align: center; }
+  .summary-cell .num { font-size: 2rem; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 4px; }
+  .summary-cell .label { font-size: 12px; color: #6c757d; font-weight: 600; letter-spacing: 0.02em; }
+  .num.ok { color: #198754; } .num.warn { color: #fd7e14; } .num.info { color: #553C9A; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 8px 0 4px; }
+  th { background: #f1f3f5; padding: 10px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #495057; border-bottom: 1px solid #dee2e6; }
+  td { padding: 12px; border-bottom: 1px solid #f1f3f5; color: #343a40; vertical-align: top; line-height: 1.55; }
+  tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.02em; }
+  .badge.ok { background: #D1FAE5; color: #198754; }
+  .badge.fix { background: #FEF3C7; color: #B45309; }
+  .badge.cond { background: #FEE2E2; color: #B91C1C; }
+  .decision-card { background: #FFFBEB; border: 1px solid #FCD34D; border-radius: 12px; padding: 20px 22px; margin: 12px 0 20px; }
+  .decision-card h3 { margin-top: 0; color: #92400E; }
+  .decision-card ul { margin: 8px 0 0; padding-left: 20px; line-height: 1.75; }
+  .decision-card li { margin-bottom: 4px; }
+  .option-block { background: #fff; border: 1px solid #FCD34D; border-radius: 10px; padding: 14px 16px; margin: 10px 0; }
+  .option-block .opt-title { font-weight: 800; color: #92400E; margin-bottom: 4px; font-size: 14px; }
+  .option-block .opt-body { font-size: 13.5px; color: #78350F; line-height: 1.65; }
+  .util-block { margin: 32px 0 40px; }
+  .util-header { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 18px; border-radius: 12px 12px 0 0; border: 1px solid #dee2e6; border-bottom: none; background: #fff; }
+  .util-header .name { font-weight: 800; font-size: 1.05rem; letter-spacing: -0.015em; }
+  .util-header .slug { font-size: 12px; color: #6c757d; font-family: ui-monospace, SFMono-Regular, monospace; }
+  .util-meta { background: #F8F9FA; border-left: 1px solid #dee2e6; border-right: 1px solid #dee2e6; padding: 12px 18px; font-size: 13px; color: #495057; display: flex; gap: 16px; flex-wrap: wrap; }
+  .util-meta strong { color: #212529; font-weight: 700; }
+  .preview-wrap { border: 1px solid #dee2e6; border-top: none; border-radius: 0 0 12px 12px; background: #fff; padding: 0; overflow: hidden; }
+  iframe.preview { width: 100%; height: 720px; border: 0; display: block; background: #fff; }
+  .checks-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
+  .check-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #F8F9FA; border-radius: 8px; font-size: 13px; }
+  .check-row .k { color: #495057; font-weight: 600; }
+  .issue-list { margin: 0; padding-left: 20px; line-height: 1.75; }
+  .issue-list li { margin-bottom: 6px; }
+  .kv-list { list-style: none; padding: 0; margin: 0; }
+  .kv-list li { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid #f1f3f5; font-size: 14px; }
+  .kv-list li:last-child { border-bottom: none; }
+  .kv-list .k { min-width: 130px; color: #6c757d; font-weight: 600; }
+  .kv-list .v { color: #343a40; flex: 1; }
+  .foot { margin-top: 60px; padding-top: 20px; border-top: 1px solid #dee2e6; font-size: 12px; color: #adb5bd; text-align: center; }
+  code { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 12.5px; background: #F3F4F6; padding: 1px 6px; border-radius: 4px; color: #B45309; }
+  @media (max-width: 640px) {
+    .summary-grid { grid-template-columns: 1fr; }
+    .checks-grid { grid-template-columns: 1fr; }
+    iframe.preview { height: 560px; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>웹유틸 2026-08-17 사이클 보고서</h1>
+  <p class="subtitle">기획전략실 팀장 · 사마의 · 2026년 8월 17일 월요일 · AdSense 승인 완료 · 광고 노출 활성 상태</p>
+
+  <div class="summary-grid">
+    <div class="summary-cell"><div class="num info">2</div><div class="label">오늘 사이클 산출</div></div>
+    <div class="summary-cell"><div class="num ok">1</div><div class="label">배포 준비 완료</div></div>
+    <div class="summary-cell"><div class="num warn">1</div><div class="label">조건부 · 조정 필요</div></div>
+  </div>
+
+  <div class="decision-card">
+    <h3>대표 결정 요청 — 배포 판단 (클레버 A/B 옵션 상신)</h3>
+    <div class="option-block">
+      <div class="opt-title">A안 (클레버 권고) — <code>wedding-gift-calculator</code> 만 오늘 배포</div>
+      <div class="opt-body">
+        <strong>wedding-gift-calculator</strong>는 즉시 배포 가능(4축 검수 통과·수정 1건 반영 완료).<br>
+        <strong>minimum-wage-2027-dday</strong>는 <code>WAGE_2027</code> 상수가 2026년 값(10,030원)으로 잠정 대입 상태. 유틸 본질(2027 확정값 안내)에서 이탈 · 사용자 신뢰 리스크. 마케팅팀 팩트 조사 완료 후 마이클 원복(상수·h2·note 3곳) → 클레버 재검수 → 별개 배포(주 3회 사이클 · 8/19 수 슬롯).
+      </div>
+    </div>
+    <div class="option-block">
+      <div class="opt-title">B안 — 오늘 2건 동시 배포 (minimum-wage 잠정 표시 상태 그대로)</div>
+      <div class="opt-body">
+        h2·note 문구를 "발표 대기 · 2026년 기준 잠정 표시"로 안전 문구화 완료 · 사용자 오해 방지책 반영됨. 팩트 확정 결과는 hotfix로 별개 배포. 세트 배포 시 랜딩 카드 2건 추가 + GSC 색인 요청 2 URL 반영.
+      </div>
+    </div>
+    <ul>
+      <li><strong>미배포 정체 6건 상존</strong>: 8/12 <code>suneung-dday</code>·<code>defect-warranty-dday</code> + 8/14 <code>christmas-dday</code>·<code>child-care-grant-dday</code> + 8/15 <code>susi-dday</code>·<code>car-tax-yearly-dday</code> = <strong>누적 6건 개발팀 배포 대기</strong> · 오늘 판단과 함께 일괄 처리 여부 결정 필요</li>
+      <li><strong>광고 슬롯 정합</strong>: <strong>오늘 2건은 표준 형식(<code>adsbygoogle</code> INS 태그 정상 삽입) — 이월 없음 (진전)</strong> · 다만 8/10·12·14·15 배포·대기 6건은 여전히 옛 형식 · 개발팀 진행 중 정합 자율지시 스코프 대상 그대로</li>
+      <li><strong>GSC 색인 요청</strong>: 배포 확정 시 오늘 대표 액션에 URL 반영 · A안 1건 · B안 2건 · 세트 일괄 배포 시 최대 8 URL 재배분 필요</li>
+    </ul>
+  </div>
+
+  <h2>클레버 검수 결과 (4축 요약)</h2>
+  <div class="card">
+    <table>
+      <thead><tr><th style="width:120px">검수 축</th><th>결과</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge fix">수정 3건</span></td><td><strong>정확성</strong></td><td><code>wedding-gift</code> <strong>OK</strong> (매트릭스 8케이스 시뮬레이션 통과·김영란법 5만 상한 로직 정상) · <code>minimum-wage</code> <strong>조건부</strong>: <code>WAGE_2027=10030</code>(2026년 값) 잠정 대입 상태에서 "확정" 문구 사용자 오해 리스크 → h2·note 안전 문구화 + JS 원복 지시 상세 주석 삽입 (마이클 상수·h2·note 3곳 함께 원복 필수) · <code>wedding-gift</code> preconnect <code>crossorigin</code> 누락 추가</td></tr>
+        <tr><td><span class="badge ok">OK</span></td><td><strong>완성도</strong></td><td>2건 모두 다빈치 판정 정확 반영 · <code>minimum-wage</code> 그린 <code>#198754</code> "근로 5중 완성" · <code>wedding-gift</code> 보라 <code>#553C9A</code> "성인 의례·예절·격식·경조사" 신규 도메인 편입(조의금 계산기 예약) · <code>hero-line</code> 시리즈 통일 추가</td></tr>
+        <tr><td><span class="badge ok">OK</span></td><td><strong>원칙</strong></td><td>정적 HTML · Pretendard dynamic-subset · <code>:root</code> 토큰 · <code>hero-line</code> 2.5rem×2px · fadeUp · <code>section-card</code> · JS 문법 5건 전수 통과 · <code>shared/ads.css</code> 존재 확인(489B) · WCAG AA(그린 6.19:1·보라 6.01:1)</td></tr>
+        <tr><td><span class="badge cond">분리 판정</span></td><td><strong>배포준비</strong></td><td><code>wedding-gift</code> <strong>준비 완료</strong> · <code>minimum-wage</code> <strong>조건부 준비</strong> — <strong>클레버 A안 권고</strong>: wedding만 오늘 · minimum-wage 팩트 확정 후 별개</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>사이클 중 이슈</h2>
+  <div class="card">
+    <ul class="issue-list">
+      <li><strong><code>WAGE_2027</code> 확정값 미반영</strong> — 마이클이 2026년 값(10,030원)을 잠정 대입한 채 "최저임금위원회 확정" 문구까지 노출 → 사용자가 확정값으로 오해할 심각한 리스크. 클레버 검수에서 문구·주석 안전화. <strong>순서: 마케팅팀 팩트 조사 완료 → 마이클 상수·h2·note 3곳 원복 → 클레버 재검수 → 배포</strong>. 8/12 학년도·8/14 요일·8/15 자소서에 이어 <strong>사실관계 검증 반복 이슈 4주차</strong>. 다음 사이클부터 개발팀 자체 검증 프로토콜 명문화 안건 대표 상신 필요</li>
+      <li><strong>광고 슬롯 형식 진전</strong> — 오늘 2건은 <code>&lt;ins class="adsbygoogle" data-ad-slot="4197594404"/"9059038840"&gt;</code> 표준 삽입 완료(<code>wedding-gift</code>는 2슬롯 <code>shared/ads.css</code> 참조 완비). 8/10·12·14·15 배포·대기 <strong>누적 6건</strong>은 여전히 옛 형식 · 개발팀 정합 자율지시 스코프 그대로. 승인 완료 상태에서 정합 시 즉시 광고 노출</li>
+      <li><strong>공통 이월 4건</strong> — <code>&lt;link rel="stylesheet" as="style"&gt;</code>(브라우저 관대 무시) · <code>Math.ceil</code> 자정 정밀도 · <code>WAGE_2027</code> 원복 대기(위 항목) · <code>wedding-gift</code> favicon <code>#805AD5</code> vs primary <code>#553C9A</code> 톤 차이(시각 우선순위 낮음·신규 관찰) · 사이클 밖 처리 대상</li>
+      <li><strong>수집 축 완성 현황</strong> — 정부/세금 5중 · <strong>노동 축 5중 완성(연장수당·주휴수당·근로장려금·연차·최저임금 신규)</strong> · 경조사 축 완성(축의금·조의금 예약) · 시류 다중 · 부동산 다중 · 대표 트래픽 축 다층화</li>
+      <li><strong>13건 컷 근거·10건 배정 스케줄</strong> — 벤 확정 · 상세 <code>2026-08-17/00-유틸후보.md</code> 기록</li>
+    </ul>
+  </div>
+
+  <h2>오늘 사이클 산출 실물 (2건)</h2>
+
+  <div class="util-block">
+    <div class="util-header">
+      <div>
+        <div class="name">① 결혼식 축의금 계산기</div>
+        <div class="slug">webutils/2026-08-17/wedding-gift-calculator/index.html</div>
+      </div>
+      <span class="badge ok">배포 준비 완료</span>
+    </div>
+    <div class="util-meta">
+      <span>🎯 <strong>도구 성격</strong> 관계·친밀도·상황 → 사회 통념 최저 축의금 안내</span>
+      <span>🎨 <strong>팔레트</strong> 보라 #553C9A (성인 의례·예절·격식 · 조의금 계산기 예약)</span>
+      <span>📐 <strong>레이아웃</strong> max-width 620px + hero-line 통일 + 2슬롯 광고</span>
+      <span>🏷️ <strong>축</strong> 경조사 축 신규 완성</span>
+    </div>
+    <div class="preview-wrap">
+      <iframe id="wedding-iframe" class="preview" title="wedding-gift-calculator 실물" loading="lazy"></iframe>
+    </div>
+    <div class="checks-grid">
+      <div class="check-row"><span class="k">관계×친밀도 매트릭스 8케이스 시뮬레이션</span><span class="badge ok">통과</span></div>
+      <div class="check-row"><span class="k">김영란법 5만원 상한 로직</span><span class="badge ok">정상</span></div>
+      <div class="check-row"><span class="k">상황 보정(사초년·여유·불참) STEPS 이동</span><span class="badge ok">정상</span></div>
+      <div class="check-row"><span class="k">준비물·예절 섹션 완비</span><span class="badge ok">확증</span></div>
+      <div class="check-row"><span class="k">2슬롯 광고 + 768px 반응</span><span class="badge ok">정합</span></div>
+      <div class="check-row"><span class="k">공유(navigator.share + clipboard 폴백)</span><span class="badge ok">확증</span></div>
+    </div>
+  </div>
+
+  <div class="util-block">
+    <div class="util-header">
+      <div>
+        <div class="name">② 2027 최저임금 시행 D-day</div>
+        <div class="slug">webutils/2026-08-17/minimum-wage-2027-dday/index.html</div>
+      </div>
+      <span class="badge cond">조건부 · WAGE_2027 팩트 대기</span>
+    </div>
+    <div class="util-meta">
+      <span>🎯 <strong>타깃</strong> 2027-01-01(금) 시행 · D-137</span>
+      <span>🎨 <strong>팔레트</strong> 그린 #198754 (근로·권리 · 근로 축 5중 완성)</span>
+      <span>🔢 <strong>잠정</strong> WAGE_2027 = 10,030원 (2026년 값 · 발표 대기 명시)</span>
+      <span>🏷️ <strong>축</strong> 노동 축 5중 완성</span>
+    </div>
+    <div class="preview-wrap">
+      <iframe id="minwage-iframe" class="preview" title="minimum-wage-2027-dday 실물" loading="lazy"></iframe>
+    </div>
+    <div class="checks-grid">
+      <div class="check-row"><span class="k">D-day 실증 (2027-01-01 금 · D-137)</span><span class="badge ok">정확</span></div>
+      <div class="check-row"><span class="k">계산 실증 (시급 10,030 · 월급 2,091,857)</span><span class="badge ok">정확</span></div>
+      <div class="check-row"><span class="k">주휴수당 조건(주 15h 이상) · 52h 상한 방어</span><span class="badge ok">정상</span></div>
+      <div class="check-row"><span class="k">h2·note 안전 문구화</span><span class="badge ok">반영</span></div>
+      <div class="check-row"><span class="k">JS 원복 지시 상세 주석</span><span class="badge ok">반영</span></div>
+      <div class="check-row"><span class="k">WAGE_2027 확정값 반영</span><span class="badge cond">대기</span></div>
+    </div>
+  </div>
+
+  <h2>부록 · 수집·디자인 판정 요지</h2>
+  <div class="card">
+    <ul class="kv-list">
+      <li><span class="k">스코프</span><span class="v">AdSense 승인 완료 · 광고 노출 활성 · 8/15 유예 재평가 5건 + 신규 정부/노동 축 + 시류 4중 검토 · 초안 15건 → 최종 2건</span></li>
+      <li><span class="k">1순위 근거</span><span class="v"><code>wedding-gift-calculator</code>: 8/15 유예 재평가 1순위 · 경조사 축 완성 · 실시간 상시 검색량 + 김영란법 후크 · 보라 팔레트 신규 도메인 편입</span></li>
+      <li><span class="k">2순위 근거</span><span class="v"><code>minimum-wage-2027-dday</code>: 해리 6번(첫눈) 대신 대안 15번 채택 · 노동 축 5중 완성 · 관련 4개 크로스링크 · 그린 축 견고화</span></li>
+      <li><span class="k">컷 13건</span><span class="v">국가건강검진·광견병(심사 대기 D-창 유예) · 부가가치세신고(카니벌 컷) · 어린이날·어버이날(5월 세트 통합) · 자동차정기검사·군입대·주민등록증갱신·65세무임승차 · 첫눈(사마의 대기) · 한글날·밸런타인데이 (다음 사이클 순차 유예)</span></li>
+      <li><span class="k">다빈치 판정</span><span class="v">3건 결착 · 반려 0 · 1회 결착 · minimum-wage 그린 유지 (마이클 완벽 세팅·무수정) · wedding-gift 보라 유지 (감정 정합·상태 토큰 색역 분리 보존) · hero-line 시리즈 통일 추가</span></li>
+      <li><span class="k">이월 이슈</span><span class="v"><code>Math.ceil</code> 자정 · <code>&lt;link as="style"&gt;</code> · <code>WAGE_2027</code> 원복 대기 · <code>wedding-gift</code> favicon 톤 차이 · 8/10·12·14·15 광고 슬롯 옛 형식 6건</span></li>
+    </ul>
+  </div>
+
+  <p style="font-size:12px;color:#adb5bd;margin-top:32px;text-align:center;">
+    ※ 아래 iframe 실물은 파일을 로컬로 열면 렌더링됩니다. 광고·CDN 폰트는 인터넷 연결·CORS 정책에 따라 부분 미표시될 수 있습니다.
+  </p>
+
+  <div class="foot">
+    작성: 사마의 (기획전략실 팀장) · 2026-08-17 08:04 KST · 로컬 아카이브 <code>webutils/2026-08-17/04-보고서.html</code>
+  </div>
+
+</main>
+
+<template id="wedding-tmpl"><!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결혼식 축의금 얼마 — 관계·상황별 기준 금액</title>
+  <meta name="description" content="관계와 친밀도, 참석 여부를 선택하면 사회 통념 기준의 결혼식 축의금 최저 금액을 안내합니다. 직장동료·친구·친척·상사별 기준 반영.">
+  <meta property="og:title" content="결혼식 축의금 얼마 — 관계·상황별 기준 금액">
+  <meta property="og:description" content="관계와 친밀도, 참석 여부를 선택하면 사회 통념 기준의 결혼식 축의금 금액을 안내합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://utils.minon.kr/wedding-gift-calculator/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="결혼식 축의금 얼마 — 관계·상황별 기준 금액">
+  <meta name="twitter:description" content="관계와 친밀도, 참석 여부를 선택하면 사회 통념 기준의 결혼식 축의금 금액을 안내합니다.">
+  <link rel="canonical" href="https://utils.minon.kr/wedding-gift-calculator/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23805AD5'/%3E%3Ctext x='32' y='44' font-family='system-ui,sans-serif' font-size='32' text-anchor='middle' fill='%23fff'%3E💍%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <link rel="stylesheet" href="/shared/ads.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "결혼식 축의금 얼마 — 관계·상황별 기준 금액",
+    "url": "https://utils.minon.kr/wedding-gift-calculator/",
+    "description": "관계와 친밀도, 참석 여부를 선택하면 사회 통념 기준의 결혼식 축의금 최저 금액을 안내합니다.",
+    "applicationCategory": "LifestyleApplication",
+    "inLanguage": "ko",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #F7F8FA;
+      --primary: #553C9A;
+      --primary-hover: #44337A;
+      --card-bg: #EDE9F8;
+      --card-border: #C4B5FD;
+      --text: #111827;
+      --text-sub: #6B7280;
+      --border: #C8C0D8;
+      --focus: #553C9A;
+      --error: #B83A28;
+      --warn-bg: #FFF7F5;
+      --warn-border: #E5A99A;
+      --warn-text: #6B2418;
+      --law-bg: #F0F4EA;
+      --law-border: #B7C89A;
+      --law-text: #364A1F;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 1rem; }
+    main { max-width: 620px; margin: 0 auto; padding: 1.5rem 0 3rem; }
+    .site-nav { font-size: 13px; margin-bottom: 1.25rem; }
+    .site-nav a { color: var(--text-sub); text-decoration: none; }
+    .site-nav a:hover { color: var(--primary); text-decoration: underline; }
+    .h1-row { display: flex; align-items: flex-start; gap: 0.5rem; }
+    h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .hero-line { display: block; width: 2.5rem; height: 2px; background: var(--primary); margin: 0 0 1.25rem; border-radius: 2px; }
+    .subtitle { font-size: 0.95rem; color: var(--text-sub); margin-bottom: 2rem; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group > label, .form-group > fieldset > legend { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text); }
+    fieldset { border: none; padding: 0; }
+    .hint { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 0.5rem; }
+    select { width: 100%; padding: 0.6rem 2.5rem 0.6rem 0.75rem; font-size: 1rem; font-family: inherit; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23553C9A' stroke-width='2' d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem; }
+    select:focus { outline: 2px solid var(--focus); outline-offset: 1px; }
+    .radio-list, .check-list { display: flex; flex-direction: column; gap: 0.45rem; }
+    .radio-list label, .check-list label { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.95rem; }
+    .radio-list input[type="radio"], .check-list input[type="checkbox"] { accent-color: var(--primary); width: 1.1em; height: 1.1em; flex-shrink: 0; }
+    .btn { width: 100%; padding: 0.85rem; font-size: 1rem; font-family: inherit; font-weight: 700; background: var(--primary); color: #fff; border: none; border-radius: 10px; cursor: pointer; transition: transform 150ms, box-shadow 150ms; }
+    .btn:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .btn:active { transform: translateY(0); box-shadow: none; }
+    .btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .btn--ghost { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1.1rem; background: transparent; color: var(--primary); border: 1.5px solid var(--primary); font-weight: 600; }
+    .btn--ghost:hover { background: rgba(85,60,154,0.08); transform: none; box-shadow: none; }
+    .btn--ghost svg { width: 1.1em; height: 1.1em; flex-shrink: 0; }
+    .error { color: var(--error); font-size: 0.9rem; margin-top: 0.5rem; min-height: 1.2em; }
+    @keyframes resultReveal { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    #result { display: none; margin-top: 1.5rem; padding: 1.25rem; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; }
+    #result.show { display: block; animation: resultReveal 200ms ease-out both; }
+    .result-main { font-size: 2.25rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--primary); }
+    .result-range { font-size: 0.875rem; color: var(--text-sub); margin-bottom: 0.75rem; }
+    .result-note { font-size: 0.9rem; color: var(--text); border-top: 1px solid var(--card-border); padding-top: 0.75rem; margin-top: 0.5rem; }
+    .callout { margin-top: 1rem; padding: 0.9rem 1rem; border-radius: 8px; font-size: 0.9rem; line-height: 1.55; }
+    .callout p + p { margin-top: 0.5rem; }
+    .callout ul { list-style: none; margin-top: 0.4rem; }
+    .callout li { padding: 0.15rem 0 0.15rem 0.75rem; position: relative; }
+    .callout li::before { content: '·'; position: absolute; left: 0; font-weight: 700; }
+    .callout strong { font-weight: 700; }
+    .callout--warn { background: var(--warn-bg); border-left: 4px solid var(--warn-border); color: var(--warn-text); }
+    .callout--law  { background: var(--law-bg);  border-left: 4px solid var(--law-border);  color: var(--law-text); }
+    .callout--info { background: #fff; border: 1px solid var(--card-border); color: var(--text-sub); }
+    .etiquette { margin-top: 2.5rem; padding: 1.5rem; background: #fff; border: 1px solid var(--border); border-radius: 12px; }
+    .etiquette h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .etiquette h3 { font-size: 0.95rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.35rem; }
+    .etiquette h3:first-of-type { margin-top: 0.5rem; }
+    .etiquette ul { list-style: none; }
+    .etiquette li { font-size: 0.9rem; color: var(--text-sub); padding: 0.25rem 0 0.25rem 0.9rem; position: relative; line-height: 1.55; }
+    .etiquette li::before { content: '·'; position: absolute; left: 0.2rem; color: var(--primary); font-weight: 700; }
+    .etiquette strong { color: var(--text); font-weight: 600; }
+    .related-links { margin-top: 1.5rem; padding: 1rem 1.25rem; background: #fff; border: 1px solid var(--border); border-radius: 10px; }
+    .related-links h3 { font-size: 0.85rem; color: var(--text-sub); margin-bottom: 0.6rem; font-weight: 600; }
+    .related-links a { display: inline-block; margin-right: 0.75rem; margin-bottom: 0.25rem; font-size: 0.875rem; color: var(--primary); text-decoration: none; }
+    .related-links a:hover { text-decoration: underline; }
+    .disclaimer { margin-top: 1.75rem; padding: 0.9rem 1rem; font-size: 0.82rem; color: var(--text-sub); border-top: 1px solid var(--border); line-height: 1.55; }
+    .btn-share-page { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 7px; background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-sub); flex-shrink: 0; margin-top: 4px; transition: background 100ms; }
+    .btn-share-page:hover { background: rgba(0,0,0,0.06); }
+    #copyToast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.75); color: #fff; padding: 8px 16px; border-radius: 8px; font-size: 13px; pointer-events: none; opacity: 0; transition: opacity 200ms; white-space: nowrap; z-index: 9999; }
+    #copyToast.show { opacity: 1; }
+    .site-footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--text-sub); display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; align-items: center; }
+    .site-footer a { color: inherit; text-decoration: none; margin-right: 0.75rem; }
+    .site-footer a:hover { text-decoration: underline; }
+    @media (max-width: 480px) { h1 { font-size: 1.3rem; } .result-main { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+<main>
+  <nav class="site-nav"><a href="/">← 유틸 목록</a></nav>
+  <div class="h1-row">
+    <h1>결혼식 축의금 얼마</h1>
+    <button class="btn-share-page" id="sharePageBtn" aria-label="공유하기" title="공유하기">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    </button>
+  </div>
+  <span class="hero-line" aria-hidden="true"></span>
+  <p class="subtitle">관계와 친밀도, 참석 여부를 선택하면 사회 통념 기준의 최저 축의금을 안내합니다.</p>
+  <form id="form" novalidate>
+    <div class="form-group">
+      <label for="relation">결혼하는 당사자와의 관계</label>
+      <p class="hint">신랑·신부 중 내가 아는 그 사람과의 관계입니다.</p>
+      <select id="relation">
+        <option value="">선택하세요</option>
+        <option value="friend">친구</option>
+        <option value="coworker">직장 동료</option>
+        <option value="superior">직장 상사</option>
+        <option value="relative">친척</option>
+        <option value="acquaintance">지인·모임·동호회</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <fieldset>
+        <legend>친밀도</legend>
+        <div class="radio-list">
+          <label><input type="radio" name="intimacy" value="low"> 낮음 — 잘 모르는 사이</label>
+          <label><input type="radio" name="intimacy" value="mid"> 보통 — 일반적인 관계</label>
+          <label><input type="radio" name="intimacy" value="high"> 높음 — 가깝게 지냄</label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <fieldset>
+        <legend>참석 여부</legend>
+        <div class="radio-list">
+          <label><input type="radio" name="attend" value="yes" checked> 참석함</label>
+          <label><input type="radio" name="attend" value="no"> 불참 (봉투만 전달)</label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <fieldset>
+        <legend>내 상황</legend>
+        <div class="radio-list">
+          <label><input type="radio" name="situation" value="student"> 사회초년생·학생</label>
+          <label><input type="radio" name="situation" value="normal" checked> 일반 직장인</label>
+          <label><input type="radio" name="situation" value="rich"> 경제적 여유 있음</label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <fieldset>
+        <legend>김영란법(청탁금지법) 대상 여부</legend>
+        <p class="hint">아래 2개 모두 해당되면 축의금(현금) 5만원 상한이 적용됩니다.</p>
+        <div class="check-list">
+          <label><input type="checkbox" name="gyr" value="official"><span>결혼하는 분이 공직자등입니다 (공무원·공공기관 임직원·학교 교직원·언론사 임직원)</span></label>
+          <label><input type="checkbox" name="gyr" value="job"><span>나와 직무 관련성이 있습니다 (인허가·계약·감독·평가·민원 등)</span></label>
+        </div>
+      </fieldset>
+    </div>
+    <button type="submit" class="btn">최저 기준 금액 확인</button>
+    <p id="err" class="error" role="alert" aria-live="assertive"></p>
+  </form>
+  <section id="result" aria-live="polite">
+    <div class="result-main" id="res-amount"></div>
+    <div class="result-range" id="res-range"></div>
+    <div class="result-note" id="res-note"></div>
+    <div id="res-callouts"></div>
+    <button type="button" id="btn-share" class="btn btn--ghost">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      <span id="share-label">결과 공유하기</span>
+    </button>
+  </section>
+  <section class="etiquette" aria-label="결혼식 예절">
+    <h2>결혼식 예절</h2>
+    <h3>복장</h3>
+    <ul>
+      <li><strong>단정하고 깔끔한 정장</strong>이 기본. 흰색 드레스나 지나치게 화려한 색상은 삼갑니다.</li>
+      <li>너무 캐주얼한 복장(청바지, 운동복)은 피하는 것이 예의입니다.</li>
+    </ul>
+    <h3>방명록·봉투</h3>
+    <ul>
+      <li>방명록 작성 후 축의금 봉투를 안내 직원에게 전달하거나 함에 직접 넣습니다.</li>
+      <li>봉투 앞면에 <strong>祝結婚(축결혼) 또는 祝 華婚(축 화혼)</strong>, 뒷면에 소속·이름을 세로쓰기로 기재. 한글로 써도 무방합니다.</li>
+      <li>새 지폐를 사용하는 것이 일반적입니다.</li>
+      <li><strong>4·9·18이 들어간 금액</strong>은 결례로 여겨지므로 피합니다.</li>
+    </ul>
+    <h3>식장 예절</h3>
+    <ul>
+      <li>식이 시작하기 전에 도착하는 것이 예의입니다. 최소 <strong>10~15분 전</strong>.</li>
+      <li>예식 중 사진 촬영이나 통화는 삼갑니다.</li>
+    </ul>
+    <h3>축하 인사</h3>
+    <ul>
+      <li>"결혼 축하해요", "두 분 행복하세요" 같은 진심 어린 짧은 인사로 충분합니다.</li>
+    </ul>
+  </section>
+  <div class="related-links">
+    <h3>함께 많이 찾는 유틸</h3>
+    <a href="/funeral-condolence-calculator/">장례식 조의금 계산기</a>
+  </div>
+  <p class="disclaimer">이 안내는 2026년 기준 사회 통념을 반영한 최저 기준입니다. 실제 금액은 관계·지역·상황에 따라 달라질 수 있습니다.</p>
+  <footer class="site-footer">
+    <nav><a href="/privacy.html">개인정보처리방침</a><a href="/contact.html">문의</a></nav>
+    <span>© 2026 민온</span>
+  </footer>
+</main>
+<script>
+(function () {
+  var STEPS = [5, 7, 10, 15, 20, 30, 50];
+  var M = {
+    'friend':       [5,    5,  10],
+    'coworker':     [5,    5,  10],
+    'superior':     [5,   10,  10],
+    'relative':     [5,   10,  20],
+    'acquaintance': [null, 5,   5]
+  };
+  var NOTES = {
+    'friend':       '친구 관계는 5~10만원이 일반적입니다.',
+    'coworker':     '직장 동료 관계는 5~10만원이 통상적입니다.',
+    'superior':     '직장 상사 관계는 5~10만원이 통상적입니다.',
+    'relative':     '친척 관계는 5~20만원대가 통상적입니다.',
+    'acquaintance': '지인·모임 관계는 5~10만원이 무난합니다.'
+  };
+  var IDX = { low: 0, mid: 1, high: 2 };
+  function stepMove(amount, delta) { var i = STEPS.indexOf(amount); if (i < 0) i = 0; return STEPS[Math.max(0, Math.min(STEPS.length - 1, i + delta))]; }
+  function calloutHTML(kind, html) { return '<div class="callout callout--' + kind + '">' + html + '</div>'; }
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var errEl = document.getElementById('err');
+    errEl.textContent = '';
+    var rel = document.getElementById('relation').value;
+    var intEl = document.querySelector('input[name="intimacy"]:checked');
+    var attEl = document.querySelector('input[name="attend"]:checked');
+    var sitEl = document.querySelector('input[name="situation"]:checked');
+    if (!rel)   { errEl.textContent = '관계를 선택해 주세요.'; return; }
+    if (!intEl) { errEl.textContent = '친밀도를 선택해 주세요.'; return; }
+    var base = M[rel][IDX[intEl.value]];
+    var attend = attEl ? attEl.value : 'yes';
+    var sit = sitEl ? sitEl.value : 'normal';
+    if (base === null) {
+      document.getElementById('res-amount').textContent = '안 내도 무방';
+      document.getElementById('res-range').textContent = '관례상 결례가 아닙니다.';
+      document.getElementById('res-note').textContent = NOTES[rel];
+      document.getElementById('res-callouts').innerHTML = '';
+      var r0 = document.getElementById('result');
+      r0.classList.add('show');
+      r0.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
+    if (attend === 'no') base = stepMove(base, -1);
+    if (sit === 'student') base = stepMove(base, -1);
+    if (sit === 'rich')    base = stepMove(base, +1);
+    var gyrAll = document.querySelectorAll('input[name="gyr"]');
+    var gyrChecked = document.querySelectorAll('input[name="gyr"]:checked');
+    var gyrActive = gyrAll.length > 0 && gyrChecked.length === gyrAll.length;
+    if (gyrActive && base > 5) base = 5;
+    var hi = stepMove(base, +1);
+    var sitLabel = sit === 'student' ? ' · 사초년 조정' : sit === 'rich' ? ' · 여유 조정' : '';
+    var attendLabel = attend === 'no' ? ' · 불참 조정' : '';
+    var rangeText;
+    if (gyrActive) rangeText = '김영란법 상한 · 5만원 이하';
+    else if (hi === base) rangeText = base + '만원 이상';
+    else rangeText = '통상 ' + base + '~' + hi + '만원';
+    document.getElementById('res-amount').textContent = base + '만원';
+    document.getElementById('res-range').textContent = rangeText + sitLabel + attendLabel;
+    document.getElementById('res-note').textContent = NOTES[rel];
+    var html = '';
+    if (gyrActive) html += calloutHTML('law', '<p><strong>김영란법 5만원 한도 적용</strong></p>');
+    if (base >= 10) html += calloutHTML('info', '<p>10만원 이상은 여건과 마음에 따라 넉넉히 올려도 무방합니다.</p>');
+    document.getElementById('res-callouts').innerHTML = html;
+    var r = document.getElementById('result');
+    r.classList.add('show');
+    r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+}());
+</script>
+</body>
+</html></template>
+
+<template id="minwage-tmpl"><!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2027 최저임금 시행 D-day — 시급·월급 계산기</title>
+  <meta name="description" content="2027년 최저임금 시행일(2027-01-01)까지 D-day와 시급·주급·월급 계산기입니다.">
+  <link rel="canonical" href="https://utils.minon.kr/minimum-wage-2027-dday/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23198754'/%3E%3Ctext x='32' y='44' font-family='system-ui,sans-serif' font-size='30' text-anchor='middle' fill='%23fff'%3E₩%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <style>
+    :root {
+      --primary: #198754;
+      --primary-hover: #146c43;
+      --primary-soft: #D1FAE5;
+      --primary-soft-border: #6EE7B7;
+      --bg: #F8F9FA;
+      --surface: #FFFFFF;
+      --text: #1a1a2e;
+      --text-sub: #6c757d;
+      --text-mute: #adb5bd;
+      --border: #dee2e6;
+      --border-soft: #f1f3f5;
+      --error: #dc3545;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', system-ui, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: var(--primary); }
+    main { max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
+    .site-nav { font-size: 13px; margin-bottom: 24px; }
+    .site-nav a { color: var(--text-sub); text-decoration: none; transition: color .15s; }
+    .site-nav a:hover { color: var(--primary); }
+    h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 12px; line-height: 1.3; letter-spacing: -0.03em; }
+    .hero-line { display: block; width: 2.5rem; height: 2px; background: var(--primary); margin: 0 0 20px; border-radius: 2px; }
+    .lede { font-size: 14px; color: var(--text-sub); margin: 0 0 28px; line-height: 1.65; }
+    .lede strong { color: var(--primary-hover); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .status-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px 24px; text-align: center; margin-bottom: 24px; transition: border-color .2s, background .2s, box-shadow .2s; animation: fadeUp .5s ease both; }
+    .status-card.active { border-color: var(--primary); background: var(--primary-soft); box-shadow: 0 8px 24px rgba(25, 135, 84, 0.14); }
+    .status-label { font-size: 13px; font-weight: 600; color: var(--text-sub); margin-bottom: 14px; }
+    .main-days { font-size: 3.5rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; color: var(--primary); margin-bottom: 8px; }
+    .days-sub { font-size: 13px; color: var(--text-sub); margin-bottom: 12px; }
+    .period-bar { font-size: 14px; font-weight: 600; color: #343a40; background: var(--border-soft); border-radius: 8px; padding: 8px 14px; display: inline-block; }
+    .period-bar span { color: var(--primary); }
+    h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .section-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+    .wage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
+    .wage-item { background: var(--border-soft); border-radius: 8px; padding: 12px; text-align: center; }
+    .wage-label { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; }
+    .wage-value { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+    .wage-note { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
+    .calc-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+    .calc-field { flex: 1; min-width: 140px; }
+    .calc-field label { display: block; font-size: 13px; font-weight: 600; color: var(--text-sub); margin-bottom: 6px; }
+    .calc-field input[type="number"], .calc-field select { width: 100%; padding: 10px 12px; font-size: 14px; font-family: inherit; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); appearance: none; }
+    .btn-calc { padding: 10px 20px; font-size: 14px; font-family: inherit; font-weight: 700; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+    .btn-calc:hover { background: var(--primary-hover); }
+    #calc-result { margin-top: 16px; display: none; }
+    #calc-result.show { display: block; animation: fadeUp .3s ease both; }
+    .calc-result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .calc-result-item { background: var(--primary-soft); border-radius: 8px; padding: 12px 14px; }
+    .calc-result-label { font-size: 12px; color: var(--primary-hover); margin-bottom: 2px; }
+    .calc-result-value { font-size: 1.15rem; font-weight: 700; color: var(--primary-hover); }
+    .calc-result-sub { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
+    .calc-error { color: var(--error); font-size: 13px; margin-top: 8px; }
+    .penalty-list { list-style: none; margin: 0; padding: 0; }
+    .penalty-list li { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border-soft); font-size: 14px; }
+    .penalty-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; background: #fff3cd; color: #664d03; }
+    .penalty-desc { color: #495057; line-height: 1.55; }
+    .related-links { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; }
+    .related-links h3 { font-size: 13px; color: var(--text-sub); margin-bottom: 10px; font-weight: 600; }
+    .related-links a { display: inline-block; margin-right: 10px; margin-bottom: 4px; font-size: 13px; color: var(--primary); text-decoration: none; padding: 4px 10px; border: 1px solid var(--primary-soft-border); border-radius: 20px; background: var(--primary-soft); }
+    .disclaimer { font-size: 12px; color: var(--text-mute); line-height: 1.7; margin-bottom: 24px; padding: 12px 16px; background: var(--bg); border-radius: 8px; border: 1px solid #e9ecef; }
+    footer { font-size: 12px; color: var(--text-mute); padding-top: 20px; border-top: 1px solid #e9ecef; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    footer a { color: var(--text-mute); text-decoration: none; }
+    @media (max-width: 480px) { .main-days { font-size: 2.8rem; } h1 { font-size: 1.3rem; } .wage-grid { grid-template-columns: 1fr 1fr; } .calc-result-grid { grid-template-columns: 1fr; } .calc-row { flex-direction: column; } .btn-calc { width: 100%; } }
+  </style>
+</head>
+<body>
+<main>
+  <nav class="site-nav"><a href="/">← 유틸 목록</a></nav>
+  <h1>2027 최저임금 시행 D-day</h1>
+  <span class="hero-line" aria-hidden="true"></span>
+  <p class="lede">2027년 1월 1일부터 새 최저임금이 시행됩니다. 시행일까지 남은 기간과 시급·월급을 확인하세요.</p>
+  <div class="status-card" id="status-card">
+    <div class="status-label" id="status-label">2027 최저임금 시행까지</div>
+    <div class="main-days" id="main-days">—</div>
+    <div class="days-sub" id="days-sub">계산 중</div>
+    <div class="period-bar">시행일 <span id="enforce-date">2027. 1. 1(금)</span></div>
+  </div>
+  <div class="section-card">
+    <h2>2027 최저임금 (발표 대기 · 2026년 기준 잠정 표시)</h2>
+    <div class="wage-grid">
+      <div class="wage-item"><div class="wage-label">시급</div><div class="wage-value" id="disp-hourly">—</div><div class="wage-note">원/시간</div></div>
+      <div class="wage-item"><div class="wage-label">일급 (8시간)</div><div class="wage-value" id="disp-daily">—</div><div class="wage-note">원</div></div>
+      <div class="wage-item"><div class="wage-label">월급 (주 40시간)</div><div class="wage-value" id="disp-monthly">—</div><div class="wage-note">원 (주휴 포함)</div></div>
+    </div>
+    <p style="font-size:12px;color:var(--text-mute);line-height:1.6;">2027년 최저임금은 최저임금위원회 공식 발표 후 자동 반영되며, 현재는 2026년 최저임금(10,030원)을 잠정 기준으로 표시합니다.</p>
+  </div>
+  <div class="section-card">
+    <h2>내 급여 계산기</h2>
+    <p style="font-size:13px;color:var(--text-sub);margin-bottom:14px;line-height:1.6;">주 근무시간을 입력하면 2027년 최저임금 기준 주급·월급을 계산합니다.</p>
+    <div class="calc-row">
+      <div class="calc-field">
+        <label for="weekly-hours">주 근무시간</label>
+        <input type="number" id="weekly-hours" value="40" min="1" max="52" step="0.5" aria-label="주 근무시간">
+      </div>
+      <div class="calc-field">
+        <label for="weekly-holiday-toggle">주휴수당</label>
+        <select id="weekly-holiday-toggle" aria-label="주휴수당 포함 여부">
+          <option value="yes">포함 (주 15시간 이상)</option>
+          <option value="no">제외</option>
+        </select>
+      </div>
+      <button class="btn-calc" id="btn-calc" type="button">계산</button>
+    </div>
+    <div id="calc-error" class="calc-error" role="alert" aria-live="assertive"></div>
+    <div id="calc-result">
+      <div class="calc-result-grid">
+        <div class="calc-result-item"><div class="calc-result-label">시간당</div><div class="calc-result-value" id="r-hourly">—</div><div class="calc-result-sub">최저임금 기준</div></div>
+        <div class="calc-result-item"><div class="calc-result-label">주급</div><div class="calc-result-value" id="r-weekly">—</div><div class="calc-result-sub" id="r-weekly-sub">주휴수당 포함</div></div>
+        <div class="calc-result-item"><div class="calc-result-label">월급 (월 환산)</div><div class="calc-result-value" id="r-monthly">—</div><div class="calc-result-sub">× 4.345주</div></div>
+        <div class="calc-result-item"><div class="calc-result-label">연간 (12개월)</div><div class="calc-result-value" id="r-yearly">—</div><div class="calc-result-sub">세전 기준</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <h2>최저임금 위반 시 제재</h2>
+    <ul class="penalty-list">
+      <li><span class="penalty-tag">형사</span><span class="penalty-desc">최저임금 미지급 시 <strong>3년 이하 징역 또는 2천만원 이하 벌금</strong></span></li>
+      <li><span class="penalty-tag">행정</span><span class="penalty-desc">주지의무 위반 시 <strong>100만원 이하 과태료</strong></span></li>
+      <li><span class="penalty-tag">민사</span><span class="penalty-desc">차액 소급 청구 가능 · 노동부 신고 후 <strong>체불임금 지급 명령</strong></span></li>
+    </ul>
+    <p style="font-size:12px;color:var(--text-mute);margin-top:10px;line-height:1.6;">신고: 고용노동부 고객상담센터 ☎ 1350</p>
+  </div>
+  <div class="related-links">
+    <h3>함께 많이 찾는 노동 관련 유틸</h3>
+    <a href="/overtime-pay/">연장·야간·휴일 근로수당</a>
+    <a href="/weekly-holiday-pay/">주휴수당 계산기</a>
+    <a href="/work-grant-dday/">근로장려금 신청 D-day</a>
+    <a href="/annual-leave-calculator/">연차 계산기</a>
+  </div>
+  <p class="disclaimer">2027년 최저임금은 최저임금위원회 공식 발표 기준입니다. 본 계산 결과는 참고용이며 법적 효력이 없습니다.</p>
+  <footer><span>© 2026 민온</span><nav><a href="/privacy.html">개인정보처리방침</a> · <a href="/contact.html">문의</a></nav></footer>
+</main>
+<script>
+(function () {
+  var WAGE_2027 = 10030;
+  var ENFORCE = new Date('2027-01-01T00:00:00+09:00');
+  function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
+  function updateDday() {
+    var now = new Date();
+    var card = document.getElementById('status-card');
+    var mainDays = document.getElementById('main-days');
+    var daysSub = document.getElementById('days-sub');
+    var statusLbl = document.getElementById('status-label');
+    card.classList.remove('active');
+    if (now < ENFORCE) {
+      var diff = Math.ceil((ENFORCE - now) / 86400000);
+      mainDays.textContent = 'D-' + diff;
+      daysSub.textContent = '시행일까지';
+      statusLbl.textContent = '2027 최저임금 시행까지';
+    } else {
+      mainDays.textContent = '시행 중';
+      daysSub.textContent = '2027 최저임금 적용 중';
+      statusLbl.textContent = '현재 적용 최저임금';
+      card.classList.add('active');
+    }
+  }
+  function displayWageInfo() {
+    var daily = WAGE_2027 * 8;
+    var monthly = Math.round(WAGE_2027 * (40 + 8) * 4.345);
+    document.getElementById('disp-hourly').textContent = fmt(WAGE_2027);
+    document.getElementById('disp-daily').textContent = fmt(daily);
+    document.getElementById('disp-monthly').textContent = fmt(monthly);
+  }
+  document.getElementById('btn-calc').addEventListener('click', function () {
+    var errEl = document.getElementById('calc-error');
+    errEl.textContent = '';
+    var hoursRaw = parseFloat(document.getElementById('weekly-hours').value);
+    var holidayInclude = document.getElementById('weekly-holiday-toggle').value === 'yes';
+    if (isNaN(hoursRaw) || hoursRaw <= 0) { errEl.textContent = '주 근무시간을 바르게 입력하세요.'; return; }
+    if (hoursRaw > 52) { errEl.textContent = '주 최대 근무시간은 52시간(법정 한도)입니다.'; return; }
+    var weeklyHoliday = 0;
+    if (holidayInclude && hoursRaw >= 15) { weeklyHoliday = (hoursRaw / 40) * 8; }
+    var weeklyPay = Math.round(WAGE_2027 * (hoursRaw + weeklyHoliday));
+    var monthlyPay = Math.round(weeklyPay * 4.345);
+    var yearlyPay = monthlyPay * 12;
+    document.getElementById('r-hourly').textContent = fmt(WAGE_2027) + '원';
+    document.getElementById('r-weekly').textContent = fmt(weeklyPay) + '원';
+    document.getElementById('r-weekly-sub').textContent = holidayInclude && hoursRaw >= 15 ? '주휴수당 포함 (주 ' + hoursRaw + '시간)' : '주휴수당 미포함';
+    document.getElementById('r-monthly').textContent = fmt(monthlyPay) + '원';
+    document.getElementById('r-yearly').textContent = fmt(yearlyPay) + '원';
+    document.getElementById('calc-result').classList.add('show');
+  });
+  updateDday();
+  displayWageInfo();
+  setInterval(updateDday, 60000);
+}());
+</script>
+</body>
+</html></template>
+
+<script>
+(function() {
+  function embedFromTemplate(iframeId, tmplId) {
+    var tmpl = document.getElementById(tmplId);
+    var body = tmpl.innerHTML;
+    var src = '<!DOCTYPE html>\n<html lang="ko">' + body + '</html>';
+    document.getElementById(iframeId).srcdoc = src;
+  }
+  embedFromTemplate('wedding-iframe', 'wedding-tmpl');
+  embedFromTemplate('minwage-iframe', 'minwage-tmpl');
+})();
+</script>
+
+</body>
+</html>
