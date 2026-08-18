@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>국가장학금 신청 D-day — 1·2차 마감일 카운트다운</title>
+  <meta name="description" content="한국장학재단 국가장학금 1·2학기 1·2차 신청 창 마감일까지 D-day를 계산합니다. 소득분위 기준, 서류 체크리스트, 신청 방법도 안내합니다.">
+  <meta property="og:title" content="국가장학금 신청 D-day — 1·2차 마감일 카운트다운">
+  <meta property="og:description" content="국가장학금 1·2학기 1·2차 신청 창 마감일 D-day. 소득분위 기준·서류 체크리스트 포함.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://utils.minon.kr/national-scholarship-dday/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="국가장학금 신청 D-day — 1·2차 마감일 카운트다운">
+  <meta name="twitter:description" content="국가장학금 1·2학기 1·2차 신청 창 마감일 D-day. 소득분위 기준·서류 체크리스트 포함.">
+  <link rel="canonical" href="https://utils.minon.kr/national-scholarship-dday/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%237C3AED'/%3E%3Ctext x='32' y='44' font-family='system-ui,sans-serif' font-size='30' text-anchor='middle' fill='%23fff'%3E🎓%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <link rel="stylesheet" href="/shared/ads.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "국가장학금 신청 D-day",
+    "url": "https://utils.minon.kr/national-scholarship-dday/",
+    "description": "한국장학재단 국가장학금 1·2학기 1·2차 신청 창 마감일까지 D-day를 계산합니다.",
+    "applicationCategory": "UtilityApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+  <style>
+    :root {
+      --primary: #7C3AED;
+      --primary-hover: #6D28D9;
+      --primary-soft: #EDE9FE;
+      --primary-soft-border: #C4B5FD;
+      --bg: #F8F9FA;
+      --surface: #FFFFFF;
+      --text: #1a1a2e;
+      --text-sub: #6c757d;
+      --text-mute: #adb5bd;
+      --border: #dee2e6;
+      --border-soft: #f1f3f5;
+      --error: #dc3545;
+      --open-color: #065f46;
+      --open-bg: #D1FAE5;
+      --open-border: #6EE7B7;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--primary); }
+    main { max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .site-nav { font-size: 13px; margin-bottom: 24px; }
+    .site-nav a { color: var(--text-sub); text-decoration: none; }
+    .site-nav a:hover { color: var(--primary); }
+
+    h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 12px; line-height: 1.3; letter-spacing: -0.03em; }
+    .hero-line { display: block; width: 2.5rem; height: 2px; background: var(--primary); margin: 0 0 20px; border-radius: 2px; }
+    .lede { font-size: 14px; color: var(--text-sub); margin: 0 0 28px; line-height: 1.65; }
+    .lede strong { color: var(--primary-hover); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 상태 카드 */
+    .status-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: fadeUp .5s ease both;
+    }
+    .status-card.open {
+      border-color: #10b981;
+      background: var(--open-bg);
+    }
+    .status-card.upcoming { border-color: var(--primary); background: var(--primary-soft); }
+    .status-card.none { border-color: var(--border); background: var(--surface); }
+
+    .status-label { font-size: 13px; font-weight: 600; color: var(--text-sub); margin-bottom: 14px; }
+    .status-card.open .status-label { color: var(--open-color); }
+    .status-card.upcoming .status-label { color: var(--primary-hover); }
+
+    .main-badge {
+      display: inline-block; padding: 3px 12px;
+      border-radius: 20px; font-size: 12px; font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .badge-open { background: #10b981; color: #fff; }
+    .badge-upcoming { background: var(--primary); color: #fff; }
+    .badge-none { background: var(--border); color: var(--text-sub); }
+
+    .main-days {
+      font-size: 3.5rem; font-weight: 800;
+      letter-spacing: -0.05em; line-height: 1;
+      color: var(--primary); margin-bottom: 8px;
+    }
+    .status-card.open .main-days { color: #059669; }
+    .days-sub { font-size: 13px; color: var(--text-sub); margin-bottom: 12px; }
+    .period-bar {
+      font-size: 14px; font-weight: 600; color: #343a40;
+      background: var(--border-soft); border-radius: 8px;
+      padding: 8px 14px; display: inline-block;
+    }
+    .period-bar span { color: var(--primary); }
+    .status-card.open .period-bar { background: rgba(255,255,255,0.7); }
+    .status-card.open .period-bar span { color: #059669; }
+
+    /* 일정 표 */
+    h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .schedule-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .schedule-table th {
+      background: var(--border-soft); color: var(--text-sub);
+      font-weight: 600; padding: 8px 10px; text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+    .schedule-table td {
+      padding: 9px 10px; border-bottom: 1px solid var(--border-soft);
+      color: #495057; vertical-align: top;
+    }
+    .schedule-table tr:last-child td { border-bottom: none; }
+    .schedule-table td.label-cell { font-weight: 600; color: var(--text); white-space: nowrap; }
+
+    .badge-status {
+      display: inline-block; padding: 1px 7px;
+      border-radius: 4px; font-size: 11px; font-weight: 700;
+      margin-left: 4px;
+    }
+    .s-open     { background: #D1FAE5; color: #065f46; }
+    .s-upcoming { background: var(--primary-soft); color: var(--primary-hover); }
+    .s-closed   { background: #f1f3f5; color: #adb5bd; }
+
+    .note-row { font-size: 11px; color: var(--text-mute); margin-top: 10px; line-height: 1.65; }
+
+    /* 소득분위 */
+    .income-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .income-item {
+      background: var(--border-soft);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .income-label { font-size: 12px; color: var(--text-sub); margin-bottom: 3px; }
+    .income-value { font-size: 1rem; font-weight: 700; color: var(--primary); }
+    .income-note  { font-size: 10px; color: var(--text-mute); margin-top: 2px; }
+
+    /* 서류 체크리스트 */
+    .checklist { list-style: none; margin: 0; padding: 0; }
+    .checklist li {
+      display: flex; gap: 10px; align-items: flex-start;
+      padding: 8px 0; border-bottom: 1px solid var(--border-soft);
+      font-size: 13px; color: #495057; line-height: 1.55;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .check-icon {
+      flex-shrink: 0; width: 18px; height: 18px;
+      background: var(--primary-soft); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+    .check-icon svg { width: 11px; height: 11px; stroke: var(--primary); }
+    .check-title { font-weight: 600; color: var(--text); }
+    .check-desc { font-size: 12px; color: var(--text-mute); }
+
+    /* 신청 단계 */
+    .steps { list-style: none; margin: 0; padding: 0; }
+    .steps li {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px solid var(--border-soft);
+      font-size: 14px;
+    }
+    .steps li:last-child { border-bottom: none; }
+    .step-num {
+      flex-shrink: 0; width: 24px; height: 24px;
+      background: var(--primary); color: #fff;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; margin-top: 1px;
+    }
+    .step-body { color: #495057; line-height: 1.6; }
+    .step-body strong { color: var(--text); font-weight: 600; }
+    .step-body .note { font-size: 12px; color: var(--text-mute); margin-top: 2px; }
+
+    /* 관련 링크 */
+    .related-links {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 20px; margin-bottom: 16px;
+    }
+    .related-links h3 { font-size: 13px; color: var(--text-sub); margin-bottom: 10px; font-weight: 600; }
+    .related-links a {
+      display: inline-block; margin-right: 10px; margin-bottom: 4px;
+      font-size: 13px; color: var(--primary); text-decoration: none;
+      padding: 4px 10px; border: 1px solid var(--primary-soft-border);
+      border-radius: 20px; background: var(--primary-soft);
+    }
+    .related-links a:hover { background: #ddd6fe; }
+
+    .disclaimer {
+      font-size: 12px; color: var(--text-mute); line-height: 1.7;
+      margin-bottom: 24px; padding: 12px 16px;
+      background: var(--bg); border-radius: 8px; border: 1px solid #e9ecef;
+    }
+
+    footer {
+      font-size: 12px; color: var(--text-mute);
+      padding-top: 20px; border-top: 1px solid #e9ecef;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--text-mute); text-decoration: none; }
+    footer a:hover { color: var(--text-sub); }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.3rem; }
+      .main-days { font-size: 2.8rem; }
+      .income-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
+</head>
+<body>
+<main>
+  <nav class="site-nav"><a href="/">← 유틸 목록</a></nav>
+
+  <h1>국가장학금 신청 D-day</h1>
+  <span class="hero-line" aria-hidden="true"></span>
+  <p class="lede">한국장학재단 국가장학금 <strong>1·2학기 1·2차 신청 창</strong> 마감일까지 D-day를 알려드립니다. 매 학기 반복해서 신청하는 장학금입니다.</p>
+
+  <!-- 상태 카드 (JS가 채움) -->
+  <div class="status-card none" id="status-card" aria-live="polite">
+    <div class="status-label" id="status-label">국가장학금 신청</div>
+    <div id="status-badge"></div>
+    <div class="main-days" id="main-days">—</div>
+    <div class="days-sub" id="days-sub">계산 중...</div>
+    <div class="period-bar" id="period-bar">일정 확인 중</div>
+  </div>
+
+  <!-- 신청 일정 표 -->
+  <div class="section-card">
+    <h2>2026~2027학년도 신청 일정</h2>
+    <table class="schedule-table" id="schedule-table">
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>신청 기간 (예상)</th>
+          <th>상태</th>
+        </tr>
+      </thead>
+      <tbody id="schedule-tbody">
+        <!-- JS가 채움 -->
+      </tbody>
+    </table>
+    <p class="note-row">※ 위 일정은 과거 패턴 기반 예상 일정입니다. 한국장학재단 공식 발표 전까지 변경될 수 있습니다. <a href="https://www.kosaf.go.kr" target="_blank" rel="noopener">한국장학재단 바로가기 →</a></p>
+  </div>
+
+  <!-- 소득분위 기준 -->
+  <div class="section-card">
+    <h2>소득분위별 지원 금액 (2026학년도 기준)</h2>
+    <div class="income-grid">
+      <div class="income-item">
+        <div class="income-label">1구간 (기초)</div>
+        <div class="income-value">연 570만원</div>
+        <div class="income-note">국가장학금 I 유형</div>
+      </div>
+      <div class="income-item">
+        <div class="income-label">2구간</div>
+        <div class="income-value">연 570만원</div>
+        <div class="income-note">국가장학금 I 유형</div>
+      </div>
+      <div class="income-item">
+        <div class="income-label">3구간</div>
+        <div class="income-value">연 480만원</div>
+        <div class="income-note">국가장학금 I 유형</div>
+      </div>
+      <div class="income-item">
+        <div class="income-label">4구간</div>
+        <div class="income-value">연 360만원</div>
+        <div class="income-note">국가장학금 I 유형</div>
+      </div>
+      <div class="income-item">
+        <div class="income-label">5구간</div>
+        <div class="income-value">연 240만원</div>
+        <div class="income-note">국가장학금 I 유형</div>
+      </div>
+      <div class="income-item">
+        <div class="income-label">6구간</div>
+        <div class="income-value">연 195만원</div>
+        <div class="income-note">국가장학금 I 유형</div>
+      </div>
+      <div class="income-item">
+        <div class="income-label">7구간</div>
+        <div class="income-value">연 135만원</div>
+        <div class="income-note">국가장학금 I 유형</div>
+      </div>
+      <div class="income-item">
+        <div class="income-label">8구간</div>
+        <div class="income-value">연 67.5만원</div>
+        <div class="income-note">국가장학금 I 유형</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-mute);line-height:1.6;">9구간 이상은 국가장학금 I 유형 지원 대상에서 제외됩니다. 국가장학금 II 유형(대학 자체 기준)은 별도 확인이 필요합니다. 지원 금액은 등록금 한도 내에서 지급됩니다.</p>
+  </div>
+
+  <!-- 서류 체크리스트 -->
+  <div class="section-card">
+    <h2>신청 서류 체크리스트</h2>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+        <div>
+          <div class="check-title">가구원 동의 (필수)</div>
+          <div class="check-desc">부모·배우자 등 가구원이 한국장학재단 홈페이지에서 정보 제공에 동의해야 합니다. 동의 없으면 심사 불가.</div>
+        </div>
+      </li>
+      <li>
+        <div class="check-icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+        <div>
+          <div class="check-title">서류 제출 (해당자)</div>
+          <div class="check-desc">소득 확인이 어려운 경우 가족관계증명서, 건강보험료납부확인서, 소득신고서 등 추가 서류 제출이 요구될 수 있습니다.</div>
+        </div>
+      </li>
+      <li>
+        <div class="check-icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+        <div>
+          <div class="check-title">학점 기준 충족 (재학생)</div>
+          <div class="check-desc">직전 학기 12학점 이상 이수, 성적 80점 이상(C학점 이상)이 필요합니다. 1학기 신입생·편입생은 성적 기준 적용 제외.</div>
+        </div>
+      </li>
+      <li>
+        <div class="check-icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+        <div>
+          <div class="check-title">재학 여부 확인</div>
+          <div class="check-desc">대학에서 재학 확인이 자동 처리됩니다. 휴학 중이거나 졸업 후에는 지원 대상에서 제외됩니다.</div>
+        </div>
+      </li>
+      <li>
+        <div class="check-icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+        <div>
+          <div class="check-title">계좌 등록</div>
+          <div class="check-desc">장학금을 받을 본인 명의 은행 계좌가 한국장학재단에 등록되어 있어야 합니다.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 신청 단계 -->
+  <div class="section-card">
+    <h2>온라인 신청 방법</h2>
+    <ul class="steps">
+      <li>
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>한국장학재단 홈페이지</strong>(www.kosaf.go.kr) 또는 모바일 앱 접속
+          <div class="note">장학금 신청은 PC·모바일 모두 가능합니다. 공인인증서(또는 금융인증서) 준비 필요.</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>장학금 신청 → 국가장학금 신청</strong> 메뉴 선택
+          <div class="note">신청 기간 중에만 버튼이 활성화됩니다.</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>가구원 정보 제공 동의</strong> 받기 (부모·배우자 등)
+          <div class="note">가구원이 직접 홈페이지에서 동의해야 합니다. 미동의 시 8구간으로 처리되어 불이익을 받을 수 있습니다.</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>서류 심사 → 소득분위 확정</strong> (신청 후 약 4~6주 소요)
+          <div class="note">심사 결과는 문자·이메일로 통보됩니다.</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <strong>장학금 지급</strong> (학교 등록금 계좌 차감 또는 지급)
+          <div class="note">등록금 범위 내에서 지급. 초과분은 본인 계좌로 입금되지 않습니다.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="ad-slot" id="ad-slot">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="4197594404"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <div class="related-links">
+    <h3>함께 많이 찾는 교육 관련 유틸</h3>
+    <a href="/susi-dday/">수시원서 D-day</a>
+    <a href="/suneung-dday/">수능 D-day</a>
+    <a href="/summer-homework-dday/">방학 숙제 D-day</a>
+    <a href="/chuseok-dday/">추석 D-day</a>
+  </div>
+
+  <p class="disclaimer">신청 일정은 과거 패턴 기반 예상 일정으로, 한국장학재단 공식 발표 전 변경될 수 있습니다. 정확한 신청 기간은 한국장학재단 홈페이지(www.kosaf.go.kr)에서 확인하세요. 소득분위 기준·지원 금액은 2026학년도 기준이며 매년 조정될 수 있습니다.</p>
+
+  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="9059038840"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <footer>
+    <span>© 2026 민온</span>
+    <nav><a href="/privacy">개인정보처리방침</a> · <a href="/contact.html">문의</a></nav>
+  </footer>
+</main>
+
+<script>
+(function () {
+  /* 국가장학금 신청 창 일정 (한국장학재단 과거 패턴 기반 예상 · 공식 발표 전 조정 가능) */
+  var SCHEDULES = [
+    { label: '2026학년도 1학기 1차', start: '2025-11-20', end: '2025-12-11' },
+    { label: '2026학년도 1학기 2차', start: '2026-01-22', end: '2026-02-12' },
+    { label: '2026학년도 2학기 1차', start: '2026-05-21', end: '2026-06-11' },
+    { label: '2026학년도 2학기 2차', start: '2026-07-23', end: '2026-08-13' },
+    { label: '2027학년도 1학기 1차', start: '2026-11-19', end: '2026-12-10' },
+    { label: '2027학년도 1학기 2차', start: '2027-01-21', end: '2027-02-11' },
+    { label: '2027학년도 2학기 1차', start: '2027-05-20', end: '2027-06-10' },
+    { label: '2027학년도 2학기 2차', start: '2027-07-22', end: '2027-08-12' }
+  ];
+
+  var DAYS_KO = ['일', '월', '화', '수', '목', '금', '토'];
+
+  function parseDate(str) {
+    var p = str.split('-');
+    return new Date(parseInt(p[0]), parseInt(p[1]) - 1, parseInt(p[2]));
+  }
+
+  function formatShort(d) {
+    return (d.getMonth() + 1) + '/' + d.getDate() + '(' + DAYS_KO[d.getDay()] + ')';
+  }
+
+  function formatFull(d) {
+    return d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일';
+  }
+
+  /* 일정 표 렌더 */
+  var tbody = document.getElementById('schedule-tbody');
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  SCHEDULES.forEach(function (s) {
+    var sDate = parseDate(s.start);
+    var eDate = parseDate(s.end);
+    eDate.setHours(23, 59, 59, 999);
+
+    var statusHtml, statusClass;
+    if (today > eDate) {
+      statusHtml = '<span class="badge-status s-closed">마감</span>';
+      statusClass = 'closed';
+    } else if (today >= sDate) {
+      statusHtml = '<span class="badge-status s-open">신청중</span>';
+      statusClass = 'open';
+    } else {
+      statusHtml = '<span class="badge-status s-upcoming">예정</span>';
+      statusClass = 'upcoming';
+    }
+
+    var tr = document.createElement('tr');
+    if (statusClass === 'closed') tr.style.opacity = '0.5';
+    tr.innerHTML =
+      '<td class="label-cell">' + s.label + '</td>' +
+      '<td>' + formatShort(sDate) + ' ~ ' + formatShort(eDate) + '</td>' +
+      '<td>' + statusHtml + '</td>';
+    tbody.appendChild(tr);
+  });
+
+  /* 상태 카드 업데이트 */
+  var card     = document.getElementById('status-card');
+  var labelEl  = document.getElementById('status-label');
+  var badgeEl  = document.getElementById('status-badge');
+  var daysEl   = document.getElementById('main-days');
+  var subEl    = document.getElementById('days-sub');
+  var barEl    = document.getElementById('period-bar');
+
+  card.classList.remove('none', 'open', 'upcoming');
+
+  /* 현재 신청중인 창 찾기 */
+  var activeSchedule = null;
+  var nextSchedule   = null;
+
+  for (var i = 0; i < SCHEDULES.length; i++) {
+    var s = SCHEDULES[i];
+    var sDate = parseDate(s.start);
+    var eDate = parseDate(s.end);
+    eDate.setHours(23, 59, 59, 999);
+
+    if (today >= sDate && today <= eDate) {
+      activeSchedule = { s: s, end: eDate };
+      break;
+    }
+    if (today < sDate && !nextSchedule) {
+      nextSchedule = { s: s, start: sDate };
+    }
+  }
+
+  if (activeSchedule) {
+    /* 신청중 */
+    card.classList.add('open');
+    var daysLeft = Math.ceil((activeSchedule.end - today) / 86400000);
+    labelEl.textContent = activeSchedule.s.label + ' 신청 중';
+    badgeEl.innerHTML = '<span class="main-badge badge-open">신청 중</span>';
+    daysEl.textContent = daysLeft <= 0 ? '오늘 마감' : 'D-' + daysLeft;
+    subEl.textContent  = '마감까지';
+    barEl.innerHTML    = '신청 기간 <span>' + formatShort(parseDate(activeSchedule.s.start)) + ' ~ ' + formatShort(activeSchedule.end) + '</span>';
+  } else if (nextSchedule) {
+    /* 다음 신청창 대기 */
+    card.classList.add('upcoming');
+    var daysUntil = Math.ceil((nextSchedule.start - today) / 86400000);
+    labelEl.textContent = nextSchedule.s.label + ' 신청 시작까지';
+    badgeEl.innerHTML = '<span class="main-badge badge-upcoming">신청 예정</span>';
+    daysEl.textContent = 'D-' + daysUntil;
+    subEl.textContent  = '다음 신청 창 시작까지';
+    barEl.innerHTML    = '예상 신청 시작일 <span>' + formatFull(nextSchedule.start) + '</span>';
+  } else {
+    /* 일정 종료 */
+    card.classList.add('none');
+    labelEl.textContent = '국가장학금 신청';
+    badgeEl.innerHTML = '';
+    daysEl.textContent = '—';
+    subEl.textContent  = '다음 학년도 일정을 확인하세요';
+    barEl.innerHTML    = '<a href="https://www.kosaf.go.kr" target="_blank" rel="noopener">한국장학재단 →</a>';
+  }
+}());
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8f333dc2c9e844b39f36daec8c0c0570"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
