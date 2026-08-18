@@ -1,14 +1,14 @@
 ## 현재 상태
-- 단계: 달리 정리 → 다빈치 판정
-- 다음: 다빈치
-- 반려 지목: 없음
+- 단계: 다빈치 판정 봉인·index.html 반영 완료 → 클레버 검수 대기
+- 다음: 클레버 (개발팀 검수)
+- 반려 지목: 없음 (1회 결착)
 - 왕복 회차: 1/5
 
 ## 브랜드 승계
 - 이전 사이클 참조: 2026-08-17 (minimum-wage-2027-dday · wedding-gift-calculator)
 - 승계 · 조정 내역:
   - 도메인 분기 전략 계속 적용
-  - 누적 팔레트: 자주 `#6D28D9` (학생·진학·준비 · 방학숙제·수시·수능) · 인디고 `#4F46E5` (공식·법·정책·청약) · 그린 `#198754` (신뢰·권리·근로·자녀장려금·하자보수·최저임금) · 터쿠아즈 `#0FADAD` (축제·활기·기다림·크리스마스) · 주황 `#EA580C` (긴박감·예매·추석) · 코발트 `#1971C2` (절약·경제·재테크·자동차세) · 보라 `#553C9A` (성인 의례·예절·격식·경조사·축의금)
+  - 누적 팔레트: 자주 `#6D28D9` (학생·진학·준비 · 방학숙제·수시·수능·**국가장학금 신규 편입**) · 인디고 `#4F46E5` (공식·법·정책·청약) · 그린 `#198754` (신뢰·권리·근로·자녀장려금·하자보수·최저임금) · 터쿠아즈 `#0FADAD` (축제·활기·기다림·크리스마스) · 주황 `#EA580C` (긴박감·예매·추석) · 코발트 `#1971C2` (절약·경제·재테크·자동차세) · 보라 `#553C9A` (성인 의례·예절·격식·경조사·축의금) · **스카이블루 `#0369A1` (교통·공공 서비스·복지 혜택·경로우대 지하철 — 2026-08-19 신규 편입)**
   - 공통 스택: Pretendard Variable · `:root` 8토큰 · h1 letter-spacing -0.03em · hero-line 2.5rem×2px · fadeUp · section-card hover shadow
 
 ---
@@ -121,5 +121,80 @@ primary를 `#6D28D9` (자주)로 통일. 수시·수능·방학숙제와 동일 
 
 ---
 
+## 다빈치 판정 봉인 (2026-08-19)
+
+**판정 4건 결착 · 반려 0 · 1회 결착.**
+
+### 1. national-scholarship-dday → **B안 `#6D28D9` 교육 축 통일 확정** (11.7:1)
+
+달리 근거 채택. 결정적 4축:
+- **팔레트 관리 단순성**: 자주 계열이 `#7C3AED`(violet-600)와 `#6D28D9`(violet-700) 두 값으로 갈리면 향후 유틸에서 "어느 자주?" 판단 부채. 감정 분기의 이론적 이점보다 팔레트 표기 부채가 큼.
+- **대비 이점**: `--primary-soft: #EDE9FE` 배경 위에서 `#6D28D9`가 `#7C3AED`보다 명도 대비 강해 배경+텍스트 조합 안정.
+- **관련 링크 3/4가 교육 축**(수시·수능·방학숙제) — 클릭 전후 색 일치로 "같은 시리즈" 인식 강화.
+- **감정 분기의 실증 이점 미미**: 색맹·저조도 환경에서 두 자주 계열 구분 유의미성 낮음. 브랜드 일관성 이득이 확실.
+
+**토큰 교체 2건만**: `--primary: #6D28D9` · `--primary-hover: #5B21B6` (violet-800). `--primary-soft: #EDE9FE`·`--primary-soft-border: #C4B5FD`는 마이클 세팅 유지 (violet-100/300 계열 · `#6D28D9`와 정합).
+
+**favicon SVG `fill='%237C3AED'` → `%236D28D9`** 교체 (primary와 일관).
+
+**참고 기록 (팔레트 정합 교정 예약)**: 8/15 susi-dday에서 primary-soft를 `#E9D5FF`(purple-200)로 확정했는데 `#6D28D9`(violet-700)와 엄밀 정합은 `#EDE9FE`(violet-100). 두 값 다 대비 통과·인지 차이 미미하므로 소급 수정 없이 다음 자주 축 유틸부터 violet 계열(EDE9FE·C4B5FD)을 표준으로 정리.
+
+### 2. national-scholarship-dday h1-row 래퍼 → **추가 안 함 · 현행 유지**
+
+h1-row는 `wedding-gift-calculator`에서 우측 공유 버튼과 h1을 한 줄에 배치하기 위해 필요했던 조건부 구조. national-scholarship-dday엔 공유 버튼 없음 → h1-row는 빈 래퍼가 되어 무의미. h1-row는 "필요할 때만" 쓰는 조건부 구조지 시리즈 표준 아님. hero-line은 이미 있어 시리즈 정체성은 확보됨.
+
+### 3. senior-subway-free-dday → **`#0369A1` 유지 확정** (7.3:1)
+
+피카소·달리 완전 동의. 마이클이 도메인을 정확히 읽음:
+- 스카이블루는 전 세계 대중교통 브랜딩의 보편 색역
+- `--primary-soft: #E0F2FE`(하늘색 연무)가 "밝고 가벼운 복지 혜택" 감정 정확
+- `eligible` 상태를 `--success: #198754` 그린으로 분리 전환한 설계는 **"대기(스카이블루) → 혜택 획득(그린)" 감정 여정을 색으로 완결한 뛰어난 마이크로 인터랙션**
+- `--success` · `--success-soft` 토큰 확장까지 마쳐 상태 색역 완비
+
+**토큰 변경 0건 · index.html 무수정 승인.**
+
+### 4. 스카이블루 `#0369A1` → 팔레트 신규 편입 확정
+
+**"교통·공공 서비스·복지 혜택" 도메인** 신규 편입. 이후 노인장기요양·경로당·복지 D-day 계열이 이 축으로 자연 연결.
+
+---
+
+### index.html 반영 요지
+
+**national-scholarship-dday/index.html:**
+- `:root`: `--primary: #7C3AED` → `#6D28D9` · `--primary-hover: #6D28D9` → `#5B21B6`
+- favicon SVG `fill='%237C3AED'` → `%236D28D9`
+- 기타 CSS 룰은 토큰 참조라 자동 반영 (`.hero-line` background · `.status-card.upcoming` border/bg · `.main-days` color · `.period-bar span` color · `.badge-upcoming` bg · `.s-upcoming` bg/color · `.income-value` color · `.step-num` bg · `.check-icon svg` stroke · `.related-links a` color/border/bg · `a` link 색 등 자동 자주 통일)
+- `.status-card.open` 계열 그린(`#10b981`·`#059669`·`#065f46`·`#D1FAE5`·`#6EE7B7`)은 "신청 창 열림" 상태 색으로 primary와 무관 · 유지
+- `.related-links a:hover { background: #ddd6fe }` (violet-200) 유지
+
+**senior-subway-free-dday/index.html:**
+- 변경 없음. 마이클 상태 그대로 최종 승인.
+
+### 전수 보존 확인 (2건 공통)
+
+- SEO 메타 · OG · Twitter · JSON-LD (`WebApplication`) · canonical
+- `/shared/ads.css` 참조 · adsbygoogle INS · `#ad-slot` · `#ad-slot-bottom` 2슬롯 설계
+- JS 계산 로직 (national-scholarship: SCHEDULES 8회차·활성/다음 창 탐색·D-day 계산·상태 카드 클래스 스위칭 · senior-subway: 만나이 계산·65세 도달일·2/29 윤년 처리·eligible/waiting 분기)
+- DOM ID 전수 (national-scholarship: `#status-card`·`#status-label`·`#status-badge`·`#main-days`·`#days-sub`·`#period-bar`·`#schedule-table`·`#schedule-tbody` · senior-subway: `#birth-date`·`#btn-calc`·`#form-error`·`#result-card`·`#result-label`·`#result-days`·`#result-sub`·`#result-date-bar`·`#result-date`·`#result-age-note`)
+- 크로스링크 (national-scholarship: 수시·수능·방학숙제·추석 4개 · senior-subway: 근로장려금·아동수당·연차·출생신고 4개)
+- Cloudflare Analytics · 480px 반응형 미디어 쿼리 무손실
+
+### 팔레트 누적 갱신 (2026-08-19)
+
+| 톤 | 색값 | 도메인 |
+|-----|------|--------|
+| 자주 | `#6D28D9` | 학생·진학·준비 · 방학숙제·수시·수능·**국가장학금(신규)** |
+| 인디고 | `#4F46E5` | 공식·법·정책·청약 |
+| 그린 | `#198754` | 신뢰·권리·근로·근로장려금·자녀장려금·하자보수·최저임금 |
+| 터쿠아즈 | `#0FADAD` | 축제·활기·기다림·크리스마스 |
+| 주황 | `#EA580C` | 긴박감·예매·추석 |
+| 코발트 | `#1971C2` | 절약·경제·재테크·자동차세 |
+| 보라 | `#553C9A` | 성인 의례·예절·격식·경조사·축의금 |
+| **스카이블루** | **`#0369A1`** | **교통·공공 서비스·복지 혜택·경로우대 지하철 (2026-08-19 신규)** |
+
+---
+
 **작성**: 피카소 (사원) 예비 분석 · 달리 (대리) 정리 · 2026-08-19
-**다음**: 다빈치 판정
+**판정**: 다빈치 (팀장) · 2026-08-19
+**다음**: 클레버 (개발팀 검수)
