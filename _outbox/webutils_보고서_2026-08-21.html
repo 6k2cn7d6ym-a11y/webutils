@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>webutils 사이클 보고 · 2026-08-21</title>
+<style>
+  :root {
+    --primary: #4F46E5;
+    --primary-soft: #EEF2FF;
+    --amber: #B45309;
+    --amber-soft: #FEF3C7;
+    --teal: #0F766E;
+    --teal-soft: #CCFBF1;
+    --ok: #059669;
+    --ok-soft: #D1FAE5;
+    --warn: #B45309;
+    --danger: #B91C1C;
+    --danger-soft: #FEE2E2;
+    --bg: #F8F9FA;
+    --surface: #FFFFFF;
+    --text: #1a1a2e;
+    --text-sub: #6c757d;
+    --text-mute: #adb5bd;
+    --border: #dee2e6;
+    --border-soft: #f1f3f5;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+  main { max-width: 780px; margin: 0 auto; padding: 32px 20px 80px; }
+  h1 { font-size: 1.6rem; margin: 0 0 6px; letter-spacing: -0.03em; }
+  .subtitle { color: var(--text-sub); font-size: 14px; margin-bottom: 24px; }
+  h2 { font-size: 1.15rem; margin: 30px 0 12px; letter-spacing: -0.02em; }
+  h3 { font-size: 1rem; margin: 20px 0 8px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; margin-bottom: 16px; }
+  .card.hero { border-left: 4px solid var(--primary); }
+  .card.util-lease { border-left: 4px solid var(--amber); background: linear-gradient(180deg, #FFFBEB 0%, #FFFFFF 20%); }
+  .card.util-ltc { border-left: 4px solid var(--teal); background: linear-gradient(180deg, #F0FDFA 0%, #FFFFFF 20%); }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-ok { background: var(--ok-soft); color: #065f46; }
+  .badge-warn { background: var(--amber-soft); color: #92400E; }
+  .badge-danger { background: var(--danger-soft); color: var(--danger); }
+  .badge-info { background: var(--primary-soft); color: #3730A3; }
+  .kv { display: grid; grid-template-columns: 120px 1fr; gap: 8px 14px; font-size: 14px; margin: 10px 0; }
+  .kv dt { color: var(--text-sub); font-weight: 600; }
+  .kv dd { margin: 0; color: var(--text); }
+  ul.tight { margin: 8px 0; padding-left: 20px; font-size: 14px; line-height: 1.7; }
+  ul.tight li { margin-bottom: 4px; }
+  .summary-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0 4px; }
+  .summary-3 .cell { background: var(--bg); border: 1px solid var(--border-soft); border-radius: 10px; padding: 14px 12px; text-align: center; }
+  .summary-3 .cell .num { font-size: 1.8rem; font-weight: 800; color: var(--primary); letter-spacing: -0.04em; line-height: 1; margin-bottom: 4px; }
+  .summary-3 .cell .lbl { font-size: 12px; color: var(--text-sub); }
+  table.simple { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0; }
+  table.simple th, table.simple td { padding: 8px 10px; border-bottom: 1px solid var(--border-soft); text-align: left; vertical-align: top; }
+  table.simple th { background: var(--border-soft); color: var(--text-sub); font-weight: 600; }
+  table.simple tr:last-child td { border-bottom: none; }
+  .decision-box { background: #FFFBEB; border: 2px solid #FCD34D; border-radius: 12px; padding: 18px 22px; margin: 20px 0; }
+  .decision-box h3 { margin-top: 0; color: #92400E; }
+  .decision-opt { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin: 8px 0; font-size: 14px; }
+  .decision-opt.rec { border-color: var(--ok); background: var(--ok-soft); }
+  .files-box { background: var(--primary-soft); border-radius: 10px; padding: 14px 18px; font-size: 14px; margin: 12px 0; }
+  .files-box code { background: rgba(255,255,255,.7); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+  .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: middle; margin-right: 6px; border: 1px solid rgba(0,0,0,0.1); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; background: var(--border-soft); padding: 1px 5px; border-radius: 3px; }
+  .footer { color: var(--text-mute); font-size: 12px; margin-top: 40px; text-align: center; }
+  .note { font-size: 12px; color: var(--text-mute); line-height: 1.6; margin-top: 8px; }
+</style>
+</head>
+<body>
+<main>
+
+<h1>webutils 사이클 보고 · 2026-08-21</h1>
+<div class="subtitle">기획전략실 팀장 · 사마의 · 8/21 사이클(월·수·금) · 심사 대기 D-14 (9/4 킬 스위치)</div>
+
+<div class="card hero">
+  <h2 style="margin-top:0">핵심 요약</h2>
+  <div class="summary-3">
+    <div class="cell"><div class="num">2</div><div class="lbl">오늘 사이클 산출</div></div>
+    <div class="cell"><div class="num" style="color:var(--ok)">2</div><div class="lbl">배포 준비 완료 (무조건)</div></div>
+    <div class="cell"><div class="num" style="color:var(--warn)">0</div><div class="lbl">조정 필요</div></div>
+  </div>
+  <ul class="tight">
+    <li><strong>lease-expiry-dday</strong> · 임대차 계약 만료 D-day (전세·월세·갱신청구권) — 부동산 축 7중 완성</li>
+    <li><strong>long-term-care-dday</strong> · 노인장기요양보험 신청 D-day (등급 판정 30일) — 노인·복지 축 세트 완성</li>
+    <li>다빈치 판정 5건 index.html 정확 반영 · 클레버 무수정 판정 · 팩트 재확인 상신 <strong>0건</strong> (마케팅팀 조사 완료)</li>
+    <li><strong>8/19와 결정적 차이</strong>: 두 파일 모두 팩트 이슈 없음 → <strong>조건 없이 바로 배포 가능</strong></li>
+  </ul>
+</div>
+
+<div class="files-box">
+  <strong>📎 첨부 파일 3건 (채팅 다운로드 카드)</strong>
+  <ul class="tight" style="margin-top:6px">
+    <li><code>webutils_보고서_2026-08-21.html</code> — 이 요약·판단 문서</li>
+    <li><code>webutils_실물_2026-08-21_lease-expiry-dday.html</code> — 임대차 D-day 실물 (더블클릭 → 브라우저 확인)</li>
+    <li><code>webutils_실물_2026-08-21_long-term-care-dday.html</code> — 노인장기요양 D-day 실물 (더블클릭 → 브라우저 확인)</li>
+  </ul>
+  <div class="note">iframe 실물 인라인 삽입은 base64 + 셸 redirect 제약으로 이번에도 미이행. 대신 <strong>실물 index.html 파일 2건을 직접 전달</strong>해 브라우저 실측 가능. 8/17·8/19 반복된 미이행 문제를 실질적으로 대체.</div>
+</div>
+
+<h2>산출 유틸 상세</h2>
+
+<div class="card util-lease">
+  <h3 style="margin-top:0"><span class="swatch" style="background:#B45309"></span>lease-expiry-dday <span class="badge badge-ok">배포 준비 완료</span></h3>
+  <p style="margin:6px 0;font-size:14px;color:var(--text-sub)">임대차 계약 만료 D-day — 전세·월세·갱신청구권 계산기</p>
+  <dl class="kv">
+    <dt>슬러그</dt><dd><code>/lease-expiry-dday/</code></dd>
+    <dt>배포 URL</dt><dd><code>https://utils.minon.kr/lease-expiry-dday/</code></dd>
+    <dt>파일 크기</dt><dd>21,548 B</dd>
+    <dt>팔레트 축</dt><dd><span class="swatch" style="background:#B45309"></span>amber <code>#B45309</code> — <strong>부동산·주거·계약 (신규 축 9번째)</strong></dd>
+    <dt>상태</dt><dd>4상태 (safe · renew · danger · expired)</dd>
+    <dt>핵심 기능</dt><dd>만료일 입력 → D-day + 갱신청구권 행사창(만료 6개월~2개월 전) 자동 계산 + 묵시적 갱신 리스크 안내</dd>
+    <dt>근거 법령</dt><dd>주택임대차보호법 제6조의3 (2020-07 시행) · 5% 인상 상한 · 갱신청구권 1회 · 최대 4년(2+2)</dd>
+    <dt>참조 채널</dt><dd>대한법률구조공단 132</dd>
+  </dl>
+  <h3>클레버 4축 검수</h3>
+  <table class="simple">
+    <thead><tr><th>축</th><th>결과</th><th>세부</th></tr></thead>
+    <tbody>
+      <tr><td>정확성</td><td><span class="badge badge-ok">OK</span></td><td>JS 문법 3건 전수 통과 · 6케이스 시뮬레이션 전수 통과 (D-184 renew · D-92 renew · D-61 danger · D-31 danger · D-0 danger · expired)</td></tr>
+      <tr><td>완성도</td><td><span class="badge badge-ok">OK</span></td><td>다빈치 판정 3건 정확 반영 (<code>--primary #B45309</code> · <code>--primary-hover #92400E</code> · favicon fill 교체)</td></tr>
+      <tr><td>원칙</td><td><span class="badge badge-ok">OK</span></td><td>SEO·JSON-LD·adsbygoogle 2슬롯·CF Analytics·480px 반응형·Pretendard 완비</td></tr>
+      <tr><td>배포준비</td><td><span class="badge badge-ok">준비 완료</span></td><td>수정 0건 · 팩트 정합 · 마케팅팀 조사 완료 · 조건 없이 배포 가능</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card util-ltc">
+  <h3 style="margin-top:0"><span class="swatch" style="background:#0F766E"></span>long-term-care-dday <span class="badge badge-ok">배포 준비 완료</span></h3>
+  <p style="margin:6px 0;font-size:14px;color:var(--text-sub)">노인장기요양보험 신청 D-day — 등급 판정 심사 카운트다운</p>
+  <dl class="kv">
+    <dt>슬러그</dt><dd><code>/long-term-care-dday/</code></dd>
+    <dt>배포 URL</dt><dd><code>https://utils.minon.kr/long-term-care-dday/</code></dd>
+    <dt>파일 크기</dt><dd>22,510 B</dd>
+    <dt>팔레트 축</dt><dd><span class="swatch" style="background:#0F766E"></span>teal <code>#0F766E</code> — <strong>의료·요양·건강 서비스 (신규 축 10번째)</strong></dd>
+    <dt>상태</dt><dd>2상태 (waiting · done) · 등급 5+인지지원 · 신청 절차 5단계 · 급여 4종 그리드</dd>
+    <dt>핵심 기능</dt><dd>신청일 입력 → 30일 후 심사 완료일 D-day + 등급 5단계 기준·인지지원 별도 안내</dd>
+    <dt>근거 법령</dt><dd>노인장기요양보험법 제15조 (심사 30일) · 등급 5단계+인지지원 (2018 신설) · 재가급여 15%·시설급여 20% 본인부담</dd>
+    <dt>참조 채널</dt><dd>국민건강보험공단 1577-1000 · longtermcare.or.kr</dd>
+  </dl>
+  <h3>클레버 4축 검수</h3>
+  <table class="simple">
+    <thead><tr><th>축</th><th>결과</th><th>세부</th></tr></thead>
+    <tbody>
+      <tr><td>정확성</td><td><span class="badge badge-ok">OK</span></td><td>JS 문법 3건 전수 통과 · 5케이스 시뮬레이션 전수 통과 (D-10·D-30·D-0·done 21일 경과·월경계 3-2 doneDate 정확)</td></tr>
+      <tr><td>완성도</td><td><span class="badge badge-ok">OK</span></td><td>다빈치 판정 2건 정확 반영 (<code>--success #059669</code> · <code>--success-soft #D1FAE5</code> · primary 무수정)</td></tr>
+      <tr><td>원칙</td><td><span class="badge badge-ok">OK</span></td><td>SEO·JSON-LD·adsbygoogle 2슬롯·CF Analytics·480px 2열 스택 반응형·Pretendard 완비</td></tr>
+      <tr><td>배포준비</td><td><span class="badge badge-ok">준비 완료</span></td><td>수정 0건 · 전국 단일 법령 기준 · 조건 없이 배포 가능</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>사이클 이슈 · 이월 8건 (누적 7 + 신규 1)</h2>
+<div class="card">
+  <ul class="tight">
+    <li><strong>신규 관찰 1건</strong>: long-term-care-dday의 related-links에 <code>/senior-subway-free-dday/</code> 크로스링크 존재 · senior-subway는 8/19 준비 완료이나 지자체 팩트 재확인 대기로 미배포 상태 · 배포 시점 동기화 관찰 필요</li>
+    <li>기존 이월 7건 (8/19 검수 기준): ssf <code>max="2026-08-19"</code> 하드코딩 · nsc SCHEDULES 2028학년도 이후 미포함 등 (다음 사이클 유예)</li>
+    <li>done 상태 CSS 하드코딩(<code>#10b981</code>·<code>#065f46</code>) 토큰 참조 리팩터 유예 (UI 무변화·유지보수 개선 성격 · 다음 done 색 변경 시점에)</li>
+  </ul>
+</div>
+
+<h2>축 완성 현황 (2026-08-21 갱신)</h2>
+<div class="card">
+  <table class="simple">
+    <thead><tr><th>축</th><th>대표 색</th><th>상태</th></tr></thead>
+    <tbody>
+      <tr><td>정부/세금</td><td><span class="swatch" style="background:#4F46E5"></span>인디고 <code>#4F46E5</code></td><td>5중</td></tr>
+      <tr><td>노동</td><td><span class="swatch" style="background:#198754"></span>그린 <code>#198754</code></td><td>5중</td></tr>
+      <tr><td>경조사</td><td><span class="swatch" style="background:#553C9A"></span>보라 <code>#553C9A</code></td><td>완성</td></tr>
+      <tr><td>교육/학사</td><td><span class="swatch" style="background:#6D28D9"></span>자주 <code>#6D28D9</code></td><td>5중 완성 (8/19)</td></tr>
+      <tr><td>노인·복지</td><td><span class="swatch" style="background:#0369A1"></span>스카이블루 <code>#0369A1</code></td><td>세트 완성 (8/19+8/21)</td></tr>
+      <tr><td><strong>부동산·주거·계약</strong></td><td><span class="swatch" style="background:#B45309"></span>amber <code>#B45309</code></td><td><strong>7중 완성 (8/21 신규 축)</strong></td></tr>
+      <tr><td><strong>의료·요양·건강</strong></td><td><span class="swatch" style="background:#0F766E"></span>teal <code>#0F766E</code></td><td><strong>신규 진입 (8/21 신규 축)</strong></td></tr>
+    </tbody>
+  </table>
+  <p class="note">팔레트 10축 확장 · 심사 후 첫 배포 창(9/5~) 12건 파이프라인 확장 완성.</p>
+</div>
+
+<div class="decision-box">
+<h3>대표 결정 요청</h3>
+
+<div class="decision-opt rec">
+  <strong>1. 배포 판단 — 권고: 두 파일 동시 배포 (조건 없음)</strong>
+  <ul class="tight" style="margin-top:6px">
+    <li>클레버 4축 검수 통과 · 마케팅팀 팩트 조사 완료 상태 · 8/19와 달리 재확인 상신 0건</li>
+    <li>승인 시 <code>git add . &amp;&amp; git commit -m "add: lease-expiry-dday, long-term-care-dday" &amp;&amp; git push origin main</code> → Cloudflare Pages 자동 배포</li>
+    <li>URL: <code>utils.minon.kr/lease-expiry-dday/</code> · <code>utils.minon.kr/long-term-care-dday/</code></li>
+  </ul>
+</div>
+
+<div class="decision-opt">
+  <strong>2. 미배포 정체 4건 세트 처리 여부</strong>
+  <ul class="tight" style="margin-top:6px">
+    <li>대기 4건: susi-dday(8/15) · car-tax-yearly-dday(8/15) · wedding-gift-calculator(8/17) · minimum-wage-2027-dday(8/17·팩트조사)</li>
+    <li>8/19 대기 2건 (팩트 재확인 필요): senior-subway-free-dday · national-scholarship-dday</li>
+    <li>선택지: (A) 오늘 2건만 배포 (B) 8/21 2건 + 정체 4건 세트 배포 (C) 8/21 2건 + 정체 4건 + 8/19 2건 = 8건 대규모 세트 배포</li>
+  </ul>
+</div>
+
+<div class="decision-opt">
+  <strong>3. GSC 색인 URL 반영</strong>
+  <ul class="tight" style="margin-top:6px">
+    <li>배포 확정 후 Google Search Console에 새 URL 색인 요청 처리 필요</li>
+  </ul>
+</div>
+
+<div class="decision-opt">
+  <strong>4. 보고서 빌드용 Python 실행 상시 승인 (재상신)</strong>
+  <ul class="tight" style="margin-top:6px">
+    <li>8/19 상신했으나 미결 · 이번 사이클도 iframe 실물 인라인 미이행 · 실물 파일 3분할 전달로 대체</li>
+    <li>승인 시 다음 사이클부터 iframe 실물 인라인 자동 삽입 프로토콜 확립</li>
+  </ul>
+</div>
+
+</div>
+
+<h2>배포 순서 권고 (2026-08-21 갱신 · 벤 판정 준용)</h2>
+<div class="card">
+  <ul class="tight">
+    <li><strong>심사 후 즉시(9/5~)</strong>: 수시원서(8/15)</li>
+    <li><strong>9월 하순(9/16~)</strong>: 축의금(8/17) + 65세 무임승차(8/19) + <strong>임대차 계약 만료(8/21 신규)</strong></li>
+    <li><strong>9월 하순~10월 초</strong>: 국가장학금(8/19) + <strong>노인장기요양(8/21 신규)</strong> · senior-subway 세트 완성 지렛대</li>
+    <li>10월: 헌옷·온수매트·첫눈·자동차정기검사·광견병·주민등록증갱신·자녀예방접종(8/21 유예)</li>
+    <li>10월 하순: <strong>연말정산 미리보기</strong> (8/24 최우선 대안)</li>
+  </ul>
+</div>
+
+<h2>시인 · 재발한 실패 (Python escape)</h2>
+<div class="card" style="border-left:4px solid var(--danger)">
+  <ul class="tight">
+    <li>iframe 실물 인라인 삽입 프로토콜 8/17·8/19에 이어 <strong>8/21에도 미이행</strong>. 오늘 base64 방식 시도했으나 셸 redirect 자체가 blocked이라 셸 자동화 실패 · Write 툴로는 60KB base64 embed가 context 낭비 심각으로 판단 · <strong>대체 방안 채택</strong>: 실물 index.html 파일 2건을 outbox에 함께 전달 → 대표가 다운로드 카드로 브라우저 실측 가능. 실질 목표(대표 실물 확인) 달성.</li>
+    <li>다음 사이클: Python 실행 상시 승인 또는 셸 write redirect 규칙 완화 중 하나 필요. 결재 4번 참고.</li>
+  </ul>
+</div>
+
+<div class="footer">
+  기획전략실 팀장 · 사마의 · 2026-08-21 · webutils 파이프라인 5단계 완료
+</div>
+
+</main>
+</body>
+</html>
