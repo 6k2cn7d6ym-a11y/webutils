@@ -309,11 +309,10 @@
   }
 
   /* 부동산 종류 변경 시 세대구분 표시 제어 */
-  /* 자동조회 위젯: VWorld 운영키 발급 후 복원 — isHouse ? '' : 'none' 으로 변경 */
   function syncUI() {
     var isHouse = document.querySelector('input[name="type"]:checked').value === 'house';
     ownerRow.style.display = isHouse ? '' : 'none';
-    document.getElementById('autoLookup').style.display = 'none';
+    document.getElementById('autoLookup').style.display = isHouse ? '' : 'none';
   }
   document.querySelectorAll('input[name="type"]').forEach(function (r) {
     r.addEventListener('change', syncUI);

@@ -23,17 +23,9 @@ export async function onRequestGet(context) {
     if (lot) { lnbrMnnm = lot.mnnm; lnbrSlno = lot.slno; }
   }
 
-  /* ── MOCK (키 미등록 시) ── */
+  /* 인증키 미등록 시 — 서비스 준비 중 안내 */
   if (!env.VWORLD_KEY) {
-    return json({
-      _mock: true,
-      type,
-      year,
-      stdValue: type === 'land' ? 850000 : 350000000,
-      unit: type === 'land' ? '원/㎡' : '원',
-      label: type === 'apt' ? '공동주택 공시가격' : '공시가격',
-      needArea: type === 'land',
-    });
+    return json({ error: '공시가격 자동조회 서비스 준비 중입니다. 직접 입력란에 수동으로 입력해 주세요.' }, 503);
   }
 
   /* 공동주택 외 유형은 현재 미지원 */

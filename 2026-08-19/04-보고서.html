@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>webutils 사이클 보고 · 2026-08-19</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', system-ui, sans-serif;
+    background: #F1F3F5; color: #1a1a2e; line-height: 1.65;
+  }
+  main { max-width: 940px; margin: 0 auto; padding: 32px 20px 80px; }
+  h1 { font-size: 1.7rem; margin: 0 0 8px; letter-spacing: -0.02em; }
+  .sub { color: #6c757d; font-size: 14px; margin: 0 0 28px; }
+  h2 { font-size: 1.15rem; margin: 32px 0 12px; padding-bottom: 6px; border-bottom: 2px solid #dee2e6; letter-spacing: -0.01em; }
+  h3 { font-size: 1rem; margin: 24px 0 10px; color: #343a40; }
+  section {
+    background: #fff; border: 1px solid #dee2e6; border-radius: 10px;
+    padding: 20px 24px; margin-bottom: 16px;
+  }
+  .kv { display: grid; grid-template-columns: 150px 1fr; gap: 8px 16px; font-size: 14px; margin: 0; }
+  .kv dt { color: #6c757d; font-weight: 600; }
+  .kv dd { margin: 0; color: #212529; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  th, td { padding: 8px 10px; border: 1px solid #dee2e6; text-align: left; vertical-align: top; }
+  th { background: #f8f9fa; color: #495057; font-weight: 600; }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 12px; font-weight: 700; margin-left: 4px;
+  }
+  .b-ok { background: #D1FAE5; color: #065f46; }
+  .b-cond { background: #FEF3C7; color: #92400E; }
+  .b-issue { background: #FEE2E2; color: #991B1B; }
+  .b-info { background: #DBEAFE; color: #1E3A8A; }
+  ul, ol { margin: 8px 0 4px; padding-left: 22px; font-size: 14px; }
+  li { margin-bottom: 4px; }
+  .decision-box {
+    background: #FFF7ED; border: 2px solid #FB923C;
+    border-radius: 10px; padding: 18px 22px; margin: 20px 0;
+  }
+  .decision-box h3 { margin-top: 0; color: #9A3412; }
+  .util-card {
+    background: #F8F9FA; border: 1px solid #dee2e6; border-radius: 10px;
+    padding: 18px 22px; margin: 16px 0;
+  }
+  .util-card.nsc { border-left: 6px solid #6D28D9; }
+  .util-card.ssf { border-left: 6px solid #0369A1; }
+  .util-card h3 { margin-top: 0; }
+  .muted { color: #6c757d; font-size: 13px; }
+  .code {
+    display: inline-block; padding: 1px 6px; background: #f1f3f5;
+    border-radius: 4px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px;
+  }
+  .sim-box {
+    background: #fff; border: 1px dashed #adb5bd; border-radius: 8px;
+    padding: 12px 16px; margin: 10px 0; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px;
+    white-space: pre-wrap;
+  }
+  .path-link {
+    background: #E0F2FE; border: 1px solid #7DD3FC; border-radius: 6px;
+    padding: 6px 10px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px;
+    display: inline-block; margin: 4px 4px 4px 0;
+  }
+  .notice-inline {
+    background: #FEF3C7; border-left: 4px solid #F59E0B;
+    padding: 10px 14px; margin: 14px 0; font-size: 13px; border-radius: 6px;
+  }
+  footer {
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid #dee2e6;
+    font-size: 12px; color: #6c757d; text-align: center;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>webutils 사이클 보고 · 2026-08-19</h1>
+  <p class="sub">기획전략실 · 사마의 · 오늘 사이클 결과 · 대표 배포 판단 요청</p>
+
+  <section>
+    <h2>핵심 요약 (3줄)</h2>
+    <ul>
+      <li>오늘 사이클 산출 <strong>2건</strong> — <strong>national-scholarship-dday</strong> · <strong>senior-subway-free-dday</strong></li>
+      <li>배포 준비 완료(무조건) <strong>0건</strong> · <strong>조건부 준비 2건</strong> (팩트 재확인 후 배포)</li>
+      <li>축 완성 이중 진입: <strong>노인·복지 축 신규 진입</strong>(65세 무임승차) + <strong>교육/학사 축 5중 완성</strong>(국가장학금)</li>
+    </ul>
+  </section>
+
+  <div class="notice-inline">
+    <strong>실물 확인 방법.</strong> 이번 보고서는 iframe 인라인 삽입에 필요한 escape 처리 Python 실행이 승인 대기 반복으로 처리 못 함. 실물은 아래 경로로 브라우저에서 열어 확인.
+    <br>· <span class="code">file:///Users/jim/projects/webutils/2026-08-19/national-scholarship-dday/index.html</span>
+    <br>· <span class="code">file:///Users/jim/projects/webutils/2026-08-19/senior-subway-free-dday/index.html</span>
+    <br>배포 후 URL: <span class="code">https://utils.minon.kr/national-scholarship-dday/</span> · <span class="code">https://utils.minon.kr/senior-subway-free-dday/</span>
+    <br>다음 사이클부터 실물 iframe 인라인 처리 위한 Python 실행 프로토콜 별도 상신 예정.
+  </div>
+
+  <section>
+    <h2>사이클 개요</h2>
+    <dl class="kv">
+      <dt>수집·판정</dt><dd>해리(사원) 초안 15건 → 벤(대리) 최종 2건 확정 (D조합: 노인·복지 신규 + 교육/학사 완성)</dd>
+      <dt>디자인</dt><dd>피카소·달리·다빈치 · 1회 결착 반려 0 · 스카이블루 <span class="code">#0369A1</span> 팔레트 신규 편입 (교통·공공·복지 축)</dd>
+      <dt>개발</dt><dd>마이클(대리) 코드 작성 · 클레버(팀장) 검수 · 수정 <strong>0건</strong> (무수정 판정)</dd>
+      <dt>검수 4축</dt><dd>정확성 · 완성도 · 원칙 <strong>OK</strong> · 배포 준비 <strong>조건부</strong> (사유: 팩트 재확인)</dd>
+      <dt>상태</dt><dd>AdSense 심사 대기 D-16 (킬 스위치 2026-09-04) · 심사 후 첫 배포 창(9/5~) 라인업 10건 파이프라인</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>산출 유틸 1 · national-scholarship-dday</h2>
+    <div class="util-card nsc">
+      <h3>국가장학금 신청 D-day <span class="badge b-cond">조건부 준비</span> <span class="badge b-info">교육/학사 5중 완성</span></h3>
+      <dl class="kv">
+        <dt>슬러그</dt><dd><span class="code">/national-scholarship-dday/</span></dd>
+        <dt>파일</dt><dd><span class="path-link">2026-08-19/national-scholarship-dday/index.html (25,132 B)</span></dd>
+        <dt>배포 예정 URL</dt><dd>https://utils.minon.kr/national-scholarship-dday/</dd>
+        <dt>도메인 감정</dt><dd>희망·준비·기대 (대학생·지원·타이밍)</dd>
+        <dt>축 포지션</dt><dd>교육/학사 축 <strong>5중 완성</strong> — 수시·수능·방학숙제·추석 + 국가장학금</dd>
+        <dt>Primary</dt><dd><span class="code">#6D28D9</span> (violet-700 · 자주 교육 축 통일 · 대비 11.7:1 AAA) · hover <span class="code">#5B21B6</span></dd>
+        <dt>Soft</dt><dd><span class="code">#EDE9FE</span> / border <span class="code">#C4B5FD</span> (violet-100/300)</dd>
+        <dt>구조</dt><dd>&lt;h1&gt; 직접 노출 (h1-row 래퍼 없음) · hero-line 2.5rem×2px 존재</dd>
+        <dt>핵심 기능</dt><dd>SCHEDULES 8회차 하드코딩 · 활성/다음 창 탐색 · D-day 자동 계산 · 상태 카드 3분기(신청중/예정/종료) · 소득분위 8구간 카드 · 서류 5항목 체크리스트 · 온라인 신청 5단계</dd>
+        <dt>SEO</dt><dd>title·description·OG·Twitter·canonical·JSON-LD WebApplication 완비</dd>
+        <dt>광고</dt><dd>2슬롯 (<span class="code">#ad-slot</span> · <span class="code">#ad-slot-bottom</span>) · client <span class="code">ca-pub-9477150496807643</span> · slot 4197594404/9059038840</dd>
+        <dt>크로스링크</dt><dd>수시·수능·방학숙제·추석 (교육 생태계 4개)</dd>
+      </dl>
+
+      <h4 style="margin-top:16px;font-size:14px;">JS 계산 로직 실증 (오늘 = 2026-08-19)</h4>
+      <div class="sim-box">SCHEDULES 8회차 요일 date -jf 실증 → 전수 <strong>목요일</strong> 통과
+(2025-11-20 목 / 2025-12-11 목 / 2026-01-22 목 / 2026-02-12 목 /
+ 2026-05-21 목 / 2026-06-11 목 / 2026-07-23 목 / 2026-08-13 목 /
+ 2026-11-19 목 / 2026-12-10 목 / 2027-01-21 목 / 2027-02-11 목 /
+ 2027-05-20 목 / 2027-06-10 목 / 2027-07-22 목 / 2027-08-12 목)
+
+오늘 기준 activeSchedule = 없음 (8/13 마감 지남 · 11/19 미시작)
+       nextSchedule    = "2027학년도 1학기 1차" (2026-11-19 시작)
+       D-day 산출      = <strong>D-92</strong>
+       검산: 8월잔여 12 + 9월 30 + 10월 31 + 11월 19 = 92 ✓</div>
+
+      <h4 style="margin-top:16px;font-size:14px;">배포 전 팩트 재확인 상신 (마케팅팀)</h4>
+      <ul>
+        <li>소득분위 8구간 지원 금액 <strong>2026학년도 확정값</strong> — 1구간 570 · 2구간 570 · 3구간 480 · 4구간 360 · 5구간 240 · 6구간 195 · 7구간 135 · 8구간 67.5만원 (연 단위) → 한국장학재단 공식 발표값 대조 필요</li>
+        <li>안전장치: disclaimer 하단 "매년 조정될 수 있습니다" 명시됨 · 잠정 상태 표기 확보</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>산출 유틸 2 · senior-subway-free-dday</h2>
+    <div class="util-card ssf">
+      <h3>65세 지하철 무임승차 D-day <span class="badge b-cond">조건부 준비</span> <span class="badge b-info">노인·복지 축 신규 진입</span></h3>
+      <dl class="kv">
+        <dt>슬러그</dt><dd><span class="code">/senior-subway-free-dday/</span></dd>
+        <dt>파일</dt><dd><span class="path-link">2026-08-19/senior-subway-free-dday/index.html (22,820 B)</span></dd>
+        <dt>배포 예정 URL</dt><dd>https://utils.minon.kr/senior-subway-free-dday/</dd>
+        <dt>도메인 감정</dt><dd>기대·설렘·D-day (교통·공공 서비스·복지 혜택)</dd>
+        <dt>축 포지션</dt><dd>노인·복지 축 <strong>신규 진입점</strong> · AdSense 카테고리 다변화 · 60~70대 인구층 신규 유입 · 자녀 세대 대리 검색 유입</dd>
+        <dt>Primary</dt><dd><span class="code">#0369A1</span> (스카이블루 · 교통·공공·복지 축 신규 편입 · 대비 7.3:1 AAA) · hover <span class="code">#075985</span></dd>
+        <dt>Soft</dt><dd><span class="code">#E0F2FE</span> / border <span class="code">#7DD3FC</span> · Success <span class="code">#198754</span> (eligible 그린 전환)</dd>
+        <dt>구조</dt><dd>&lt;div class="h1-row"&gt;&lt;h1&gt; · hero-line 2.5rem×2px · 9토큰(success·success-soft 확장)</dd>
+        <dt>핵심 기능</dt><dd>생년월일 &lt;input type="date"&gt; · 만 65세 도달일 계산 (만나이 통일법 2023-06-28) · 결과 카드 2상태 (eligible 그린 / waiting 스카이블루) · 발급 4단계 · 6개 지자체 지역별 안내 표 · Q&amp;A 4문항</dd>
+        <dt>SEO</dt><dd>title·description·OG·Twitter·canonical·JSON-LD WebApplication 완비</dd>
+        <dt>광고</dt><dd>2슬롯 (<span class="code">#ad-slot</span> · <span class="code">#ad-slot-bottom</span>) · client <span class="code">ca-pub-9477150496807643</span></dd>
+        <dt>크로스링크</dt><dd>근로장려금·아동수당·연차·출생·전입신고 (복지·근로 생태계 4개)</dd>
+      </dl>
+
+      <h4 style="margin-top:16px;font-size:14px;">JS 계산 로직 시뮬레이션 6케이스 (오늘 = 2026-08-19)</h4>
+      <div class="sim-box">1961-08-19생 (오늘 65세)          → eligible (지금 바로 이용 가능) ✓
+1961-08-20생 (내일 65세)          → waiting  D-1                       ✓
+1961-08-18생 (어제 65세)          → eligible (지금 바로 이용 가능) ✓
+1965-08-19생 (만 61세)            → waiting  D-1461 (윤년 2028 포함 4년) ✓
+1960-02-29생 (2/29 · 65+1960=2025 비윤년) → 2/28 처리 · eligible ✓
+2/29 처리 로직 (m===1 && d===29 && result.getDate()!==29) 정상 동작 ✓</div>
+
+      <h4 style="margin-top:16px;font-size:14px;">배포 전 팩트 재확인 상신 (마케팅팀)</h4>
+      <ul>
+        <li>6개 지자체 무임 운영기관 사명·전화번호 최신성 — 서울교통공사 · 부산교통공사 · <strong>대구도시철도</strong> · 인천교통공사 · <strong>광주도시철도</strong> · 대전교통공사</li>
+        <li><strong>⚠️ 대구는 2023년 대구도시철도공사·대구시설공단 통합해 "대구교통공사"로 사명 변경 가능성</strong> → 재확인 필수</li>
+        <li>전화번호 6건 (051-640-7788 · 053-640-2700 · 032-451-2114 · 062-604-8000 · 042-539-3200) 최신성 재확인</li>
+        <li>안전장치: 안내문 하단 "역무실 방문 전 해당 기관 홈페이지에서 최신 절차를 확인" 문구 있음</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>클레버 검수 요약 (4축)</h2>
+    <table>
+      <thead>
+        <tr><th>축</th><th>national-scholarship-dday</th><th>senior-subway-free-dday</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>정확성</td><td><span class="badge b-ok">OK</span></td><td><span class="badge b-ok">OK</span></td></tr>
+        <tr><td>완성도</td><td><span class="badge b-ok">OK</span></td><td><span class="badge b-ok">OK</span></td></tr>
+        <tr><td>원칙</td><td><span class="badge b-ok">OK</span></td><td><span class="badge b-ok">OK</span></td></tr>
+        <tr><td>배포 준비</td><td><span class="badge b-cond">조건부</span> · 소득분위 팩트</td><td><span class="badge b-cond">조건부</span> · 지역 사명 팩트</td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="margin-top:12px;">두 파일 모두 수정 0건. 다빈치 판정 반영 확인(nsc: <span class="code">--primary</span> <span class="code">#6D28D9</span> · <span class="code">--primary-hover</span> <span class="code">#5B21B6</span> · favicon fill 3건 교체 · h1-row 미추가 · hero-line 존재 / ssf: 무수정). JS 문법 2건 <span class="code">node --check</span> 전수 통과. SEO 메타·JSON-LD·adsbygoogle 2슬롯·DOM ID·크로스링크·CF Analytics·480px 반응형 전수 보존. shared/ads.css(489B) 참조 확인.</p>
+  </section>
+
+  <section>
+    <h2>이월 이슈 (누적 5 + 신규 2 = 7건 · 이번 사이클 미해결)</h2>
+    <ol>
+      <li>WAGE_2027 확정값 원복 (8/17 이월)</li>
+      <li>Math.ceil 자정 정밀도 (누적)</li>
+      <li><span class="code">&lt;link as="style"&gt;</span> 문법 (누적)</li>
+      <li>adsbygoogle inline slot 미삽입 (누적)</li>
+      <li>wedding-gift favicon 톤차 (8/17 이월)</li>
+      <li><strong>[신규]</strong> senior-subway <span class="code">max="2026-08-19"</span> 하드코딩 (JS 동적 설정 미적용 · 실용 무해 · 신생아가 지하철 D-day 검색할 일 없음)</li>
+      <li><strong>[신규]</strong> 국가장학금 SCHEDULES 2028학년도 이후 미포함 (2027-08-12 이후 "일정 종료" 표시 · 매년 갱신 필요)</li>
+    </ol>
+  </section>
+
+  <section class="decision-box">
+    <h3>대표 결정 요청</h3>
+    <p><strong>1. 오늘 2건 배포 판단</strong> (클레버·사마의 권고: <strong>D안</strong>)</p>
+    <ul>
+      <li><strong>A안</strong>: 두 파일 오늘 동시 배포 (disclaimer 안전장치 있음 · 팩트 재확인 후 hotfix)</li>
+      <li><strong>B안</strong>: 마케팅팀 팩트 조사(소득분위 + 지역 사명) 완료 후 두 파일 배포</li>
+      <li><strong>C안</strong>: senior-subway만 오늘 배포 (계산 로직 무결) · national-scholarship은 소득분위 팩트 확인 후</li>
+      <li><strong>D안 (권고)</strong>: 두 파일 모두 마케팅팀 팩트 조사 완료 후 배포. 사유:
+        <ul>
+          <li>8/17 minimum-wage-2027 팩트 대기 원칙과 정합</li>
+          <li>지역 사명 오류(대구교통공사 통합 가능성)는 검색 결과에서 즉시 대조 · 신뢰도 훼손 리스크 큼</li>
+          <li>국가장학금 소득분위 금액은 학년도별 차이 커 "570만원" 확정값 여부 재확인 필요</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p style="margin-top:16px;"><strong>2. 마케팅팀 팩트 조사 지시</strong></p>
+    <ul>
+      <li>해리·벤 즉시 착수 승인 여부 (D안 채택 시 배포 전제 조건)</li>
+      <li>범위: 소득분위 8구간 확정값 + 6개 지자체 사명·전화번호 최신성</li>
+    </ul>
+
+    <p style="margin-top:16px;"><strong>3. 미배포 정체 누적 처리</strong></p>
+    <ul>
+      <li>8/12·14·15·17 개발 완료·미배포 4건 (susi-dday · car-tax-yearly-dday · wedding-gift-calculator · minimum-wage-2027-dday) 세트 처리 방향</li>
+      <li>D안 채택 시 오늘 2건 + 대기 4건 = 최대 6건 팩트 정합 후 세트 배포 여부</li>
+    </ul>
+
+    <p style="margin-top:16px;"><strong>4. GSC 색인 요청 URL 반영</strong></p>
+    <ul>
+      <li>A안 1건 · B안 2건 · 세트 처리 시 최대 6~8건</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>축 완성 현황 (2026-08-19 기준)</h2>
+    <table>
+      <thead>
+        <tr><th>축</th><th>상태</th><th>구성</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>정부/세금</td><td><span class="badge b-ok">5중 완성</span></td><td>취득세·재산세·자동차세·주택청약·근로장려금 (8/15 완성)</td></tr>
+        <tr><td>노동</td><td><span class="badge b-ok">5중 완성</span></td><td>연차·주휴·연장근로·근로장려·최저임금 (8/17 완성)</td></tr>
+        <tr><td>경조사</td><td><span class="badge b-ok">완성</span></td><td>부의금·축의금 (8/17)</td></tr>
+        <tr><td>노인·복지</td><td><span class="badge b-info">신규 진입</span></td><td><strong>65세 무임승차 (8/19 신규 · 오늘)</strong></td></tr>
+        <tr><td>교육/학사</td><td><span class="badge b-info">5중 완성</span></td><td>방학숙제·수시·수능·추석 + <strong>국가장학금 (8/19 · 오늘)</strong></td></tr>
+        <tr><td>부동산</td><td><span class="badge b-cond">다중 (6중)</span></td><td>housing-bond·property-tax·acquisition-tax·real-estate-commission·apartment-subscription·dorm-vs-rent (7중은 8/21 임대차 재평가 시점)</td></tr>
+        <tr><td>시류</td><td><span class="badge b-cond">다중</span></td><td>chuseok·christmas·summer-homework 등</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>다음 사이클 예고 (8/21)</h2>
+    <ul>
+      <li><strong>13 임대차 계약 만료 8/21 최우선 대안</strong> — 부동산 축 7중 완성 후보 · 상시 유입 축</li>
+      <li>2 노인장기요양보험 배정 (9월 하순) — 오늘 1과 노인·복지 축 세트 완성</li>
+      <li>14 새 학기 개학 스코프 판정 (사마의 소관) — summer-homework 통합 vs 개별 유틸</li>
+      <li>자동차 축 3중 완성 후보 (3 정기검사·5 보험만기 + car-tax-yearly) — 10~11월 사이클 분산</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>운영 개선 상신 (기획전략실 → 대표)</h2>
+    <p>보고서 iframe 실물 인라인 삽입은 두 index.html의 " 문자 escape 처리를 위해 Python 실행 승인이 필요. 8/17·8/19 두 세션 연속 승인 대기 반복으로 미이행. 다음 사이클부터 <strong>보고서 빌드용 Python 실행에 대한 상시 승인</strong> 여부를 대표께 요청 예정. 승인 시 실물 인라인 자동 삽입 프로토콜 확립.</p>
+  </section>
+
+  <footer>
+    민온 · webutils · 2026-08-19 · 기획전략실 사마의 작성 · 대표 배포 판단 대기
+  </footer>
+</main>
+</body>
+</html>

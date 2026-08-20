@@ -427,9 +427,9 @@
   var autoLookupEl = document.getElementById('autoLookup');
 
   /* ── 부동산 종류 라디오 변경 시 위젯 표시/숨김 ── */
-  /* VWorld 운영키 발급 후 복원: land 이외 block → typeEl.value !== 'land' ? 'block' : 'none' */
   function syncWidgetVisibility() {
-    autoLookupEl.style.display = 'none';
+    var t = document.querySelector('input[name="type"]:checked');
+    autoLookupEl.style.display = t && t.value !== 'land' ? 'block' : 'none';
   }
   document.querySelectorAll('input[name="type"]').forEach(function (r) {
     r.addEventListener('change', syncWidgetVisibility);
