@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>노인장기요양보험 신청 D-day — 등급 판정 심사 카운트다운</title>
+  <meta name="description" content="노인장기요양보험 신청일을 입력하면 등급 판정 심사 완료 예상일(30일)까지 D-day를 계산합니다. 장기요양 등급 5단계 기준과 신청 절차도 안내합니다.">
+  <meta property="og:title" content="노인장기요양보험 신청 D-day — 등급 판정 심사 카운트다운">
+  <meta property="og:description" content="신청일 입력 → 등급 판정 심사 완료(30일) D-day 계산. 장기요양 등급 기준·신청 절차 포함.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://utils.minon.kr/long-term-care-dday/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="노인장기요양보험 신청 D-day — 등급 판정 심사 카운트다운">
+  <meta name="twitter:description" content="신청일 입력 → 등급 판정 심사 완료(30일) D-day 계산. 장기요양 등급 기준·신청 절차 포함.">
+  <link rel="canonical" href="https://utils.minon.kr/long-term-care-dday/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F766E'/%3E%3Ctext x='32' y='44' font-family='system-ui,sans-serif' font-size='30' text-anchor='middle' fill='%23fff'%3E👴%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <link rel="stylesheet" href="/shared/ads.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "노인장기요양보험 신청 D-day",
+    "url": "https://utils.minon.kr/long-term-care-dday/",
+    "description": "노인장기요양보험 신청일을 입력하면 등급 판정 심사 완료 예상일(30일)까지 D-day를 계산합니다.",
+    "applicationCategory": "UtilityApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+  <style>
+    :root {
+      --primary: #0F766E;
+      --primary-hover: #115E59;
+      --primary-soft: #CCFBF1;
+      --primary-soft-border: #5EEAD4;
+      --bg: #F8F9FA;
+      --surface: #FFFFFF;
+      --text: #1a1a2e;
+      --text-sub: #6c757d;
+      --text-mute: #adb5bd;
+      --border: #dee2e6;
+      --border-soft: #f1f3f5;
+      --error: #dc3545;
+      --success: #0F766E;
+      --success-soft: #CCFBF1;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--primary); }
+    main { max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .site-nav { font-size: 13px; margin-bottom: 24px; }
+    .site-nav a { color: var(--text-sub); text-decoration: none; }
+    .site-nav a:hover { color: var(--primary); }
+
+    h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 12px; line-height: 1.3; letter-spacing: -0.03em; }
+    .hero-line { display: block; width: 2.5rem; height: 2px; background: var(--primary); margin: 0 0 20px; border-radius: 2px; }
+    .lede { font-size: 14px; color: var(--text-sub); margin: 0 0 28px; line-height: 1.65; }
+    .lede strong { color: var(--primary-hover); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .form-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+    .form-field { flex: 1; min-width: 180px; }
+    .form-field label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: var(--text-sub); margin-bottom: 6px;
+    }
+    .form-field input[type="date"] {
+      width: 100%; padding: 10px 12px;
+      font-size: 14px; font-family: inherit;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: var(--bg); color: var(--text);
+    }
+    .form-field input[type="date"]:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+    .btn-calc {
+      padding: 10px 22px;
+      font-size: 14px; font-family: inherit; font-weight: 700;
+      background: var(--primary); color: #fff;
+      border: none; border-radius: 8px; cursor: pointer;
+      white-space: nowrap; transition: background .15s;
+    }
+    .btn-calc:hover { background: var(--primary-hover); }
+    .btn-calc:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .form-error { color: var(--error); font-size: 13px; margin-top: 8px; min-height: 1.2em; }
+
+    #result-card {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #result-card.show { display: block; animation: fadeUp .4s ease both; }
+    #result-card.waiting  { border-color: var(--primary); background: var(--primary-soft); }
+    #result-card.done     { border-color: #10b981; background: #D1FAE5; }
+
+    .result-label { font-size: 13px; font-weight: 600; color: var(--text-sub); margin-bottom: 14px; }
+    #result-card.waiting .result-label { color: var(--primary-hover); }
+    #result-card.done    .result-label { color: #065f46; }
+
+    .result-days {
+      font-size: 3.5rem; font-weight: 800;
+      letter-spacing: -0.05em; line-height: 1;
+      color: var(--primary); margin-bottom: 8px;
+    }
+    #result-card.done .result-days { color: #059669; }
+
+    .result-sub { font-size: 13px; color: var(--text-sub); margin-bottom: 12px; line-height: 1.55; }
+    .result-date-bar {
+      font-size: 14px; font-weight: 600; color: #343a40;
+      background: rgba(255,255,255,0.7); border-radius: 8px;
+      padding: 8px 14px; display: inline-block;
+    }
+    .result-date-bar span { color: var(--primary); }
+    #result-card.done .result-date-bar span { color: #059669; }
+
+    h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    /* 등급 표 */
+    .grade-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .grade-table th {
+      background: var(--border-soft); color: var(--text-sub);
+      font-weight: 600; padding: 8px 10px; text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+    .grade-table td {
+      padding: 9px 10px; border-bottom: 1px solid var(--border-soft);
+      color: #495057; vertical-align: top; line-height: 1.55;
+    }
+    .grade-table tr:last-child td { border-bottom: none; }
+    .grade-table td.grade-name { font-weight: 700; color: var(--text); white-space: nowrap; }
+    .grade-badge {
+      display: inline-block; padding: 1px 7px;
+      border-radius: 4px; font-size: 11px; font-weight: 700;
+    }
+    .gb-1 { background: #FEE2E2; color: #B91C1C; }
+    .gb-2 { background: #FEF3C7; color: #92400E; }
+    .gb-3 { background: #FEF9C3; color: #713F12; }
+    .gb-4 { background: var(--primary-soft); color: var(--primary-hover); }
+    .gb-5 { background: #F0FAFB; color: #0F766E; }
+    .gb-ci { background: #F3F4F6; color: #4B5563; }
+
+    /* 신청 절차 */
+    .steps { list-style: none; margin: 0; padding: 0; }
+    .steps li {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px solid var(--border-soft);
+      font-size: 14px;
+    }
+    .steps li:last-child { border-bottom: none; }
+    .step-num {
+      flex-shrink: 0; width: 24px; height: 24px;
+      background: var(--primary); color: #fff;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; margin-top: 1px;
+    }
+    .step-body { color: #495057; line-height: 1.6; }
+    .step-body strong { color: var(--text); font-weight: 600; }
+    .step-body .note { font-size: 12px; color: var(--text-mute); margin-top: 2px; }
+
+    /* 급여 안내 */
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px; margin-bottom: 10px;
+    }
+    .benefit-item {
+      background: var(--border-soft); border-radius: 8px;
+      padding: 10px; text-align: center;
+    }
+    .benefit-label { font-size: 12px; color: var(--text-sub); margin-bottom: 3px; }
+    .benefit-title { font-size: 13px; font-weight: 700; color: var(--primary-hover); }
+    .benefit-desc  { font-size: 11px; color: var(--text-mute); margin-top: 2px; line-height: 1.4; }
+
+    .related-links {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 20px; margin-bottom: 16px;
+    }
+    .related-links h3 { font-size: 13px; color: var(--text-sub); margin-bottom: 10px; font-weight: 600; }
+    .related-links a {
+      display: inline-block; margin-right: 10px; margin-bottom: 4px;
+      font-size: 13px; color: var(--primary); text-decoration: none;
+      padding: 4px 10px; border: 1px solid var(--primary-soft-border);
+      border-radius: 20px; background: var(--primary-soft);
+    }
+    .related-links a:hover { background: #99F6E4; }
+
+    .disclaimer {
+      font-size: 12px; color: var(--text-mute); line-height: 1.7;
+      margin-bottom: 24px; padding: 12px 16px;
+      background: var(--bg); border-radius: 8px; border: 1px solid #e9ecef;
+    }
+
+    footer {
+      font-size: 12px; color: var(--text-mute);
+      padding-top: 20px; border-top: 1px solid #e9ecef;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--text-mute); text-decoration: none; }
+    footer a:hover { color: var(--text-sub); }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.3rem; }
+      .result-days { font-size: 2.8rem; }
+      .form-row { flex-direction: column; }
+      .btn-calc { width: 100%; }
+      .benefit-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
+</head>
+<body>
+<main>
+  <nav class="site-nav"><a href="/">← 유틸 목록</a></nav>
+
+  <h1>노인장기요양보험 신청 D-day</h1>
+  <span class="hero-line" aria-hidden="true"></span>
+  <p class="lede">노인장기요양보험 신청일을 입력하면 <strong>등급 판정 심사 완료 예상일(30일)</strong>까지 D-day를 알려드립니다. 65세 이상 또는 치매·중풍 등 노인성 질병이 있는 분이 신청 가능합니다.</p>
+
+  <div class="form-card">
+    <div class="form-row">
+      <div class="form-field">
+        <label for="apply-date">신청일</label>
+        <input type="date" id="apply-date" aria-label="장기요양보험 신청일 입력">
+      </div>
+      <button class="btn-calc" id="btn-calc" type="button">계산하기</button>
+    </div>
+    <p id="form-error" class="form-error" role="alert" aria-live="assertive"></p>
+  </div>
+
+  <div id="result-card" aria-live="polite">
+    <div class="result-label" id="result-label">심사 완료까지</div>
+    <div class="result-days" id="result-days">—</div>
+    <div class="result-sub" id="result-sub"></div>
+    <div class="result-date-bar">심사 완료 예상일 <span id="result-date">—</span></div>
+  </div>
+
+  <!-- 등급 기준 -->
+  <div class="section-card">
+    <h2>장기요양 등급 기준</h2>
+    <table class="grade-table">
+      <thead>
+        <tr>
+          <th>등급</th>
+          <th>장기요양 인정 점수</th>
+          <th>심신 상태</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="grade-name">1등급 <span class="grade-badge gb-1">최중증</span></td>
+          <td>95점 이상</td>
+          <td>일상생활에서 전적으로 타인의 도움이 필요한 상태</td>
+        </tr>
+        <tr>
+          <td class="grade-name">2등급 <span class="grade-badge gb-2">중증</span></td>
+          <td>75점 이상 95점 미만</td>
+          <td>일상생활에서 상당 부분 타인의 도움이 필요한 상태</td>
+        </tr>
+        <tr>
+          <td class="grade-name">3등급 <span class="grade-badge gb-3">중등도</span></td>
+          <td>60점 이상 75점 미만</td>
+          <td>일상생활에서 부분적으로 타인의 도움이 필요한 상태</td>
+        </tr>
+        <tr>
+          <td class="grade-name">4등급 <span class="grade-badge gb-4">경증</span></td>
+          <td>51점 이상 60점 미만</td>
+          <td>일상생활에서 일정 부분 타인의 도움이 필요한 상태</td>
+        </tr>
+        <tr>
+          <td class="grade-name">5등급 <span class="grade-badge gb-5">치매</span></td>
+          <td>45점 이상 51점 미만</td>
+          <td>치매 진단을 받은 상태 (치매특별등급)</td>
+        </tr>
+        <tr>
+          <td class="grade-name">인지지원등급 <span class="grade-badge gb-ci">치매경증</span></td>
+          <td>45점 미만</td>
+          <td>치매 진단을 받았으나 신체 기능이 비교적 양호한 상태</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:var(--text-mute);margin-top:12px;line-height:1.6;">장기요양 인정 점수는 국민건강보험공단 소속 장기요양 직원이 가정을 방문해 신체기능·인지기능·행동변화·간호처치·재활 등 52개 항목을 조사하여 산정합니다.</p>
+  </div>
+
+  <!-- 신청 절차 -->
+  <div class="section-card">
+    <h2>신청 절차</h2>
+    <ul class="steps">
+      <li>
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>장기요양 인정 신청</strong> — 국민건강보험공단 지사 방문 또는 전화·온라인 신청
+          <div class="note">☎ 1577-1000 또는 노인장기요양보험 홈페이지(www.longtermcare.or.kr) 이용 가능. 신청 시 신청서와 의사 소견서(의료기관 발급) 제출.</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>방문 조사</strong> — 공단 소속 직원이 가정 방문
+          <div class="note">52개 항목 조사 후 인정 점수를 산정합니다. 방문 일정은 사전에 연락드립니다.</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>의사 소견서 제출</strong> — 진료 의사가 발급
+          <div class="note">신청 후 60일 이내에 제출해야 합니다. 의료기관 또는 건강보험심사평가원 포털에서 전산 제출 가능.</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>등급 판정 심사</strong> — 장기요양등급판정위원회 심사 (약 30일)
+          <div class="note">서류 미비 등으로 처리 기간이 연장될 수 있습니다. 처리 기간 중 공단에서 연락할 수 있습니다.</div>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <strong>장기요양 인정서 수령</strong> — 등급 결과 통보
+          <div class="note">인정서와 표준장기요양이용계획서가 우편 발송됩니다. 등급이 인정되면 재가급여·시설급여 이용 가능.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 급여 종류 -->
+  <div class="section-card">
+    <h2>장기요양 급여 종류</h2>
+    <div class="benefit-grid">
+      <div class="benefit-item">
+        <div class="benefit-label">재가급여</div>
+        <div class="benefit-title">방문요양</div>
+        <div class="benefit-desc">요양보호사가 가정 방문·신체활동 지원</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-label">재가급여</div>
+        <div class="benefit-title">방문목욕</div>
+        <div class="benefit-desc">목욕장비 갖춘 차량으로 가정 방문 목욕</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-label">재가급여</div>
+        <div class="benefit-title">주야간보호</div>
+        <div class="benefit-desc">주간·야간 시설에서 보호·의료 지원</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-label">시설급여</div>
+        <div class="benefit-title">노인요양시설</div>
+        <div class="benefit-desc">시설 입소·24시간 돌봄 (1·2등급 주로)</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-label">특별현금급여</div>
+        <div class="benefit-title">가족요양비</div>
+        <div class="benefit-desc">도서·벽지 거주 등 일부 현금 지급</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-label">복지용구</div>
+        <div class="benefit-title">보조기기 구입</div>
+        <div class="benefit-desc">휠체어·전동침대 등 연 160만원 한도</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-mute);line-height:1.6;">급여 이용 시 본인 부담금은 재가급여 15%, 시설급여 20%입니다. 기초생활수급자 등은 감경 또는 면제 혜택이 있습니다.</p>
+  </div>
+
+  <div class="ad-slot" id="ad-slot">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="4197594404"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <div class="related-links">
+    <h3>함께 많이 찾는 노인·복지 관련 유틸</h3>
+    <a href="/senior-subway-free-dday/">65세 지하철 무임승차 D-day</a>
+    <a href="/work-grant-dday/">근로장려금 신청 D-day</a>
+    <a href="/child-care-grant-dday/">아동수당 신청 D-day</a>
+    <a href="/annual-leave-calculator/">연차 계산기</a>
+  </div>
+
+  <p class="disclaimer">심사 완료 예상일은 국민건강보험공단 법정 처리 기한(30일) 기준 예상치입니다. 서류 미비, 조사 일정 조율 등으로 실제 처리 기간이 달라질 수 있습니다. 최신 정보는 국민건강보험공단(☎ 1577-1000) 또는 노인장기요양보험 홈페이지(www.longtermcare.or.kr)에서 확인하세요.</p>
+
+  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="9059038840"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <footer>
+    <span>© 2026 민온</span>
+    <nav><a href="/privacy">개인정보처리방침</a> · <a href="/contact.html">문의</a></nav>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var DAYS_KO = ['일', '월', '화', '수', '목', '금', '토'];
+
+  function formatDateKo(d) {
+    return d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 (' + DAYS_KO[d.getDay()] + ')';
+  }
+
+  document.getElementById('btn-calc').addEventListener('click', function () {
+    var errEl = document.getElementById('form-error');
+    errEl.textContent = '';
+
+    var val = document.getElementById('apply-date').value;
+    if (!val) {
+      errEl.textContent = '신청일을 입력해 주세요.';
+      return;
+    }
+
+    var parts = val.split('-');
+    var applyDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    applyDate.setHours(0, 0, 0, 0);
+    if (isNaN(applyDate.getTime())) {
+      errEl.textContent = '날짜를 다시 확인해 주세요.';
+      return;
+    }
+
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    /* 심사 완료 예상일 = 신청일 + 30일 */
+    var doneDate = new Date(applyDate.getTime());
+    doneDate.setDate(doneDate.getDate() + 30);
+    doneDate.setHours(0, 0, 0, 0);
+
+    var diff = Math.ceil((doneDate - today) / 86400000);
+
+    var card    = document.getElementById('result-card');
+    var labelEl = document.getElementById('result-label');
+    var daysEl  = document.getElementById('result-days');
+    var subEl   = document.getElementById('result-sub');
+    var dateEl  = document.getElementById('result-date');
+
+    card.classList.remove('waiting', 'done');
+
+    if (diff <= 0) {
+      card.classList.add('done');
+      labelEl.textContent = '심사 완료 예상일이 지났습니다';
+      daysEl.textContent  = diff === 0 ? '오늘' : Math.abs(diff) + '일 경과';
+      subEl.textContent   = '심사 완료 예상일(신청 후 30일)이 지났습니다. 결과가 오지 않았다면 국민건강보험공단(☎ 1577-1000)에 문의하세요.';
+    } else {
+      card.classList.add('waiting');
+      labelEl.textContent = '등급 판정 심사 완료까지';
+      daysEl.textContent  = 'D-' + diff;
+      subEl.textContent   = '신청일로부터 30일 이내에 결과를 통보받습니다. 서류 미비 시 기간이 연장될 수 있습니다.';
+    }
+
+    dateEl.textContent = formatDateKo(doneDate);
+    card.classList.add('show');
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  document.getElementById('apply-date').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') document.getElementById('btn-calc').click();
+  });
+}());
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8f333dc2c9e844b39f36daec8c0c0570"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
