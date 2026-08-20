@@ -220,3 +220,125 @@ teal은 국내외 의료·헬스케어 브랜딩의 가장 보편적인 색역�
 
 **판정 봉인**: 다빈치 (팀장) · 2026-08-21
 **다음**: 클레버 검수 대기 · push 금지
+
+---
+
+## 클레버 검수 (2026-08-21 · 봉인)
+
+### 4축 검수 결과
+- **정확성: OK** — 두 파일 JS 문법 전수 통과 · 계산 로직 시뮬레이션 전수 통과
+- **완성도: OK** — 다빈치 판정이 index.html에 정확 반영됨 (아래 실증)
+- **원칙: OK** — SEO·JSON-LD·adsbygoogle·접근성·모바일 반응형 완비
+- **배포준비: 준비 완료 (2건)**
+
+### 다빈치 판정 반영 실증
+
+**lease-expiry-dday (교체 3건 전수 통과)**:
+- `--primary: #B45309` (line 35) ✓
+- `--primary-hover: #92400E` (line 36) ✓
+- favicon fill `%23B45309` (line 17) ✓
+- `--primary-soft: #FEF3C7` · `--primary-soft-border: #FCD34D` 유지 (line 37~38) ✓
+- 다빈치 판정 "renew 상태 강조 색 amber-600 하드코딩 유지" 반영:
+  · `.rw-active { color: #D97706; }` (line 153) ✓
+  · `#result-card.status-renew .result-days { color: #D97706; }` (line 131) ✓
+- 다빈치 판정 "renew status-renew date-bar span primary와 같은 값" 반영:
+  · `#result-card.status-renew .result-date-bar span { color: #B45309; }` (line 142) ✓
+
+**long-term-care-dday (교체 2건 전수 통과 · 무수정)**:
+- `--primary: #0F766E` 무수정 유지 (line 35) ✓
+- `--success: #059669` (line 47 · 다빈치 판정 emerald-600 반영) ✓
+- `--success-soft: #D1FAE5` (line 48 · 다빈치 판정 emerald-100 반영) ✓
+- done 상태 CSS 하드코딩(`#10b981`·`#065f46`·`#059669`) 유지 (다빈치 스코프 밖 · 다음 사이클 유예) ✓
+
+### 실증 검증
+
+**JS 문법 검사 (`node -e` script 태그 추출 후 `new Function()`)**:
+- lease-expiry-dday: 실제 JS 스크립트 3건 전수 통과 (JSON-LD script[0] `Unexpected token ':'`는 type="application/ld+json"이라 JS 파서 부적용 · 브라우저는 정상 파싱)
+- long-term-care-dday: 실제 JS 스크립트 3건 전수 통과
+
+**계산 로직 시뮬레이션 (오늘=2026-08-21 기준)**:
+
+lease-expiry-dday 6케이스 전수 통과:
+- 만료 2027-02-21 (6개월 뒤 정확 응당일) → D-184 renew (renewStart=오늘)
+- 만료 2026-11-21 (3개월 뒤 · 갱신청구권 기간 중반) → D-92 renew
+- 만료 2026-10-21 (2개월 뒤 · renewEnd 경계) → D-61 danger(지남 처리)
+- 만료 2026-09-21 (1개월 뒤 · renewEnd 넘김) → D-31 danger
+- 만료 2026-08-21 (오늘) → D-0 danger
+- 만료 2026-08-11 (10일 전) → expired "만료 · 10일 전 만료" (UI는 "만료" 표시)
+
+long-term-care-dday 5케이스 전수 통과:
+- 신청 2026-08-01 (10일 대기) → D-10 waiting
+- 신청 2026-08-21 (오늘) → D-30 waiting
+- 신청 2026-07-22 (30일 딱) → D-0 done "오늘"
+- 신청 2026-07-01 (30일+ 경과) → done "21일 경과"
+- 신청 2026-01-31 (30일 후=3-2 · 월 경계) → done · doneDate 정확
+
+**shared/ads.css 존재 확인**: `/shared/ads.css` 489B 존재 ✓
+
+### 팩트 검증 (마케팅팀 조사 반영 상태 · 배포 전 대표 확인 불필요 판단)
+
+**lease-expiry-dday** — 팩트 정합:
+- 갱신청구권 행사 기간 만료 6개월~2개월 전 (주택임대차보호법 제6조의3) · 2020년 7월 시행 · 최신 확정값
+- 5% 인상 상한 · 묵시적 갱신 후 3개월 통보 해지 · 갱신청구권 1회 · 최대 4년(2+2년)
+- 상가건물임대차보호법 별도 안내 (disclaimer)
+- 대한법률구조공단 132 · 근거 조문 명시
+
+**long-term-care-dday** — 팩트 정합:
+- 65세 이상 또는 노인성 질병 신청 자격
+- 심사 30일 (노인장기요양보험법 제15조 처리 기한)
+- 등급 5개(1~5) + 인지지원등급 (2018년 신설)
+- 각 등급 인정 점수 (95·75·60·51·45) · 52개 항목 방문 조사
+- 의사 소견서 60일 이내 · 국민건강보험공단 1577-1000 · longtermcare.or.kr
+- 재가급여 15%·시설급여 20% 본인 부담
+
+**8/19 사이클과 차이점**: nsc·ssf는 지자체별 확정값·기관명 재확인 필요 지점이 있었지만, 8/21 두 파일은 법령 근거 명확·전국 단일 기준·마케팅팀 조사 완료 상태라 추가 팩트 재확인 상신 없음.
+
+### SEO·구조 검증
+
+**lease-expiry-dday**:
+- title·description·og:*·twitter:*·canonical·JSON-LD WebApplication 완비
+- h1 직접 노출 · hero-line 2.5rem 2px 승계 · 공유버튼 없어 h1-row 없음(정합)
+- 광고 2슬롯 (`#ad-slot` · `#ad-slot-bottom`) · adsbygoogle 스크립트 2회 push
+- @media (max-width: 480px) 반응형 · form-row 세로 스택 · btn-calc 100%
+- CF Analytics beacon 승계
+
+**long-term-care-dday**:
+- title·description·og:*·twitter:*·canonical·JSON-LD WebApplication 완비
+- h1 직접 노출 · hero-line 승계
+- 광고 2슬롯 · adsbygoogle 2회 push
+- @media 반응형 · benefit-grid 480px 이하 2열 스택
+- CF Analytics beacon 승계
+
+### 이월 이슈 (누적 · 다음 사이클 유예)
+
+기존 이월 이슈 7건 (2026-08-19 검수 시 확정) 그대로 유지 + 신규 관찰 1건:
+- long-term-care related-links에 `/senior-subway-free-dday/` 링크 존재 · 해당 파일은 2026-08-19 준비 완료이나 팩트 재확인(대구도시철도) 대기중 미배포 · 배포 시점 동기화 관찰 필요 (신규 이슈 아니라 8/19 미배포 상태의 파생 관찰)
+
+### 수정 항목
+
+**없음** (무수정 판정).
+
+이유:
+- 다빈치 판정이 index.html에 정확 반영됨 (교체 5건 전수 통과)
+- 마이클 코드 견고 (JS 문법·계산 로직·엣지케이스 처리 완비)
+- 팩트 조사 마케팅팀에서 이미 완료된 상태 (전국 단일 법령 기준)
+- 추가 수정 지점 없음
+
+### 배포 준비 상태
+
+**두 파일 모두 준비 완료**:
+- lease-expiry-dday: 준비 완료 · 배포 지시 대기
+- long-term-care-dday: 준비 완료 · 배포 지시 대기
+
+**8/19와 차이**: 8/19 두 파일은 지자체별 팩트 재확인 필요로 "조건부 준비"였으나, 8/21 두 파일은 팩트 이슈 없음 → **바로 배포 가능**.
+
+**배포 시 참고**:
+- long-term-care의 senior-subway-free-dday 크로스링크는 8/19 파일 배포 후 정합.
+- 배포 순서는 사마의·대표 판단에 위임 (동시 배포 or 개별 배포 모두 가능).
+
+**push·파일 이동·배포 실행 없음** · `_COMMON §7` 준수 · 대표 배포 지시 대기.
+
+---
+
+**검수 봉인**: 클레버 (팀장) · 2026-08-21
+**다음**: 사마의 일일 보고 · 대표 배포 판단
