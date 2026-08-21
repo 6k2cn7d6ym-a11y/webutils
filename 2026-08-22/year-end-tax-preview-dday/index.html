@@ -346,6 +346,19 @@
   /* 서비스 운영 종료 기준: 다음 해 1월 말 */
   var closeDate = new Date(year + 1, 0, 31);
 
+  /* [클레버 수정: 1월달 진입 시 전년도 귀속 미리보기 서비스(11/15~1/31)가 아직 이용 가능한지 우선 판정.
+     원 로직은 today.getFullYear()만 써서 예: 2027-01-15 진입 시 2026년 귀속이 아직 진행 중임에도
+     "2027년 귀속 D-304"로 오표시하는 버그. 매년 1월 반복. 시뮬레이션 검증 완료. 2026-08-22] */
+  if (today.getMonth() === 0) {
+    var prevOpen  = new Date(year - 1, 10, 15);
+    var prevClose = new Date(year, 0, 31);
+    if (today <= prevClose) {
+      openDate  = prevOpen;
+      closeDate = prevClose;
+      year = year - 1;
+    }
+  }
+
   var card    = document.getElementById('dday-card');
   var labelEl = document.getElementById('dday-label');
   var numEl   = document.getElementById('dday-number');
