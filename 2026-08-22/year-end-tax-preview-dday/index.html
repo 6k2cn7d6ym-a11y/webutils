@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>연말정산 미리보기 D-day — 홈택스 미리보기 서비스 개시 카운트다운</title>
+  <meta name="description" content="홈택스 연말정산 미리보기 서비스 개시일(매년 11월 중순)까지 D-day를 알려드립니다. 1~9월 카드 사용액으로 예상 환급세액을 미리 확인해 보세요.">
+  <meta property="og:title" content="연말정산 미리보기 D-day — 홈택스 미리보기 서비스 개시 카운트다운">
+  <meta property="og:description" content="홈택스 연말정산 미리보기 서비스 개시일까지 D-day 카운트다운. 연말정산 공제 준비 체크리스트 포함.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://utils.minon.kr/year-end-tax-preview-dday/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="연말정산 미리보기 D-day — 홈택스 미리보기 서비스 개시 카운트다운">
+  <meta name="twitter:description" content="홈택스 연말정산 미리보기 서비스 개시일까지 D-day 카운트다운.">
+  <link rel="canonical" href="https://utils.minon.kr/year-end-tax-preview-dday/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231D4ED8'/%3E%3Ctext x='32' y='44' font-family='system-ui,sans-serif' font-size='30' text-anchor='middle' fill='%23fff'%3E📋%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <link rel="stylesheet" href="/shared/ads.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "연말정산 미리보기 D-day",
+    "url": "https://utils.minon.kr/year-end-tax-preview-dday/",
+    "description": "홈택스 연말정산 미리보기 서비스 개시일까지 D-day를 알려드립니다.",
+    "applicationCategory": "UtilityApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+  <style>
+    :root {
+      --primary: #1D4ED8;
+      --primary-hover: #1E40AF;
+      --primary-soft: #EFF6FF;
+      --primary-soft-border: #BFDBFE;
+      --bg: #F8F9FA;
+      --surface: #FFFFFF;
+      --text: #1a1a2e;
+      --text-sub: #6c757d;
+      --text-mute: #adb5bd;
+      --border: #dee2e6;
+      --border-soft: #f1f3f5;
+      --error: #dc3545;
+      --success: #059669;
+      --success-soft: #D1FAE5;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--primary); }
+    main { max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .site-nav { font-size: 13px; margin-bottom: 24px; }
+    .site-nav a { color: var(--text-sub); text-decoration: none; }
+    .site-nav a:hover { color: var(--primary); }
+
+    h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 12px; line-height: 1.3; letter-spacing: -0.03em; }
+    .hero-line { display: block; width: 2.5rem; height: 2px; background: var(--primary); margin: 0 0 20px; border-radius: 2px; }
+    .lede { font-size: 14px; color: var(--text-sub); margin: 0 0 28px; line-height: 1.65; }
+    .lede strong { color: var(--primary-hover); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    #dday-card {
+      background: var(--primary-soft);
+      border: 1px solid var(--primary-soft-border);
+      border-radius: 14px;
+      padding: 32px 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: fadeUp .4s ease both;
+    }
+    #dday-card.open  { background: var(--success-soft); border-color: #6EE7B7; }
+    #dday-card.ended { background: #F3F4F6; border-color: var(--border); }
+
+    .dday-label { font-size: 13px; font-weight: 600; color: var(--primary-hover); margin-bottom: 14px; }
+    #dday-card.open  .dday-label { color: #065f46; }
+    #dday-card.ended .dday-label { color: var(--text-sub); }
+
+    .dday-number {
+      font-size: 4rem; font-weight: 800;
+      letter-spacing: -0.05em; line-height: 1;
+      color: var(--primary); margin-bottom: 10px;
+    }
+    #dday-card.open  .dday-number { color: var(--success); font-size: 2.2rem; }
+    #dday-card.ended .dday-number { color: var(--text-sub); }
+
+    .dday-sub { font-size: 14px; color: var(--text-sub); line-height: 1.6; margin-bottom: 14px; }
+    .dday-date-bar {
+      display: inline-block;
+      font-size: 13px; font-weight: 600; color: #343a40;
+      background: rgba(255,255,255,0.75); border-radius: 8px; padding: 7px 16px;
+    }
+    .dday-date-bar span { color: var(--primary); }
+    #dday-card.open .dday-date-bar span { color: var(--success); }
+
+    h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .checklist { list-style: none; margin: 0; padding: 0; }
+    .checklist li {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px solid var(--border-soft);
+      font-size: 14px; color: #495057; line-height: 1.55;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist .check-box {
+      flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px;
+      border: 2px solid var(--primary-soft-border); border-radius: 4px;
+      background: var(--primary-soft);
+    }
+    .checklist .note { font-size: 12px; color: var(--text-mute); margin-top: 2px; }
+
+    .deduction-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+    }
+    .deduction-item {
+      background: var(--border-soft); border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .deduction-title { font-size: 13px; font-weight: 700; color: var(--primary-hover); margin-bottom: 2px; }
+    .deduction-desc  { font-size: 11px; color: var(--text-mute); line-height: 1.4; }
+
+    .steps-ol { margin: 0; padding: 0 0 0 20px; color: #495057; font-size: 14px; line-height: 2.1; }
+
+    .related-links {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 20px; margin-bottom: 16px;
+    }
+    .related-links h3 { font-size: 13px; color: var(--text-sub); margin-bottom: 10px; font-weight: 600; }
+    .related-links a {
+      display: inline-block; margin-right: 10px; margin-bottom: 4px;
+      font-size: 13px; color: var(--primary); text-decoration: none;
+      padding: 4px 10px; border: 1px solid var(--primary-soft-border);
+      border-radius: 20px; background: var(--primary-soft);
+    }
+    .related-links a:hover { background: #DBEAFE; }
+
+    .disclaimer {
+      font-size: 12px; color: var(--text-mute); line-height: 1.7;
+      margin-bottom: 24px; padding: 12px 16px;
+      background: var(--bg); border-radius: 8px; border: 1px solid #e9ecef;
+    }
+
+    footer {
+      font-size: 12px; color: var(--text-mute);
+      padding-top: 20px; border-top: 1px solid #e9ecef;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--text-mute); text-decoration: none; }
+    footer a:hover { color: var(--text-sub); }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.3rem; }
+      .dday-number { font-size: 3rem; }
+      #dday-card.open .dday-number { font-size: 1.8rem; }
+      .deduction-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
+</head>
+<body>
+<main>
+  <nav class="site-nav"><a href="/">← 유틸 목록</a></nav>
+
+  <h1>연말정산 미리보기 D-day</h1>
+  <span class="hero-line" aria-hidden="true"></span>
+  <p class="lede">홈택스 연말정산 미리보기 서비스 <strong>개시일까지 D-day</strong>를 알려드립니다. 매년 11월 중순 개시되며, 1~9월 카드 사용액을 기반으로 예상 환급세액을 미리 시뮬레이션할 수 있습니다.</p>
+
+  <div id="dday-card" role="status" aria-live="polite">
+    <div class="dday-label" id="dday-label">홈택스 연말정산 미리보기 개시까지</div>
+    <div class="dday-number" id="dday-number">—</div>
+    <div class="dday-sub" id="dday-sub"></div>
+    <div class="dday-date-bar">개시 예정일 <span id="dday-date">—</span></div>
+  </div>
+
+  <div class="section-card">
+    <h2>미리보기 전 준비 체크리스트</h2>
+    <ul class="checklist">
+      <li>
+        <div class="check-box" aria-hidden="true"></div>
+        <div>
+          <strong>홈택스 로그인</strong> — 공동인증서 또는 간편인증(카카오·네이버·PASS 등)으로 미리 로그인 확인
+          <div class="note">연말정산 미리보기는 홈택스(hometax.go.kr) 로그인 후 이용 가능합니다.</div>
+        </div>
+      </li>
+      <li>
+        <div class="check-box" aria-hidden="true"></div>
+        <div>
+          <strong>신용·체크카드 사용 내역 확인</strong> — 1~9월 카드 사용액은 미리보기 서비스 내 자동 반영
+          <div class="note">10~12월분은 별도로 예상 사용액을 직접 입력합니다.</div>
+        </div>
+      </li>
+      <li>
+        <div class="check-box" aria-hidden="true"></div>
+        <div>
+          <strong>부양가족 공제 요건 확인</strong> — 연간 소득 100만원 이하(근로소득만 있는 경우 500만원 이하) 조건
+          <div class="note">부모님·배우자·자녀 공제 가능 여부를 미리 확인하세요.</div>
+        </div>
+      </li>
+      <li>
+        <div class="check-box" aria-hidden="true"></div>
+        <div>
+          <strong>의료비 영수증 수집</strong> — 병원비·안경·보청기 등 국세청 미집계 항목 별도 준비
+          <div class="note">보험사에서 수령한 보험금에 해당하는 의료비는 공제 대상에서 제외됩니다.</div>
+        </div>
+      </li>
+      <li>
+        <div class="check-box" aria-hidden="true"></div>
+        <div>
+          <strong>교육비·기부금 영수증 준비</strong> — 국세청 자료에 없는 경우 별도 제출 필요
+          <div class="note">종교단체 기부금은 기부금 영수증을 직접 수집해야 합니다.</div>
+        </div>
+      </li>
+      <li>
+        <div class="check-box" aria-hidden="true"></div>
+        <div>
+          <strong>주택 관련 공제 확인</strong> — 무주택 세대주의 월세액 공제, 주택청약 공제 등
+          <div class="note">월세 공제는 총급여 8,000만원 이하 무주택 근로자가 대상입니다.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h2>주요 소득공제·세액공제 항목</h2>
+    <div class="deduction-grid">
+      <div class="deduction-item">
+        <div class="deduction-title">신용카드</div>
+        <div class="deduction-desc">총급여 25% 초과분 15~40% 공제</div>
+      </div>
+      <div class="deduction-item">
+        <div class="deduction-title">의료비</div>
+        <div class="deduction-desc">총급여 3% 초과분 15% 세액공제</div>
+      </div>
+      <div class="deduction-item">
+        <div class="deduction-title">교육비</div>
+        <div class="deduction-desc">본인·부양가족 교육비 15% 공제</div>
+      </div>
+      <div class="deduction-item">
+        <div class="deduction-title">기부금</div>
+        <div class="deduction-desc">정치·법정·종교 기부금 15~30%</div>
+      </div>
+      <div class="deduction-item">
+        <div class="deduction-title">보험료</div>
+        <div class="deduction-desc">보장성 보험료 12% 세액공제</div>
+      </div>
+      <div class="deduction-item">
+        <div class="deduction-title">월세</div>
+        <div class="deduction-desc">무주택 세대주 17% 세액공제</div>
+      </div>
+      <div class="deduction-item">
+        <div class="deduction-title">주택청약</div>
+        <div class="deduction-desc">납입액 40% 소득공제 (240만원 한도)</div>
+      </div>
+      <div class="deduction-item">
+        <div class="deduction-title">연금저축</div>
+        <div class="deduction-desc">납입액 15~16.5% 세액공제</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>홈택스 연말정산 미리보기 이용 방법</h2>
+    <ol class="steps-ol">
+      <li>홈택스(hometax.go.kr) 로그인</li>
+      <li>상단 메뉴 <strong>[장려금·연말정산·전자기부금]</strong> 클릭</li>
+      <li><strong>[편리한 연말정산]</strong> → <strong>[연말정산 미리보기]</strong> 선택</li>
+      <li>1~9월 신용카드 사용액 자동 불러오기 확인</li>
+      <li>10~12월 예상 사용액 입력 후 예상 환급세액 계산</li>
+      <li>절세 전략 시뮬레이션 (기부·의료비·연금 추가 납입 등)</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot" id="ad-slot">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="4197594404"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <div class="related-links">
+    <h3>함께 많이 찾는 유틸</h3>
+    <a href="/overtime-pay/">연장근로수당 계산기</a>
+    <a href="/annual-leave-calculator/">연차 계산기</a>
+    <a href="/weekly-holiday-pay/">주휴수당 계산기</a>
+    <a href="/work-grant-dday/">근로장려금 신청 D-day</a>
+  </div>
+
+  <p class="disclaimer">홈택스 연말정산 미리보기 서비스 개시일은 매년 11월 중순 예정이며, 실제 날짜는 국세청 홈택스 공지사항에서 확인하시기 바랍니다. 이 페이지는 매년 국세청 발표에 따라 날짜가 업데이트될 수 있습니다. 예상 환급세액은 참고용이며 실제 세액과 다를 수 있습니다.</p>
+
+  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="9059038840"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <footer>
+    <span>© 2026 민온</span>
+    <nav><a href="/privacy">개인정보처리방침</a> · <a href="/contact.html">문의</a></nav>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var DAYS_KO = ['일', '월', '화', '수', '목', '금', '토'];
+
+  function formatDateKo(d) {
+    return d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 (' + DAYS_KO[d.getDay()] + ')';
+  }
+
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
+  var year = today.getFullYear();
+
+  /* 개시일: 매년 11월 15일 예정 (국세청 공지 기준 · 실제 날짜 달라질 수 있음) */
+  var openDate  = new Date(year, 10, 15);
+  /* 서비스 운영 종료 기준: 다음 해 1월 말 */
+  var closeDate = new Date(year + 1, 0, 31);
+
+  var card    = document.getElementById('dday-card');
+  var labelEl = document.getElementById('dday-label');
+  var numEl   = document.getElementById('dday-number');
+  var subEl   = document.getElementById('dday-sub');
+  var dateEl  = document.getElementById('dday-date');
+
+  if (today < openDate) {
+    var diff = Math.ceil((openDate - today) / 86400000);
+    labelEl.textContent = '홈택스 연말정산 미리보기 개시까지';
+    numEl.textContent   = 'D-' + diff;
+    subEl.textContent   = year + '년 귀속 연말정산 미리보기 서비스가 ' + year + '년 11월 중순 개시 예정입니다. 1~9월 카드 사용액을 기반으로 예상 환급세액을 미리 확인할 수 있습니다.';
+    dateEl.textContent  = year + '년 11월 15일 (예정)';
+  } else if (today <= closeDate) {
+    card.classList.add('open');
+    labelEl.textContent = '연말정산 미리보기 서비스 진행 중';
+    numEl.textContent   = '지금 이용 가능';
+    subEl.textContent   = '홈택스에서 지금 바로 ' + year + '년 귀속 연말정산 미리보기를 이용할 수 있습니다. 예상 환급세액을 확인하고 남은 기간 절세 전략을 세워보세요.';
+    dateEl.textContent  = 'hometax.go.kr → 편리한 연말정산';
+  } else {
+    card.classList.add('ended');
+    var nextYear = year + 1;
+    var nextOpen = new Date(nextYear, 10, 15);
+    var diff2 = Math.ceil((nextOpen - today) / 86400000);
+    labelEl.textContent = nextYear + '년 귀속 연말정산 미리보기 개시까지';
+    numEl.textContent   = 'D-' + diff2;
+    subEl.textContent   = year + '년 귀속 연말정산 미리보기 서비스는 종료됐습니다. ' + nextYear + '년 귀속 서비스는 ' + nextYear + '년 11월 중순 개시 예정입니다.';
+    dateEl.textContent  = nextYear + '년 11월 15일 (예정)';
+  }
+}());
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8f333dc2c9e844b39f36daec8c0c0570"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
