@@ -177,3 +177,86 @@
 
 **봉인**: 다빈치 · 2026-08-26 03:20 KST
 
+---
+
+## 클레버 검수 (2026-08-26)
+
+### birth-registration-dday
+
+- 4축 검수 결과: [정확성: OK / 완성도: OK / 원칙: OK / 배포준비: OK]
+- 수정 항목: 없음
+- 배포 준비 상태: 준비 완료
+
+**정확성 실증:**
+- `addOneMonth()` 시뮬 5케이스 전수 통과
+  - 출생일 2026-07-27 + 1개월 = 2026-08-27 (오늘 2026-08-26 기준 D-1 · ok)
+  - 출생일 2026-07-26 + 1개월 = 2026-08-26 (오늘 D-0 · today 카드)
+  - 출생일 2026-07-25 + 1개월 = 2026-08-25 (오늘 D-1일 경과 · over 카드)
+  - 월경계 1월 31일 + 1개월 = 2월 28/29일 (Math.min lastDay clamp 정상)
+  - 12월 31일 + 1개월 = 1월 31일 (targetY++ 정상 · 연 경계 처리)
+- 미래 출생일 방지 · NaN 체크 · 빈 입력 방지 3중 가드 정상
+
+**완성도 실증:**
+- 다빈치 판정 무수정 반영 정확 (favicon 👶 line 17 · primary #0369A1 line 35 · hover #075985 line 36 · soft #F0F9FF line 37 · soft-border #BAE6FD line 38)
+- notice-box amber `--warn-soft`/`--warn-border` 과태료 경고 톤 정합
+- 3상태(ok/today/over) 색 분기 시각 정상
+
+**원칙 실증:**
+- SEO 태그 완비 (title/description/og·twitter/canonical) · JSON-LD WebApplication 온전
+- 대비: primary #0369A1 흰색 배경 ≈ 6.0:1 AA ✓
+- 시맨틱 태그(main/nav/h1/h2/footer) · role="alert"·aria-live 접근성 ✓
+- 광고 슬롯 2개(id="ad-slot"·id="ad-slot-bottom") 유지 · adsbygoogle.push 2회 호출 정상
+- CF Analytics beacon.min.js token 정상 삽입
+- 480px 반응형 브레이크포인트 완비
+
+**배포 준비 실증:**
+- 외부 의존 3종(Pretendard CDN · adsbygoogle · CF Analytics) — 표준 세팅
+- 관련 링크 `/child-care-grant-dday/`·`/work-grant-dday/` 이전 배포분 링크
+- footer 경로 `/privacy` · `/contact.html` — 이전 사이클(basic-pension·senior-subway-free) 관례 승계 확인
+
+---
+
+### inheritance-waiver-dday
+
+- 4축 검수 결과: [정확성: OK / 완성도: 수정 1건 / 원칙: OK / 배포준비: OK]
+- 수정 항목:
+  · `.related-links a:hover` 배경 `#E0F2FE`(sky-100) → `#E0E7FF`(indigo-100) · 마이클이 birth-registration에서 CSS 카피한 후 primary 축을 인디고로 변경했으나 hover 하드코드는 스카이 잔존 · 다빈치 판정은 4토큰 + favicon fill + compare-table th 자동연동만 명시했고 이 위치 놓침 · 축 정합 회복
+- 배포 준비 상태: 준비 완료
+
+**정확성 실증:**
+- `addMonths(date, 3)` 시뮬 6케이스 전수 통과
+  - 상속개시 2026-06-26 + 3개월 = 2026-09-26 (오늘 2026-08-26 기준 D-31 · ok)
+  - 5월 31일 + 3개월 = 8월 31일 (lastDay=31 clamp)
+  - 11월 30일 + 3개월 = 2027-02-28 (targetM=13·targetY++·lastDay=28 clamp)
+  - 12월 31일 + 3개월 = 2027-03-31 (연 경계·lastDay=31 clamp)
+  - D-8·D-7·D-0·D--1 4상태 분기 실증(ok/warn/warn/over) · D-7 이내 임박 로직 정상
+- 미래 상속개시일 방지 · NaN 체크 · 빈 입력 방지 3중 가드 정상
+
+**완성도 실증:**
+- 다빈치 판정 4토큰 + favicon fill 정확 반영 (primary #4F46E5 line 35 · hover #4338CA line 36 · soft #EEF2FF line 37 · soft-border #C7D2FE line 38 · favicon rect fill %234F46E5 line 17 · ⚖ 이모지 유지)
+- compare-table th `background: var(--primary-soft)` · `color: var(--primary-hover)` 자동 연동 정상
+- notice-box `--danger-soft`/`--danger-border` — 도메인 정합(사망·부채·법원 무거운 톤)
+- 4상태(ok/warn D-7 이내/warn D-0/over) 색 분기 정상
+- 클레버 수정 후 hover 배경 indigo-100 정합 (축 오염 제거)
+
+**원칙 실증:**
+- SEO 완비 · JSON-LD 온전
+- 대비: primary #4F46E5 흰색 배경 ≈ 6.1:1 AA ✓
+- 시맨틱 태그 · role="note"/role="alert" · aria-live 접근성 ✓
+- 광고 슬롯 2개 유지 · CF Analytics 삽입 정상
+- 480px 반응형 브레이크포인트 완비 (compare-table 12px 축소 포함)
+
+**배포 준비 실증:**
+- 외부 의존 표준 3종
+- 관련 링크 `/funeral-condolence-calculator/`·`/long-term-care-dday/` — long-term-care는 이전 사이클 배포분
+- footer 경로 관례 승계
+
+---
+
+**클레버 총평:**
+- 두 파일 모두 배포 준비 완료 (birth-registration 무수정 · inheritance-waiver 축 오염 hover 1건 수정)
+- 다빈치 판정은 :root 토큰·favicon·compare-table 계열 축 전환은 정확했으나 `.related-links a:hover` 잔존 하드코드는 놓침 · 클레버 검수에서 캐치
+- 팩트 재확인 상신 0건 (기한 계산 관용 로직 정합 · disclaimer로 실무 확인 안내 완비 · 민법 제155조·157조 초일 불산입 관례는 안내 목적 서비스에서 관용 계산 유지 정당)
+- 마이클 코드 품질 4축 총평: **가드·시맨틱·SEO·JSON-LD·CF Analytics 세팅 재사용성 높음 · 축 전환 시 하드코드 잔재 sweep 절차 추가 권고(다음 사이클 개발팀 라인)**
+- 배포 실행·파일 이동 없음 (`_COMMON.md §7` 준수 · 대표 지시 대기)
+
