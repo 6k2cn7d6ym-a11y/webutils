@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>수능 D-day — 대학수학능력시험 남은 일수 자동 계산</title>
+  <meta name="description" content="대학수학능력시험(수능) 시행일까지 남은 D-day를 자동 계산합니다. 수능은 매년 11월 셋째 주 목요일 시행. 수험생·학부모 필수 북마크.">
+  <meta property="og:title" content="수능 D-day — 대학수학능력시험 남은 일수 자동 계산">
+  <meta property="og:description" content="수능 시행일까지 D-day 자동 계산. 매년 11월 셋째 주 목요일. 수험생 필수 카운트다운.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://utils.minon.kr/suneung-dday/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="수능 D-day — 대학수학능력시험 남은 일수 자동 계산">
+  <meta name="twitter:description" content="수능 시행일까지 D-day 자동 계산. 매년 11월 셋째 주 목요일.">
+  <link rel="canonical" href="https://utils.minon.kr/suneung-dday/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230369A1'/%3E%3Ctext x='32' y='44' font-family='system-ui,sans-serif' font-size='30' text-anchor='middle' fill='%23fff'%3E📚%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+  <link rel="stylesheet" href="/shared/ads.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "수능 D-day",
+    "url": "https://utils.minon.kr/suneung-dday/",
+    "description": "대학수학능력시험(수능) 시행일까지 남은 D-day를 자동 계산합니다.",
+    "applicationCategory": "UtilityApplication",
+    "inLanguage": "ko",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+  <style>
+    :root {
+      --primary: #0369A1;
+      --primary-hover: #075985;
+      --primary-soft: #F0F9FF;
+      --primary-soft-border: #BAE6FD;
+      --bg: #F8F9FA;
+      --surface: #FFFFFF;
+      --text: #1a1a2e;
+      --text-sub: #6c757d;
+      --text-mute: #adb5bd;
+      --border: #dee2e6;
+      --border-soft: #f1f3f5;
+      --success: #059669;
+      --success-soft: #D1FAE5;
+      --warn: #D97706;
+      --warn-soft: #FEF3C7;
+      --warn-border: #FCD34D;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--primary); }
+    main { max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .site-nav { font-size: 13px; margin-bottom: 24px; }
+    .site-nav a { color: var(--text-sub); text-decoration: none; }
+    .site-nav a:hover { color: var(--primary); }
+
+    h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 12px; line-height: 1.3; letter-spacing: -0.03em; }
+    .hero-line { display: block; width: 2.5rem; height: 2px; background: var(--primary); margin: 0 0 20px; border-radius: 2px; }
+    .lede { font-size: 14px; color: var(--text-sub); margin: 0 0 28px; line-height: 1.65; }
+    .lede strong { color: var(--primary-hover); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    #dday-card {
+      background: var(--primary-soft);
+      border: 1px solid var(--primary-soft-border);
+      border-radius: 14px;
+      padding: 36px 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: fadeUp .4s ease both;
+    }
+    #dday-card.today-state { background: var(--warn-soft); border-color: var(--warn-border); }
+
+    .dday-label { font-size: 13px; font-weight: 600; color: var(--primary-hover); margin-bottom: 14px; }
+    #dday-card.today-state .dday-label { color: var(--warn); }
+
+    .dday-number {
+      font-size: 5rem; font-weight: 900;
+      letter-spacing: -0.06em; line-height: 1;
+      color: var(--primary); margin-bottom: 10px;
+    }
+    #dday-card.today-state .dday-number { color: var(--warn); font-size: 3rem; }
+
+    .dday-sub { font-size: 13px; color: var(--text-sub); line-height: 1.6; margin-bottom: 14px; }
+    #dday-card.today-state .dday-sub { color: #92400E; }
+
+    .dday-date-bar {
+      display: inline-block;
+      font-size: 14px; font-weight: 700; color: #343a40;
+      background: rgba(255,255,255,0.8); border-radius: 8px; padding: 8px 20px;
+      letter-spacing: -0.01em;
+    }
+    .dday-date-bar span { color: var(--primary); }
+    #dday-card.today-state .dday-date-bar span { color: var(--warn); }
+
+    h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .schedule-row {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px solid var(--border-soft);
+      font-size: 14px; gap: 12px;
+    }
+    .schedule-row:last-child { border-bottom: none; }
+    .schedule-row .s-label { color: var(--text-sub); font-size: 13px; flex-shrink: 0; min-width: 100px; }
+    .schedule-row .s-val { font-weight: 600; color: var(--text); text-align: right; }
+    .schedule-row .s-note { font-size: 12px; color: var(--text-mute); font-weight: 400; }
+
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 8px; margin-top: 4px;
+    }
+    .subject-item {
+      background: var(--primary-soft); border: 1px solid var(--primary-soft-border);
+      border-radius: 8px; padding: 10px 12px;
+    }
+    .subject-item .s-time { font-size: 11px; color: var(--primary-hover); font-weight: 600; margin-bottom: 2px; }
+    .subject-item .s-name { font-size: 13px; font-weight: 700; color: var(--text); }
+    .subject-item .s-range { font-size: 11px; color: var(--text-mute); margin-top: 1px; }
+
+    .related-links {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 20px; margin-bottom: 16px;
+    }
+    .related-links h3 { font-size: 13px; color: var(--text-sub); margin-bottom: 10px; font-weight: 600; }
+    .related-links a {
+      display: inline-block; margin-right: 10px; margin-bottom: 4px;
+      font-size: 13px; color: var(--primary); text-decoration: none;
+      padding: 4px 10px; border: 1px solid var(--primary-soft-border);
+      border-radius: 20px; background: var(--primary-soft);
+    }
+    .related-links a:hover { background: #E0F2FE; }
+
+    .disclaimer {
+      font-size: 12px; color: var(--text-mute); line-height: 1.7;
+      margin-bottom: 24px; padding: 12px 16px;
+      background: var(--bg); border-radius: 8px; border: 1px solid #e9ecef;
+    }
+
+    footer {
+      font-size: 12px; color: var(--text-mute);
+      padding-top: 20px; border-top: 1px solid #e9ecef;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--text-mute); text-decoration: none; }
+    footer a:hover { color: var(--text-sub); }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.3rem; }
+      .dday-number { font-size: 3.8rem; }
+      #dday-card.today-state .dday-number { font-size: 2.4rem; }
+      .subject-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477150496807643" crossorigin="anonymous"></script>
+</head>
+<body>
+<main>
+  <nav class="site-nav"><a href="/">← 유틸 목록</a></nav>
+
+  <h1>수능 D-day</h1>
+  <span class="hero-line" aria-hidden="true"></span>
+  <p class="lede">대학수학능력시험 시행일까지 남은 <strong>D-day를 자동으로 계산</strong>합니다. 수능은 매년 11월 셋째 주 목요일에 시행됩니다.</p>
+
+  <div id="dday-card" role="status" aria-live="polite">
+    <div class="dday-label" id="dday-label">수능까지</div>
+    <div class="dday-number" id="dday-number">계산 중…</div>
+    <div class="dday-sub" id="dday-sub"></div>
+    <div class="dday-date-bar">시행일 <span id="dday-date">—</span></div>
+  </div>
+
+  <div class="section-card">
+    <h2 id="schedule-title">수능 관련 주요 일정</h2>
+    <div class="schedule-row">
+      <span class="s-label">원서접수</span>
+      <div class="s-val"><span id="sched-apply">—</span><div class="s-note">한국교육과정평가원 공지 확인</div></div>
+    </div>
+    <div class="schedule-row">
+      <span class="s-label">수능 시행일</span>
+      <div class="s-val"><span id="sched-exam">—</span><div class="s-note">11월 셋째 주 목요일</div></div>
+    </div>
+    <div class="schedule-row">
+      <span class="s-label">성적통지표 배부</span>
+      <div class="s-val"><span id="sched-result">—</span><div class="s-note">수능 약 30일 후</div></div>
+    </div>
+    <div class="schedule-row">
+      <span class="s-label">정시 원서접수</span>
+      <div class="s-val"><span id="sched-jeongsi">—</span><div class="s-note">성적 발표 후 2~3주</div></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>수능 시험 과목 구성</h2>
+    <div class="subject-grid">
+      <div class="subject-item">
+        <div class="s-time">08:40–10:00</div>
+        <div class="s-name">국어</div>
+        <div class="s-range">80분 · 45문항</div>
+      </div>
+      <div class="subject-item">
+        <div class="s-time">10:30–12:10</div>
+        <div class="s-name">수학</div>
+        <div class="s-range">100분 · 30문항</div>
+      </div>
+      <div class="subject-item">
+        <div class="s-time">13:10–14:20</div>
+        <div class="s-name">영어</div>
+        <div class="s-range">70분 · 45문항</div>
+      </div>
+      <div class="subject-item">
+        <div class="s-time">14:50–15:20</div>
+        <div class="s-name">한국사·탐구</div>
+        <div class="s-range">사회·과학·직업 탐구</div>
+      </div>
+      <div class="subject-item">
+        <div class="s-time">15:35–16:05</div>
+        <div class="s-name">2교시 탐구</div>
+        <div class="s-range">사회·과학·직업 탐구</div>
+      </div>
+      <div class="subject-item">
+        <div class="s-time">16:25–17:00</div>
+        <div class="s-name">제2외국어</div>
+        <div class="s-range">한문 포함 · 선택</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot" id="ad-slot">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="4197594404"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <div class="related-links">
+    <h3>함께 많이 찾는 교육·입시 관련 유틸</h3>
+    <a href="/susi-dday/">수시 D-day</a>
+    <a href="/child-care-grant-dday/">아동수당 신청 D-day</a>
+  </div>
+
+  <p class="disclaimer">수능 시행일은 매년 11월 셋째 주 목요일 규칙을 기준으로 자동 계산됩니다. 정확한 시행일·원서접수 기간·성적통지 일정은 한국교육과정평가원(suneung.re.kr) 공지사항에서 반드시 확인하세요. 세부 일정은 연도별로 다를 수 있습니다.</p>
+
+  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+    <div class="ad-slot-label">광고</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9477150496807643"
+         data-ad-slot="9059038840"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <footer>
+    <span>© 2026 민온</span>
+    <nav><a href="/privacy">개인정보처리방침</a> · <a href="/contact.html">문의</a></nav>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var DAYS_KO = ['일', '월', '화', '수', '목', '금', '토'];
+  var MONTHS_KO = ['1','2','3','4','5','6','7','8','9','10','11','12'];
+
+  function formatDateKo(d) {
+    return d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 (' + DAYS_KO[d.getDay()] + ')';
+  }
+
+  /* 해당 연도 수능 날짜: 11월 셋째 주 목요일 */
+  function getSuneungDate(year) {
+    var nov1 = new Date(year, 10, 1);
+    var day = nov1.getDay(); /* 0=일 4=목 */
+    var firstThursday = 1 + (4 - day + 7) % 7;
+    return new Date(year, 10, firstThursday + 14);
+  }
+
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  var year = today.getFullYear();
+  var suneung = getSuneungDate(year);
+
+  /* 이미 수능이 지났으면 내년 수능으로 */
+  var targetYear = year;
+  if (today > suneung) {
+    targetYear = year + 1;
+    suneung = getSuneungDate(targetYear);
+  }
+
+  var card    = document.getElementById('dday-card');
+  var labelEl = document.getElementById('dday-label');
+  var numEl   = document.getElementById('dday-number');
+  var subEl   = document.getElementById('dday-sub');
+  var dateEl  = document.getElementById('dday-date');
+
+  var diffMs   = suneung - today;
+  var diffDays = Math.ceil(diffMs / 86400000);
+
+  if (diffDays > 0) {
+    labelEl.textContent = (targetYear + 1) + '학년도 수능까지';
+    numEl.textContent   = 'D-' + diffDays;
+    subEl.textContent   = formatDateKo(suneung) + ' 대학수학능력시험이 시행됩니다.';
+  } else {
+    card.classList.add('today-state');
+    labelEl.textContent = '오늘이 수능 시험일입니다!';
+    numEl.textContent   = 'D-0';
+    subEl.textContent   = '수험생 여러분, 그동안의 노력을 믿고 최선을 다하세요!';
+  }
+
+  dateEl.textContent = formatDateKo(suneung);
+
+  /* 일정 섹션 채우기 */
+  var suneungMs = suneung.getTime();
+  /* 원서접수: 통상 수능 약 70일 전 시작 (10일 기간) — 참고값 */
+  var applyStart = new Date(suneungMs - 70 * 86400000);
+  var applyEnd   = new Date(suneungMs - 60 * 86400000);
+  /* 성적통지: 수능 약 30일 후 */
+  var resultDate = new Date(suneungMs + 30 * 86400000);
+  /* 정시 원서접수: 성적 발표 후 약 14일 후 시작 */
+  var jeongsiStart = new Date(resultDate.getTime() + 14 * 86400000);
+
+  document.getElementById('schedule-title').textContent = (targetYear + 1) + '학년도 수능 일정 (예정)';
+  document.getElementById('sched-apply').textContent    = (applyStart.getMonth()+1) + '월 ' + applyStart.getDate() + '일 ~ ' + (applyEnd.getMonth()+1) + '월 ' + applyEnd.getDate() + '일 (예정)';
+  document.getElementById('sched-exam').textContent     = formatDateKo(suneung);
+  document.getElementById('sched-result').textContent   = (resultDate.getMonth()+1) + '월 ' + resultDate.getDate() + '일경 (예정)';
+  document.getElementById('sched-jeongsi').textContent  = (jeongsiStart.getMonth()+1) + '월 말 ~ ' + (jeongsiStart.getMonth()+2) + '월 초 (예정)';
+}());
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8f333dc2c9e844b39f36daec8c0c0570"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
