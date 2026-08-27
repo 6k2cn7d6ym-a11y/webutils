@@ -1,6 +1,6 @@
 ## 현재 상태
-- 단계: 피카소 시안 작성 중
-- 다음: 달리 정리 대기
+- 단계: 달리 정리 완료
+- 다음: 다빈치 판정
 - 반려 지목: 없음
 - 왕복 회차: 1/5
 
@@ -136,4 +136,104 @@
 ---
 
 **작성**: 피카소 (사원) · 2026-08-28 03:15 KST
-**판정 대기**: 달리 (대리)
+**달리 정리**: 2026-08-28 KST
+
+---
+
+## 달리 정리 — income-tax-dday
+
+**피카소 B안 `#1D4ED8` 지지.**
+
+도메인 정합 근거 추가:
+- 종합소득세 신고는 "정부에 납부·제출"하는 행위 — "정부로부터 수혜"인 스카이블루 축과 행위 벡터가 반대다.
+- blue 축(`#1D4ED8`)은 이미 "세무·연말정산·환급" 레이블이 붙어 있어 이 유틸이 귀속하기 가장 자연스러운 자리.
+- 기존 스카이블루 축 4중 구성(경로우대·기초연금·출생신고 + 잠재)을 오염시키지 않는다.
+
+**피카소 미완성 항목 달리 확정 — primary-hover:**
+
+| 토큰 | 확정값 | 근거 |
+|------|--------|------|
+| `--primary` | `#1D4ED8` (blue-700) | 피카소 B안 |
+| `--primary-hover` | `#1E40AF` (blue-800) | blue-700 대비 한 단계 어둠 · 기존 패턴 유지 |
+| `--primary-soft` | `#EFF6FF` (blue-50) | 피카소 |
+| `--primary-soft-border` | `#BFDBFE` (blue-200) | 피카소 |
+
+**피카소 미포착 항목 달리 발견 — 하드코딩 hover 배경:**
+
+```css
+/* 현재 (sky blue 잔재) */
+.related-links a:hover { background: #E0F2FE; }
+
+/* 교체 필요 (blue 축 정합) */
+.related-links a:hover { background: #DBEAFE; }   /* blue-100 */
+```
+
+favicon rect fill: `%230369A1` → `%231D4ED8`
+
+**총 교체 목록 (7곳):**
+1. `:root --primary` → `#1D4ED8`
+2. `:root --primary-hover` → `#1E40AF`
+3. `:root --primary-soft` → `#EFF6FF`
+4. `:root --primary-soft-border` → `#BFDBFE`
+5. `link[rel=icon]` favicon rect fill `%230369A1` → `%231D4ED8`
+6. `.related-links a:hover` background `#E0F2FE` → `#DBEAFE`
+7. (나머지 `--primary` 참조 요소들은 CSS 변수 자동 연동)
+
+대비: `#1D4ED8` on `#FFFFFF` ≈ 5.8:1 AA ✓
+
+---
+
+## 달리 정리 — suneung-dday
+
+**피카소 B안 `#6D28D9` 지지.**
+
+도메인 정합 근거 추가:
+- 자주/보라 계열은 한국 문화권에서 "결연함·야심·성취" 연상. 수능 수험생의 심리적 무게감(긴장+기대)과 맞다.
+- 자주 축이 "학생·진학·준비"로 봉인되어 있지만, 아직 실제 유틸에 처음 적용하는 케이스. 이번이 자주 축의 첫 실전 배정.
+- 스카이블루 축 오염 방지, 팔레트 11축 유지.
+
+**피카소 제시 토큰 달리 최종 확정:**
+
+| 토큰 | 확정값 | 근거 |
+|------|--------|------|
+| `--primary` | `#6D28D9` (violet-800) | 피카소 B안 |
+| `--primary-hover` | `#5B21B6` (violet-900) | violet-800 대비 한 단계 어둠 |
+| `--primary-soft` | `#EDE9FE` (violet-100) | 피카소 |
+| `--primary-soft-border` | `#C4B5FD` (violet-300) | 피카소 |
+
+**피카소 미포착 항목 달리 발견 — 하드코딩 hover 배경:**
+
+```css
+/* 현재 (sky blue 잔재) */
+.related-links a:hover { background: #E0F2FE; }
+
+/* 교체 필요 (violet 축 정합) */
+.related-links a:hover { background: #DDD6FE; }   /* violet-200 */
+```
+
+favicon rect fill: `%230369A1` → `%236D28D9`
+
+**총 교체 목록 (7곳):**
+1. `:root --primary` → `#6D28D9`
+2. `:root --primary-hover` → `#5B21B6`
+3. `:root --primary-soft` → `#EDE9FE`
+4. `:root --primary-soft-border` → `#C4B5FD`
+5. `link[rel=icon]` favicon rect fill `%230369A1` → `%236D28D9`
+6. `.related-links a:hover` background `#E0F2FE` → `#DDD6FE`
+7. (나머지 `--primary` 참조 요소들은 CSS 변수 자동 연동)
+
+대비: `#6D28D9` on `#FFFFFF` ≈ 6.5:1 AAA ✓
+
+---
+
+## 다빈치 판정 요청 (2건)
+
+**income-tax-dday:**
+- B안 `#1D4ED8` 최종 채택 여부 + 7곳 교체 목록 승인
+
+**suneung-dday:**
+- B안 `#6D28D9` 최종 채택 여부 + 7곳 교체 목록 승인
+
+두 건 모두 팔레트 11축 유지 · 신규 축 개설 없음 · 피카소 도메인 분석 근거 정확 — 달리는 B안 2건 권고.
+
+**판정 대기**: 다빈치 (팀장)
