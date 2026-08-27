@@ -1,8 +1,8 @@
 ## 현재 상태
-- 단계: 달리 정리 완료
-- 다음: 다빈치 판정
+- 단계: 다빈치 판정 완료 · 봉인
+- 다음: 클레버 검수
 - 반려 지목: 없음
-- 왕복 회차: 1/5
+- 왕복 회차: 1/5 (지목 반려 없음 · 1턴 결착)
 
 ## 브랜드 승계
 - 이전 사이클 참조: 2026-08-26/design-notes.md (birth-registration-dday · inheritance-waiver-dday)
@@ -237,3 +237,76 @@ favicon rect fill: `%230369A1` → `%236D28D9`
 두 건 모두 팔레트 11축 유지 · 신규 축 개설 없음 · 피카소 도메인 분석 근거 정확 — 달리는 B안 2건 권고.
 
 **판정 대기**: 다빈치 (팀장)
+
+---
+
+## 다빈치 팀장 판정 (2026-08-28)
+
+두 건 모두 **B안 최종 채택**. 달리 정리 근거 정확 · 피카소 미포착 하드코딩 hover 잔재 2건 달리 발견 정확 · 팔레트 11축 유지·신규 축 개설 없음.
+
+### income-tax-dday — B안 `#1D4ED8` 채택
+
+**축 사용 원칙 첫 적용**: "정부에 납부·제출"(신청/청구 벡터) — 인디고 축과 같은 벡터군에 속하나, 이미 blue 축이 "세무·연말정산·환급"으로 봉인되어 있어 도메인 정확 귀속. 스카이블루("정부로부터 수혜·등록") 오염 방지.
+
+**6곳 교체 완료**:
+| # | 위치 | 변경 |
+|---|------|------|
+| 1 | `link[rel=icon]` favicon rect fill (line 17) | `%230369A1` → `%231D4ED8` |
+| 2 | `:root --primary` (line 35) | `#0369A1` → `#1D4ED8` |
+| 3 | `:root --primary-hover` (line 36) | `#075985` → `#1E40AF` |
+| 4 | `:root --primary-soft` (line 37) | `#F0F9FF` → `#EFF6FF` |
+| 5 | `:root --primary-soft-border` (line 38) | `#BAE6FD` → `#BFDBFE` |
+| 6 | `.related-links a:hover` background (line 183) | `#E0F2FE` → `#DBEAFE` |
+
+`a`·`.dday-number`·`.step-num`·`.target-item`·`.info-val` 등 CSS 변수 참조 요소 자동 연동. warn/danger/success 상태 색 유지(축 독립).
+
+대비 `#1D4ED8` on `#FFFFFF` ≈ 5.8:1 AA ✓
+
+### suneung-dday — B안 `#6D28D9` 채택
+
+**자주 축 첫 실전 배정**. 팔레트 봉인일(2026-08-22) 이후 "학생·진학·준비" 레이블만 있고 실제 유틸이 없던 자주 축의 첫 도메인 사례. 자주의 결연함·야심 톤이 수능 카운트다운 심리(긴장+기대)와 정합.
+
+**6곳 교체 완료**:
+| # | 위치 | 변경 |
+|---|------|------|
+| 1 | `link[rel=icon]` favicon rect fill (line 17) | `%230369A1` → `%236D28D9` |
+| 2 | `:root --primary` (line 35) | `#0369A1` → `#6D28D9` |
+| 3 | `:root --primary-hover` (line 36) | `#075985` → `#5B21B6` |
+| 4 | `:root --primary-soft` (line 37) | `#F0F9FF` → `#EDE9FE` |
+| 5 | `:root --primary-soft-border` (line 38) | `#BAE6FD` → `#C4B5FD` |
+| 6 | `.related-links a:hover` background (line 153) | `#E0F2FE` → `#DDD6FE` |
+
+`a`·`.dday-number`·`.subject-item`·`.dday-label` 등 CSS 변수 참조 요소 자동 연동. warn(today-state) 상태 색 유지(축 독립).
+
+대비 `#6D28D9` on `#FFFFFF` ≈ 6.5:1 AAA ✓
+
+### 축 사용 원칙 재확인
+
+- **스카이블루** `#0369A1` = 정부로부터 **수혜·등록** (경로우대·기초연금·출생신고)
+- **인디고** `#4F46E5` = 정부·법원에 **신청·청구** (청약·상속포기)
+- **blue** `#1D4ED8` = 세무·연말정산·환급 (**+ 종합소득세 신고 신규 편입**)
+- **자주** `#6D28D9` = 학생·진학·준비 (**+ 수능 신규 편입 · 자주 축 첫 실전**)
+
+두 신규 유틸 편입으로 팔레트 11축 중 blue·자주 축 심화. 축 총량 11 유지.
+
+### 예약 항목 유지
+
+- 자주 축 violet soft 표준화(2026-08-19 예약) — 이번 자주 축 신규 진입 시점에 재검토 후보. 다음 자주 축 유틸 진입 시 트리거.
+- long-term-care done CSS 토큰 리팩터(2026-08-21 예약)
+- 구 유틸 카드 색상 팔레트 정합(2026-08-26 예약)
+
+이번 사이클 처리 대상 아님 · 예약 유지.
+
+### JS 로직·SEO·JSON-LD·광고 슬롯 보존 확인
+
+마이클 삽입 요소 전수 보존:
+- SEO 태그(title·description·og·twitter·canonical) 무수정
+- JSON-LD WebApplication 스키마 무수정
+- AdSense 광고 2슬롯(ca-pub-9477150496807643 · slot 4197594404·9059038840) 위치·크기 무수정
+- CF Analytics 8f333dc2c9e844b39f36daec8c0c0570 무수정
+- JS 계산 로직(D-day·성실신고 분기·수능 11월 셋째 목요일 함수·자동 다음 연도 롤오버) 무수정
+- DOM ID·hero-line·site-nav·480px 반응형 구조 무수정
+
+**푸시 금지 · 클레버 검수 대기**.
+
+봉인 · 2026-08-28 KST · 다빈치
