@@ -291,12 +291,16 @@
     return d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 (' + DAYS_KO[d.getDay()] + ')';
   }
 
-  /* 해당 연도 수능 날짜: 11월 셋째 주 목요일 */
+  /* 해당 연도 수능 날짜: 11월 셋째 주 목요일
+     [클레버 수정: 마이클 원본 "첫 목요일 + 14일" 방식은 11-01이 금/토일 때 실제 시행일보다 7일 늦음.
+      실측 검증 (2019~2027학년도 · 위키·평가원 공지): 실제 규칙은 "주 시작=일요일 · 첫째 주=11-01 포함 주".
+      원본은 2019·2024·2025년 실측 오류, 다음 오류는 2030년 시행(2031학년도)에 발생 (4년 뒤 자동 오작동).
+      대체식: 첫째 주 일요일(11-01 - day) + 14일 + 4일(일→목) = 1 - day + 18.
+      전수 재검증(2019·2021·2022·2023·2024·2025·2026·2028·2030·2031) 완전 일치.] */
   function getSuneungDate(year) {
     var nov1 = new Date(year, 10, 1);
-    var day = nov1.getDay(); /* 0=일 4=목 */
-    var firstThursday = 1 + (4 - day + 7) % 7;
-    return new Date(year, 10, firstThursday + 14);
+    var day = nov1.getDay(); /* 0=일 ... 6=토 */
+    return new Date(year, 10, 1 - day + 18);
   }
 
   var today = new Date();

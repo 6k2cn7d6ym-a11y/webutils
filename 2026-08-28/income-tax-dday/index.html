@@ -380,25 +380,26 @@
 
   var diffDays;
 
+  /* [클레버 수정: 소득세법 제70조 · N년 귀속 종소세 = (N+1)년 5월 신고 · 마이클 원본은 year(올해)를 그대로 "귀속연도"로 사용 → 실제 귀속은 (year-1). 3개 분기 모두 라벨 팩트 오류. 특히 신고 완료 분기는 barEl(nextYear 5월 1일)과 subEl(nextYear+1년 5월)이 서로 모순됨. 세무 도메인 정확성 결정적이라 즉시 수정.] */
   if (today < startDate) {
-    /* 신고 기간 전 */
+    /* 신고 기간 전 (1월~4월): 올해 5월에 신고할 대상은 (year-1) 귀속 */
     diffDays = Math.ceil((startDate - today) / 86400000);
-    labelEl.textContent = year + '년 귀속 종합소득세 신고 시작까지';
+    labelEl.textContent = (year - 1) + '년 귀속 종합소득세 신고 시작까지';
     numEl.textContent   = 'D-' + diffDays;
-    subEl.textContent   = year + '년 귀속 소득에 대한 종합소득세 신고 기간은 ' + (year + 1) + '년 5월 1일~31일입니다. 미리 장부·경비 자료를 정리해 두세요.';
-    barEl.innerHTML     = '신고 기간 <span>' + (year + 1) + '년 5월 1일~31일</span>';
+    subEl.textContent   = (year - 1) + '년 귀속 소득에 대한 종합소득세 신고 기간은 ' + year + '년 5월 1일~31일입니다. 미리 장부·경비 자료를 정리해 두세요.';
+    barEl.innerHTML     = '신고 기간 <span>' + year + '년 5월 1일~31일</span>';
 
   } else if (today <= deadline) {
-    /* 신고 기간 중 (5/1~5/31) */
+    /* 신고 기간 중 (5/1~5/31): 지금 신고하는 대상은 (year-1) 귀속 */
     diffDays = Math.ceil((deadline - today) / 86400000);
     card.classList.add('filing');
     labelEl.textContent = '지금 신고하세요! 마감까지';
     numEl.textContent   = 'D-' + diffDays;
-    subEl.textContent   = year + '년 귀속 종합소득세 신고 기간입니다. 5월 31일까지 홈택스(hometax.go.kr)에서 신고·납부하세요.';
+    subEl.textContent   = (year - 1) + '년 귀속 종합소득세 신고 기간입니다. 5월 31일까지 홈택스(hometax.go.kr)에서 신고·납부하세요.';
     barEl.innerHTML     = '일반 신고 마감 <span>' + formatDateKo(deadline) + '</span>';
 
   } else if (today <= deadlineSeong) {
-    /* 성실신고 기간 중 (6/1~6/30) */
+    /* 성실신고 기간 중 (6/1~6/30): 귀속연도 언급 없음 · 원문 유지 */
     diffDays = Math.ceil((deadlineSeong - today) / 86400000);
     card.classList.add('seong');
     labelEl.textContent = '성실신고 확인 대상 신고 기간 중';
@@ -407,14 +408,14 @@
     barEl.innerHTML     = '성실신고 마감 <span>' + formatDateKo(deadlineSeong) + '</span>';
 
   } else {
-    /* 신고 기간 완료 — 다음 신고까지 D-day */
+    /* 신고 기간 완료 (7/1~12/31): 종료된 것은 (year-1) 귀속 · 다음 신고는 nextYear 5월에 이뤄지며 year 귀속 */
     var nextYear = year + 1;
     var nextStart = new Date(nextYear, 4, 1);
     diffDays = Math.ceil((nextStart - today) / 86400000);
     card.classList.add('ended');
-    labelEl.textContent = nextYear + '년 귀속 종합소득세 신고까지';
+    labelEl.textContent = year + '년 귀속 종합소득세 신고까지';
     numEl.textContent   = 'D-' + diffDays;
-    subEl.textContent   = year + '년 귀속 신고 기간이 종료됐습니다. 다음 신고는 ' + (nextYear + 1) + '년 5월입니다. 지금부터 장부 정리와 경비 영수증 수집을 시작하세요.';
+    subEl.textContent   = (year - 1) + '년 귀속 신고 기간이 종료됐습니다. 다음 신고는 ' + nextYear + '년 5월입니다. 지금부터 장부 정리와 경비 영수증 수집을 시작하세요.';
     barEl.innerHTML     = '다음 신고 시작 <span>' + nextYear + '년 5월 1일</span>';
   }
 }());
